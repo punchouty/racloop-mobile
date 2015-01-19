@@ -12,7 +12,7 @@ Ext.define('Racloop.view.RequestJourneyPanel', {
         matchedJourneyId: null,  
         isDummy: true,     
         layout: {
-            type: 'vbox',
+            type: 'vbox'
          //   align: 'center'
         },
         items: [
@@ -51,7 +51,7 @@ Ext.define('Racloop.view.RequestJourneyPanel', {
                     ui: 'action',
                     action: 'SendRequest',
                     itemId: 'SendRequestButton',
-                    style: 'height: 16px;',
+                    style: 'height: 16px;'
                                 
                  }]
          }

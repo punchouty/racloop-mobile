@@ -18,7 +18,7 @@ Ext.define('Racloop.view.IncomingRequestList', {
             flex: 1,
             html: 'Name',
             itemId: 'textCmp'
-        }, 
+        }
         // {
         //     xtype: 'component',
         //     flex: 2,

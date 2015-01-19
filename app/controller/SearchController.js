@@ -100,7 +100,7 @@ Ext.define('Racloop.controller.SearchController', {
                   console.dir(newJourney);
                   console.dir(existingJourney);
                   var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
-                    title: 'Existing Journey Found!',
+                    title: 'Existing Journey Found!'
                   });
 
                   var newDriver= newJourney.isDriver? "Yes": "No";

@@ -5,7 +5,7 @@ Ext.define('Racloop.view.UserSearchList', {
 
     requires: [
         'Racloop.store.Searches',
-        'Ext.DataView',
+        'Ext.DataView'
     ],
     config: {
         fullscreen: true,

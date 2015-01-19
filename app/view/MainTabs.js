@@ -88,7 +88,7 @@ Ext.define('Racloop.view.MainTabs', {
                 html: [
                     "Safety"
                 ].join("")
-            } ,
+            } 
         ]
     }
 });

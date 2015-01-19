@@ -29,7 +29,7 @@ Ext.define('Racloop.controller.ProfileController', {
             loginForm: 'mainNavigationView #loginForm',
             journeyList: 'userJourneysList',
             incomingButton: "button[action=Incoming]",
-            outgoingButton: "button[action=Outgoing]",
+            outgoingButton: "button[action=Outgoing]"
             // acceptButton: "button[action=Accept]",
             // rejectButton: "button[action=Reject]",
             // cancelButton: "button[action=Cancel]"

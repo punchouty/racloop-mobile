@@ -23,7 +23,7 @@ Ext.define('Racloop.view.SearchViewItem', {
             html: 'name',
             itemId: 'textCmp',
             itemCls: 'dataItem'
-        },
+        }
         //  {
         //     xtype: 'component',
         //     flex: 4,

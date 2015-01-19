@@ -12,6 +12,7 @@ Installation
 * sudo npm install -g ios-sim
 * clone reporsiory from Github or 
 * sencha phonegap init FFUH83A68B.com.racloop.app
+* sencha ant sass
 
 Notes for Node.js
 ---------------------

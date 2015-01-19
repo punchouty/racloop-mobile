@@ -32,7 +32,8 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
-  "RacloopApp": "app"
+  "Racloop": "app",
+  "Racloop.view.JourneyNavigationView": "app/view/journeyNavigationView.js"
 });
 
 Ext.ClassManager.addNameAlternateMappings({
@@ -532,17 +533,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -651,6 +641,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.device.analytics.Cordova": [],
   "Ext.ux.device.twitter.Abstract": [],
   "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.field.TimePicker": [
+    "Ext.form.TimePicker"
+  ],
   "Ext.ux.parse.Helper": [
     "ParseHelper"
   ],
@@ -660,6 +653,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.parse.Store": [],
   "Ext.ux.parse.association.Pointer": [],
   "Ext.ux.parse.association.Relation": [],
+  "Ext.ux.picker.Time": [
+    "Ext.TimePicker"
+  ],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [],
   "Ext.viewport.Ios": [],
@@ -667,7 +663,52 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
-  "RacloopApp.view.Main": []
+  "Racloop.controller.AccountController": [],
+  "Racloop.controller.ProfileController": [],
+  "Racloop.controller.SearchController": [],
+  "Racloop.controller.SettingsController": [],
+  "Racloop.model.ChangePassword": [],
+  "Racloop.model.EditProfile": [],
+  "Racloop.model.ForgotPassword": [],
+  "Racloop.model.Journey": [],
+  "Racloop.model.LoginCredential": [],
+  "Racloop.model.Search": [],
+  "Racloop.model.User": [],
+  "Racloop.model.VerifySms": [],
+  "Racloop.store.Journeys": [],
+  "Racloop.store.Searches": [],
+  "Racloop.util.Common": [
+    "Common"
+  ],
+  "Racloop.util.Config": [
+    "Config"
+  ],
+  "Racloop.util.LoginHelper": [
+    "LoginHelper"
+  ],
+  "Racloop.view.ChangePasswordForm": [],
+  "Racloop.view.EditProfileForm": [],
+  "Racloop.view.EmergencyContactForm": [],
+  "Racloop.view.ExistingJourneyPanel": [],
+  "Racloop.view.FaqPanel": [],
+  "Racloop.view.ForgotPasswordForm": [],
+  "Racloop.view.IncomingRequestList": [],
+  "Racloop.view.JourneyNavigationView": [],
+  "Racloop.view.JourneyViewItem": [],
+  "Racloop.view.LoginForm": [],
+  "Racloop.view.MainNavigationView": [],
+  "Racloop.view.MainTabs": [],
+  "Racloop.view.OutgoingRequestList": [],
+  "Racloop.view.PrivacyPanel": [],
+  "Racloop.view.RegisterForm": [],
+  "Racloop.view.RequestJourneyPanel": [],
+  "Racloop.view.SearchNavigationView": [],
+  "Racloop.view.SearchViewItem": [],
+  "Racloop.view.SettingNavigationView": [],
+  "Racloop.view.SettingsMenu": [],
+  "Racloop.view.TermsPanel": [],
+  "Racloop.view.UserSearchList": [],
+  "Racloop.view.VerifySmsForm": []
 });
 
 Ext.ClassManager.addNameAliasMappings({
@@ -1248,17 +1289,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -1377,6 +1407,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.device.analytics.Cordova": [],
   "Ext.ux.device.twitter.Abstract": [],
   "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.field.TimePicker": [
+    "widget.timepickerfield"
+  ],
   "Ext.ux.parse.Helper": [],
   "Ext.ux.parse.Model": [],
   "Ext.ux.parse.Proxy": [
@@ -1392,6 +1425,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.parse.association.Relation": [
     "association.relation"
   ],
+  "Ext.ux.picker.Time": [
+    "widget.timepicker"
+  ],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [
     "widget.viewport"
@@ -1399,8 +1435,93 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
-  "RacloopApp.view.Main": [
-    "widget.main"
+  "Racloop.controller.AccountController": [],
+  "Racloop.controller.ProfileController": [],
+  "Racloop.controller.SearchController": [],
+  "Racloop.controller.SettingsController": [],
+  "Racloop.model.ChangePassword": [],
+  "Racloop.model.EditProfile": [],
+  "Racloop.model.ForgotPassword": [],
+  "Racloop.model.Journey": [],
+  "Racloop.model.LoginCredential": [],
+  "Racloop.model.Search": [],
+  "Racloop.model.User": [],
+  "Racloop.model.VerifySms": [],
+  "Racloop.store.Journeys": [
+    "widget.journeyStore"
+  ],
+  "Racloop.store.Searches": [],
+  "Racloop.util.Common": [],
+  "Racloop.util.Config": [],
+  "Racloop.util.LoginHelper": [],
+  "Racloop.view.ChangePasswordForm": [
+    "widget.changePasswordForm"
+  ],
+  "Racloop.view.EditProfileForm": [
+    "widget.editprofileform"
+  ],
+  "Racloop.view.EmergencyContactForm": [
+    "widget.emergencyContactForm"
+  ],
+  "Racloop.view.ExistingJourneyPanel": [
+    "widget.existingJourneyPanel"
+  ],
+  "Racloop.view.FaqPanel": [
+    "widget.faqPanel"
+  ],
+  "Racloop.view.ForgotPasswordForm": [
+    "widget.forgotPasswordForm"
+  ],
+  "Racloop.view.IncomingRequestList": [
+    "widget.IncomingRequestItem"
+  ],
+  "Racloop.view.JourneyNavigationView": [
+    "widget.userJourneysList"
+  ],
+  "Racloop.view.JourneyViewItem": [
+    "widget.JourneyDataItem"
+  ],
+  "Racloop.view.LoginForm": [
+    "widget.loginForm"
+  ],
+  "Racloop.view.MainNavigationView": [
+    "widget.mainNavigationView"
+  ],
+  "Racloop.view.MainTabs": [
+    "widget.mainTabs"
+  ],
+  "Racloop.view.OutgoingRequestList": [
+    "widget.OutgoingRequestItem"
+  ],
+  "Racloop.view.PrivacyPanel": [
+    "widget.privacyPanel"
+  ],
+  "Racloop.view.RegisterForm": [
+    "widget.registerForm"
+  ],
+  "Racloop.view.RequestJourneyPanel": [
+    "widget.requestJourneyPanel"
+  ],
+  "Racloop.view.SearchNavigationView": [
+    "widget.searchNavigationView"
+  ],
+  "Racloop.view.SearchViewItem": [
+    "widget.SearchDataItem"
+  ],
+  "Racloop.view.SettingNavigationView": [
+    "widget.settingNavigationView"
+  ],
+  "Racloop.view.SettingsMenu": [
+    "widget.settingsMenu"
+  ],
+  "Racloop.view.TermsPanel": [
+    "widget.termsPanel"
+  ],
+  "Racloop.view.UserSearchList": [
+    "widget.UserSearchList"
+  ],
+  "Racloop.view.VerifySmsForm": [
+    "widget.verifySmsForm"
   ]
 });
 

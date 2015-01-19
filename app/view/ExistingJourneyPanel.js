@@ -34,7 +34,7 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
                     }, {
                         text: 'No, I want to put in a new journey request',
                         value: 'newJourney'
-                    }],    
+                    }]    
                   }]
                 },
                 {
@@ -46,7 +46,7 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
                     ui: 'action',
                     action: 'existingSendRequest',
                     itemId: 'existingSendRequestButton',
-                    style: 'height: 16px;',
+                    style: 'height: 16px;'
                                 
                  }]
             }

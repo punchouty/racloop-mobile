@@ -13,7 +13,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
             flex: 1,
             html: 'name',
             itemId: 'textCmp'            
-        },
+        }
         // , {
         //     xtype: 'component',
         //     flex: 2,
