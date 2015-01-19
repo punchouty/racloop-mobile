@@ -1,0 +1,16 @@
+# Created by http://www.gitignore.io
+
+.DS_Store
+
+### SenchaTouch ###
+# Build and Release Folders
+archive/
+build/
+phonegap/
+
+# sass cache folder
+resources/css/**
+resources/sass/.sass-cache/
+
+.idea
+node_modules/
