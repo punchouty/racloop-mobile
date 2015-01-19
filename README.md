@@ -11,7 +11,7 @@ Installation
 * sudo npm install -g phonegap
 * sudo npm install -g ios-sim
 * clone reporsiory from Github or 
-* sencha cordova init in.ezzie.racloop Racloop
+* sencha phonegap init FFUH83A68B.com.racloop.app
 
 Notes for Node.js
 ---------------------
