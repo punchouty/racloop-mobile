@@ -84,7 +84,6 @@ Ext.application({
     },
 
     launch: function() {
-        console.log('rajan');
         // Destroy the #appLoadingIndicator element
         this.cleanup();
         Ext.fly('appLoadingIndicator').destroy();

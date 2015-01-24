@@ -201,22 +201,24 @@ Ext.define('Racloop.controller.AccountController', {
             loginPanel = this.getLoginPanel(), // Login and register buttons
             loginForm = this.getLoginForm();
         loginForm.updateRecord(user);
-        console.log(values.email + " : " + values.password);
         // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('login success during launch : ' + response.responseText);
             if (data.success) {
-                //console.log(data.data);
                 LoginHelper.setUser(data.data);
-                me.updateCurrentLocation();
-                //me.setCurrentLoc();
-                mainNavigationView.pop();
-                loginPanel.hide();
+                Ext.Viewport.removeAll();
                 var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
                 tabMain.show();
-                Ext.getStore('journeyStore').load();
+                me.updateCurrentLocation();
                 Ext.Viewport.unmask();
+//                LoginHelper.setUser(data.data);
+//                me.updateCurrentLocation();
+//                mainNavigationView.pop();
+//                loginPanel.hide();
+//                var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
+//                tabMain.show();
+//                Ext.getStore('journeyStore').load();
+//                Ext.Viewport.unmask();
             } else {
                 Ext.Msg.alert("Login Failure", data.message);
                 Ext.Viewport.unmask();
@@ -311,7 +313,7 @@ Ext.define('Racloop.controller.AccountController', {
                 });
                 Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
                 Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: 2500, animation: true, cls: 'toastClass'});
+                Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert("Registartion Failure", data.message);
                 Ext.Viewport.unmask();
@@ -461,12 +463,12 @@ Ext.define('Racloop.controller.AccountController', {
                 isVerificationCodeValid = true;
             }
             else {
-                Ext.Msg.alert("Oops", "Invalid Verification Code.");
+                Ext.Msg.alert("Verification Error", "Invalid Verification Code.");
                 return;
             }
         }
         else {
-            Ext.Msg.alert("Oops", "Invalid Mobile number. Use format 98XXXXXXXX");
+            Ext.Msg.alert("Verification Error", "Invalid Mobile number. Use format 98XXXXXXXX");
             return;
         }
         if(isMobileValid && isVerificationCodeValid) {
@@ -482,10 +484,10 @@ Ext.define('Racloop.controller.AccountController', {
                         title: "Sign In"
                     });
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: 2500, animation: true, cls: 'toastClass'});
+                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
-                    Ext.Msg.alert("Failure", data.message);
+                    Ext.Msg.alert("Verification Error", data.message);
                     Ext.Viewport.unmask();
                 }
             };
@@ -518,7 +520,7 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: 2500, animation: true, cls: 'toastClass'});
+                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
                     Ext.Msg.alert("Failure", data.message);
@@ -544,79 +546,9 @@ Ext.define('Racloop.controller.AccountController', {
         else {
             Ext.Msg.alert("Oops", "Invalid mobile number. Use format 98XXXXXXXX");
         }
-        /*
-        this.resetRegistrationFormErrorFields();
-        var user = Ext.create("Racloop.model.User", {});
-        var form = button.up('formpanel'), // Register form
-            values = form.getValues(), // Form values
-            mainNavigationView = this.getMainNavigationView(), // Main view
-            loginPanel = this.getLoginPanel(), // Login and register buttons
-            registerForm = this.getRegisterForm();
-        registerForm.updateRecord(user);
-        //console.log(values);
-
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                mainNavigationView.pop();
-                mainNavigationView.push({
-                    itemId: 'VerifySmsForm',
-                    xtype: "verifySmsForm",
-                    title: "Verify Mobile"
-                });
-                Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
-                Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: 2500, animation: true, cls: 'toastClass'});
-            } else {
-                Ext.Msg.alert("Registartion Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Registartion Failure", response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-        var validationObj = user.validate();
-        if (!validationObj.isValid()) {
-            var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
-        } else {
-            if(this.isTwoPasswordMatch()) {
-                Ext.Viewport.mask({
-                    xtype: 'loadmask',
-                    indicator: true,
-                    message: 'Signing up...'
-                });
-                console.log(values);
-                Ext.Ajax.request({
-                    url: Racloop.util.Config.url.RACLOOP_SIGNUP,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        email: values.email,
-                        password: values.password,
-                        passwordConfirm: values.repeatpassword,
-                        fullName: values.name,
-                        mobile: values.mobile,
-                        gender: values.gender
-                    }),
-                    success: successCallback,
-                    failure: failureCallback
-                });
-            }
-            else {
-                Ext.Msg.alert("Oops", "Two passwords don't match");
-            }
-        }*/
     },
 
     logout: function(button, e, eOpts) {
-        mainNavigationView = this.getMainNavigationView();
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             console.log('Logout success during launch : ' + response.responseText);
@@ -639,6 +571,11 @@ Ext.define('Racloop.controller.AccountController', {
 
         };
 
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging out...'
+        });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_LOGOUT,
             method: 'post',
@@ -657,7 +594,6 @@ Ext.define('Racloop.controller.AccountController', {
     },
 
     launch: function(app) {
-        LoginHelper.removeJourney();
         var me=this;
         var user = LoginHelper.getUser();
         if (user) {
@@ -666,28 +602,34 @@ Ext.define('Racloop.controller.AccountController', {
                 indicator: true,
                 message: 'Logging in...'
             });
-            var mainNavigationView = this.getMainNavigationView(); // Main view
-            var loginPanel = this.getLoginPanel();
+            //var mainNavigationView = this.getMainNavigationView(); // Main view
+            //var loginPanel = this.getLoginPanel();
             var successCallback = function(response, ops) {
-                //console.log(response);
                 var data = Ext.decode(response.responseText);
                 //console.log('login success during launch : ' + response.responseText);
                 if (data.success) {
                     LoginHelper.setUser(data.data);
-                    me.updateCurrentLocation();
                     //me.setCurrentLoc();
-                    mainNavigationView.pop();
-                    loginPanel.hide();
+                    //mainNavigationView.pop();
+                    //loginPanel.hide();
+                    Ext.Viewport.removeAll();
                     var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
                     tabMain.show();
+                    me.updateCurrentLocation();
                     Ext.Viewport.unmask();
                 } else {
+                    LoginHelper.removeUser();
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert(data.message);
+                    Ext.Viewport.removeAll(true, true);
+                    Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
+                    Ext.Msg.alert('Login Error', data.message);
                 }
             };
             var failureCallback = function(response, ops) {
+                //LoginHelper.removeUser();
                 Ext.Viewport.unmask();
+                Ext.Viewport.removeAll(true, true);
+                Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
                 Ext.Msg.alert("Network Error", response.code);
 
             };

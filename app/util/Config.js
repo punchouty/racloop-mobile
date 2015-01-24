@@ -11,6 +11,7 @@ Ext.define('Racloop.util.Config', {
         services: {
             timeout: 5000
         },
+        toastTimeout : 3000,
         quote : 'believe you can',
         cypherJsonFormatter : {
             stringify: function (cipherParams) {
