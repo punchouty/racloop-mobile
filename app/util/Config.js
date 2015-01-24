@@ -83,6 +83,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/mobile/requestService';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/mobile/cancelResponse';
             this.config.url.RACLOOP_EXISTINGJOURNEY='http://www.racloop.com/mobile/searchWithExistingJourney';
+            this.config.url.RACLOOP_TERMS='http://www.racloop.com/mobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/mobile/privacy';
         } else if (this.config.env == 'dev') {
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
@@ -99,6 +101,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/mobile/requestService';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/mobile/cancelResponse';
             this.config.url.RACLOOP_EXISTINGJOURNEY='http://localhost:8080/app/mobile/searchWithExistingJourney';
+            this.config.url.RACLOOP_TERMS='http://localhost:8080/app/mobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/mobile/privacy';
         } else {
             this.config.url.RACLOOP_LOGIN = '/test-data/login_success.json';
             this.config.url.RACLOOP_LOGOUT = '/test-data/logout.json';

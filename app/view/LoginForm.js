@@ -43,6 +43,19 @@ Ext.define('Racloop.view.LoginForm', {
             iconMask: true,
             iconAlign: 'left',
             ui: 'action'
+        }, {
+            xtype: 'container',
+            html: '<div class="links">' +
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showForgotPassword(); return false;">' +
+                'Forgot Password' +
+                '</a> &nbsp; &nbsp;' +
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showVerifyMobile(); return false;">' +
+                'Verify Mobile' +
+                '</a> ' +
+                '</div>',
+            itemId: 'loginLinks',
+            flex: 2
+
         }]
     }
 

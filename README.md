@@ -78,22 +78,35 @@ TO DO
 ------
 
 * Start up image and app icons
-* Edit of mobile should trigger SMS verification
+* Edit of mobile should trigger SMS verification - message box at start up
 * Push notification
-* Verify SMS
-* Security App
+* Verify SMS - DOne
+* Security App - requirements clear
 * History
 * My Journey - UI
-* Domain and Branding
-* Icons change
-* Data privacy clause in "Privacy" statement
+* Search - UI
+* Domain and Branding - Not doing any thing
+* Icons change - Done
+* Data privacy clause in "Privacy" statement - Eergency COntact
 * Term and Privacy in mobile app
-* Tab color
-* HTTPS
-* Unique error from server - change message.properties
-* Mobile code for SMS
+* Tab color - Done
+* HTTPS - ????
+* Unique error from server - change message.properties - Done
+* Mobile code for SMS - Done
 * Edit profile from mobile - changes for sms verification pending (server side)
 * Emergency contacts functionality pending
+* facebook integration
+* Batch job for review
+* Archiving
+* Implement privacy and terms on server for mobile (as well as web app). See Mobile controller.
+
+* Distance from start location
+* No of time racloop used
+* Star rating dispaly
+* Review Screen - revamp
+
+* Three nearest people - destination and origin
+
 
 Notes for iOS
 --------------

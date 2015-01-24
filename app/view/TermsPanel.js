@@ -9,10 +9,10 @@ Ext.define('Racloop.view.TermsPanel', {
     config: {
         itemId: 'termsPanel',
         items: [{
-            xtype: 'label',
+            xtype: 'container',
             centered: true,
             html: 'Terms and Conditions',
-            itemId: 'termsLabel'
+            itemId: 'termsText'
         }]
     }
 

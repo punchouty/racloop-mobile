@@ -26,13 +26,13 @@ Ext.define('Racloop.controller.AccountController', {
             "mainNavigationView #showLoginButton": {
                 tap: 'showLogin'
             },
-            "mainNavigationView #showRegisterButton": {
+            "mainNavigationView #showRegisterButton": {  //TODO REMOVE NOT REQUIRED
                 tap: 'showRegister'
             },
-            "mainNavigationView #showForgotPasswordButton": {
+            "mainNavigationView #showForgotPasswordButton": { //TODO REMOVE NOT REQUIRED
                 tap: 'showForgotPassword'
             },
-            "mainNavigationView #showVerifyMobileButton": {
+            "mainNavigationView #showVerifyMobileButton": { //TODO REMOVE NOT REQUIRED
                 tap: 'showVerifyMobile'
             },
             "loginForm #loginButton": {
@@ -100,6 +100,94 @@ Ext.define('Racloop.controller.AccountController', {
             itemId: 'VerifySmsForm',
             xtype: "verifySmsForm",
             title: "Verify Mobile"
+        });
+    },
+
+    showTerms: function(button, e, eOpts) {
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+
+        // Navigate to login
+        mainNavigationView.push({
+            itemId: 'termsPanel',
+            xtype: "termsPanel",
+            title: "Terms of Use"
+        });
+        // Success
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var termsHtml = Ext.ComponentQuery.query('#termsText')[0];
+                termsHtml.setHtml(data.message);
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Msg.alert("Network Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Network Failure", response.message);
+            Ext.Viewport.unmask();
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Terms...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_TERMS,
+            method: 'GET',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+
+    showPrivacy: function(button, e, eOpts) {
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+
+        // Navigate to login
+        mainNavigationView.push({
+            itemId: 'privacyPanel',
+            xtype: "privacyPanel",
+            title: "Data Privacy"
+        });
+        // Success
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var termsHtml = Ext.ComponentQuery.query('#privacyText')[0];
+                termsHtml.setHtml(data.message);
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Msg.alert("Network Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Network Failure", response.message);
+            Ext.Viewport.unmask();
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Privacy Statement...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_PRIVACY,
+            method: 'GET',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
         });
     },
 

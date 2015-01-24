@@ -27,64 +27,27 @@ Ext.define('Racloop.view.MainNavigationView', {
                         '<div class="colored-line"></div>' +
                         '<div class="sub-heading">Save money, Make friends and Contribute to Greener Environment.</div>' +
                       '</div>',
-                itemId: 'homeLabel',
-                flex: 2
+                itemId: 'homeLabel'
 
             }, {
-                xtype: 'panel',
-                itemId: 'loginPanel',
-                flex: 1,
-                items: [{
-                    xtype: 'button',
-                    itemId: 'showLoginButton',
-                    iconCls: 'lockCls',
-                    iconMask: true,
-                    iconAlign: 'left',
-                    ui: 'action',
-                    margin: 10,
-                    text: 'Sign In'
-                },
-                {
-                    xtype: 'panel',
-                    itemId: 'loginButtonGroupPanel',
-                    flex: 1,
-                    layout : {
-                        type : 'hbox'
-                    },
-                    items: [
-                        {
-                            xtype: 'button',
-                            itemId: 'showRegisterButton',
-                            margin: 10,
-                            text: 'Register',
-                            ui: 'confirm',
-                            iconCls: 'registerCls',
-                            iconMask: true,
-                            iconAlign: 'left',
-                            flex : 1
-                        },
-                        {
-                            xtype: 'button',
-                            itemId: 'showVerifyMobileButton',
-                            margin: 10,
-                            text: 'Verify Mobile',
-                            iconCls: 'mobileCls',
-                            iconMask: true,
-                            iconAlign: 'left',
-                            ui: 'confirm',
-                            flex : 1
-                        }
-                    ]
-                }, {
-                    xtype: 'button',
-                    itemId: 'showForgotPasswordButton',
-                    margin: 10,
-                    text: 'Forgot Password',
-                    iconCls: 'forgotPasswordCls',
-                    iconMask: true,
-                    iconAlign: 'left',
-                    ui: 'decline'
-                }]
+                xtype: 'button',
+                itemId: 'showLoginButton',
+//                iconCls: 'lockCls',
+//                iconMask: true,
+//                iconAlign: 'right',
+                ui: 'action',
+                text: 'Sign In',
+                margin: 10
+            }, {
+                xtype: 'container',
+                html: '<div class="links">' +
+                    '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showRegister(); return false;">' +
+                    'New User?' +
+                    '</a>' +
+                    '</div>',
+                itemId: 'homeLinks',
+                margin: '20 10 10 10'
+
             }]
         }]
     }
