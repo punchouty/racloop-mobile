@@ -33,12 +33,12 @@ Ext.application({
         'MainNavigationView',
         'LoginForm',
         'RegisterForm',
-        'FaqPanel',
+        //'FaqPanel',
         'SettingNavigationView',
         'MainTabs',
         'PrivacyPanel',
         'SearchNavigationView',
-        'SettingsMenu',
+        //'SettingsMenu',
         'TermsPanel',
         'JourneyNavigationView',
         'EditProfileForm',
@@ -54,10 +54,11 @@ Ext.application({
     ],
 
     controllers: [
-        'AccountController',
+        'SessionsController',
         'SettingsController',
-        'SearchController',
-        'ProfileController'
+        'AccountController'
+//        'SearchController',
+//        'ProfileController'
     ],
 
     stores: [

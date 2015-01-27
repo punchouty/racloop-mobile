@@ -2,12 +2,10 @@
 Ext.define('Racloop.view.SettingNavigationView', {
     extend: 'Ext.navigation.View',
     alias: 'widget.settingNavigationView',
-    //xtype: 'infoNavigationView',
+    xtype: 'settingNavigationView',
 
     requires: [
-        'Racloop.view.TermsPanel',
-        'Ext.Panel',
-        'Ext.Button'
+        'Racloop.util.Config'
     ],
 
     config: {
@@ -16,14 +14,15 @@ Ext.define('Racloop.view.SettingNavigationView', {
          xtype: 'list',
          itemId: 'settingList',
          title: 'Settings',
-         itemTpl: '<span class="{iconCls}"></span><span style:"margin-left:2%;">{title}</span>',
+         itemTpl: '<span class="{iconCls}"></span><span class="settingItem">{title}</span>',
             data: [
-                { title: 'Profile', navView: 'editprofileform', iconCls: 'profileCls' },
-                { title: 'Password', navView: 'changePasswordForm',iconCls: 'passwordCls'},
-                { title: 'Emergency Contacts', navView: 'emergencyContactForm',iconCls: 'emergencyCls'},
-                { title: 'Data Privacy' ,navView: 'privacyPanel',iconCls: 'privacyCls'},
-                { title: 'Terms' ,navView: 'termsPanel',iconCls: 'termsCls'},
-                { title: 'Logout', navView: 'mainNavigationView',iconCls: 'logoutCls'}
+                //look at setting controller for tap implementation
+                { title: Config.settingNameProfile, navView: 'editProfileForm', iconCls: 'profileCls', itemId: 'editProfileForm' },
+                { title: Config.settingNameChangePassword, navView: 'changePasswordForm',iconCls: 'passwordCls', itemId: 'changePasswordForm'},
+                { title: Config.settingNameEmergencyContacts, navView: 'emergencyContactForm',iconCls: 'emergencyCls', itemId: 'emergencyContactForm'},
+                { title: Config.settingNameDataPrivacy ,navView: 'privacyPanel',iconCls: 'privacyCls', itemId: 'privacyPanel'},
+                { title: Config.settingNameTerms ,navView: 'termsPanel',iconCls: 'termsCls', itemId: 'termsPanel'},
+                { title: Config.settingNameLogout, iconCls: 'logoutCls'}
             ]
         }]
         // navigationBar: {

@@ -1,4 +1,4 @@
-Ext.define('Racloop.store.Journeys', {
+Ext.define('Racloop.store.Journeys', { //Ext.getStore('journeyStore').load()
     extend: 'Ext.data.Store',
     xtype: 'journeyStore',
     requires: [
@@ -7,10 +7,10 @@ Ext.define('Racloop.store.Journeys', {
     config: {
         model: 'Racloop.model.Journey',
         storeId: 'journeyStore',
-        autoLoad: true,
+        //autoLoad: true,
         proxy: {
             type: 'ajax',
-            url: Racloop.util.Config.url.RACLOOP_JOURNEYS,
+            url: Config.url.RACLOOP_JOURNEYS,
             headers: {
                 'Content-Type': 'application/json'
             },

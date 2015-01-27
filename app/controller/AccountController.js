@@ -10,322 +10,47 @@ Ext.define('Racloop.controller.AccountController', {
         'Racloop.view.SettingsMenu',
         'Racloop.view.ForgotPasswordForm',
         'Racloop.view.VerifySmsForm',
+        'Racloop.model.ForgotPassword',
+        'Racloop.util.LoginHelper',
         'Racloop.util.Config'
     ],
 
     config: {
         refs: {
             mainNavigationView: 'mainNavigationView',
-            loginPanel: 'mainNavigationView #loginPanel',
-            loginForm: 'mainNavigationView #loginForm',
-            registerForm: 'mainNavigationView #registerForm',
-            verifySmsForm: 'mainNavigationView #verifySmsForm'
+            registerButton : 'registerForm #registerButton',
+            verifyMobileButton: 'verifySmsForm #verifyMobile',
+            resendSmsButton : 'verifySmsForm #resendSms',
+            forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton'
+//            loginPanel: 'mainNavigationView #loginPanel',
+//            loginForm: 'mainNavigationView #loginForm',
+//            registerForm: 'mainNavigationView #registerForm',
+//            verifySmsForm: 'mainNavigationView #verifySmsForm'
         },
 
         control: {
-            "mainNavigationView #showLoginButton": {
-                tap: 'showLogin'
-            },
-            "mainNavigationView #showRegisterButton": {  //TODO REMOVE NOT REQUIRED
-                tap: 'showRegister'
-            },
-            "mainNavigationView #showForgotPasswordButton": { //TODO REMOVE NOT REQUIRED
-                tap: 'showForgotPassword'
-            },
-            "mainNavigationView #showVerifyMobileButton": { //TODO REMOVE NOT REQUIRED
-                tap: 'showVerifyMobile'
-            },
-            "loginForm #loginButton": {
-                tap: 'login'
-            },
-            "registerForm #registerButton": {
+            registerButton : {
                 tap: 'register'
             },
-            "verifySmsForm #verifyMobile": {
+            verifyMobileButton : {
                 tap: 'verifyMobile'
             },
-            "verifySmsForm #resendSms": {
+            resendSmsButton : {
                 tap: 'resendSms'
             },
-            "settingsMenu #logoutButton": {
-                tap: 'logout'
+            forgotPasswordButton : {
+                tap: 'forgotPassword'
             }
         }
     },
-
-    showLogin: function(button, e, eOpts) {
-        //var loginForm = Ext.create('widget.loginform'),	// Login form
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to login
-        mainNavigationView.push({
-            itemId: 'loginForm',
-            xtype: "loginForm",
-            title: "Sign In"
-        });
-
-    },
-
-    showRegister: function(button, e, eOpts) {
-
-        //var registerForm = Ext.create('widget.registerform'),	// Registration form
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to register
-        mainNavigationView.push({
-            itemId: 'registerForm',
-            xtype: "registerForm",
-            title: "Register"
-        });
-
-    },
-
-    showForgotPassword: function(button, e, eOpts) {
-        // var ForgotPasswordForm = Ext.create('Racloop.view.ForgotPasswordForm'),    // Login form
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to login
-        mainNavigationView.push({
-            itemId: 'ForgotPasswordForm',
-            xtype: "forgotPasswordForm",
-            title: "Forgot Password"
-        });
-    },
-
-    showVerifyMobile: function(button, e, eOpts) {
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to login
-        mainNavigationView.push({
-            itemId: 'VerifySmsForm',
-            xtype: "verifySmsForm",
-            title: "Verify Mobile"
-        });
-    },
-
-    showTerms: function(button, e, eOpts) {
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to login
-        mainNavigationView.push({
-            itemId: 'termsPanel',
-            xtype: "termsPanel",
-            title: "Terms of Use"
-        });
-        // Success
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                var termsHtml = Ext.ComponentQuery.query('#termsText')[0];
-                termsHtml.setHtml(data.message);
-                Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert("Network Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Network Failure", response.message);
-            Ext.Viewport.unmask();
-        };
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Getting Terms...'
-        });
-        Ext.Ajax.request({
-            url: Racloop.util.Config.url.RACLOOP_TERMS,
-            method: 'GET',
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: successCallback,
-            failure: failureCallback
-        });
-    },
-
-    showPrivacy: function(button, e, eOpts) {
-        var mainNavigationView = this.getMainNavigationView(); // Main view
-
-        // Navigate to login
-        mainNavigationView.push({
-            itemId: 'privacyPanel',
-            xtype: "privacyPanel",
-            title: "Data Privacy"
-        });
-        // Success
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                var termsHtml = Ext.ComponentQuery.query('#privacyText')[0];
-                termsHtml.setHtml(data.message);
-                Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert("Network Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Network Failure", response.message);
-            Ext.Viewport.unmask();
-        };
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Getting Privacy Statement...'
-        });
-        Ext.Ajax.request({
-            url: Racloop.util.Config.url.RACLOOP_PRIVACY,
-            method: 'GET',
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: successCallback,
-            failure: failureCallback
-        });
-    },
-
-    login: function(button, e, eOpts) {
-        this.resetLoginFormErrorFields();
-        var me=this;
-        var user = Ext.create("Racloop.model.LoginCredential", {});
-        var form = button.up('formpanel'), // Login form
-            values = form.getValues(), // Form values
-            mainNavigationView = this.getMainNavigationView(), // Main view
-            loginPanel = this.getLoginPanel(), // Login and register buttons
-            loginForm = this.getLoginForm();
-        loginForm.updateRecord(user);
-        // Success
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                LoginHelper.setUser(data.data);
-                Ext.Viewport.removeAll();
-                var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
-                tabMain.show();
-                me.updateCurrentLocation();
-                Ext.Viewport.unmask();
-//                LoginHelper.setUser(data.data);
-//                me.updateCurrentLocation();
-//                mainNavigationView.pop();
-//                loginPanel.hide();
-//                var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
-//                tabMain.show();
-//                Ext.getStore('journeyStore').load();
-//                Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert("Login Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Login Failure", response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-
-        var validationObj = user.validate();
-        if (!validationObj.isValid()) {
-            var errorString = this.handleLoginFormValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
-        } else {
-            Ext.Viewport.mask({
-                xtype: 'loadmask',
-                indicator: true,
-                message: 'Logging in...'
-            });
-            Ext.Ajax.request({
-                url: Racloop.util.Config.url.RACLOOP_LOGIN,
-                method: 'post',
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    email: values.email,
-                    password: values.password,
-                    rememberMe: true
-                }),
-                success: successCallback,
-                failure: failureCallback
-            });
-        }
-
-
-    },
-
-    handleLoginFormValidation: function(validationObj) {
-        var errorstring = "";
-        var emailErrors = validationObj.getByField('email');
-        if (emailErrors != null && emailErrors.length > 0) {
-            for (var i = 0; i < emailErrors.length; i++) {
-                errorstring += emailErrors[i].getMessage() + "<br>";
-            }
-
-            var field = Ext.ComponentQuery.query('#loginScreenEmail');
-            field[0].addCls('error');
-        }
-        var passwordErrors = validationObj.getByField('password');
-        if (passwordErrors != null && passwordErrors.length > 0) {
-            for (var i = 0; i < passwordErrors.length; i++) {
-                errorstring += passwordErrors[i].getMessage() + "<br>";
-            }
-            var field = Ext.ComponentQuery.query('#loginScreenPassword');
-            field[0].addCls('error');
-        }
-        return errorstring;
-    },
-
-    resetLoginFormErrorFields: function() {
-        Ext.ComponentQuery.query('#loginScreenEmail')[0].removeCls('error');
-        Ext.ComponentQuery.query('#loginScreenPassword')[0].removeCls('error');
-    },
-
 
     register: function(button, e, eOpts) {
         this.resetRegistrationFormErrorFields();
         var user = Ext.create("Racloop.model.User", {});
-        var form = button.up('formpanel'), // Register form
-            values = form.getValues(), // Form values
-            mainNavigationView = this.getMainNavigationView(), // Main view
-            loginPanel = this.getLoginPanel(), // Login and register buttons
-            registerForm = this.getRegisterForm();
+        var registerForm = button.up('formpanel'); // Register form
+        var values = registerForm.getValues(); // Form values
+        var mainNavigationView = this.getMainNavigationView(); // Main view
         registerForm.updateRecord(user);
-        //console.log(values);
-
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                mainNavigationView.pop();
-                mainNavigationView.push({
-                    itemId: 'VerifySmsForm',
-                    xtype: "verifySmsForm",
-                    title: "Verify Mobile"
-                });
-                Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
-                Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
-            } else {
-                Ext.Msg.alert("Registartion Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Registartion Failure", response.message);
-            Ext.Viewport.unmask();
-
-        };
 
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
@@ -333,14 +58,40 @@ Ext.define('Racloop.controller.AccountController', {
             Ext.Msg.alert("Oops", errorString);
         } else {
             if(this.isTwoPasswordMatch()) {
+                // Success
+                var successCallback = function(response, ops) {
+                    var data = Ext.decode(response.responseText);
+                    if (data.success) {
+                        LoginHelper.setEmail(values.email);
+//                        mainNavigationView.pop();
+                        mainNavigationView.push({
+                            itemId: 'verifySmsForm',
+                            xtype: "verifySmsForm",
+                            title: "Verify Mobile"
+                        });
+                        Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
+                        Ext.Viewport.unmask();
+                        Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    } else {
+                        Ext.Msg.alert("Registartion Failure", data.message);
+                        Ext.Viewport.unmask();
+                    }
+                };
+
+                // Failure
+                var failureCallback = function(response, ops) {
+                    Ext.Msg.alert("Registartion Failure", response.message);
+                    Ext.Viewport.unmask();
+
+                };
+
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
                     message: 'Signing up...'
                 });
-                console.log(values);
                 Ext.Ajax.request({
-                    url: Racloop.util.Config.url.RACLOOP_SIGNUP,
+                    url: Config.url.RACLOOP_SIGNUP,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -452,7 +203,7 @@ Ext.define('Racloop.controller.AccountController', {
     },
 
     verifyMobile: function(button, e, eOpts) {
-        var me=this;
+        var me = this;
         var mobile = Ext.ComponentQuery.query('#mobileForVerification')[0].getValue();
         var verificationCode = Ext.ComponentQuery.query('#verificationCode')[0].getValue();
         var isMobileValid = false;
@@ -477,14 +228,15 @@ Ext.define('Racloop.controller.AccountController', {
                 if (data.success) {
                     var mainNavigationView = me.getMainNavigationView(); // Main view
                     mainNavigationView.pop();
+                    mainNavigationView.pop();
                     // Navigate to login
-                    mainNavigationView.push({
-                        itemId: 'loginForm',
-                        xtype: "loginForm",
-                        title: "Sign In"
-                    });
+//                    mainNavigationView.push({
+//                        itemId: 'loginForm',
+//                        xtype: "loginForm",
+//                        title: "Sign In"
+//                    });
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
                     Ext.Msg.alert("Verification Error", data.message);
@@ -496,7 +248,7 @@ Ext.define('Racloop.controller.AccountController', {
                 Ext.Viewport.unmask();
             };
             Ext.Ajax.request({
-                url: Racloop.util.Config.url.RACLOOP_VERIFYMOBILE,
+                url: Config.url.RACLOOP_VERIFYMOBILE,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -520,7 +272,7 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
                     Ext.Msg.alert("Failure", data.message);
@@ -532,7 +284,7 @@ Ext.define('Racloop.controller.AccountController', {
                 Ext.Viewport.unmask();
             };
             Ext.Ajax.request({
-                url: Racloop.util.Config.url.RACLOOP_RESENDSMS,
+                url: Config.url.RACLOOP_RESENDSMS,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -548,135 +300,75 @@ Ext.define('Racloop.controller.AccountController', {
         }
     },
 
-    logout: function(button, e, eOpts) {
+    forgotPassword: function(button, e, eOpts) {
+        this.resetErrorForgetPasswordFields();
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+        var user = Ext.create("Racloop.model.ForgotPassword", {});
+        var forgotPasswordForm = button.up('formpanel');
+        var values = forgotPasswordForm.getValues(); // Form values
+        forgotPasswordForm.updateRecord(user);
+        // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('Logout success during launch : ' + response.responseText);
             if (data.success) {
-                LoginHelper.removeUser();                 
+                LoginHelper.removeUser();
+                mainNavigationView.pop();
+                var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                emailField.setValue(values.email);
                 Ext.Viewport.unmask();
-                Ext.Viewport.removeAll(true, true);
-                Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
-
+                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
-                Ext.Msg.alert("Logout Failure", data.message);
+                Ext.Msg.alert("Email Send Failure", data.message);
                 Ext.Viewport.unmask();
             }
         };
-
         // Failure
         var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Logout Failure", response.message);
+            Ext.Msg.alert("Email Send Failure", response.message);
             Ext.Viewport.unmask();
 
         };
 
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Logging out...'
-        });
-        Ext.Ajax.request({
-            url: Racloop.util.Config.url.RACLOOP_LOGOUT,
-            method: 'post',
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
-                "action": "logout"
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
-
-    },
-
-    launch: function(app) {
-        var me=this;
-        var user = LoginHelper.getUser();
-        if (user) {
+        var validationObj = user.validate();
+        if (!validationObj.isValid()) {
+            var errorString = this.handleForgotPasswordValidation(validationObj);
+            Ext.Msg.alert("Oops", errorString);
+        } else {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Logging in...'
+                message: 'Please Wait...'
             });
-            //var mainNavigationView = this.getMainNavigationView(); // Main view
-            //var loginPanel = this.getLoginPanel();
-            var successCallback = function(response, ops) {
-                var data = Ext.decode(response.responseText);
-                //console.log('login success during launch : ' + response.responseText);
-                if (data.success) {
-                    LoginHelper.setUser(data.data);
-                    //me.setCurrentLoc();
-                    //mainNavigationView.pop();
-                    //loginPanel.hide();
-                    Ext.Viewport.removeAll();
-                    var tabMain = Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
-                    tabMain.show();
-                    me.updateCurrentLocation();
-                    Ext.Viewport.unmask();
-                } else {
-                    LoginHelper.removeUser();
-                    Ext.Viewport.unmask();
-                    Ext.Viewport.removeAll(true, true);
-                    Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
-                    Ext.Msg.alert('Login Error', data.message);
-                }
-            };
-            var failureCallback = function(response, ops) {
-                //LoginHelper.removeUser();
-                Ext.Viewport.unmask();
-                Ext.Viewport.removeAll(true, true);
-                Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
-                Ext.Msg.alert("Network Error", response.code);
-
-            };
-
             Ext.Ajax.request({
-                url: Racloop.util.Config.url.RACLOOP_LOGIN,
-                method: 'post',
+                url: Config.url.RACLOOP_FORGOTPASSWORD,
+                withCredentials: true,
+                useDefaultXhrHeader: false,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                withCredentials: true,
-                useDefaultXhrHeader: false,
                 params: Ext.JSON.encode({
-                    email: user.email,
-                    password: user.password,
-                    rememberMe: true
+                    email: values.email
                 }),
                 success: successCallback,
                 failure: failureCallback
             });
-
         }
     },
-    updateCurrentLocation: function(){
-        Ext.device.Geolocation.getCurrentPosition({
-            allowHighAccuracy : false,
-            timeout : 3000,
-            success: function(position) {
-                var geocoder = new google.maps.Geocoder();
-                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                geocoder.geocode({'latLng': latlng}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
-                        } else {
-                            console.log("No results found");
-                        }
-                    } else {
-                        console.log("Geocoder failed due to: " + status);
-                    }
-                });
-            },
-            failure: function() {
-                console.log('something went wrong!');
+
+    handleForgotPasswordValidation: function(validationObj) {
+        var errorstring = "";
+        var emailErrors = validationObj.getByField('email');
+        if (emailErrors != null && emailErrors.length > 0) {
+            for (var i = 0; i < emailErrors.length; i++) {
+                errorstring += emailErrors[i].getMessage() + "<br />";
             }
-        });
+            var field = Ext.ComponentQuery.query('#forgotPasswordTextField');
+            field[0].addCls('error');
+        }
+        return errorstring;
+    },
+
+    resetErrorForgetPasswordFields: function() {
+        Ext.ComponentQuery.query('#forgotPasswordTextField')[0].removeCls('error');
     }
 });

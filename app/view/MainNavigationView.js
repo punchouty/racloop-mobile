@@ -41,7 +41,7 @@ Ext.define('Racloop.view.MainNavigationView', {
             }, {
                 xtype: 'container',
                 html: '<div class="links">' +
-                    '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showRegister(); return false;">' +
+                    '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'SessionsController\').showRegister(); return false;">' +
                     'New User?' +
                     '</a>' +
                     '</div>',

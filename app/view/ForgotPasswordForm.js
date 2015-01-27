@@ -1,6 +1,7 @@
 Ext.define('Racloop.view.ForgotPasswordForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.forgotPasswordForm',
+    xtype: 'forgotPasswordForm',
 
     config: {
 
@@ -15,13 +16,12 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
                 label: 'Email*',
                 placeHolder: 'user@example.com',
                 //labelWidth: '40%',
-                itemId: 'ForgotScreenPassword'
+                itemId: 'forgotPasswordTextField'
             }]
         }, {
             xtype: 'button',
-            itemId: 'ForgotPasswordButton',
+            itemId: 'forgotPasswordButton',
             text: 'Send Email!',
-            action: 'forgotpassword',
             iconCls: 'emailCls',
             iconMask: true,
             iconAlign: 'left',

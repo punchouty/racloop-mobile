@@ -12,7 +12,7 @@ Ext.define('Racloop.view.MainTabs', {
     config: {
         itemId: 'mainTabs',
         tabBarPosition: 'bottom',
-         listeners: {
+         listeners: { //TODO why are these lines????
 //                activeitemchange: function (tabPanel, tab, oldTab) {
 //                    if(tab.config != undefined){
 //                    var currentTab=this.down(tab.config.xtype);

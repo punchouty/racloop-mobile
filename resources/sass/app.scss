@@ -94,43 +94,48 @@ $tabs-dark: $blue;
 .profileCls:before {
     font-family: "racloop-icons";
     content: "\e0f9";
-    font-size: 1.5em;
+    //font-size: 1.5em;
     padding: 10px;
 }
 
 .passwordCls:before {
   font-family: "racloop-icons";
   content: "\e0f7";
-  font-size: 1.5em;
+  //font-size: 1.5em;
   padding: 10px;
 }
 
 .emergencyCls:before {
   font-family: "racloop-icons";
   content: "\e09a";
-  font-size: 1.5em;
+  //font-size: 1.5em;
   padding: 10px;
 }
 
 .termsCls:before {
   font-family: "racloop-icons";
   content: "\e099";
-  font-size: 1.5em;
+  //font-size: 1.5em;
   padding: 10px;
 }
 
 .privacyCls:before {
   font-family: "racloop-icons";
   content: "\e083";
-  font-size: 1.5em;
+  //font-size: 1.5em;
   padding: 10px;
 }
 
 .logoutCls:before {
     font-family: "racloop-icons";
     content: "\e0cd";
-    font-size: 1.5em;
+    //font-size: 1.5em;
     padding: 10px;
+}
+
+.settingItem {
+  //font-size: 1.5em;
+  padding: 10px;
 }
 
 .fromCls:before {

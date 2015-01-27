@@ -1,7 +1,7 @@
 
 Ext.define('Racloop.view.EditProfileForm', {
     extend: 'Ext.form.Panel',
-    xtype: 'editprofileform',
+    xtype: 'editProfileForm',
 
     requires: [
         'Racloop.util.Config',

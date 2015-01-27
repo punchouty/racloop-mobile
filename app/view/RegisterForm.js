@@ -18,8 +18,8 @@ Ext.define('Racloop.view.RegisterForm', {
             xtype: 'fieldset',
             title: 'Sign Up',
             instructions: 'By registering you are agreeing to ' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showTerms(); return false;">Terms</a> and ' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'AccountController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'SessionsController\').showTerms(); return false;">Terms</a> and ' +
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'SessionsController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
             items: [{
                 name: 'name',
                 xtype: 'textfield',

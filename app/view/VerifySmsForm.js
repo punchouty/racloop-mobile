@@ -2,6 +2,7 @@
 Ext.define('Racloop.view.VerifySmsForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.verifySmsForm',
+    xtype : 'verifySmsForm',
 
     config: {
         items: [{

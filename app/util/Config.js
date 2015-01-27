@@ -12,6 +12,14 @@ Ext.define('Racloop.util.Config', {
             timeout: 5000
         },
         toastTimeout : 3000,
+        //Setting menu
+        settingNameProfile : 'Profile',
+        settingNameChangePassword : 'Change Password',
+        settingNameEmergencyContacts : 'Emergency Contacts',
+        settingNameDataPrivacy : 'Data Privacy',
+        settingNameTerms : 'Terms and Conditions',
+        settingNameLogout : 'Logout',
+        //encryption for storage
         quote : 'believe you can',
         cypherJsonFormatter : {
             stringify: function (cipherParams) {

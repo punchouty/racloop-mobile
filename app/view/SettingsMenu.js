@@ -1,4 +1,6 @@
-
+/**
+ *  DEPRECATED - Need to be removed
+ */
 Ext.define('Racloop.view.SettingsMenu', {
     extend: 'Ext.Panel',
     alias: 'widget.settingsMenu',
