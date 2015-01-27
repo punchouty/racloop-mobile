@@ -46,10 +46,10 @@ Ext.define('Racloop.view.LoginForm', {
         }, {
             xtype: 'container',
             html: '<div class="links">' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'SessionsController\').showForgotPassword(); return false;">' +
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
                 'Forgot Password' +
                 '</a> &nbsp; &nbsp;' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'SessionsController\').showVerifyMobile(); return false;">' +
+                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showVerifyMobile(); return false;">' +
                 'Verify Mobile' +
                 '</a> ' +
                 '</div>',

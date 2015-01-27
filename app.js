@@ -54,6 +54,7 @@ Ext.application({
     ],
 
     controllers: [
+        'UiController',
         'SessionsController',
         'SettingsController',
         'AccountController'

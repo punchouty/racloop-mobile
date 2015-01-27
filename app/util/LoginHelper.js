@@ -27,7 +27,6 @@ Ext.define('Racloop.util.LoginHelper', {
         setUser: function(user) {
             if (Common.supportsHtml5Storage()) {
                 var userString = JSON.stringify(user);
-                console.log(userString);
                 var encrypted = CryptoJS.AES.encrypt(userString, Config.quote, { format: Config.cypherJsonFormatter });
                 localStorage.u = encrypted;
             } else {

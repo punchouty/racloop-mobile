@@ -8,7 +8,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Forgot Password',
-            instructions: "Email used during signup",
+            instructions: "Email used during Sign Up",
 
             items: [{
                 name: 'email',
