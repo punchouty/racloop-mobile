@@ -19,6 +19,13 @@ Ext.define('Racloop.util.Config', {
         settingNameDataPrivacy : 'Data Privacy',
         settingNameTerms : 'Terms and Conditions',
         settingNameLogout : 'Logout',
+        //Tabs
+        tabSearch : 'Search',
+        tabMyJourneys : 'My Journeys',
+        tabHistory : 'History',
+        tabNotifications : 'Notifications',
+        tabSettings : 'Settings',
+        tabSos : 'SOS!',
         //encryption for storage
         quote : 'believe you can',
         cypherJsonFormatter : {

@@ -5,6 +5,7 @@ Ext.define('Racloop.controller.SessionsController', {
         'Racloop.view.MainTabs',
         'Racloop.view.MainNavigationView',
         'Racloop.util.LoginHelper',
+        'Racloop.util.Common',
         'Racloop.util.Config'
     ],
 
@@ -50,7 +51,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                 Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                             }
                             else {
-                                me.updateCurrentLocation();
+                                Common.updateCurrentLocation();
                                 //tabMain.setActiveItem('userJourneysList');
                             }
                         }
@@ -61,7 +62,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                 Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                             }
                             else {
-                                me.updateCurrentLocation();
+                                Common.updateCurrentLocation();
                                 //tabMain.setActiveItem('userJourneysList');
                             }
                         }
@@ -219,32 +220,5 @@ Ext.define('Racloop.controller.SessionsController', {
     resetLoginFormErrorFields: function() {
         Ext.ComponentQuery.query('#loginScreenEmail')[0].removeCls('error');
         Ext.ComponentQuery.query('#loginScreenPassword')[0].removeCls('error');
-    },
-
-    updateCurrentLocation: function(){
-        Ext.device.Geolocation.getCurrentPosition({
-            allowHighAccuracy : false,
-            timeout : 3000,
-            success: function(position) {
-                var geocoder = new google.maps.Geocoder();
-                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                geocoder.geocode({'latLng': latlng}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
-                        } else {
-                            console.log("No results found");
-                        }
-                    } else {
-                        console.log("Geocoder failed due to: " + status);
-                    }
-                });
-            },
-            failure: function() {
-                console.log('something went wrong!');
-            }
-        });
     }
 });

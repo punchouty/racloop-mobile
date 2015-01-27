@@ -1,16 +1,17 @@
 
 Ext.define('Racloop.view.MainTabs', {
     extend: 'Ext.tab.Panel',
-    //alias: 'widget.tabmain',
+    alias: 'widget.mainTabs',
     xtype: 'mainTabs',
     requires: [
         'Ext.TitleBar',
-        'Racloop.view.SearchNavigationView',
         'Ext.navigation.Bar',
-        'Racloop.view.JourneyNavigationView'
+        'Racloop.view.SearchNavigationView',
+        'Racloop.view.JourneyNavigationView',
+        'Racloop.util.Config'
     ],
     config: {
-        itemId: 'mainTabs',
+        //itemId: 'mainTabs',
         tabBarPosition: 'bottom',
          listeners: { //TODO why are these lines????
 //                activeitemchange: function (tabPanel, tab, oldTab) {
@@ -24,17 +25,17 @@ Ext.define('Racloop.view.MainTabs', {
             }, // 
         items: [
             {
-                title: 'Search',
+                title: Config.tabSearch,
                 iconCls: 'magnifier',
                 xtype: 'searchNavigationView'
             },
             {
-                title: 'My Journeys',
+                title: Config.tabMyJourneys,
                 iconCls: 'home',
                 xtype: 'userJourneysList'
             },
             {
-                title: 'History',
+                title: Config.tabHistory,
                 iconCls: 'time',
 
                 styleHtmlContent: true,
@@ -51,7 +52,7 @@ Ext.define('Racloop.view.MainTabs', {
                 ].join("")
             },
             { //IMPORTANT IT IS HIDDEN
-                title: 'Notifications',
+                title: Config.tabNotifications,
                 iconCls: 'browser',
                 badgeText: '3',
                 hidden : true,
@@ -70,11 +71,11 @@ Ext.define('Racloop.view.MainTabs', {
             } ,
             {
                 xtype: 'settingNavigationView',
-                title: 'Settings',
+                title: Config.tabSettings,
                 iconCls: 'settings'
             },
             {
-                title: 'SOS!',
+                title: Config.tabSos,
                 iconCls: 'bell',
                 styleHtmlContent: true,
                 scrollable: true,

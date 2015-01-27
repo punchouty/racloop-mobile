@@ -5,6 +5,7 @@ Ext.define('Racloop.controller.UiController', {
         'Racloop.view.MainTabs',
         'Racloop.view.MainNavigationView',
         'Racloop.util.LoginHelper',
+        'Racloop.util.Common',
         'Racloop.util.Config'
     ],
 
@@ -12,18 +13,32 @@ Ext.define('Racloop.controller.UiController', {
         refs: {
             mainTabs: 'mainTabs',
             mainNavigationView: 'mainNavigationView',
-            showLoginButton: 'mainNavigationView #showLoginButton'
+            showLoginButton: 'mainNavigationView #showLoginButton',
+            myJourneyTab: 'mainTabs > tabbar > tab'
         },
 
         control: {
-            showLoginButton: {
+            showLoginButton : {
                 tap: 'showLogin'
+            },
+            myJourneyTab : {
+                tap : 'tabClicked'
             }
         }
     },
 
     launch: function(app) {
 
+    },
+
+    tabClicked: function(button, e, eOpts) {
+        if(button.getTitle() === Config.tabMyJourneys) {
+            Ext.getStore('journeyStore').load();
+        }
+        else if(button.getTitle() === Config.tabSearch) {
+            Common.updateCurrentLocation();
+        }
+        //Ext.Msg.alert("Tab Clicked", button.getTitle());
     },
 
     showLogin: function(button, e, eOpts) {
