@@ -11,42 +11,9 @@ Ext.define('Racloop.view.JourneyViewItem', {
         items: [{
             xtype: 'component',
             flex: 1,
-            html: 'name',
+            html: 'dummy',
             itemId: 'textCmp'            
-        }
-        // , {
-        //     xtype: 'component',
-        //     flex: 2,
-
-        //     html: 'name',
-        //     itemId: 'locCmp'
-        // // }, 
-        // {
-        //     xtype: "button",
-        //     ui: "action",
-        //     text: "Requests",
-        //     action: 'Incoming',
-        //     iconCls: 'bell',
-        //     iconMask: true,
-        //     margin : 5,
-        //     //padding : 5,
-        //     itemId: 'incomingCmp',
-        //     hidden: true
-        // },
-
-        //     {
-        //         xtype: "button",
-        //         ui: "action",
-        //         text: "Responses",
-        //         action: 'Outgoing',
-        //         iconCls: 'chat',
-        //         iconMask: true,
-        //         margin : 5,
-        //         //padding : 5,
-        //         itemId: 'outgoingCmp',
-        //         hidden: true
-        //     }
-        ]
+        }]
     },
 
     updateRecord: function(record) {
@@ -67,16 +34,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             }
             //console.log("............... : " + record.get("isDriver"))
             if(record.get("isDriver")) {
-                drivingText = "Driving";
+                drivingText = "I am driving";
             }
             else {
-                drivingText = "Need Lift";
+                drivingText = "I need a Ride";
             }
-
-            // me.down('#textCmp').setHtml('<div class="content"><div class="journeyDate">' + Ext.Date.format(record.get("dateOfJourney"), 'd F Y') + '</br>' + Ext.Date.format(record.get("dateOfJourney"), 'g:i A') + '   <span class="isDriver">' + drivingText + '</span></div></div>');
-            // me.down('#locCmp').setHtml('</div></div><div class="journeycontent"><div class="name"><strong>From : </strong>' + record.get("fromPlace") + '</div><div class="name"><strong>To : </strong>' + record.get("toPlace") + '</div>');
-            // me.down('#incomingCmp').setText("Requests (" + matchedJourneyCount + ")");
-            // me.down('#outgoingCmp').setText("Responses (" + requestedJourneyCount + ")");
 
             var html='<div class="card">\
             <div class="card-info">\
@@ -86,14 +48,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 </div>\
                 <div class="card-main">\
                     <div>\
-                        <span class="card-time">'+time+'</span>\
-                        <span class="card-label card-label-gray">'+drivingText+'</span>\
+                        <span class="card-time"> <span class="calendarCls"></span>  '+time+'</span>\
+                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-danger"><span class="deleteCls"></span> Delete</button></span>\
                     </div>\
                     <div>\
-                        <span class="card-control">\
-                            <button  class="card-button card-button-blue incomingBtn"><span class="bell x-list-icon x-icon-mask"></span>Incoming('+matchedJourneyCount+')</button>\
-                            <button  class="card-button card-button-blue outgoingBtn">Outgoing('+requestedJourneyCount+')</button>\
-                        </span>\
+                        <span class="card-label card-label-gray">'+drivingText+'</span>\
                     </div>\
                 </div>\
             </div>\
@@ -101,11 +60,18 @@ Ext.define('Racloop.view.JourneyViewItem', {
             <div class="card-footer">\
                 <div class="card-footer-row">\
                     <span class="card-location-label">From :</span>\
-                    <span class="card-location">'+record.get("fromPlace")+'</span>\
+                    <span class="card-location"> <span class="fromCls"> </span>'+record.get("fromPlace")+'</span>\
                 </div>\
                 <div class="card-footer-row">\
                     <span class="card-location-label">To :</span>\
-                    <span class="card-location">'+record.get("toPlace")+' </span>\
+                    <span class="card-location"> <span class="toCls"> </span>'+record.get("toPlace")+' </span>\
+                </div>\
+                <div>\
+                    <span class="card-control">\
+                        <button  class="racloop-btn racloop-btn-warning"><span class="searchCls"></span> Search</button>\
+                        <button  class="racloop-btn racloop-btn-success incomingBtn"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
+                        <button  class="racloop-btn racloop-btn-primary outgoingBtn"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
+                    </span>\
                 </div>\
             </div>\
         </div>';

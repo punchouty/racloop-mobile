@@ -45,12 +45,12 @@ Ext.define('Racloop.controller.ProfileController', {
             forgotButton: {
                 tap: 'forgotPassword'
             },
-            // incomingButton: {
-            //     tap: 'onInComingButtonTap'
-            // },
-            // outgoingButton: {
-            //     tap: 'onOutGoingButtonTap'
-            // },
+            incomingButton: {
+                 tap: 'onInComingButtonTap'
+            },
+            outgoingButton: {
+                 tap: 'onOutGoingButtonTap'
+            },
             // acceptButton: {
             //     tap: 'acceptButtonTap'
             // },
@@ -311,20 +311,9 @@ Ext.define('Racloop.controller.ProfileController', {
             data: data,
             defaultType: 'IncomingRequestItem',
             useComponents: true
-
-        });
+            });
             journeyList.push(incomingRequest);
-    }
-    // else {
-    //     incomingRequest= Ext.create('Ext.Panel', {
-    //          title: 'Incoming Requests',
-    //         fullscreen: true,
-    //         html: '<center>No Record Found...</center>'
-    //      });
-
-    // }
-        
-      
+        }
     },
     onOutGoingButtonTap: function(item) {
         console.log('onOutGoingButtonTap clicked');

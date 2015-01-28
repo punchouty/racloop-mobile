@@ -57,7 +57,8 @@ Ext.application({
         'UiController',
         'SessionsController',
         'SettingsController',
-        'AccountController'
+        'AccountController',
+        'WorkflowController'
 //        'SearchController',
 //        'ProfileController'
     ],

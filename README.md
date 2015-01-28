@@ -76,7 +76,7 @@ Important Commands
 
 TO DO
 ------
-
+* Session time out issue - check for mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html
 * Start up image and app icons
 * Edit of mobile should trigger SMS verification - message box at start up
 * Push notification
