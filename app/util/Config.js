@@ -94,6 +94,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/mforgot';
             this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/mobile/search';
             this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/mobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/mobile/history';
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/mobile/acceptResponse';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/mobile/rejectResponse';
             this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/mobile/requestService';
@@ -112,6 +113,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/mforgot';
             this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/mobile/search';
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/mobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/mobile/history';
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/mobile/acceptResponse';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/mobile/rejectResponse';
             this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/mobile/requestService';

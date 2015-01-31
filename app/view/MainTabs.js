@@ -8,6 +8,8 @@ Ext.define('Racloop.view.MainTabs', {
         'Ext.navigation.Bar',
         'Racloop.view.SearchNavigationView',
         'Racloop.view.JourneyNavigationView',
+        'Racloop.view.HistoryViewItem',
+        'Racloop.store.History',
         'Racloop.util.Config'
     ],
     config: {
@@ -35,21 +37,33 @@ Ext.define('Racloop.view.MainTabs', {
                 xtype: 'journeyNavigationView'
             },
             {
+//                title: Config.tabHistory,
+//                iconCls: 'time',
+//
+//                styleHtmlContent: true,
+//                scrollable: true,
+//
+//                items: {
+//                   docked: 'top',
+//                    xtype: 'titlebar',
+//                    title: 'History'
+//                },
+//
+//                html: [
+//                    "History"
+//                ].join("")
                 title: Config.tabHistory,
                 iconCls: 'time',
-
-                styleHtmlContent: true,
-                scrollable: true,
-
+                xtype: 'dataview',
                 items: {
-                   docked: 'top',
+                    docked: 'top',
                     xtype: 'titlebar',
-                    title: 'History'
+                    title: 'My History'
                 },
-
-                html: [
-                    "History"
-                ].join("")
+                fullscreen: true,
+                defaultType: 'historyViewItem',
+                useComponents: true,
+                store: "historyStore"
             },
             { //IMPORTANT IT IS HIDDEN
                 title: Config.tabNotifications,

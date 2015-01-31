@@ -1,8 +1,8 @@
 
-Ext.define('Racloop.view.JourneyViewItem', {
+Ext.define('Racloop.view.HistoryViewItem', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.journeyViewItem',
-    xtype : 'journeyViewItem',
+    alias: 'widget.historyViewItem',
+    xtype : 'historyViewItem',
 
     config: {
         cls : 'journeyItem',
@@ -35,10 +35,10 @@ Ext.define('Racloop.view.JourneyViewItem', {
             }
             //console.log("............... : " + record.get("isDriver"))
             if(record.get("isDriver")) {
-                drivingText = "I am driving";
+                drivingText = "Car Owner";
             }
             else {
-                drivingText = "I need a Ride";
+                drivingText = "Passenger";
             }
 
             var html='<div class="card">\
@@ -50,7 +50,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
-                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button></span>\
+                        <div>\
+                            <span class="card-control">\
+                                <button  class="racloop-btn racloop-btn-primary searchAgainButton"><span class="searchCls"></span> Search Again</button>\
+                            </span>\
+                        </div>\
                     </div>\
                     <div>\
                         <span class="card-label card-label-blue">'+drivingText+'</span>\
@@ -67,13 +71,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
                     <span class="card-location-label">To : </span>\
                     <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("toPlace")+' </span>\
                 </div>\
-                <div>\
-                    <span class="card-control">\
-                        <button  class="racloop-btn racloop-btn-warning searchAgainButton"><span class="searchCls"></span> Search</button>\
-                        <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
-                        <button  class="racloop-btn racloop-btn-primary outgoingButton"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
-                    </span>\
-                </div>\
             </div>\
         </div>';
         me.down('#textCmp').setHtml(html);
@@ -89,34 +86,10 @@ Ext.define('Racloop.view.JourneyViewItem', {
             tap        : 'searchAgainButtonTapFired',
             delegate   : 'button.searchAgainButton'
         });
-        this.element.on({
-            scope      : this,
-            tap        : 'deleteJourneyButtonTapFired',
-            delegate   : 'button.deleteJourneyButton'
-        });
-        this.element.on({
-            scope      : this,
-            tap        : 'incomingButtonTapFired',
-            delegate   : 'button.incomingButton'
-        });
-        this.element.on({
-            scope      : this,
-            tap        : 'outgoingButtonTapFired',
-            delegate   : 'button.outgoingButton'
-        });
         this.callParent(arguments);
 
     },
     searchAgainButtonTapFired: function(e) {
         this.fireEvent('searchAgainButtonTap',this);
-    },
-    deleteJourneyButtonTapFired: function(e) {
-        this.fireEvent('deleteJourneyButtonTap',this);
-    },
-    incomingButtonTapFired: function(e) {
-        this.fireEvent('incomingButtonTap',this);
-    },
-    outgoingButtonTapFired: function(e) {
-        this.fireEvent('outgoingButtonTap',this);
     }
 });

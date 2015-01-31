@@ -160,7 +160,7 @@ $tabs-dark: $blue;
 
 .timeCls:before {
   font-family: "racloop-icons";
-  content: "\e0c8";
+  content: "\e089";
   //font-size: 1.5em;
   //padding: 10px;
 }
@@ -224,6 +224,14 @@ $tabs-dark: $blue;
 .cancelCls:before {
   font-family: "racloop-icons";
   content: "\e11e";
+}
+.requestRideCls:before {
+  font-family: "racloop-icons";
+  content: "\e081";
+}
+.askToJoinCls:before {
+  font-family: "racloop-icons";
+  content: "\e080";
 }
 //@include sencha-toolbar-ui('light', darken($black,10%), 'recessed');
 

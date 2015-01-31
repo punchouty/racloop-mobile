@@ -31,6 +31,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         if (record != null) {
             recordData = record.get("matchedJourney");
             var date = new Date(recordData.dateOfJourney);
+            var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
+            var legend = "";
+            var legendText = "";
             var day = Ext.Date.format(date, 'd');
             var month = Ext.Date.format(date, 'F');
             var time = Ext.Date.format(date, 'g:i A');
@@ -65,32 +68,41 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else {
                     if (recordData.isDriver) {
                         // me.down('button[action="Request"]').setText("Request");
-                        drivingText = "Driving";
+                        legend = "C";
+                        legendText = "Car Owner";
+                        drivingText = "Car Owner";
                         cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
                                 <span class="card-control">\
-                                <button class="card-button card-label-blue request">Ask for Driver</button>\
+                                <button class="racloop-btn racloop-btn-primary request"><span class="requestRideCls"></span> Request a Ride</</button>\
                                 </span>';
                     } else {
                         // me.down('button[action="Request"]').setText("Ask for Drive");
-                        drivingText = "Need Lift";
+                        legend = "P";
+                        legendText = "Passenger";
+                        drivingText = "Passenger";
                         cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
                                 <span class="card-control">\
-                                <button class="card-button card-label-blue request">Request a Ride</button>\
+                                <button class="racloop-btn racloop-btn-primary request"><span class="askToJoinCls"></span> Ask to Join</button>\
                                 </span>';
                     }
                 }
             } else {
                 if (recordData.isDriver) {
                     // me.down('button[action="Request"]').setText("Request");
-                    drivingText = "Driving";
+                    legend = "C";
+                    legendText = "Car Owner";
+                    drivingText = "Car Owner";
                     cardControl = '<span class="card-control">\
-                                <button class="card-button card-label-blue request">Need a Lift</button>\
+                                <button class="racloop-btn racloop-btn-primary request"><span class="requestRideCls"></span> Request Ride</button>\
                                 </span>';
                 } else {
                     // me.down('button[action="Request"]').setText("Offer a Ride");
-                    drivingText = "Need Lift";
+                    legend = "P";
+                    legendText = "Passenger";
+                    drivingText = "Passenger";
+                    drivingText = "Ride Seeker";
                     cardControl = '<span class="card-control">\
-                                <button class="card-button card-label-blue request">Request a Ride</button>\
+                                <button class="racloop-btn racloop-btn-primary request"><span class="askToJoinCls"></span> Ask to Join</button>\
                                 </span>';
                 }
             }
@@ -110,16 +122,15 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                 <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>\
                             </div>\
                             <div class="card-date">\
-                                <div class="card-day">' + day + '</div>\
-                                <div class="card-month">' + month + '</div>\
+                                <div class="card-day">' + legend + '</div>\
+                                <div class="card-month">' + legendText + '</div>\
                             </div>\
                             <div class="card-main">\
                                 <div class="card-name">\
                                     <h3>' + recordData.name + '</h3>\
                                 </div>\
                                 <div>\
-                                    <span class="card-time">' + time + '</span>\
-                                    <span class="card-label card-label-gray">' + drivingText + '</span>\
+                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>\
                                     ' + cardControl + '\
                                 </div>\
                                 <div>\
@@ -129,11 +140,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         <div class="card-footer">\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">From :</span>\
-                                <span class="card-location">' + recordData.fromPlace + '</span>\
+                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + recordData.fromPlace + '</span>\
                             </div>\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">To :</span>\
-                                <span class="card-location">' + recordData.toPlace + '</span>\
+                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + recordData.toPlace + '</span>\
                             </div>\
                         </div>\
                     </div>';

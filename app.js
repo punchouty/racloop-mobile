@@ -68,7 +68,8 @@ Ext.application({
 
     stores: [
         'Journeys',
-        'Searches'
+        'Searches',
+        'History'
     ],
 
     icon: {

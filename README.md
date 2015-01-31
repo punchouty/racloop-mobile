@@ -104,6 +104,7 @@ Rajan To Do
 * New SMS Gateway account
 * Offline fonts
 * Calendar widget missing arrow-right and arrow-left - Done
+* URL mapping for mobile. Not required. Need to change.
 
 Rohit to do
 * Session time out handling - web and mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html
