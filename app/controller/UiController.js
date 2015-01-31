@@ -14,6 +14,10 @@ Ext.define('Racloop.controller.UiController', {
             mainTabs: 'mainTabs',
             mainNavigationView: 'mainNavigationView',
             showLoginButton: 'mainNavigationView #showLoginButton',
+            searchNavigationView: 'searchNavigationView',
+            searchForm: 'searchNavigationView #searchForm',
+            settingNavigationView : 'settingNavigationView',
+            settingListView : 'settingNavigationView #settingListView',
             myJourneyTab: 'mainTabs > tabbar > tab'
         },
 
@@ -39,7 +43,14 @@ Ext.define('Racloop.controller.UiController', {
             Ext.getStore('historyStore').load();
         }
         else if(button.getTitle() === Config.tabSearch) {
-            //Common.updateCurrentLocation();
+            var searchForm = this.getSearchForm();
+            var activeItem = this.getSearchNavigationView().getActiveItem();
+            if(searchForm != activeItem) this.getSearchNavigationView().pop();
+        }
+        else if(button.getTitle() === Config.tabSettings) {
+            var settingListView = this.getSettingListView();
+            var activeItem = this.getSettingNavigationView().getActiveItem();
+            if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
     },

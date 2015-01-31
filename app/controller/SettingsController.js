@@ -12,7 +12,7 @@ Ext.define('Racloop.controller.SettingsController', {
         },
 
         control: {
-            'settingNavigationView #settingList': {
+            'settingNavigationView #settingListView': {
                 itemtap: 'onSettinglistItemTap'
             }
         }

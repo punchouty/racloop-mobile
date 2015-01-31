@@ -12,7 +12,7 @@ Ext.define('Racloop.view.SettingNavigationView', {
         itemId: 'settingNavigationView',        
         items: [{
          xtype: 'list',
-         itemId: 'settingList',
+         itemId: 'settingListView',
          title: 'Settings',
          itemTpl: '<span class="{iconCls}"></span><span class="settingItem">{title}</span>',
             data: [
