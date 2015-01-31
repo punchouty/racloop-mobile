@@ -8,110 +8,15 @@ Ext.define('Racloop.controller.SettingsController', {
     config: {
         refs: {
             mainTabs: 'mainTabs',
-//            mainNavigationView: 'mainNavigationView',
             settingNavigationView: '#settingNavigationView'
-//            settingsMenu: {
-//                selector: '#settingsMenu',
-//                xtype: 'settingsMenu'
-//            }
         },
 
         control: {
-            // "mainTabs #infoNavigationView": {
-            //     back: 'goBack'
-            // },
-            // "infoNavigationView #settingsMenuButton": {
-            //     tap: 'showMenu'
-            // },
-//            "settingsMenu button": {
-//                tap: 'navigate'
-//            },
             'settingNavigationView #settingList': {
                 itemtap: 'onSettinglistItemTap'
             }
         }
     },
-
-//    showMenu: function(target) {
-//        // Get or create navigation menu
-//
-//        var menu = this.getSettingsMenu();
-//        if (!menu) {
-//            menu = Ext.create('widget.settingsMenu');
-//        }
-//
-//        var menuItems = menu.getItems().items, // Menu buttons
-//            currentView = this.currentView || "termsPanel"; // Current view alias, default to home
-//        // Disable active view's button
-//        menuItems.forEach(function(button) {
-//
-//            // Get custom navView attribute
-//            var navView = button.config.navView;
-//            // Active button, disable
-//            if (currentView == navView) {
-//                button.disable();
-//            }
-//
-//            // Enable all others
-//            else {
-//                button.enable();
-//            }
-//
-//        });
-//
-//        // Show menu by menu button
-//        menu.showBy(target);
-//
-//    },
-//
-//    navigate: function(button, e, eOpts) {
-//        /**
-//         *	The following code enables navigation
-//         *	by checking the custom attribute 'navView',
-//         *	which is the alias of the view to show
-//         */
-//
-//        var text = button.getText(), // Button text
-//            navView = button.getInitialConfig().navView, // Get custom attribute 'navView'
-//            infoNavigationView = this.getInfoNavigationView(), // Main navigation view
-//            navMenu = this.getSettingsMenu(); // Navigation menu
-//
-//        //infoNavigationView.pop();
-//        // Add view to main view
-//        infoNavigationView.push({
-//            xtype: navView,
-//            title: text
-//        });
-//
-//        // Remember current view alias
-//        this.currentView = navView;
-//        // Hide menu
-//        navMenu.hide();
-//
-//    },
-//
-//    goBack: function(target, eOpts) {
-//        var infoNavigationView = this.getInfoNavigationView();
-//        var menu = this.getSettingsMenu();
-//        var menuItems = menu.getItems().items; // Menu buttons
-//        this.currentView = infoNavigationView.getActiveItem().getItemId();
-//        var currentView = this.currentView;
-//        menuItems.forEach(function(button) {
-//
-//            // Get custom navView attribute
-//            var navView = button.config.navView;
-//            // Active button, disable
-//            if (currentView == navView) {
-//                button.disable();
-//            }
-//
-//            // Enable all others
-//            else {
-//                button.enable();
-//            }
-//
-//        });
-//    },
     onSettinglistItemTap: function(dataview, index, target, record, e, options) {
         var searchNavigationView = this.getSettingNavigationView();
         //    mainNavigationView = this.getMainNavigationView();

@@ -8,7 +8,7 @@ Ext.define('Racloop.store.Searches', {
         storeId: 'SearchStore',
         //autoLoad: true,
         proxy: {
-            type: 'localstorage',
+            type: 'memory',
             id: 'resultJourney'
         }
     }

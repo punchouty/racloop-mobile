@@ -76,36 +76,60 @@ Important Commands
 
 TO DO
 ------
-* Session time out issue - check for mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html
+
+Rajan To Do
 * Start up image and app icons
-* Edit of mobile should trigger SMS verification - message box at start up
+* Edit of mobile should trigger SMS verification - Need to be done in mobile
 * Push notification
-* Verify SMS - DOne
-* Security App - requirements clear
+* Verify SMS - Done
+* Security App - requirements done
 * History
-* My Journey - UI
+* My Journey - UI - Partial Done
+* Work flow for Mobile - accept, reject, cancel, delete, incoming, outgoing - In Progress
 * Search - UI
 * Domain and Branding - Not doing any thing
 * Icons change - Done
-* Data privacy clause in "Privacy" statement - Eergency COntact
-* Term and Privacy in mobile app
+* Data privacy clause in "Privacy" statement - Eergency Contact
+* Term and Privacy in mobile app - Server side implementation is left
 * Tab color - Done
 * HTTPS - ????
 * Unique error from server - change message.properties - Done
 * Mobile code for SMS - Done
 * Edit profile from mobile - changes for sms verification pending (server side)
-* Emergency contacts functionality pending
+* Emergency contacts functionality pending - partial done
+* Implement privacy and terms on server for mobile (as well as web app). See Mobile controller - Already
+* IOS release
+* ANdroid Release
+* Windows release
+* New SMS Gateway account
+* Offline fonts
+* Calendar widget missing arrow-right and arrow-left - Done
+
+Rohit to do
+* Session time out handling - web and mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html
 * facebook integration
+* Algorithm - for cabs. People with nearest source and destination at same time
+* AWS deployment architecture - implement auto scaling
+* Distributed elastic search on AWS
+* Elastic Search - UI to run queries
 * Batch job for review
 * Archiving
-* Implement privacy and terms on server for mobile (as well as web app). See Mobile controller.
+* Refactor Mobile Controller
+* Static Data controller and view implementation
+
 
 * Distance from start location
 * No of time racloop used
 * Star rating dispaly
 * Review Screen - revamp
 
-* Three nearest people - destination and origin
+Exception
+* Create new User. Login using remember me. restart server and now same user will not exist. Now when loggin from browser exception is thrown
+
+Later phases
+* Mobile app for commercial drivers
+* Web API for commercial drivers
+* Chat integration - https://github.com/rzen/sencha-touch-chat
 
 
 Notes for iOS

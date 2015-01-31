@@ -1,7 +1,8 @@
-// DEPRECATED - need to remove
-Ext.define('Racloop.view.SearchViewItem', {
+
+Ext.define('Racloop.view.SearchResultViewItem', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.SearchDataItem',
+    alias: 'widget.searchResultViewItem',
+    xtype : 'searchResultViewItem',
 
     config: {
         padding: 10,
@@ -11,43 +12,13 @@ Ext.define('Racloop.view.SearchViewItem', {
         align: 'center',
         pack:'center',
         cls : 'journeyItem',
-        items: [
-        // {
-        //     xtype: 'component',
-        //     html: '<img style="height: 60px; width: 60px; margin-right:10px;" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128" />',
-        //     itemId: 'imgCmp'
-        // }, 
-        {
+        items: [ {
             xtype: 'component',
             flex: 2,
             html: 'name',
             itemId: 'textCmp',
             itemCls: 'dataItem'
-        }
-        //  {
-        //     xtype: 'component',
-        //     flex: 4,
-        //     html: 'name',
-        //     itemId: 'locCmp',
-        //     itemCls: 'dataItem'
-        // },
-        //  {
-        //     xtype: 'button',
-        //     text: 'Request',
-        //     ui: 'action',
-        //     action: 'Request',
-        //     itemId: 'RequestButton',
-        //     itemCls: 'dataItem',
-        //     hidden:true
-        // },{
-        //     xtype: 'button',
-        //     text: "Cancel", // this is working as title of buttons are different
-        //     itemId: 'CancelButton',
-        //     itemCls: 'dataItem',
-        //     action: 'CancelRequest',
-        //     ui: 'action',
-        //     hidden: true
-        // }
+            }
         ]
     },
 

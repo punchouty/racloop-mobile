@@ -38,6 +38,7 @@ Ext.application({
         'MainTabs',
         'PrivacyPanel',
         'SearchNavigationView',
+        'SearchResultsDataView',
         //'SettingsMenu',
         'TermsPanel',
         'JourneyNavigationView',
@@ -49,6 +50,7 @@ Ext.application({
         'JourneyViewItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
+        'OutgoingRequestViewItem',
         'VerifySmsForm',
         'EmergencyContactForm'
     ],
@@ -58,6 +60,7 @@ Ext.application({
         'SessionsController',
         'SettingsController',
         'AccountController',
+        'JourneysController',
         'WorkflowController'
 //        'SearchController',
 //        'ProfileController'

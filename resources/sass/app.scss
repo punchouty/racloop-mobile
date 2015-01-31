@@ -203,21 +203,34 @@ $tabs-dark: $blue;
 }
 .fromCls:before {
   font-family: "racloop-icons";
-  content: "\e09c";
+  content: "\e19c";
 }
 .toCls:before {
   font-family: "racloop-icons";
-  content: "\e004";
+  content: "\e09c";
 }
-.sendCls:before {
+.requestCls:before {
   font-family: "racloop-icons";
   content: "\e0b3";
+}
+.acceptCls:before {
+  font-family: "racloop-icons";
+  content: "\e115";
+}
+.rejectCls:before {
+  font-family: "racloop-icons";
+  content: "\e11e";
+}
+.cancelCls:before {
+  font-family: "racloop-icons";
+  content: "\e11e";
 }
 //@include sencha-toolbar-ui('light', darken($black,10%), 'recessed');
 
 .error .x-component-outer{
-  border-style: dashed;
+  border-style: solid;
   border-color: $red;
+  border-width: 1px;
 }
 .toastClass {
   background-color: $alternative-color;
@@ -644,8 +657,8 @@ strong,
     float: left;
     color: $black;
     //background-color: #5bc0de;
-    padding: 0.1em;
-    margin:0.1em;
+    //padding: 0.1em;
+    //margin:0.1em;
     text-align: center;
     width: 53px;
     border-radius: .25em;
@@ -656,8 +669,8 @@ strong,
     display: block;
     color: #333;
     //background-color: #f9f2f4;
-    padding: 0.1em;
-    margin:0.1em;
+    //padding: 0.1em;
+    //margin:0.1em;
 }
 .card-pull-right {
   float: right;

@@ -1,7 +1,8 @@
-
+// DEPRECATED - need to remove
 Ext.define('Racloop.view.OutgoingRequestList', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.OutgoingRequestItem',
+    alias: 'widget.outgoingRequestList',
+    xtype : 'outgoingRequestList',
 
     config: {
         padding: 10,

@@ -8,6 +8,9 @@ Ext.define('Racloop.model.Journey', {
 
     config: {
         fields: [{
+            name: 'journeyId',
+            type: 'string'
+        },{
             name: 'name',
             type: 'string'
         }, {
@@ -44,7 +47,7 @@ Ext.define('Racloop.model.Journey', {
             name: 'isDriver',
             type: 'boolean'
         }, {
-            name: 'validStartSearchTimeString',
+            name: 'validStartTimeString',
             type: 'string'
         }, {
             name: 'tripDistance',

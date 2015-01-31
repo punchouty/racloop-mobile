@@ -1,4 +1,4 @@
-
+// DEPRECATED - need to remove
 Ext.define('Racloop.view.UserSearchList', {
     extend: 'Ext.dataview.DataView',
     xtype: 'UserSearchList',

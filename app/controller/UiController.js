@@ -36,7 +36,7 @@ Ext.define('Racloop.controller.UiController', {
             Ext.getStore('journeyStore').load();
         }
         else if(button.getTitle() === Config.tabSearch) {
-            Common.updateCurrentLocation();
+            //Common.updateCurrentLocation();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
     },

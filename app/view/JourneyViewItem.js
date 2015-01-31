@@ -1,7 +1,8 @@
 
 Ext.define('Racloop.view.JourneyViewItem', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.JourneyDataItem',
+    alias: 'widget.journeyViewItem',
+    xtype : 'journeyViewItem',
 
     config: {
         cls : 'journeyItem',
@@ -49,28 +50,28 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="calendarCls"></span>  '+time+'</span>\
-                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-danger"><span class="deleteCls"></span> Delete</button></span>\
+                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button></span>\
                     </div>\
                     <div>\
-                        <span class="card-label card-label-gray">'+drivingText+'</span>\
+                        <span class="card-label card-label-blue">'+drivingText+'</span>\
                     </div>\
                 </div>\
             </div>\
 \
             <div class="card-footer">\
                 <div class="card-footer-row">\
-                    <span class="card-location-label">From :</span>\
-                    <span class="card-location"> <span class="fromCls"> </span>'+record.get("fromPlace")+'</span>\
+                    <span class="card-location-label">From : </span>\
+                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+record.get("fromPlace")+'</span>\
                 </div>\
                 <div class="card-footer-row">\
-                    <span class="card-location-label">To :</span>\
-                    <span class="card-location"> <span class="toCls"> </span>'+record.get("toPlace")+' </span>\
+                    <span class="card-location-label">To : </span>\
+                    <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("toPlace")+' </span>\
                 </div>\
                 <div>\
                     <span class="card-control">\
-                        <button  class="racloop-btn racloop-btn-warning"><span class="searchCls"></span> Search</button>\
-                        <button  class="racloop-btn racloop-btn-success incomingBtn"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
-                        <button  class="racloop-btn racloop-btn-primary outgoingBtn"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
+                        <button  class="racloop-btn racloop-btn-warning searchAgainButton"><span class="searchCls"></span> Search</button>\
+                        <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
+                        <button  class="racloop-btn racloop-btn-primary outgoingButton"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
                     </span>\
                 </div>\
             </div>\
@@ -84,26 +85,38 @@ Ext.define('Racloop.view.JourneyViewItem', {
     },  
     initialize: function () {
         this.element.on({
-            scope      : this,           
-            tap        : 'fireBtnEvents',
-            delegate   : 'button.incomingBtn'
+            scope      : this,
+            tap        : 'searchAgainButtonTapFired',
+            delegate   : 'button.searchAgainButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'fireBtnEvents',
-            delegate   : 'button.outgoingBtn'
+            tap        : 'deleteJourneyButtonTapFired',
+            delegate   : 'button.deleteJourneyButton'
+        });
+        this.element.on({
+            scope      : this,
+            tap        : 'incomingButtonTapFired',
+            delegate   : 'button.incomingButton'
+        });
+        this.element.on({
+            scope      : this,
+            tap        : 'outgoingButtonTapFired',
+            delegate   : 'button.outgoingButton'
         });
         this.callParent(arguments);
 
     },
-    fireBtnEvents: function(e){
-        var incomingButton=this.down('#incomingCmp');
-        var outgoingButton=this.down('#outgoingCmp');
-          if (e.target.className.toLowerCase().indexOf("incomingbtn") > -1){
-                this.fireEvent('myIncomingButtonTap',this);
-          }
-          else if (e.target.className.toLowerCase().indexOf("outgoingbtn") > -1){
-                this.fireEvent('myOutgoingButtonTap',this);
-          }
+    searchAgainButtonTapFired: function(e) {
+        this.fireEvent('searchAgainButtonTap',this);
+    },
+    deleteJourneyButtonTapFired: function(e) {
+        this.fireEvent('deleteJourneyButtonTap',this);
+    },
+    incomingButtonTapFired: function(e) {
+        this.fireEvent('incomingButtonTap',this);
+    },
+    outgoingButtonTapFired: function(e) {
+        this.fireEvent('outgoingButtonTap',this);
     }
 });

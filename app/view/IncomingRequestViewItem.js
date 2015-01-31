@@ -1,68 +1,18 @@
-
-// DEPRECATED - need to remove
-Ext.define('Racloop.view.IncomingRequestList', {
+Ext.define('Racloop.view.IncomingRequestViewItem', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.IncomingRequestItem',
-
+    alias: 'widget.incomingRequestViewItem',
+    xtype : 'incomingRequestViewItem',
     config: {
         padding: 10,
         layout: {
             type: 'hbox'
         },
-        items: [
-        // {
-        //     xtype: 'component',
-        //     html: '<img style="height: 100px; width: 100px;" src="https://avatars3.githubusercontent.com/u/624738?v=2&s=128" />',
-        //     itemId: 'imgCmp'
-        // }, 
-        {
+        items: [{
             xtype: 'component',
             flex: 1,
             html: 'Name',
             itemId: 'textCmp'
-        }
-        // {
-        //     xtype: 'component',
-        //     flex: 2,
-        //     html: 'name',
-        //     itemId: 'locCmp'
-        // }, {
-        //     xtype: "component",
-        //     html: "Status",
-        //     flex: 1,
-        //     //iconCls : 'bell',
-        //     itemId: 'statusCmp'
-        // }, 
-        // {
-        //     xtype: "button",
-        //     ui: "action",
-        //     text: "Accept",
-        //     action: 'Accept',
-        //     //iconCls : 'bell',
-        //     itemId: 'acceptCmp',
-        //     iconMask: true,
-        //     hidden: true
-        // }, {
-        //     xtype: "button",
-        //     ui: "action",
-        //     text: "Reject",
-        //     action: 'Reject',
-        //     itemId: 'rejectCmp',
-        //     //iconCls : 'chat',
-        //     iconMask: true,
-        //     hidden: true
-        // },
-        // {
-        //     xtype: "button",
-        //     ui: "action",
-        //     text: "Call",
-        //     action: 'Call',
-        //     itemId: 'callCmp',
-        //     //iconCls : 'bell',
-        //     iconMask: true,
-        //     hidden: true
-        // }
-        ]
+        }]
     },
 
     updateRecord: function(record) {
@@ -100,7 +50,7 @@ Ext.define('Racloop.view.IncomingRequestList', {
                                 <span class="card-control">\
                                     <span class="card-mobile">'+mobile+'</span>\
                                     <a href="tel:'+mobile+'"  class="card-button card-button-blue" >Call </a>\
-                                    <button class="card-button card-button-red reject">Reject</button>\
+                                    <button class="racloop-btn racloop-btn-danger reject"><span class="rejectCls"></span> Reject</button>\
                                 </span>\
                             </div>\
                             <div>\
@@ -137,8 +87,8 @@ Ext.define('Racloop.view.IncomingRequestList', {
                                 <span class="card-label card-label-gray">'+drivingText+'</span>\
                                 <span class="card-label card-label-green">New</span>\
                                 <span class="card-control">\
-                                    <button class="card-button card-button-blue accept">Accept</button>\
-                                    <button class="card-button card-button-red reject">Reject</button>\
+                                    <button class="racloop-btn racloop-btn-primary accept"><span class="acceptCls"></span> Accept</button>\
+                                    <button class="racloop-btn racloop-btn-danger reject"><span class="rejectCls"></span> Reject</button>\
                                 </span>\
                             </div>\
                             <div>\

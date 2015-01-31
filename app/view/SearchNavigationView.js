@@ -3,6 +3,7 @@ Ext.define('Racloop.view.SearchNavigationView', {
     extend: 'Ext.navigation.View',
     //extend: 'Ext.form.Panel',
     alias: 'widget.searchNavigationView',
+    xtype: 'searchNavigationView',
     requires: [
         'Ext.TitleBar',
         'Ext.form.FieldSet',
@@ -50,16 +51,19 @@ Ext.define('Racloop.view.SearchNavigationView', {
                     xtype: 'timepickerfield',
                     label: 'Time*',
                     itemId: 'searchScreenTime',
+                    picker: {
+                        minuteIncrement: 15
+                    },
                     defaultTime : Racloop.util.Common.getDefaultTime()
                 }, {
                     xtype: 'selectfield',
-                    label: 'Driving/Need Ride',
+                    label: 'You Are?',
                     options: [{
-                        text: 'Need Drive',
+                        text: 'Passenger and Need Ride.',
                         value: 'hitcher'
                     },
                     {
-                        text: 'Driving',
+                        text: 'Driving Your Own Vehicle.',
                         value: 'driver'
                     }],
                     listeners: {
@@ -113,6 +117,7 @@ Ext.define('Racloop.view.SearchNavigationView', {
 
             }, {
                 xtype: 'button',
+                itemId: 'searchButton',
                 text: 'Search',
                 action: 'search',
                 iconCls: 'searchCls',

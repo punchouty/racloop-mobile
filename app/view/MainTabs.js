@@ -32,7 +32,7 @@ Ext.define('Racloop.view.MainTabs', {
             {
                 title: Config.tabMyJourneys,
                 iconCls: 'home',
-                xtype: 'userJourneysList'
+                xtype: 'journeyNavigationView'
             },
             {
                 title: Config.tabHistory,
