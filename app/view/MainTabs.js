@@ -37,21 +37,6 @@ Ext.define('Racloop.view.MainTabs', {
                 xtype: 'journeyNavigationView'
             },
             {
-//                title: Config.tabHistory,
-//                iconCls: 'time',
-//
-//                styleHtmlContent: true,
-//                scrollable: true,
-//
-//                items: {
-//                   docked: 'top',
-//                    xtype: 'titlebar',
-//                    title: 'History'
-//                },
-//
-//                html: [
-//                    "History"
-//                ].join("")
                 title: Config.tabHistory,
                 iconCls: 'time',
                 xtype: 'dataview',

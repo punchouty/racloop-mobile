@@ -12,6 +12,7 @@ Ext.define('Racloop.controller.JourneysController', {
     ],
     config: {
         refs: {
+            mainTabs: 'mainTabs',
             searchNavigationView: 'searchNavigationView',
             searchForm: 'searchNavigationView #searchForm',
             searchButton: 'searchNavigationView #searchButton',
@@ -40,6 +41,9 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             "timepickerfield[itemId=searchScreenTime]": {
                 change: 'onTimePickerFieldChange'
+            },
+            'historyViewItem': {
+                searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap'
             },
             RequestButton: {
                 tap: 'onRequestButtonTap'
@@ -165,18 +169,8 @@ Ext.define('Racloop.controller.JourneysController', {
         });
 
         var setDistance = function() {
-            if (latFrom != null && longFrom != null & latTo != null && longTo != null) {
-                console.log("if condition")
-                var p1 = new google.maps.LatLng(latFrom, longFrom);
-                var p2 = new google.maps.LatLng(latTo, longTo);
-                var distance = calcDistance(p1, p2);
-                console.log(distance);
-                searchForm.down('field[name=tripDistance]').setValue(distance);
-            }
-        };
-        //calculates distance between two points in km's
-        var calcDistance = function(p1, p2) {
-            return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+            var distance = this.calculateDistance(latFrom, longFrom, latTo, longTo);
+            searchForm.down('field[name=tripDistance]').setValue(distance);
         };
 
 
@@ -184,10 +178,7 @@ Ext.define('Racloop.controller.JourneysController', {
         var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7; //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
-        //var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
-        //console.log(validStartTime);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
-        //console.log(validEndTime);
 
         var validStartTimeString = validStartTime.toString('dd MMMM hh:mm tt');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
@@ -213,6 +204,15 @@ Ext.define('Racloop.controller.JourneysController', {
 
     },
 
+    calculateDistance : function(latFrom, longFrom, latTo, longTo) {
+        if (latFrom != null && longFrom != null & latTo != null && longTo != null) {
+            var p1 = new google.maps.LatLng(latFrom, longFrom);
+            var p2 = new google.maps.LatLng(latTo, longTo);
+            var distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+            return distance;
+        }
+        return -1;
+    },
 
     onDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
         //console.log("onDatepickerfieldChange" + field.getFormattedValue('m/d/Y'));
@@ -510,7 +510,30 @@ Ext.define('Racloop.controller.JourneysController', {
 
     },
 
-    launch: function(app) {
+    handleSearchAgainHistoryButtonTap: function(item) {
+        var record = item.getRecord();
+        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("fromPlace"));
+        Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
+        Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("toPlace"));
+        Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
+        Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
+
+        var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
+        Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
+
+        var isDriver = record.get("isDriver");
+        if(isDriver) {
+            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+        }
+        else {
+            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+        }
+        var searchForm = this.getSearchForm();
+        var activeItem = this.getSearchNavigationView().getActiveItem();
+        if(searchForm != activeItem) this.getSearchNavigationView().pop();
+        this.getMainTabs().setActiveItem('searchNavigationView');
+        this.searchJourneys();
 
     },
 

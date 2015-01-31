@@ -57,6 +57,7 @@ Ext.define('Racloop.view.SearchNavigationView', {
                     defaultTime : Racloop.util.Common.getDefaultTime()
                 }, {
                     xtype: 'selectfield',
+                    itemId: 'driverHitcherSelectField',
                     label: 'You Are?',
                     options: [{
                         text: 'Passenger and Need Ride.',

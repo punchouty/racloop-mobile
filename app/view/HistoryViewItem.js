@@ -52,7 +52,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
                         <div>\
                             <span class="card-control">\
-                                <button  class="racloop-btn racloop-btn-primary searchAgainButton"><span class="searchCls"></span> Search Again</button>\
+                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>\
                             </span>\
                         </div>\
                     </div>\
@@ -83,13 +83,13 @@ Ext.define('Racloop.view.HistoryViewItem', {
     initialize: function () {
         this.element.on({
             scope      : this,
-            tap        : 'searchAgainButtonTapFired',
-            delegate   : 'button.searchAgainButton'
+            tap        : 'searchAgainHistoryButtonTapFired',
+            delegate   : 'button.searchAgainHistoryButton'
         });
         this.callParent(arguments);
 
     },
-    searchAgainButtonTapFired: function(e) {
-        this.fireEvent('searchAgainButtonTap',this);
+    searchAgainHistoryButtonTapFired: function(e) {
+        this.fireEvent('searchAgainHistoryButtonTap',this);
     }
 });
