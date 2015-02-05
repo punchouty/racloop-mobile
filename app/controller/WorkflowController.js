@@ -58,10 +58,62 @@ Ext.define('Racloop.controller.WorkflowController', {
 
 
     },
-    handleSearchAgainButtonTap : function(item) {
-        var record = item.getRecord();
-        console.log('handleSearchAgainButtonTap clicked');
-        console.debug(record);
+    handleSearchAgainButtonTap : function(item) { //TODO UNCOMMENT BELOW
+//        var journeyNavigationView = this.getJourneyNavigationView();
+//        var record = item.getRecord();
+//        var journeyId = record.get("journeyId");
+//        var successCallback = function(response, ops) {
+//            var data = Ext.decode(response.responseText);
+//            if (data.success) {
+//                if(data.total > 0) {
+//                    var SearchStore = Ext.getStore('SearchStore');
+//                    SearchStore.removeAll();
+//                    var jsonObj = data.data.matchedJourneys;
+//                    for (var i in jsonObj) {
+//                        SearchStore.add(jsonObj[i]);
+//                    };
+//
+//                    journeyNavigationView.push({
+//                        title: 'Search Results',
+//                        xtype: 'searchResultsDataView'
+//                    });
+//                }
+//                else {
+//                    Ext.Msg.alert('Search Results', 'No Results Found');
+//                }
+//                Ext.Viewport.unmask();
+//            } else {
+//                Ext.Viewport.unmask();
+//                Ext.Msg.alert('Login Error', data.message);
+//            }
+//        };
+//        var failureCallback = function(response, ops) {
+//            Ext.Viewport.unmask();
+//            Ext.Msg.alert("Network Error", response.code);
+//        };
+//
+//        Ext.Viewport.mask({
+//            xtype: 'loadmask',
+//            indicator: true,
+//            message: 'Logging in...'
+//        });
+//
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_SEARCH_AGAIN,
+//            method: 'post',
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            params: Ext.JSON.encode({
+//                journeyId: journeyId
+//            }),
+//            success: successCallback,
+//            failure: failureCallback
+//        });
+        Racloop.app.getController('JourneysController').handleSearchAgainMyJourneyButtonTap(item);
+
     },
     handleDeleteJourneyButtonTap : function(item) {
         var record = item.getRecord();
@@ -71,8 +123,6 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleInComingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        console.log('handleInComingButtonTap clicked');
-        console.debug(record);
         var data = record.get("incomingRequests");
         var incomingRequest;
         if (data.length>0) {
@@ -80,6 +130,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 title: 'Incoming Requests',
                 fullscreen: true,
                 itemTpl: '{name}',
+                itemId: 'myJourneyIncomingRequestView',
                 data: data,
                 defaultType: 'incomingRequestViewItem',
                 useComponents: true
@@ -93,8 +144,6 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleOutGoingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        var data = record.get("outgoingRequests");
-        console.log('handleOutGoingButtonTap clicked');
         console.debug(record);
         var outgoingRequest;
         if (data.length>0) {
@@ -102,6 +151,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 title: 'My Outgoing Requests',
                 fullscreen: true,
                 itemTpl: '{name}',
+                itemId: 'myJourneyOutgoingRequestView',
                 data: data,
                 defaultType: 'outgoingRequestViewItem',
                 useComponents: true

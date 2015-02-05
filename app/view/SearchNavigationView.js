@@ -72,13 +72,9 @@ Ext.define('Racloop.view.SearchNavigationView', {
                             if (newValue == "hitcher") {
                                 var isDriver = field.up().down('field[name=isDriver]');
                                 isDriver.setValue(false);
-                                // var isDriver=this.up().getByField('isDriver');
-                                console.log(isDriver);
                             } else if (newValue == "driver") {
                                 var isDriver = field.up().down('field[name=isDriver]');
                                 isDriver.setValue(true);
-                                // var isDriver=this.up().getByField('isDriver');
-                                console.log(isDriver);
                             }
                         }
                     }

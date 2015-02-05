@@ -39,6 +39,8 @@ Ext.application({
         'PrivacyPanel',
         'SearchNavigationView',
         'SearchResultsDataView',
+        'SearchResultsEmptyView',
+        'SearchResultsView',
         //'SettingsMenu',
         'TermsPanel',
         'JourneyNavigationView',

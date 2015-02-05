@@ -43,6 +43,29 @@ Ext.define('Racloop.util.Common', {
                     console.log('something went wrong!');
                 }
             });
+        },
+        popToRoot: function(navigationView, destroy) {
+            var navBar = navigationView.getNavigationBar(),
+                stackLn = navigationView.getItems().length,
+                stackRm;
+
+            //just return if we're at root
+            if(stackLn <= 1) return;
+            //just return if we're already animating
+            if(navBar && navBar.animating) return;
+
+            //splice the stack to get rid of items between top and root
+            stackRm = this.stack.splice(1, stackLn-2);
+            //remove views that were removed from the stack if required
+            if(destroy) {
+                stackRm.forEach(function(val, idx, arr) {
+                    this.remove(val, true);
+                });
+            }
+            //clear out back button stack
+            navBar.backButtonStack = [];
+            //now we can do a normal pop
+            navigationView.pop();
         }
     },
     constructor: function() {

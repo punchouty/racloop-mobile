@@ -133,7 +133,7 @@ Ext.define('Racloop.controller.SessionsController', {
                             Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                         }
                         else {
-                            me.updateCurrentLocation();
+                            Common.updateCurrentLocation();
                             //tabMain.setActiveItem('userJourneysList');
                         }
                     }
@@ -142,10 +142,6 @@ Ext.define('Racloop.controller.SessionsController', {
                             LoginHelper.resetLoginCounter();
                             tabMain.setActiveItem('settingNavigationView');
                             Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                        }
-                        else {
-                            me.updateCurrentLocation();
-                            //tabMain.setActiveItem('userJourneysList');
                         }
                     }
 

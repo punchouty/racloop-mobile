@@ -69,7 +69,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 </div>\
                 <div>\
                     <span class="card-control">\
-                        <button  class="racloop-btn racloop-btn-warning searchAgainButton"><span class="searchCls"></span> Search</button>\
+                        <button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>\
                         <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
                         <button  class="racloop-btn racloop-btn-primary outgoingButton"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
                     </span>\

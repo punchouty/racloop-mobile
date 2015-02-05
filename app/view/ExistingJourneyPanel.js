@@ -9,12 +9,11 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
     config: {
         itemId: 'existingPanel',
         scrollable: true,
-        existingJrny: {},
-        newJrny: {},
+        previousJourney: {},
+        newJourney: {},
         layout: {
             type: 'vbox',
-         //   align: 'center'
-         autoScroll: true
+            autoScroll: true
         },
         items: [
               { 
@@ -22,33 +21,23 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
                 itemId: 'existingJourneyInfo',
                 html: 'newJourney'                         
             },{
-                xtype: 'fieldset',
-                // title: 'Please select your options',              
-                items: [{
-                    xtype: 'selectfield',
-                    itemId: 'selectOpton',
-                    label: 'Please Select Your Option',
-                    options: [{
-                        text: 'Please use existing journey',
-                        value: 'existingJourney'
-                    }, {
-                        text: 'No, I want to put in a new journey request',
-                        value: 'newJourney'
-                    }]    
-                  }]
-                },
-                {
-                xtype: 'container',
-                padding:'10px',
-                items: [{                           
-                    xtype: 'button',
-                    text: 'Send Request',
-                    ui: 'action',
-                    action: 'existingSendRequest',
-                    itemId: 'existingSendRequestButton',
-                    style: 'height: 16px;'
-                                
-                 }]
+                xtype: 'button',
+                text: 'Replace and Search',
+                ui: 'action',
+                iconCls: 'replaceCls',
+                iconMask: true,
+                iconAlign: 'left',
+                margin: 10,
+                itemId: 'existingJourneyReplaceButton'
+            },{
+                xtype: 'button',
+                text: 'Keep Original and Search',
+                ui: 'confirm',
+                iconCls: 'acceptCls',
+                iconMask: true,
+                iconAlign: 'left',
+                margin: 10,
+                itemId: 'existingJourneyKeepOriginalButton'
             }
         ]
     }

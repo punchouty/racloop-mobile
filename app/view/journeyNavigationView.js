@@ -11,6 +11,7 @@ Ext.define('Racloop.view.JourneyNavigationView', {
     config: {
         items: [{
             title: 'My Journeys',
+            itemId: 'myJourneyView',
             xtype: 'dataview',
             fullscreen: true,
             defaultType: 'journeyViewItem',

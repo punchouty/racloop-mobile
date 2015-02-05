@@ -14,10 +14,16 @@ Ext.define('Racloop.controller.UiController', {
             mainTabs: 'mainTabs',
             mainNavigationView: 'mainNavigationView',
             showLoginButton: 'mainNavigationView #showLoginButton',
+
+            journeyNavigationView: 'journeyNavigationView',
+            myJourneyView: 'journeyNavigationView #myJourneyView',
+
             searchNavigationView: 'searchNavigationView',
             searchForm: 'searchNavigationView #searchForm',
+
             settingNavigationView : 'settingNavigationView',
             settingListView : 'settingNavigationView #settingListView',
+
             myJourneyTab: 'mainTabs > tabbar > tab'
         },
 
@@ -38,6 +44,10 @@ Ext.define('Racloop.controller.UiController', {
     tabClicked: function(button, e, eOpts) {
         if(button.getTitle() === Config.tabMyJourneys) {
             Ext.getStore('journeyStore').load();
+            var journeyNavigationView = this.getJourneyNavigationView();
+            var myJourneyView = this.getMyJourneyView();
+            var activeItem = journeyNavigationView.getActiveItem();
+            if(myJourneyView != activeItem) journeyNavigationView.pop();
         }
         else if(button.getTitle() === Config.tabHistory) {
             Ext.getStore('historyStore').load();

@@ -225,6 +225,10 @@ $tabs-dark: $blue;
   font-family: "racloop-icons";
   content: "\e11e";
 }
+.replaceCls:before {
+  font-family: "racloop-icons";
+  content: "\e0f4";
+}
 .requestRideCls:before {
   font-family: "racloop-icons";
   content: "\e081";

@@ -12,12 +12,15 @@ Ext.define('Racloop.controller.AccountController', {
         'Racloop.view.VerifySmsForm',
         'Racloop.model.ForgotPassword',
         'Racloop.util.LoginHelper',
+        'Racloop.util.Common',
         'Racloop.util.Config'
     ],
 
     config: {
         refs: {
             mainNavigationView: 'mainNavigationView',
+            homePanel: 'mainNavigationView #homePanel',
+            loginForm: 'loginForm',
             registerButton : 'registerForm #registerButton',
             verifyMobileButton: 'verifySmsForm #verifyMobile',
             resendSmsButton : 'verifySmsForm #resendSms',
@@ -227,20 +230,21 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     var mainNavigationView = me.getMainNavigationView(); // Main view
-                    mainNavigationView.pop();
-                    mainNavigationView.pop();
-                    // Navigate to login
-//                    mainNavigationView.push({
-//                        itemId: 'loginForm',
-//                        xtype: "loginForm",
-//                        title: "Sign In"
-//                    });
+                    var homePanel = me.getHomePanel();
+                    var loginForm = me.getLoginForm();
+                    mainNavigationView.reset();
+                    mainNavigationView.push({
+                        itemId: 'loginForm',
+                        xtype: "loginForm",
+                        title: "Sign In"
+                    });
+
                     Ext.Viewport.unmask();
                     Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
-                    Ext.Msg.alert("Verification Error", data.message);
                     Ext.Viewport.unmask();
+                    Ext.Msg.alert("Verification Error", data.message);
                 }
             };
             var failureCallback = function(response, ops) {

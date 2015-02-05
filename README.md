@@ -138,3 +138,25 @@ Notes for iOS
 
 * http://www.raywenderlich.com/32960/apple-push-notification-services-in-ios-6-tutorial-part-1
 
+Test Cases
+==========
+
+Login
+-----
+* Empty User name
+* Empty Password
+* Wrong User name
+* Wrong Password
+
+Register
+--------
+* Email repeat
+* Mobile repeat
+* 
+
+Search
+------
+* Same Journey Screen
+* Same journey - replace
+* Same journey - Keep
+
