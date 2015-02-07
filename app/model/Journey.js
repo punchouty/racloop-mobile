@@ -3,6 +3,7 @@ Ext.define('Racloop.model.Journey', {
     extend: 'Ext.data.Model',
 
     requires: [
+        'Ext.DateExtras',
         'Racloop.util.Config'
     ],
 
@@ -25,6 +26,9 @@ Ext.define('Racloop.model.Journey', {
         }, {
             name: 'dateOfJourney',
             type: 'date'
+        }, {
+            name: 'dateOfJourneyString',
+            type: 'string'
         }, {
             name: 'fromPlace',
             type: 'string'
@@ -107,33 +111,32 @@ Ext.define('Racloop.model.Journey', {
     },
     validate: function(options) {
         var me = this,
-            errors = me.callParent(arguments);
+        errors = me.callParent(arguments);
         var now = new Date();
         var reserveTime = 30; //in minutes
         var timeLimitInDays = 7; //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
         var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
-        //console.log(validStartTime);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
-        var journeyDate = this.get('dateOfJourneyString');
-        var selectedDate = new Date(journeyDate);
+        var journeyDateString = this.get('dateOfJourneyString');
+        var selectedDate = Ext.DateExtras.parse(journeyDateString, 'd M y h:i A');
         if (selectedDate < now) {
-            console.log("You have selected past date/time");
+            console.log("Invalid Date/Time : You have selected past moment");
             errors.add({
                 field: 'journeyDate',
-                message: "You have selected past date/time"
+                message: "Invalid Date/Time : You have selected past moment"
             })
         } else if (selectedDate < validStartTime) {
             console.log("You have selected past date/time");
             errors.add({
                 field: 'journeyDate',
-                message: "You can select time only after 30 minutes from now"
+                message: "Invalid Date/Time : You can select time only after 30 minutes from now"
             })
         } else if (selectedDate > validEndTime) {
             console.log("You have selected past date/time");
             errors.add({
                 field: 'journeyDate',
-                message: "You can not select time more than seven days in future"
+                message: "Invalid Date/Time : You can not select time more than seven days in future"
             })
         }
 

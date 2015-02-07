@@ -8,32 +8,38 @@ Ext.define('Racloop.controller.JourneysController', {
         'Racloop.view.SearchResultViewItem',
         'Racloop.view.RequestJourneyPanel',
         'Racloop.view.ExistingJourneyPanel',
+        'Racloop.util.Common',
         'Racloop.util.Config'
     ],
     config: {
         refs: {
             mainTabs: 'mainTabs',
-            searchNavigationView: 'searchNavigationView',
-            searchForm: 'searchNavigationView #searchForm',
-            searchButton: 'searchNavigationView #searchButton',
+            searchNavigationView : 'searchNavigationView',
+            searchForm : 'searchNavigationView #searchForm',
+            searchButton : 'searchNavigationView #searchButton',
+            searchSaveButton : 'searchResultsView #saveJourney',
             // RequestJourneyPanel: '#requestPanel',
             //  SearchForm: 'searchForm',
             // searchDataView: 'UserSearchList',
-            RequestButton: 'button[action=Request]',
-            SearchListItem: 'SearchDataItem',
-            SendRequestButton:'button[action=SendRequest]',
-            CancelRequestButton: 'button[action=CancelRequest]',
+            RequestButton : 'button[action=Request]',
+            SearchListItem : 'SearchDataItem',
+            SendRequestButton :'button[action=SendRequest]',
+            CancelRequestButton : 'button[action=CancelRequest]',
 
-            existingJourneyPanel: 'existingJourneyPanel',
-            existingJourneyReplaceButton: 'existingJourneyPanel #existingJourneyReplaceButton',
-            existingJourneyKeepOriginalButton: 'existingJourneyPanel #existingJourneyKeepOriginalButton'
+            existingJourneyPanel : 'existingJourneyPanel',
+            existingJourneyInfoHtmlContainer : 'existingJourneyPanel #existingJourneyInfo',
+            existingJourneyReplaceButton : 'existingJourneyPanel #existingJourneyReplaceButton',
+            existingJourneyKeepOriginalButton : 'existingJourneyPanel #existingJourneyKeepOriginalButton'
         },
         control: {
             'searchNavigationView': {
-                initialize: 'initialiseUi'
+                initialize : 'initialiseUi'
             },
             searchButton: {
-                tap: 'searchJourneys'
+                tap : 'searchButtonTap'
+            },
+            searchSaveButton : {
+                tap : 'handleSaveJourneyTap'
             },
             "datepickerfield[itemId=searchScreenDate]": {
                 change: 'onDatePickerFieldChange'
@@ -50,6 +56,8 @@ Ext.define('Racloop.controller.JourneysController', {
             'existingJourneyKeepOriginalButton' : {
                 tap: 'handleExistingJourneyKeepOriginalButtonTap'
             },
+
+
             RequestButton: {
                 tap: 'onRequestButtonTap'
             },
@@ -192,9 +200,17 @@ Ext.define('Racloop.controller.JourneysController', {
             month: (now.getMonth() + 1),
             year: now.getFullYear()
         });
-        searchForm.down('field[name=time]').setValue(now.getTime());
-        var picker = searchForm.down('#searchScreenTime');
+        //searchForm.down('field[name=time]').setValue(Common.getDefaultTime());
+        //var picker = searchForm.down('#searchScreenTime');
+        //picker.setDefaultTime(Common.getDefaultTime());
+        var defaultTime = new Date();
+        defaultTime.setMinutes(0);
+        defaultTime.setHours(defaultTime.getHours() + 1);
+        var picker = searchForm.down('#searchScreenTime').getPicker();
+        searchForm.down('#searchScreenTime').setValue(defaultTime);
 
+//        console.dir("picker.getValue() : " + picker.getValue());
+//        picker.setValue(defaultTime);
 
         //var searchFrm = this.getSearchForm();
         var selectedDate = searchForm.down('field[name=date]').getValue();
@@ -247,8 +263,10 @@ Ext.define('Racloop.controller.JourneysController', {
         var validStartTimeString = Ext.Date.format(validStartTime, 'd F Y    h:i A'); //validStartTime.toString('dd MMMM hh:mm tt');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
-    searchJourneys: function(button, e, eOpts) {
+    searchButtonTap: function(button, e, eOpts) {
+        var me = this;
         this.resetErrorFields();
+        //this.setDateTime();
         var searchForm = this.getSearchForm();
         var journeyModel = Ext.create('Racloop.model.Journey', {});
         var values = searchForm.getValues(); // Form values
@@ -256,29 +274,25 @@ Ext.define('Racloop.controller.JourneysController', {
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
+            console.log('success from server : ' + data.success)
             if (data.success) {
-                //Ext.Msg.alert("Search Successful "+ data.message+" find "+data.total+" Records" );
-
                 if(data.existingJourney){ // If user is searching similar journey
-                    var newJourney=data.data.currentJourney;
-                    var existingJourney=data.data.existingJourney;
-                    var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
-                        title: 'Similar Journey Found!'
-                    });
+                    var newJourney = data.data.currentJourney;
+                    var existingJourney = data.data.existingJourney;
 
-                    var newIsDriver= newJourney.isDriver? "Driver": "Passenger";
-                    var existingIsDriver= existingJourney.isDriver? "Driver": "Passenger";
+                    var newIsDriver = newJourney.isDriver? "Driver": "Passenger";
+                    var existingIsDriver = existingJourney.isDriver? "Driver": "Passenger";
                     var newDate = new Date(newJourney.dateOfJourney);
-                    var newDay=Ext.Date.format(newDate, 'd');
-                    var newMonth=Ext.Date.format(newDate, 'F');
-                    var newTime=Ext.Date.format(newDate, 'g:i A');
+                    var newDay = Ext.Date.format(newDate, 'd');
+                    var newMonth = Ext.Date.format(newDate, 'F');
+                    var newTime = Ext.Date.format(newDate, 'g:i A');
 
                     var existingDate = new Date(existingJourney.dateOfJourney);
-                    var existingDay=Ext.Date.format(existingDate, 'd');
-                    var existingMonth=Ext.Date.format(existingDate, 'F');
-                    var existingTime=Ext.Date.format(existingDate, 'g:i A');
+                    var existingDay = Ext.Date.format(existingDate, 'd');
+                    var existingMonth = Ext.Date.format(existingDate, 'F');
+                    var existingTime = Ext.Date.format(existingDate, 'g:i A');
 
-                    var JourneyHtml='<div class="card">\
+                    var journeyHtml='<div class="card">\
                                         <span class="colored-text"><h3>Requested Journey</h3></span>\
                                         <div class="card-info">\
                                             <div class="card-date">\
@@ -340,29 +354,16 @@ Ext.define('Racloop.controller.JourneysController', {
                                         </div>\
                                     </div>\
                                 </div>';
-
-
-
-
-                    // var newJourneyHtml='<h1>New Journey</h1><ul>\
-                    //   <li><b>From:</b> '+newJourney.fromPlace+'</li>\
-                    //   <li><b>To:</b>   '+newJourney.toPlace+'</li>\
-                    //   <li><b>Date:</b> '+Ext.Date.format(new Date(newJourney.dateOfJourney), 'd/m/Y g:i A')+'</li>\
-                    //   <li><b>Driving:</b>'+newDriver+'</li>\
-                    //   </ul>';
-
-                    //  var existingJourneyHtml='<h1>Existing Journey</h1><ul>\
-                    //   <li><b>From:</b> '+existingJourney.fromPlace+'</li>\
-                    //   <li><b>To:</b>   '+existingJourney.toPlace+'</li>\
-                    //   <li><b>Date:</b> '+Ext.Date.format(new Date(existingJourney.dateOfJourney), 'd/m/Y g:i A')+'</li>\
-                    //   <li><b>Driving:</b>'+existingDriver+'</li>\
-                    //   </ul>';
-                    existingPanel.down("#existingJourneyInfo").setHtml(JourneyHtml);
-                    // existingPanel.down("#existingJourneyInfo").down("#newJourney").setHtml(newJourneyHtml);
-                    // existingPanel.down("#existingJourneyInfo").down("#existingJourney").setHtml(existingJourneyHtml);
+                    var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
+                        title: 'Similar Journey Found!'
+                    });
+//                    var htmlContainer = me.getExistingJourneyInfoHtmlContainer();
+//                    htmlContainer.setHtml(journeyHtml);
+                    existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                     existingPanel.setPreviousJourney(existingJourney);
                     existingPanel.setNewJourney(newJourney);
-                    searchForm.up().push(existingPanel);
+                    me.getSearchNavigationView().push(existingPanel);
+                    //searchForm.up().push(existingPanel);
                 }
                 else{
 //                    LoginHelper.setJourney(data.data.currentJourney);
@@ -373,15 +374,15 @@ Ext.define('Racloop.controller.JourneysController', {
                         SearchStore.add(jsonObj[i]);
                     };
                     if(data.data.matchedJourneys.length == 0) {
-                        searchForm.up().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsEmptyView'
+                        me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsEmptyView'
                         });
                     }
                     else {
-                        searchForm.up().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsView'
+                        me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsView'
                         });
                     }
                 }
@@ -401,8 +402,8 @@ Ext.define('Racloop.controller.JourneysController', {
 
         var validationObj = journeyModel.validate();
         if (!validationObj.isValid()) {
-            var errorString = this.handleValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            var errorString = this.validateSearchForm(validationObj);
+            Ext.Msg.alert("Oops, Input Errors", errorString);
         } else {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
@@ -438,61 +439,42 @@ Ext.define('Racloop.controller.JourneysController', {
 
     },
 
-    handleValidation: function(validationObj) {
+    validateSearchForm: function(validationObj) {
         var errorstring = "";
+        var formPlaceError = false;
         var fromPlaceErrors = validationObj.getByField('fromPlace');
         if (fromPlaceErrors != null && fromPlaceErrors.length > 0) {
-            for (var i = 0; i < fromPlaceErrors.length; i++) {
-                errorstring += fromPlaceErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].addCls('error');
+            formPlaceError = true;
         }
-
-
-        var toPlaceErrors = validationObj.getByField('toPlace');
-        if (toPlaceErrors != null && toPlaceErrors.length > 0) {
-            for (var i = 0; i < toPlaceErrors.length; i++) {
-                errorstring += toPlaceErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].addCls('error');
-        }
-
         var fromLatitudeErrors = validationObj.getByField('fromLatitude');
         if (fromLatitudeErrors != null && fromLatitudeErrors.length > 0) {
-            for (var i = 0; i < fromLatitudeErrors.length; i++) {
-                errorstring += fromLatitudeErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].addCls('error');
+            formPlaceError = true;
         }
-
         var fromLongitudeErrors = validationObj.getByField('fromLongitude');
         if (fromLongitudeErrors != null && fromLongitudeErrors.length > 0) {
-            for (var i = 0; i < fromLongitudeErrors.length; i++) {
-                errorstring += fromLongitudeErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].addCls('error');
+            formPlaceError = true;
+        }
+        if(formPlaceError) {
+            Ext.ComponentQuery.query('#searchForm  #searchScreenFrom')[0].addCls('error');
+            errorstring += "Invalid Location : From* field<br />";
         }
 
+        var toPlaceErrors = validationObj.getByField('toPlace');
+        var toPlaceError = false;
+        if (toPlaceErrors != null && toPlaceErrors.length > 0) {
+            toPlaceError = true;
+        }
         var toLatitudeErrors = validationObj.getByField('toLatitude');
         if (toLatitudeErrors != null && toLatitudeErrors.length > 0) {
-            for (var i = 0; i < toLatitudeErrors.length; i++) {
-                errorstring += toLatitudeErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].addCls('error');
+            toPlaceError = true;
         }
-
         var toLongitudeErrors = validationObj.getByField('toLongitude');
         if (toLongitudeErrors != null && toLongitudeErrors.length > 0) {
-            for (var i = 0; i < toLongitudeErrors.length; i++) {
-                errorstring += toLongitudeErrors[i].getMessage() + "<br />";
-            }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].addCls('error');
+            toPlaceError = true;
+        }
+        if(toPlaceError) {
+            Ext.ComponentQuery.query('#searchForm  #searchScreenTo')[0].addCls('error');
+            errorstring += "Invalid Location :  To* field<br />";
         }
 
         var journeyErrors = validationObj.getByField('journeyDate');
@@ -501,9 +483,8 @@ Ext.define('Racloop.controller.JourneysController', {
             for (var i = 0; i < journeyErrors.length; i++) {
                 errorstring += journeyErrors[i].getMessage() + "<br />";
             }
-
-            Ext.ComponentQuery.query('#searchForm #searchScreenDate')[0].addCls('error');
-            Ext.ComponentQuery.query('#searchForm #searchScreenTime')[0].addCls('error');
+            Ext.ComponentQuery.query('#searchForm  #searchScreenDate')[0].addCls('error');
+            Ext.ComponentQuery.query('#searchForm  #searchScreenTime')[0].addCls('error');
         }
         return errorstring;
     },
@@ -574,8 +555,12 @@ Ext.define('Racloop.controller.JourneysController', {
         var activeItem = this.getSearchNavigationView().getActiveItem();
         if(searchForm != activeItem) this.getSearchNavigationView().pop();
         this.getMainTabs().setActiveItem('searchNavigationView');
-        this.searchJourneys();
+        //this.searchButtonTap();
 
+    },
+
+    handleSaveJourneyTap : function() {
+        Ext.Msg.alert("handleSaveJourneyTap");
     },
 
     onRequestButtonTap: function(item) { //TODO for testing
@@ -784,7 +769,6 @@ Ext.define('Racloop.controller.JourneysController', {
         });
     },
     handleExistingJourneyReplaceButtonTap: function(button){
-        console.log ('handleExistingJourneyReplaceButtonTap');
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -806,11 +790,11 @@ Ext.define('Racloop.controller.JourneysController', {
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
+                searchNavView.reset();
                 searchNavView.push({
                     title: 'Search Results',
                     xtype: 'searchResultsDataView'
                 });
-                searchNavView.reset();
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
@@ -853,7 +837,6 @@ Ext.define('Racloop.controller.JourneysController', {
         });
     },
     handleExistingJourneyKeepOriginalButtonTap: function(button){
-        console.log ('handleExistingJourneyKeepOriginalButtonTap');
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -867,11 +850,11 @@ Ext.define('Racloop.controller.JourneysController', {
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
+                searchNavView.reset();
                 searchNavView.push({
                     title: 'Search Results',
                     xtype: 'searchResultsDataView'
                 });
-                searchNavView.reset();
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();

@@ -1,8 +1,9 @@
 Ext.define('Racloop.view.ExistingJourneyPanel', {
-    extend: 'Ext.Panel',
-    alias: 'widget.existingJourneyPanel',
+    extend : 'Ext.Panel',
+    alias : 'widget.existingJourneyPanel',
+    xtype : 'existingJourneyPanel',
 
-    requires: [
+    requires : [
         'Ext.Label'
     ],
 

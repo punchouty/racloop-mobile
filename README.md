@@ -138,6 +138,11 @@ Notes for iOS
 
 * http://www.raywenderlich.com/32960/apple-push-notification-services-in-ios-6-tutorial-part-1
 
+Sencha Important Links
+----------------------
+
+* Date Docs - http://docs.sencha.com/touch/2.1.1/#!/api/Ext.Date
+
 Test Cases
 ==========
 
@@ -147,6 +152,7 @@ Login
 * Empty Password
 * Wrong User name
 * Wrong Password
+* Male is to female - emergency contacts
 
 Register
 --------
@@ -156,7 +162,8 @@ Register
 
 Search
 ------
+* Search Validation - empty from/to, time in past, time from now, time after 7 days
 * Same Journey Screen
 * Same journey - replace
-* Same journey - Keep
+* Same journey - Keep Original
 

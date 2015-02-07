@@ -53,8 +53,9 @@ Ext.define('Racloop.view.SearchNavigationView', {
                     itemId: 'searchScreenTime',
                     picker: {
                         minuteIncrement: 15
-                    },
-                    defaultTime : Racloop.util.Common.getDefaultTime()
+                    }
+//                    ,
+//                    defaultTime : Racloop.util.Common.getDefaultTime()
                 }, {
                     xtype: 'selectfield',
                     itemId: 'driverHitcherSelectField',
