@@ -16,7 +16,12 @@ Ext.define('Racloop.controller.UiController', {
             showLoginButton: 'mainNavigationView #showLoginButton',
 
             journeyNavigationView: 'journeyNavigationView',
-            myJourneyView: 'journeyNavigationView #myJourneyView',
+            journeyView: 'journeyNavigationView #journeyView',
+            journeyEmptyView: 'journeyNavigationView journeyEmptyView',
+
+            historyNavigationView : 'historyNavigationView',
+            historyView : 'historyNavigationView #historyView',
+            historyEmptyView : 'historyNavigationView historyEmptyView',
 
             searchNavigationView: 'searchNavigationView',
             searchForm: 'searchNavigationView #searchForm',
@@ -24,14 +29,14 @@ Ext.define('Racloop.controller.UiController', {
             settingNavigationView : 'settingNavigationView',
             settingListView : 'settingNavigationView #settingListView',
 
-            myJourneyTab: 'mainTabs > tabbar > tab'
+            tabs: 'mainTabs > tabbar > tab'
         },
 
         control: {
             showLoginButton : {
                 tap: 'showLogin'
             },
-            myJourneyTab : {
+            tabs : {
                 tap : 'tabClicked'
             }
         }
@@ -42,15 +47,22 @@ Ext.define('Racloop.controller.UiController', {
     },
 
     tabClicked: function(button, e, eOpts) {
+        var me = this;
         if(button.getTitle() === Config.tabMyJourneys) {
-            Ext.getStore('journeyStore').load();
-            var journeyNavigationView = this.getJourneyNavigationView();
-            var myJourneyView = this.getMyJourneyView();
-            var activeItem = journeyNavigationView.getActiveItem();
-            if(myJourneyView != activeItem) journeyNavigationView.pop();
+            Ext.getStore('journeyStore').load({
+                callback: function(records, operation, success) {
+                    me.showMyJourneys();
+                },
+                scope: this
+            });
         }
         else if(button.getTitle() === Config.tabHistory) {
-            Ext.getStore('historyStore').load();
+            Ext.getStore('historyStore').load({
+                callback: function(records, operation, success) {
+                    me.showHistory();
+                },
+                scope: this
+            });
         }
         else if(button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
@@ -63,6 +75,102 @@ Ext.define('Racloop.controller.UiController', {
             if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
+    },
+
+    showMyJourneys: function() {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var recordCount = Ext.getStore('journeyStore').getAllCount();
+        var itemCount = this.getJourneyNavigationView().getItems().length;
+        if(recordCount == 0) {
+            console.log("recordCount == 0");
+            if(itemCount == 1) {
+                console.log("recordCount == 0 & itemCount == 1");
+                var activeItem = journeyNavigationView.getActiveItem();
+                var journeyEmptyView = this.getJourneyEmptyView();
+                if(activeItem != journeyEmptyView) {
+                    journeyNavigationView.removeAll(false, true);
+                    journeyNavigationView.push({
+                        title : Config.tabMyJourneys,
+                        xtype : "journeyEmptyView"
+                    });
+                }
+            }
+            else {
+                console.log("recordCount == 0 & itemCount != 1");
+                journeyNavigationView.removeAll(false, true);
+                journeyNavigationView.push({
+                    title : Config.tabMyJourneys,
+                    xtype : "journeyEmptyView"
+                });
+            }
+        }
+        else {
+            console.log("recordCount != 0");
+            var journeyView = this.getJourneyView();
+            var activeItem = journeyNavigationView.getActiveItem();
+            var journeyEmptyView = this.getJourneyEmptyView();
+            if(activeItem == journeyEmptyView) {
+                journeyNavigationView.removeAll(false, true);
+                journeyNavigationView.push(journeyView);
+            }
+            else if(activeItem != journeyEmptyView) {
+                journeyNavigationView.pop();
+            }
+            Ext.ComponentQuery.query('journeyNavigationView #journeyView')[0].refresh();
+        }
+
+    },
+
+    showHistory: function() {
+        var historyNavigationView = this.getHistoryNavigationView();
+        var recordCount = Ext.getStore('historyStore').getAllCount();
+        var itemCount = this.getHistoryNavigationView().getItems().length;
+        if(recordCount == 0) {
+            console.log("recordCount == 0");
+            if(itemCount == 1) {
+                console.log("recordCount == 0 & itemCount == 1");
+                var activeItem = historyNavigationView.getActiveItem();
+                var historyEmptyView = this.getHistoryEmptyView();
+                if(activeItem != historyEmptyView) {
+                    historyNavigationView.removeAll(false, true);
+                    historyNavigationView.push({
+                        title : Config.tabHistory,
+                        xtype : "historyEmptyView"
+                    });
+                }
+                else {
+                    console.log("recordCount == 0 & itemCount != 1");
+                    historyNavigationView.setActiveItem(historyEmptyView);
+                    historyNavigationView.push({
+                        title : Config.tabHistory,
+                        xtype : "historyEmptyView"
+                    });
+                }
+            }
+            else {
+                console.log("recordCount == 0 & itemCount != 1");
+                historyNavigationView.removeAll(false, true);
+                historyNavigationView.push({
+                    title : Config.tabHistory,
+                    xtype : "historyEmptyView"
+                });
+            }
+        }
+        else {
+            console.log("recordCount != 0");
+            var historyView = this.getHistoryView();
+            var activeItem = historyNavigationView.getActiveItem();
+            var historyEmptyView = this.getHistoryEmptyView();
+            if(activeItem == historyEmptyView) {
+                historyNavigationView.removeAll(false, true);
+                historyNavigationView.push(historyView);
+            }
+            else if(activeItem != historyView) {
+                historyNavigationView.pop();
+            }
+            Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+        }
+
     },
 
     showLogin: function(button, e, eOpts) {

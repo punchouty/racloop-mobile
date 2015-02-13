@@ -105,6 +105,7 @@ Rajan To Do
 * Offline fonts
 * Calendar widget missing arrow-right and arrow-left - Done
 * URL mapping for mobile. Not required. Need to change.
+* Capacity Testing - no more than 5 request per day
 
 Rohit to do
 * Session time out handling - web and mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html
@@ -117,6 +118,7 @@ Rohit to do
 * Archiving
 * Refactor Mobile Controller
 * Static Data controller and view implementation
+* Https - secure connection
 
 
 * Distance from start location
@@ -158,12 +160,23 @@ Register
 --------
 * Email repeat
 * Mobile repeat
-* 
+* Verify mobile (empty)
+** Wrong Mobile
+** Wrong verification code
+
 
 Search
 ------
 * Search Validation - empty from/to, time in past, time from now, time after 7 days
+* Save Journey 
 * Same Journey Screen
 * Same journey - replace
 * Same journey - Keep Original
+
+History
+-------
+
+* Previous Journey should transform to History
+* How many history results i should see?
+* Sorting
 

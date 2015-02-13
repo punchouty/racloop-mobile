@@ -1,22 +1,23 @@
-Ext.define('Racloop.view.JourneyNavigationView', {
+Ext.define('Racloop.view.HistoryNavigationView', {
     extend: 'Ext.navigation.View',
-    xtype: 'journeyNavigationView',
-    alias : 'widget.journeyNavigationView',
+    xtype: 'historyNavigationView',
+    alias : 'widget.historyNavigationView',
 
     requires: [
         'Ext.DataView',
-        'Racloop.store.Journeys',
-        'Racloop.view.JourneyViewItem',
+        'Racloop.store.History',
+        'Racloop.view.HistoryViewItem',
         'Racloop.util.Config'
     ],
     config: {
         items: [{
-            title: Config.tabMyJourneys,
-            itemId: 'journeyView',
+            title: Config.tabHistory,
             xtype: 'dataview',
+            itemId: 'historyView',
             fullscreen: true,
-            defaultType: 'journeyViewItem',
+            defaultType: 'historyViewItem',
             useComponents: true,
+            store: "historyStore",
 //            animation: {
 //                duration: 3000,
 //                easing: 'ease-in-out',
@@ -25,8 +26,7 @@ Ext.define('Racloop.view.JourneyNavigationView', {
 //            },
             scrollable: {
                 direction: 'vertical'
-            },
-            store: "journeyStore"
+            }
         }]
     }
 });

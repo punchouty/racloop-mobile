@@ -39,16 +39,7 @@ Ext.define('Racloop.view.MainTabs', {
             {
                 title: Config.tabHistory,
                 iconCls: 'time',
-                xtype: 'dataview',
-                items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
-                    title: 'My History'
-                },
-                fullscreen: true,
-                defaultType: 'historyViewItem',
-                useComponents: true,
-                store: "historyStore"
+                xtype: 'historyNavigationView'
             },
             { //IMPORTANT IT IS HIDDEN
                 title: Config.tabNotifications,

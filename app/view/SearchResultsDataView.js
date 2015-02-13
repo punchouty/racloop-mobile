@@ -1,5 +1,6 @@
 Ext.define('Racloop.view.SearchResultsDataView', {
-    extend: 'Ext.dataview.DataView',
+    extend: 'Ext.Panel',
+    alias: 'widget.searchResultsDataView',
     xtype: 'searchResultsDataView',
 
     requires: [
@@ -7,10 +8,18 @@ Ext.define('Racloop.view.SearchResultsDataView', {
         'Racloop.view.SearchResultViewItem'
     ],
     config: {
-        fullscreen: true,
-        isDummy: true,
-        defaultType: 'searchResultViewItem',
-        useComponents: true,
-        store: 'SearchStore'
+        title: 'Search Results',
+        xtype: 'panel',
+        layout: 'vbox',
+        items: [
+            {
+                xtype : 'dataview',
+                isDummy: false,
+                flex:4,
+                defaultType: 'searchResultViewItem',
+                itemId: 'searchResultsDataViewInner',
+                useComponents: true,
+                store: 'SearchStore'
+            }]
     }
 });

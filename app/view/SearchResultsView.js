@@ -16,7 +16,7 @@ Ext.define('Racloop.view.SearchResultsView', {
         items: [
             {
             xtype: 'button',
-            itemId: 'saveJourney',
+            itemId: 'saveJourneyButton',
             text: 'Save Request',
             iconCls: 'acceptCls',
             iconMask: true,
@@ -25,16 +25,12 @@ Ext.define('Racloop.view.SearchResultsView', {
             margin: 10
             //padding: 8
         },
-//            {
-//                xtype: 'panel',
-//                flex:1,
-//                //scrollable: false,
-//                html: 'Header'
-//            },
-            {
+        {
             xtype : 'dataview',
+            isDummy: false,
             flex:4,
             defaultType: 'searchResultViewItem',
+            itemId: 'searchResultsDataViewInner',
             useComponents: true,
             store: 'SearchStore'
         }]

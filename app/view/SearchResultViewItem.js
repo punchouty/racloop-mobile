@@ -34,78 +34,92 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
             var legend = "";
             var legendText = "";
+            var buttonHtml = "";
+            var labelHtml = "";
             var day = Ext.Date.format(date, 'd');
             var month = Ext.Date.format(date, 'F');
             var time = Ext.Date.format(date, 'g:i A');
             var imgSrc = '';
             var cardControl = '';
-            //me.down('button').setText(record.get('button'));
+            if (recordData.isDriver) {
+                legend = "C";
+                legendText = "Car Owner";
+                buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+            }
+            else {
+                legend = "P";
+                legendText = "Passenger";
+                buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
+            }
             if (record.get("workflow") != null) {
-                // alert("----"+record.get("workflow").state);
                 if (record.get("workflow").state.toLowerCase().indexOf("new") > -1) {
-                    // me.down('button[action="Request"]').setText("Requested");
-                    // me.down('button[action="Request"]').disable();
-                    // me.down('button[action="CancelRequest"]').setHidden(false);
+                    buttonHtml = '<button class="racloop-btn racloop-btn-warning cancelSearchRequestButton">Cancel</button>';
+                    labelHtml = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>';
+
                     cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
                                 <span class="card-control">\
-                                <button class="card-button card-button-red cancel">Cancel</button>\
+                                <button class="racloop-btn racloop-btn-warning cancelSearchRequestButton">Cancel</button>\
                                 </span>';
                 }
                 else if (record.get("workflow").state.toLowerCase().indexOf("cancelled") > -1) {
+                    buttonHtml = "";
+                    labelHtml = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
+
                     cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-                    // me.down('button[action="Request"]').setText("Cancelled");
-                    // me.down('button[action="Request"]').disable();
                 } else if (record.get("workflow").state.toLowerCase().indexOf("accepted") > -1) {
+                    buttonHtml = "";
+                    labelHtml = '<span class="card-label card-label-blue">' + record.get("workflow").state + '</span>';
+
                     cardControl = '<span class="card-label card-label-blue">' + record.get("workflow").state + '</span>';
-                    // me.down('button[action="Request"]').setText("Accepted");
-                    // me.down('button[action="Request"]').disable();
                 } else if (record.get("workflow").state.toLowerCase().indexOf("rejected") > -1) {
+                    buttonHtml = "";
+                    labelHtml = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
+
                     cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-                    // me.down('button[action="Request"]').setText("Rejected");
-                    // me.down('button[action="Request"]').disable();
                 }
 
-                else {
-                    if (recordData.isDriver) {
-                        // me.down('button[action="Request"]').setText("Request");
-                        legend = "C";
-                        legendText = "Car Owner";
-                        drivingText = "Car Owner";
-                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-                                <span class="card-control">\
-                                <button class="racloop-btn racloop-btn-primary request"><span class="requestRideCls"></span> Request a Ride</</button>\
-                                </span>';
-                    } else {
-                        // me.down('button[action="Request"]').setText("Ask for Drive");
-                        legend = "P";
-                        legendText = "Passenger";
-                        drivingText = "Passenger";
-                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-                                <span class="card-control">\
-                                <button class="racloop-btn racloop-btn-primary request"><span class="askToJoinCls"></span> Ask to Join</button>\
-                                </span>';
-                    }
-                }
+//                else {
+//                    if (recordData.isDriver) {
+//                        // me.down('button[action="Request"]').setText("Request");
+//                        legend = "C";
+//                        legendText = "Car Owner";
+//                        drivingText = "Car Owner";
+//                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
+//                                <span class="card-control">\
+//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request a Ride</</button>\
+//                                </span>';
+//                    } else {
+//                        // me.down('button[action="Request"]').setText("Ask for Drive");
+//                        legend = "P";
+//                        legendText = "Passenger";
+//                        drivingText = "Passenger";
+//                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
+//                                <span class="card-control">\
+//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
+//                                </span>';
+//                    }
+//                }
             } else {
-                if (recordData.isDriver) {
-                    // me.down('button[action="Request"]').setText("Request");
-                    legend = "C";
-                    legendText = "Car Owner";
-                    drivingText = "Car Owner";
-                    cardControl = '<span class="card-control">\
-                                <button class="racloop-btn racloop-btn-primary request"><span class="requestRideCls"></span> Request Ride</button>\
-                                </span>';
-                } else {
-                    // me.down('button[action="Request"]').setText("Offer a Ride");
-                    legend = "P";
-                    legendText = "Passenger";
-                    drivingText = "Passenger";
-                    drivingText = "Ride Seeker";
-                    cardControl = '<span class="card-control">\
-                                <button class="racloop-btn racloop-btn-primary request"><span class="askToJoinCls"></span> Ask to Join</button>\
-                                </span>';
-                }
+//                if (recordData.isDriver) {
+//                    // me.down('button[action="Request"]').setText("Request");
+//                    legend = "C";
+//                    legendText = "Car Owner";
+//                    drivingText = "Car Owner";
+//                    cardControl = '<span class="card-control">\
+//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Ride</button>\
+//                                </span>';
+//                } else {
+//                    // me.down('button[action="Request"]').setText("Offer a Ride");
+//                    legend = "P";
+//                    legendText = "Passenger";
+//                    drivingText = "Passenger";
+//                    drivingText = "Ride Seeker";
+//                    cardControl = '<span class="card-control">\
+//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
+//                                </span>';
+//                }
             }
+            cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
             if (recordData.photoUrl != null) {
                 // me.down('#imgCmp').setHtml('<img style="height: 60px; width: 60px; margin-right:10px;" src="' + recordData.photoUrl + '" />');
                 imgSrc = recordData.photoUrl;
@@ -155,17 +169,23 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     initialize: function () {
         this.element.on({
             scope: this,
-            tap: 'fireBtnEvents',
-            delegate: 'button.cancel'
+            tap: 'confirmSearchRequestButtonTapFired',
+            delegate: 'button.confirmSearchRequestButton'
         });
         this.element.on({
             scope: this,
-            tap: 'fireBtnEvents',
-            delegate: 'button.request'
+            tap: 'cancelSearchRequestButtonTapFired',
+            delegate: 'button.cancelSearchRequestButton'
         });
 
         this.callParent(arguments);
 
+    },
+    confirmSearchRequestButtonTapFired: function(e) {
+        this.fireEvent('confirmSearchRequestButtonTap', this);
+    },
+    cancelSearchRequestButtonTapFired: function(e) {
+        this.fireEvent('cancelSearchRequestButtonTap', this);
     },
     fireBtnEvents: function (e) {
         var cancelButton = this.down('#CancelButton');

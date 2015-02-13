@@ -14,6 +14,7 @@ Ext.define('Racloop.controller.WorkflowController', {
     config: {
         //another view need to be added here for edit profile
         refs: {
+            mainTabs: 'mainTabs',
             journeyNavigationView: 'journeyNavigationView',
 //            incomingButton: "button[action=Incoming]",
 //            outgoingButton: "button[action=Outgoing]",
@@ -59,66 +60,110 @@ Ext.define('Racloop.controller.WorkflowController', {
 
     },
     handleSearchAgainButtonTap : function(item) { //TODO UNCOMMENT BELOW
-//        var journeyNavigationView = this.getJourneyNavigationView();
-//        var record = item.getRecord();
-//        var journeyId = record.get("journeyId");
-//        var successCallback = function(response, ops) {
-//            var data = Ext.decode(response.responseText);
-//            if (data.success) {
-//                if(data.total > 0) {
-//                    var SearchStore = Ext.getStore('SearchStore');
-//                    SearchStore.removeAll();
-//                    var jsonObj = data.data.matchedJourneys;
-//                    for (var i in jsonObj) {
-//                        SearchStore.add(jsonObj[i]);
-//                    };
-//
-//                    journeyNavigationView.push({
-//                        title: 'Search Results',
-//                        xtype: 'searchResultsDataView'
-//                    });
-//                }
-//                else {
-//                    Ext.Msg.alert('Search Results', 'No Results Found');
-//                }
-//                Ext.Viewport.unmask();
-//            } else {
-//                Ext.Viewport.unmask();
-//                Ext.Msg.alert('Login Error', data.message);
-//            }
-//        };
-//        var failureCallback = function(response, ops) {
-//            Ext.Viewport.unmask();
-//            Ext.Msg.alert("Network Error", response.code);
-//        };
-//
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Logging in...'
-//        });
-//
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_SEARCH_AGAIN,
-//            method: 'post',
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            params: Ext.JSON.encode({
-//                journeyId: journeyId
-//            }),
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-        Racloop.app.getController('JourneysController').handleSearchAgainMyJourneyButtonTap(item);
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var record = item.getRecord();
+        var journeyId = record.get("journeyId");
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                if(data.total > 0) {
+                    var SearchStore = Ext.getStore('SearchStore');
+                    SearchStore.removeAll();
+                    var jsonObj = data.data.matchedJourneys;
+                    for (var i in jsonObj) {
+                        SearchStore.add(jsonObj[i]);
+                    };
+
+                    journeyNavigationView.push({
+                        title: 'Search Results',
+                        xtype: 'searchResultsDataView'
+                    });
+                }
+                else {
+                    Ext.Msg.alert('Search Results', 'No Results Found');
+                }
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert('Login Error', data.message);
+            }
+        };
+        var failureCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Network Error", response.code);
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_SEARCH_AGAIN,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                journeyId: journeyId
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+        //Racloop.app.getController('JourneysController').handleSearchAgainMyJourneyButtonTap(item);
 
     },
     handleDeleteJourneyButtonTap : function(item) {
         var record = item.getRecord();
-        console.log('handleDeleteJourneyButtonTap clicked');
-        console.debug(record);
+        var journeyId = record.get("journeyId");
+        var me = this;
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                me.getMainTabs().setActiveItem('journeyNavigationView');
+                Ext.getStore('journeyStore').load({
+                    callback: function(records, operation, success) {
+                        Racloop.app.getController('UiController').showMyJourneys();
+                        Ext.Viewport.unmask();
+                        Ext.toast({message: "Successfully deleted your journey", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    },
+                    scope: this
+                });
+            } else {
+                Ext.Msg.alert("Server Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Server Failure", response.message);
+            Ext.Viewport.unmask();
+
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Deleting...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_DELETE_JOURNEY,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                journeyId : journeyId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
+        });
     },
     handleInComingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
@@ -128,9 +173,6 @@ Ext.define('Racloop.controller.WorkflowController', {
         if (data.length>0) {
             incomingRequest= Ext.create('Ext.DataView', {
                 title: 'Incoming Requests',
-                fullscreen: true,
-                itemTpl: '{name}',
-                itemId: 'myJourneyIncomingRequestView',
                 data: data,
                 defaultType: 'incomingRequestViewItem',
                 useComponents: true
@@ -144,11 +186,11 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleOutGoingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        console.debug(record);
+        var data = record.get("outgoingRequests");
         var outgoingRequest;
         if (data.length>0) {
             outgoingRequest = Ext.create('Ext.DataView', {
-                title: 'My Outgoing Requests',
+                title: 'Outgoing Requests',
                 fullscreen: true,
                 itemTpl: '{name}',
                 itemId: 'myJourneyOutgoingRequestView',

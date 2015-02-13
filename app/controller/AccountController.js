@@ -7,7 +7,6 @@ Ext.define('Racloop.controller.AccountController', {
         'Racloop.view.MainNavigationView',
         'Racloop.view.LoginForm',
         'Racloop.view.RegisterForm',
-        'Racloop.view.SettingsMenu',
         'Racloop.view.ForgotPasswordForm',
         'Racloop.view.VerifySmsForm',
         'Racloop.model.ForgotPassword',

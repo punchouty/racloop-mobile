@@ -7,7 +7,7 @@ Ext.define('Racloop.store.Journeys', { //Ext.getStore('journeyStore').load()
     config: {
         model: 'Racloop.model.Journey',
         storeId: 'journeyStore',
-        //autoLoad: true,
+        autoLoad: true,
         proxy: {
             type: 'ajax',
             url: Config.url.RACLOOP_JOURNEYS,
@@ -15,21 +15,24 @@ Ext.define('Racloop.store.Journeys', { //Ext.getStore('journeyStore').load()
                 'Content-Type': 'application/json'
             },
             withCredentials: true,
+            noCache: true,
             useDefaultXhrHeader: false,
             reader: {
                 type: "json",
                 rootProperty: "data",
-                //record: 'journey',
                 totalProperty: 'total',
                 successProperty: 'success'
             }
         },
         listeners: {
-            beforeload: function() {
-                //console.log('Before load');
+            refresh: function() {
+
             },
             load: function() {
-                //console.log('loaded');
+
+            },
+            beforeload: function() {
+
             }
         }
     }

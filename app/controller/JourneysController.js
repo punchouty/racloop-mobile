@@ -1,6 +1,7 @@
 Ext.define('Racloop.controller.JourneysController', {
     extend: 'Ext.app.Controller',
     requires: [
+        'Ext.Toast',
         'Racloop.store.Searches',
         'Racloop.view.SearchNavigationView',
         //'Racloop.view.UserSearchList',
@@ -17,7 +18,9 @@ Ext.define('Racloop.controller.JourneysController', {
             searchNavigationView : 'searchNavigationView',
             searchForm : 'searchNavigationView #searchForm',
             searchButton : 'searchNavigationView #searchButton',
-            searchSaveButton : 'searchResultsView #saveJourney',
+
+            saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
+            saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
             // RequestJourneyPanel: '#requestPanel',
             //  SearchForm: 'searchForm',
             // searchDataView: 'UserSearchList',
@@ -38,7 +41,10 @@ Ext.define('Racloop.controller.JourneysController', {
             searchButton: {
                 tap : 'searchButtonTap'
             },
-            searchSaveButton : {
+            saveJourneyButtonInEmptyResults : {
+                tap : 'handleSaveJourneyTap'
+            },
+            saveJourneyButtonInSearchResults : {
                 tap : 'handleSaveJourneyTap'
             },
             "datepickerfield[itemId=searchScreenDate]": {
@@ -46,6 +52,10 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             "timepickerfield[itemId=searchScreenTime]": {
                 change: 'onTimePickerFieldChange'
+            },
+            'searchResultViewItem':{
+                confirmSearchRequestButtonTap : 'handleConfirmSearchRequestButtonTap',
+                cancelSearchRequestButtonTap : 'handleCancelSearchRequestButtonTap'
             },
             'historyViewItem': {
                 searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap'
@@ -134,6 +144,10 @@ Ext.define('Racloop.controller.JourneysController', {
         fromField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetFrom);
+                searchForm.down('field[name=fromPlace]').setValue("");
+                searchForm.down('field[name=fromLatitude]').setValue("");
+                searchForm.down('field[name=fromLongitude]').setValue("");
+                actionSheetFrom.down('field[name=from]').setValue("");
                 actionSheetFrom.down("#actionScreenFrom").focus();
                 actionSheetFrom.show();
             }
@@ -142,6 +156,10 @@ Ext.define('Racloop.controller.JourneysController', {
         toField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetTo);
+                searchForm.down('field[name=toPlace]').setValue("");
+                searchForm.down('field[name=toLatitude]').setValue("");
+                searchForm.down('field[name=toLongitude]').setValue("");
+                actionSheetTo.down('field[name=to]').setValue("");
                 actionSheetTo.down("#actionScreenTo").focus();
                 actionSheetTo.show();
             }
@@ -154,32 +172,34 @@ Ext.define('Racloop.controller.JourneysController', {
         var toInput = actionToRoot.querySelectorAll('input[name=to]')[0];
         var latFrom, longFrom, latTo, longTo;
 
-        var autocompleteFrom = new google.maps.places.Autocomplete(fromInput);
-        var autocompleteTo = new google.maps.places.Autocomplete(toInput);
+        if(!Config.offline) {
+            var autocompleteFrom = new google.maps.places.Autocomplete(fromInput);
+            var autocompleteTo = new google.maps.places.Autocomplete(toInput);
 
-        google.maps.event.addListener(autocompleteFrom, 'place_changed', function() {
-            var place = autocompleteFrom.getPlace();
-            latFrom = place.geometry.location.lat();
-            longFrom = place.geometry.location.lng();
-            var selectedPlace = fromInput.value;
-            searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
-            searchForm.down('field[name=fromLatitude]').setValue(latFrom);
-            searchForm.down('field[name=fromLongitude]').setValue(longFrom);
-            setDistance();
-            actionSheetFrom.hide();
-        });
+            google.maps.event.addListener(autocompleteFrom, 'place_changed', function () {
+                var place = autocompleteFrom.getPlace();
+                latFrom = place.geometry.location.lat();
+                longFrom = place.geometry.location.lng();
+                var selectedPlace = fromInput.value;
+                searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
+                searchForm.down('field[name=fromLatitude]').setValue(latFrom);
+                searchForm.down('field[name=fromLongitude]').setValue(longFrom);
+                setDistance();
+                actionSheetFrom.hide();
+            });
 
-        google.maps.event.addListener(autocompleteTo, 'place_changed', function() {
-            var place = autocompleteTo.getPlace();
-            latTo = place.geometry.location.lat();
-            longTo = place.geometry.location.lng();
-            var selectedPlace = toInput.value;
-            searchForm.down('field[name=toPlace]').setValue(selectedPlace);
-            searchForm.down('field[name=toLatitude]').setValue(latTo);
-            searchForm.down('field[name=toLongitude]').setValue(longTo);
-            setDistance();
-            actionSheetTo.hide();
-        });
+            google.maps.event.addListener(autocompleteTo, 'place_changed', function () {
+                var place = autocompleteTo.getPlace();
+                latTo = place.geometry.location.lat();
+                longTo = place.geometry.location.lng();
+                var selectedPlace = toInput.value;
+                searchForm.down('field[name=toPlace]').setValue(selectedPlace);
+                searchForm.down('field[name=toLatitude]').setValue(latTo);
+                searchForm.down('field[name=toLongitude]').setValue(longTo);
+                setDistance();
+                actionSheetTo.hide();
+            });
+        }
 
         var setDistance = function() {
             var distance = me.calculateDistance(latFrom, longFrom, latTo, longTo);
@@ -200,19 +220,12 @@ Ext.define('Racloop.controller.JourneysController', {
             month: (now.getMonth() + 1),
             year: now.getFullYear()
         });
-        //searchForm.down('field[name=time]').setValue(Common.getDefaultTime());
-        //var picker = searchForm.down('#searchScreenTime');
-        //picker.setDefaultTime(Common.getDefaultTime());
         var defaultTime = new Date();
         defaultTime.setMinutes(0);
         defaultTime.setHours(defaultTime.getHours() + 1);
         var picker = searchForm.down('#searchScreenTime').getPicker();
         searchForm.down('#searchScreenTime').setValue(defaultTime);
 
-//        console.dir("picker.getValue() : " + picker.getValue());
-//        picker.setValue(defaultTime);
-
-        //var searchFrm = this.getSearchForm();
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
 
@@ -236,11 +249,9 @@ Ext.define('Racloop.controller.JourneysController', {
     },
 
     onDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        //console.log("onDatepickerfieldChange" + field.getFormattedValue('m/d/Y'));
         this.setDateTime();
     },
     onTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        //console.log("onTimepickerfieldChange" + field.getFormattedValue('g:i A'));
         //selectedTime=field.getFormattedValue('g:i A');
         this.setDateTime();
     },
@@ -263,18 +274,28 @@ Ext.define('Racloop.controller.JourneysController', {
         var validStartTimeString = Ext.Date.format(validStartTime, 'd F Y    h:i A'); //validStartTime.toString('dd MMMM hh:mm tt');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
+
     searchButtonTap: function(button, e, eOpts) {
         var me = this;
         this.resetErrorFields();
-        //this.setDateTime();
         var searchForm = this.getSearchForm();
         var journeyModel = Ext.create('Racloop.model.Journey', {});
         var values = searchForm.getValues(); // Form values
         searchForm.updateRecord(journeyModel);
+        var validationObj = journeyModel.validate();
+        if (!validationObj.isValid()) {
+            var errorString = this.validateSearchForm(validationObj);
+            Ext.Msg.alert("Oops, Input Errors", errorString);
+        } else {
+            this.executeSearch(values);
+        }
+    },
+
+    executeSearch : function(journey) {
+        var me = this;
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('success from server : ' + data.success)
             if (data.success) {
                 if(data.existingJourney){ // If user is searching similar journey
                     var newJourney = data.data.currentJourney;
@@ -357,21 +378,17 @@ Ext.define('Racloop.controller.JourneysController', {
                     var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
                         title: 'Similar Journey Found!'
                     });
-//                    var htmlContainer = me.getExistingJourneyInfoHtmlContainer();
-//                    htmlContainer.setHtml(journeyHtml);
                     existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                     existingPanel.setPreviousJourney(existingJourney);
                     existingPanel.setNewJourney(newJourney);
                     me.getSearchNavigationView().push(existingPanel);
-                    //searchForm.up().push(existingPanel);
                 }
                 else{
-//                    LoginHelper.setJourney(data.data.currentJourney);
-                    var SearchStore = Ext.getStore('SearchStore');
-                    SearchStore.removeAll();
+                    var searchStore = Ext.getStore('SearchStore');
+                    searchStore.removeAll();
                     var jsonObj = data.data.matchedJourneys;
                     for (var i in jsonObj) {
-                        SearchStore.add(jsonObj[i]);
+                        searchStore.add(jsonObj[i]);
                     };
                     if(data.data.matchedJourneys.length == 0) {
                         me.getSearchNavigationView().push({
@@ -380,10 +397,10 @@ Ext.define('Racloop.controller.JourneysController', {
                         });
                     }
                     else {
-                        me.getSearchNavigationView().push({
-                            title : 'Search Results',
-                            xtype : 'searchResultsView'
-                        });
+                        var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
+                        me.getSearchNavigationView().push(searchResultsView);
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.data.isDummyData;
                     }
                 }
                 Ext.Viewport.unmask();
@@ -400,43 +417,34 @@ Ext.define('Racloop.controller.JourneysController', {
 
         };
 
-        var validationObj = journeyModel.validate();
-        if (!validationObj.isValid()) {
-            var errorString = this.validateSearchForm(validationObj);
-            Ext.Msg.alert("Oops, Input Errors", errorString);
-        } else {
-            Ext.Viewport.mask({
-                xtype: 'loadmask',
-                indicator: true,
-                message: 'Searching...'
-            });
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_SEARCH,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    dateOfJourneyString: values.dateOfJourneyString,
-                    validStartTimeString: values.validStartTimeString,
-                    fromPlace: values.fromPlace,
-                    fromLatitude: values.fromLatitude,
-                    fromLongitude: values.fromLongitude,
-                    toPlace: values.toPlace,
-                    toLatitude: values.toLatitude,
-                    toLongitude: values.toLongitude,
-                    isDriver: values.isDriver,
-                    tripDistance: values.tripDistance,
-                    tripUnit: values.tripUnit
-                }),
-                success: successCallback,
-                failure: failureCallback
-            });
-
-        }
-
-
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Searching...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_SEARCH,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                dateOfJourneyString: journey.dateOfJourneyString,
+                validStartTimeString: journey.validStartTimeString,
+                fromPlace: journey.fromPlace,
+                fromLatitude: journey.fromLatitude,
+                fromLongitude: journey.fromLongitude,
+                toPlace: journey.toPlace,
+                toLatitude: journey.toLatitude,
+                toLongitude: journey.toLongitude,
+                isDriver: journey.isDriver,
+                tripDistance: journey.tripDistance,
+                tripUnit: journey.tripUnit
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
     },
 
     validateSearchForm: function(validationObj) {
@@ -560,182 +568,68 @@ Ext.define('Racloop.controller.JourneysController', {
     },
 
     handleSaveJourneyTap : function() {
-        Ext.Msg.alert("handleSaveJourneyTap");
+        var me = this;
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                me.getMainTabs().setActiveItem('journeyNavigationView');
+                Racloop.app.getController('UiController').showMyJourneys();
+                setTimeout(function(){
+                    Ext.getStore('journeyStore').load();
+                }, 500);
+                Ext.Viewport.unmask();
+                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+            } else {
+                Ext.Msg.alert("Server Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Server Failure", response.message);
+            Ext.Viewport.unmask();
+
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Saving...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_SAVE_JOURNEY,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                journeyId : "from_session"
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
+        });
     },
 
-    onRequestButtonTap: function(item) { //TODO for testing
+    handleConfirmSearchRequestButtonTap: function(item) {
         console.dir(item.getRecord());
-        var searchDataView= this.getSearchDataView();
-        console.debug(searchDataView);
-        console.debug(searchDataView.getIsDummy());
         var record = item.getRecord();
-
-        var recordData=record.get("matchedJourney");
-        //TODO need to verify
-        var currentJourney=LoginHelper.getJourney();
-        var myJourneyId=currentJourney.id;
-        var matchedJourneyId=recordData.id;
-        // var requestPanel = Ext.create('Racloop.view.RequestJourneyPanel', {
-        //     title: 'Driver Information',
-        //   });
-        // requestPanel.setMyJourneyId(currentJourney.id);
-        // requestPanel.setMatchedJourneyId(recordData.id);
-        // requestPanel.setIsDummy(searchDataView.getIsDummy());
-        // var requestPhoto="";
-        // if(recordData.photoUrl!=null){
-        //     requestPhoto=recordData.photoUrl;
-        // }else {
-        //     requestPhoto='<img style="height: 100px; width: 100px; margin-right:10px;" src="http://www.gravatar.com/avatar/00000000000000000000000000000000" />';
-        // }
-
-        // requestPanel.down("#requestJourneyInfo").down("#requestPhoto").setHtml(requestPhoto);
-        // requestPanel.down("#requestJourneyInfo").down("#requestData").setHtml('<h1>'+recordData.name+'</h1><ul>'+
-        //     '<li><b>From:</b> '+recordData.fromPlace+'</li>'+
-        //     '<li><b>To:</b>   '+recordData.toPlace+'</li>'+
-        //     '<li><b>Date:</b> '+Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A')+'</li>'+
-        //     '</ul>');
-        // searchFrm.up().push(requestPanel);
-
-
+        var recordData = record.get("matchedJourney");
+        var matchedJourneyId = recordData.id;
         var searchNavView = this.getSearchNavigationView();
-        var me=this;
-        // var myJourneyId=button.up().up().getMyJourneyId();
-        var isDummy=searchDataView.getIsDummy();
+        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
+        var isDummy = searchList.isDummy;
+
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('Request success during launch : ' + response.responseText);
             if (data.success) {
-               // Ext.Msg.alert("Request Successful " + data.message);
-                // searchFrm.up().pop();
-
-                 LoginHelper.setJourney(data.data);
-                 currentJourney=data.data;
-                 setTimeout(function(){
-                    me.CallSearchAjax(currentJourney,function(){
-                        searchNavView.pop(1);
-                        Ext.getStore('journeyStore').load();
-                        Ext.Viewport.unmask();
-                    });
-                 }, 1000);
-
-               // Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert(data.message);
                 Ext.Viewport.unmask();
-            }
-        };
-       // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert(response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_REQUEST,
-            headers: {
-                    'Content-Type': 'application/json'
-                },
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            params: Ext.JSON.encode({
-                matchedJourneyId: matchedJourneyId,
-                isDummy: isDummy
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
-
-
-
-
-    },
-    onCancelButtonTap: function(item) { //TODO for testing
-        var searchNavView = this.getSearchNavigationView();
-        var currentJourney=LoginHelper.getJourney();
-        var record = item.getRecord();
-        var me=this;
-        var workflowId=record.get("workflow").id;
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            console.log('Cancel Request success during launch : ' + response.responseText);
-            if (data.success) {
-
+                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 setTimeout(function(){
-                    me.CallSearchAjax(currentJourney,function(){
-                        searchNavView.pop();
-                        Ext.getStore('journeyStore').load();
-                        Ext.Viewport.unmask();
-                    });
-                 }, 1000);
-                // Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert("Cancel Request Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Cancel Request Failure", response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_CANCELREQUEST,
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
-                workflowId: workflowId
-            }),
-            //params: values, //TODO need to uncomment it
-            success: successCallback,
-            failure: failureCallback
-        });
-
-
-
-    },
-    // "user":"admin","name":"Administrator","myJourneyId":"89","matchedJourneyId":"12de4899-74af-451a-a5ad-f3a8bfd1f678","isDummy":true}
-    onSendRequestButton: function(button){
-        var searchNavView = this.getSearchNavigationView();
-        var currentJourney;
-        var me=this;
-        // var myJourneyId=button.up().up().getMyJourneyId();
-        console.debug(button.up().up());
-        var matchedJourneyId=button.up().up().getMatchedJourneyId();
-        var isDummy=button.up().up().getIsDummy();
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            console.log('Request success during launch : ' + response.responseText);
-            if (data.success) {
-                // Ext.Msg.alert("Request Successful " + data.message);
-                // searchFrm.up().pop();
-
-                LoginHelper.setJourney(data.data);
-                currentJourney=data.data;
-                Ext.getStore('journeyStore').load();
-                setTimeout(function(){
-                    me.CallSearchAjax(currentJourney,function(){
-                        searchNavView.pop(2);
-                        Ext.Viewport.unmask();
-                    });
+                    Ext.getStore('journeyStore').load();
                 }, 1000);
-
-                // Ext.Viewport.unmask();
             } else {
                 Ext.Msg.alert(data.message);
                 Ext.Viewport.unmask();
@@ -768,6 +662,216 @@ Ext.define('Racloop.controller.JourneysController', {
             failure: failureCallback
         });
     },
+
+    handleCancelSearchRequestButtonTap: function(item) { //TODO for testing
+
+    },
+
+//    onRequestButtonTap: function(item) { //TODO for testing
+//        console.dir(item.getRecord());
+//        var searchDataView= this.getSearchDataView();
+//        console.debug(searchDataView);
+//        console.debug(searchDataView.getIsDummy());
+//        var record = item.getRecord();
+//
+//        var recordData=record.get("matchedJourney");
+//        //TODO need to verify
+//        var currentJourney=LoginHelper.getJourney();
+//        var myJourneyId=currentJourney.id;
+//        var matchedJourneyId=recordData.id;
+//        // var requestPanel = Ext.create('Racloop.view.RequestJourneyPanel', {
+//        //     title: 'Driver Information',
+//        //   });
+//        // requestPanel.setMyJourneyId(currentJourney.id);
+//        // requestPanel.setMatchedJourneyId(recordData.id);
+//        // requestPanel.setIsDummy(searchDataView.getIsDummy());
+//        // var requestPhoto="";
+//        // if(recordData.photoUrl!=null){
+//        //     requestPhoto=recordData.photoUrl;
+//        // }else {
+//        //     requestPhoto='<img style="height: 100px; width: 100px; margin-right:10px;" src="http://www.gravatar.com/avatar/00000000000000000000000000000000" />';
+//        // }
+//
+//        // requestPanel.down("#requestJourneyInfo").down("#requestPhoto").setHtml(requestPhoto);
+//        // requestPanel.down("#requestJourneyInfo").down("#requestData").setHtml('<h1>'+recordData.name+'</h1><ul>'+
+//        //     '<li><b>From:</b> '+recordData.fromPlace+'</li>'+
+//        //     '<li><b>To:</b>   '+recordData.toPlace+'</li>'+
+//        //     '<li><b>Date:</b> '+Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A')+'</li>'+
+//        //     '</ul>');
+//        // searchFrm.up().push(requestPanel);
+//
+//
+//        var searchNavView = this.getSearchNavigationView();
+//        var me=this;
+//        // var myJourneyId=button.up().up().getMyJourneyId();
+//        var isDummy=searchDataView.getIsDummy();
+//        var successCallback = function(response, ops) {
+//            var data = Ext.decode(response.responseText);
+//            console.log('Request success during launch : ' + response.responseText);
+//            if (data.success) {
+//               // Ext.Msg.alert("Request Successful " + data.message);
+//                // searchFrm.up().pop();
+//
+//                 LoginHelper.setJourney(data.data);
+//                 currentJourney=data.data;
+//                 setTimeout(function(){
+//                    me.CallSearchAjax(currentJourney,function(){
+//                        searchNavView.pop(1);
+//                        Ext.getStore('journeyStore').load();
+//                        Ext.Viewport.unmask();
+//                    });
+//                 }, 1000);
+//
+//               // Ext.Viewport.unmask();
+//            } else {
+//                Ext.Msg.alert(data.message);
+//                Ext.Viewport.unmask();
+//            }
+//        };
+//       // Failure
+//        var failureCallback = function(response, ops) {
+//            Ext.Msg.alert(response.message);
+//            Ext.Viewport.unmask();
+//
+//        };
+//
+//        Ext.Viewport.mask({
+//            xtype: 'loadmask',
+//            indicator: true,
+//            message: 'Sending Request...'
+//        });
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_REQUEST,
+//            headers: {
+//                    'Content-Type': 'application/json'
+//                },
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            params: Ext.JSON.encode({
+//                matchedJourneyId: matchedJourneyId,
+//                isDummy: isDummy
+//            }),
+//            success: successCallback,
+//            failure: failureCallback
+//        });
+//
+//
+//
+//
+//    },
+//    onCancelButtonTap: function(item) { //TODO for testing
+//        var searchNavView = this.getSearchNavigationView();
+//        var currentJourney=LoginHelper.getJourney();
+//        var record = item.getRecord();
+//        var me=this;
+//        var workflowId=record.get("workflow").id;
+//        var successCallback = function(response, ops) {
+//            var data = Ext.decode(response.responseText);
+//            console.log('Cancel Request success during launch : ' + response.responseText);
+//            if (data.success) {
+//
+//                setTimeout(function(){
+//                    me.CallSearchAjax(currentJourney,function(){
+//                        searchNavView.pop();
+//                        Ext.getStore('journeyStore').load();
+//                        Ext.Viewport.unmask();
+//                    });
+//                 }, 1000);
+//                // Ext.Viewport.unmask();
+//            } else {
+//                Ext.Msg.alert("Cancel Request Failure", data.message);
+//                Ext.Viewport.unmask();
+//            }
+//        };
+//        // Failure
+//        var failureCallback = function(response, ops) {
+//            Ext.Msg.alert("Cancel Request Failure", response.message);
+//            Ext.Viewport.unmask();
+//
+//        };
+//
+//        Ext.Viewport.mask({
+//            xtype: 'loadmask',
+//            indicator: true,
+//            message: 'Sending Request...'
+//        });
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_CANCELREQUEST,
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            params: Ext.JSON.encode({
+//                workflowId: workflowId
+//            }),
+//            //params: values, //TODO need to uncomment it
+//            success: successCallback,
+//            failure: failureCallback
+//        });
+//
+//
+//
+//    },
+//    // "user":"admin","name":"Administrator","myJourneyId":"89","matchedJourneyId":"12de4899-74af-451a-a5ad-f3a8bfd1f678","isDummy":true}
+//    onSendRequestButton: function(button){
+//        var searchNavView = this.getSearchNavigationView();
+//        var currentJourney;
+//        var me=this;
+//        // var myJourneyId=button.up().up().getMyJourneyId();
+//        console.debug(button.up().up());
+//        var matchedJourneyId=button.up().up().getMatchedJourneyId();
+//        var isDummy=button.up().up().getIsDummy();
+//        var successCallback = function(response, ops) {
+//            var data = Ext.decode(response.responseText);
+//            console.log('Request success during launch : ' + response.responseText);
+//            if (data.success) {
+//                // Ext.Msg.alert("Request Successful " + data.message);
+//                // searchFrm.up().pop();
+//
+//                LoginHelper.setJourney(data.data);
+//                currentJourney=data.data;
+//                Ext.getStore('journeyStore').load();
+//                setTimeout(function(){
+//                    me.CallSearchAjax(currentJourney,function(){
+//                        searchNavView.pop(2);
+//                        Ext.Viewport.unmask();
+//                    });
+//                }, 1000);
+//
+//                // Ext.Viewport.unmask();
+//            } else {
+//                Ext.Msg.alert(data.message);
+//                Ext.Viewport.unmask();
+//            }
+//        };
+//        // Failure
+//        var failureCallback = function(response, ops) {
+//            Ext.Msg.alert(response.message);
+//            Ext.Viewport.unmask();
+//
+//        };
+//
+//        Ext.Viewport.mask({
+//            xtype: 'loadmask',
+//            indicator: true,
+//            message: 'Sending Request...'
+//        });
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_REQUEST,
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            params: Ext.JSON.encode({
+//                matchedJourneyId: matchedJourneyId,
+//                isDummy: isDummy
+//            }),
+//            success: successCallback,
+//            failure: failureCallback
+//        });
+//    },
     handleExistingJourneyReplaceButtonTap: function(button){
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
@@ -791,10 +895,12 @@ Ext.define('Racloop.controller.JourneysController', {
                     searchStore.add(jsonObj[i]);
                 };
                 searchNavView.reset();
-                searchNavView.push({
-                    title: 'Search Results',
-                    xtype: 'searchResultsDataView'
-                });
+
+                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
+                searchNavView.push(searchResultsView);
+                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                comp.isDummy = searchData.data.isDummyData;
+
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
@@ -837,6 +943,7 @@ Ext.define('Racloop.controller.JourneysController', {
         });
     },
     handleExistingJourneyKeepOriginalButtonTap: function(button){
+        var me = this;
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -844,17 +951,17 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var searchData = Ext.decode(response.responseText);
             if (searchData.success) {
+                searchNavView.reset();
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
                 var jsonObj = searchData.data.matchedJourneys;
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
-                searchNavView.reset();
-                searchNavView.push({
-                    title: 'Search Results',
-                    xtype: 'searchResultsDataView'
-                });
+                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
+                searchNavView.push(searchResultsView);
+                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                comp.isDummy = searchData.data.isDummyData;
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
@@ -885,209 +992,212 @@ Ext.define('Racloop.controller.JourneysController', {
             success: successCallback,
             failure: failureCallback
         });
-    },
-    searchAgain: function(searchType) {
-        var searchNavView = this.getSearchNavigationView();
-        var existingJourneyPanel = this.getExistingJourneyPanel();
-        var existingJourney = existingJourneyPanel.getPreviousJourney();
-        var existingJourneyId = existingJourney.id;
-        var successCallback = function(response, ops) {
-            var searchData = Ext.decode(response.responseText);
-            if (searchData.success) {
-                var searchStore = Ext.getStore('SearchStore');
-                searchStore.removeAll();
-                var jsonObj = searchData.data.matchedJourneys;
-                for (var i in jsonObj) {
-                    searchStore.add(jsonObj[i]);
-                };
-                searchNavView.push({
-                    title: 'Search Results',
-                    xtype: 'searchResultsDataView'
-                });
-                Ext.Viewport.unmask();
-            } else {
-                Ext.Viewport.unmask();
-                Ext.Msg.alert("Search Failure", searchData.message);
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Viewport.unmask();
-            Ext.Msg.alert("Search Failure", response.message);
-        };
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Searching...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_EXISTINGJOURNEY,
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
-                searchWithNewJourney: searchType,
-                existingJourneyId: existingJourneyId
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
-    },
-    CallSearchAjax: function(currentJourney,callback){
-        var searchNavView = this.getSearchNavigationView();
-        var me=this;
-        var successSearchCallback = function(response, ops) {
-            var searchData = Ext.decode(response.responseText);
-            console.log('Search success during launch : ' + response.responseText);
-            if (searchData.success) {
-                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
-                var SearchStore = Ext.getStore('SearchStore');
-                SearchStore.removeAll();
-                var jsonObj = searchData.data.matchedJourneys;
-                for (var i in jsonObj) {
-                    SearchStore.add(jsonObj[i]);
-                };
-
-                searchNavView.push({
-                    title: 'Results',
-                    xtype: 'UserSearchList'
-                });
-
-                if (typeof callback === "function") {
-                    callback();
-                }
-            } else {
-                Ext.Msg.alert("Search Failure", searchData.message);
-                if (typeof callback === "function") {
-                    callback();
-                }
-            }
-        };
-
-
-        // Failure
-        var failureSearchCallback = function(response, ops) {
-            Ext.Msg.alert("Search Failure", response.message);
-            if (typeof callback === "function") {
-                callback();
-            }
-        };
-
-        if (currentJourney.dateOfJourneyString== null && currentJourney.dateOfJourney!=null) {
-            var datetimeString = Ext.Date.format(new Date(currentJourney.dateOfJourney),'d F Y    g:i A');
-            currentJourney.dateOfJourneyString=datetimeString;
-            console.log(datetimeString);
-        }
-
-
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_SEARCH,
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
-                id: currentJourney.id,
-                dateOfJourneyString: currentJourney.dateOfJourneyString,
-                fromPlace: currentJourney.fromPlace,
-                fromLatitude: currentJourney.fromLatitude,
-                fromLongitude: currentJourney.fromLongitude,
-                toPlace: currentJourney.toPlace,
-                toLatitude: currentJourney.toLatitude,
-                toLongitude: currentJourney.toLongitude,
-                isDriver: currentJourney.isDriver,
-                tripDistance: currentJourney.tripDistance,
-                tripUnit: currentJourney.tripUnit
-            }),
-            success: successSearchCallback,
-            failure: failureSearchCallback
-        });
-    },
-    CallExistingJourneyAjax: function(Journey,existingJourneyId,searchWithNewJourney,callback){
-        var searchNavView = this.getSearchNavigationView();
-        var me=this;
-        var successSearchCallback = function(response, ops) {
-            var searchData = Ext.decode(response.responseText);
-            console.log('Search success during launch : ' + response.responseText);
-            if (searchData.success) {
-                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
-                var SearchStore = Ext.getStore('SearchStore');
-                SearchStore.removeAll();
-                var jsonObj = searchData.data.matchedJourneys;
-                for (var i in jsonObj) {
-                    SearchStore.add(jsonObj[i]);
-                };
-
-                searchNavView.push({
-                    title: 'Results',
-                    xtype: 'UserSearchList'
-                });
-
-                if (typeof callback === "function") {
-                    callback();
-                }
-            } else {
-                Ext.Msg.alert("Search Failure", searchData.message);
-                if (typeof callback === "function") {
-                    callback();
-                }
-            }
-        };
-
-
-        // Failure
-        var failureSearchCallback = function(response, ops) {
-            Ext.Msg.alert("Search Failure", response.message);
-            if (typeof callback === "function") {
-                callback();
-            }
-        };
-
-        if (searchWithNewJourney){
-            console.log('with new journey');
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_EXISTINGJOURNEY,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    dateOfJourneyString: Journey.dateOfJourneyString,
-                    fromPlace: Journey.fromPlace,
-                    fromLatitude: Journey.fromLatitude,
-                    fromLongitude: Journey.fromLongitude,
-                    toPlace: Journey.toPlace,
-                    toLatitude: Journey.toLatitude,
-                    toLongitude: Journey.toLongitude,
-                    isDriver: Journey.isDriver,
-                    tripDistance: Journey.tripDistance,
-                    tripUnit: Journey.tripUnit,
-                    searchWithNewJourney: 'newJourney',
-                    existingJourneyId: existingJourneyId
-                }),
-                success: successSearchCallback,
-                failure: failureSearchCallback
-            });
-        }else {
-            console.log('with existing journey');
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_EXISTINGJOURNEY,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    searchWithNewJourney: 'existingJourney',
-                    existingJourneyId: existingJourneyId
-                }),
-                success: successSearchCallback,
-                failure: failureSearchCallback
-            });
-        }
     }
+//    ,
+//    searchAgain: function(searchType) {
+//        var searchNavView = this.getSearchNavigationView();
+//        var existingJourneyPanel = this.getExistingJourneyPanel();
+//        var existingJourney = existingJourneyPanel.getPreviousJourney();
+//        var existingJourneyId = existingJourney.id;
+//        var successCallback = function(response, ops) {
+//            var searchData = Ext.decode(response.responseText);
+//            if (searchData.success) {
+//                var searchStore = Ext.getStore('SearchStore');
+//                searchStore.removeAll();
+//                var jsonObj = searchData.data.matchedJourneys;
+//                for (var i in jsonObj) {
+//                    searchStore.add(jsonObj[i]);
+//                };
+//
+//                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
+//                searchNavView.push(searchResultsView);
+//                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+//                comp.isDummy = data.data.isDummyData;
+//
+//                Ext.Viewport.unmask();
+//            } else {
+//                Ext.Viewport.unmask();
+//                Ext.Msg.alert("Search Failure", searchData.message);
+//            }
+//        };
+//        // Failure
+//        var failureCallback = function(response, ops) {
+//            Ext.Viewport.unmask();
+//            Ext.Msg.alert("Search Failure", response.message);
+//        };
+//        Ext.Viewport.mask({
+//            xtype: 'loadmask',
+//            indicator: true,
+//            message: 'Searching...'
+//        });
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_EXISTINGJOURNEY,
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            params: Ext.JSON.encode({
+//                searchWithNewJourney: searchType,
+//                existingJourneyId: existingJourneyId
+//            }),
+//            success: successCallback,
+//            failure: failureCallback
+//        });
+//    },
+//    CallSearchAjax: function(currentJourney,callback){
+//        var searchNavView = this.getSearchNavigationView();
+//        var me=this;
+//        var successSearchCallback = function(response, ops) {
+//            var searchData = Ext.decode(response.responseText);
+//            console.log('Search success during launch : ' + response.responseText);
+//            if (searchData.success) {
+//                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
+//                var SearchStore = Ext.getStore('SearchStore');
+//                SearchStore.removeAll();
+//                var jsonObj = searchData.data.matchedJourneys;
+//                for (var i in jsonObj) {
+//                    SearchStore.add(jsonObj[i]);
+//                };
+//
+//                searchNavView.push({
+//                    title: 'Results',
+//                    xtype: 'UserSearchList'
+//                });
+//
+//                if (typeof callback === "function") {
+//                    callback();
+//                }
+//            } else {
+//                Ext.Msg.alert("Search Failure", searchData.message);
+//                if (typeof callback === "function") {
+//                    callback();
+//                }
+//            }
+//        };
+//
+//
+//        // Failure
+//        var failureSearchCallback = function(response, ops) {
+//            Ext.Msg.alert("Search Failure", response.message);
+//            if (typeof callback === "function") {
+//                callback();
+//            }
+//        };
+//
+//        if (currentJourney.dateOfJourneyString== null && currentJourney.dateOfJourney!=null) {
+//            var datetimeString = Ext.Date.format(new Date(currentJourney.dateOfJourney),'d F Y    g:i A');
+//            currentJourney.dateOfJourneyString=datetimeString;
+//            console.log(datetimeString);
+//        }
+//
+//
+//        Ext.Ajax.request({
+//            url: Config.url.RACLOOP_SEARCH,
+//            withCredentials: true,
+//            useDefaultXhrHeader: false,
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            params: Ext.JSON.encode({
+//                id: currentJourney.id,
+//                dateOfJourneyString: currentJourney.dateOfJourneyString,
+//                fromPlace: currentJourney.fromPlace,
+//                fromLatitude: currentJourney.fromLatitude,
+//                fromLongitude: currentJourney.fromLongitude,
+//                toPlace: currentJourney.toPlace,
+//                toLatitude: currentJourney.toLatitude,
+//                toLongitude: currentJourney.toLongitude,
+//                isDriver: currentJourney.isDriver,
+//                tripDistance: currentJourney.tripDistance,
+//                tripUnit: currentJourney.tripUnit
+//            }),
+//            success: successSearchCallback,
+//            failure: failureSearchCallback
+//        });
+//    },
+//    CallExistingJourneyAjax: function(Journey,existingJourneyId,searchWithNewJourney,callback){
+//        var searchNavView = this.getSearchNavigationView();
+//        var me=this;
+//        var successSearchCallback = function(response, ops) {
+//            var searchData = Ext.decode(response.responseText);
+//            console.log('Search success during launch : ' + response.responseText);
+//            if (searchData.success) {
+//                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
+//                var SearchStore = Ext.getStore('SearchStore');
+//                SearchStore.removeAll();
+//                var jsonObj = searchData.data.matchedJourneys;
+//                for (var i in jsonObj) {
+//                    SearchStore.add(jsonObj[i]);
+//                };
+//
+//                searchNavView.push({
+//                    title: 'Results',
+//                    xtype: 'UserSearchList'
+//                });
+//
+//                if (typeof callback === "function") {
+//                    callback();
+//                }
+//            } else {
+//                Ext.Msg.alert("Search Failure", searchData.message);
+//                if (typeof callback === "function") {
+//                    callback();
+//                }
+//            }
+//        };
+//
+//
+//        // Failure
+//        var failureSearchCallback = function(response, ops) {
+//            Ext.Msg.alert("Search Failure", response.message);
+//            if (typeof callback === "function") {
+//                callback();
+//            }
+//        };
+//
+//        if (searchWithNewJourney){
+//            console.log('with new journey');
+//            Ext.Ajax.request({
+//                url: Config.url.RACLOOP_EXISTINGJOURNEY,
+//                withCredentials: true,
+//                useDefaultXhrHeader: false,
+//                headers: {
+//                    'Content-Type': 'application/json'
+//                },
+//                params: Ext.JSON.encode({
+//                    dateOfJourneyString: Journey.dateOfJourneyString,
+//                    fromPlace: Journey.fromPlace,
+//                    fromLatitude: Journey.fromLatitude,
+//                    fromLongitude: Journey.fromLongitude,
+//                    toPlace: Journey.toPlace,
+//                    toLatitude: Journey.toLatitude,
+//                    toLongitude: Journey.toLongitude,
+//                    isDriver: Journey.isDriver,
+//                    tripDistance: Journey.tripDistance,
+//                    tripUnit: Journey.tripUnit,
+//                    searchWithNewJourney: 'newJourney',
+//                    existingJourneyId: existingJourneyId
+//                }),
+//                success: successSearchCallback,
+//                failure: failureSearchCallback
+//            });
+//        }else {
+//            console.log('with existing journey');
+//            Ext.Ajax.request({
+//                url: Config.url.RACLOOP_EXISTINGJOURNEY,
+//                withCredentials: true,
+//                useDefaultXhrHeader: false,
+//                headers: {
+//                    'Content-Type': 'application/json'
+//                },
+//                params: Ext.JSON.encode({
+//                    searchWithNewJourney: 'existingJourney',
+//                    existingJourneyId: existingJourneyId
+//                }),
+//                success: successSearchCallback,
+//                failure: failureSearchCallback
+//            });
+//        }
+//    }
 });
