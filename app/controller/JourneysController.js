@@ -112,7 +112,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 }
             }]
         });
-
+        this.actionSheetFrom = actionSheetFrom;
 
         var actionSheetTo = Ext.create('Ext.ActionSheet', {
             top: '0',
@@ -140,6 +140,8 @@ Ext.define('Racloop.controller.JourneysController', {
             }]
 
         });
+        this.actionSheetTo = actionSheetTo;
+
         var fromField = searchForm.down('#searchScreenFrom');
         fromField.element.on({
             tap: function(e) {
@@ -164,48 +166,55 @@ Ext.define('Racloop.controller.JourneysController', {
                 actionSheetTo.show();
             }
         });
+    },
 
-        var actionFromRoot = actionSheetFrom.element.dom;
-        var actionToRoot = actionSheetTo.element.dom;
+    launch : function() {
+
+    },
+
+    initGoogleElements : function() {
+        console.log("Journey Controller initGoogleElements starts");
+        var me = this;
+        var searchForm = this.getSearchForm();
+        console.log("this.getSearchForm() : " + this.getSearchForm());
+        var root = searchForm.element.dom;
+        var actionFromRoot = this.actionSheetFrom.element.dom;
+        var actionToRoot = this.actionSheetTo.element.dom;
 
         var fromInput = actionFromRoot.querySelectorAll('input[name=from]')[0];
         var toInput = actionToRoot.querySelectorAll('input[name=to]')[0];
         var latFrom, longFrom, latTo, longTo;
 
-        if(!Config.offline) {
-            var autocompleteFrom = new google.maps.places.Autocomplete(fromInput);
-            var autocompleteTo = new google.maps.places.Autocomplete(toInput);
+        var autocompleteFrom = new google.maps.places.Autocomplete(fromInput);
+        var autocompleteTo = new google.maps.places.Autocomplete(toInput);
 
-            google.maps.event.addListener(autocompleteFrom, 'place_changed', function () {
-                var place = autocompleteFrom.getPlace();
-                latFrom = place.geometry.location.lat();
-                longFrom = place.geometry.location.lng();
-                var selectedPlace = fromInput.value;
-                searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
-                searchForm.down('field[name=fromLatitude]').setValue(latFrom);
-                searchForm.down('field[name=fromLongitude]').setValue(longFrom);
-                setDistance();
-                actionSheetFrom.hide();
-            });
+        google.maps.event.addListener(autocompleteFrom, 'place_changed', function () {
+            var place = autocompleteFrom.getPlace();
+            latFrom = place.geometry.location.lat();
+            longFrom = place.geometry.location.lng();
+            var selectedPlace = fromInput.value;
+            searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=fromLatitude]').setValue(latFrom);
+            searchForm.down('field[name=fromLongitude]').setValue(longFrom);
+            latTo = searchForm.down('field[name=toLatitude]').getValue();
+            longTo = searchForm.down('field[name=toLongitude]').getValue();
+            me.calculateDistance(latFrom, longFrom, latTo, longTo);
+            me.actionSheetFrom.hide();
+        });
 
-            google.maps.event.addListener(autocompleteTo, 'place_changed', function () {
-                var place = autocompleteTo.getPlace();
-                latTo = place.geometry.location.lat();
-                longTo = place.geometry.location.lng();
-                var selectedPlace = toInput.value;
-                searchForm.down('field[name=toPlace]').setValue(selectedPlace);
-                searchForm.down('field[name=toLatitude]').setValue(latTo);
-                searchForm.down('field[name=toLongitude]').setValue(longTo);
-                setDistance();
-                actionSheetTo.hide();
-            });
-        }
-
-        var setDistance = function() {
-            var distance = me.calculateDistance(latFrom, longFrom, latTo, longTo);
-            searchForm.down('field[name=tripDistance]').setValue(distance);
-        };
-
+        google.maps.event.addListener(autocompleteTo, 'place_changed', function () {
+            var place = autocompleteTo.getPlace();
+            latTo = place.geometry.location.lat();
+            longTo = place.geometry.location.lng();
+            var selectedPlace = toInput.value;
+            searchForm.down('field[name=toPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=toLatitude]').setValue(latTo);
+            searchForm.down('field[name=toLongitude]').setValue(longTo);
+            latFrom = searchForm.down('field[name=fromLatitude]').getValue();
+            longFrom = searchForm.down('field[name=fromLongitude]').getValue();
+            me.calculateDistance(latFrom, longFrom, latTo, longTo);
+            me.actionSheetTo.hide();
+        });
 
         var now = new Date();
         var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
@@ -222,7 +231,9 @@ Ext.define('Racloop.controller.JourneysController', {
         });
         var defaultTime = new Date();
         defaultTime.setMinutes(0);
-        defaultTime.setHours(defaultTime.getHours() + 1);
+        //TODO rollback
+        //defaultTime.setHours(defaultTime.getHours() + 1);
+        defaultTime.setHours(defaultTime.getHours() + 3);
         var picker = searchForm.down('#searchScreenTime').getPicker();
         searchForm.down('#searchScreenTime').setValue(defaultTime);
 
@@ -235,15 +246,53 @@ Ext.define('Racloop.controller.JourneysController', {
             var datetimeString = dateString + " " + timeString;
             searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
         }
-
+        console.log("Journey Controller initGoogleElements ends");
     },
 
     calculateDistance : function(latFrom, longFrom, latTo, longTo) {
+        var searchForm = this.getSearchForm();
+        var directionsService = Racloop.app.getController('MapController').directionsService
         if (latFrom != null && longFrom != null & latTo != null && longTo != null) {
-            var p1 = new google.maps.LatLng(latFrom, longFrom);
-            var p2 = new google.maps.LatLng(latTo, longTo);
-            var distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
-            return distance;
+            var request = {
+                origin : new google.maps.LatLng(latFrom, longFrom),
+                destination : new google.maps.LatLng(latTo, longTo),
+                travelMode : google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request, function(results, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    var total = 0;
+                    var myroute = results.routes[0];
+                    var numberOfLegs = 0;
+                    console.log("numberOfLegs : " + myroute.legs.length);
+                    for ( var i = 0; i < myroute.legs.length; i++) {
+                        total += myroute.legs[i].distance.value;
+                        var start_location = myroute.legs[i].start_location
+                        var end_location = myroute.legs[i].end_location
+                        var start_address = myroute.legs[i].start_address
+                        var end_address = myroute.legs[i].end_address
+                        numberOfLegs++;
+                        var steps = myroute.legs[i].steps
+                        console.log(i + " i : total " + total + " steps : " + steps.length);
+                        for ( var j = 0; j < steps.length; j++) {
+                            var start_location_step = steps[j].start_location
+                            var end_location_step = steps[j].end_location
+                            var stepDistance = steps[j].distance.value;
+                            console.log("start_location_step : " + start_location_step + " end_location_step : " + end_location_step + " stepDistance : " + stepDistance)
+                        }
+                    }
+                    if(numberOfLegs != 1) {
+                        console.log("numberOfLegs : " + numberOfLegs);
+                    }
+                    total = total / 1000
+                    searchForm.down('field[name=tripUnit]').setValue('KM');
+                    searchForm.down('field[name=tripDistance]').setValue(total + '');
+                    console.log("Total Distance : " + total + " KM");
+                }
+            });
+//            var p1 = new google.maps.LatLng(latFrom, longFrom);
+//            var p2 = new google.maps.LatLng(latTo, longTo);
+//            var distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+//            return distance;
         }
         return -1;
     },
@@ -569,14 +618,25 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSaveJourneyTap : function() {
         var me = this;
+//        var controller = Racloop.app.getController('UiController');
+//        var renderMyJourney = function() {
+//            me.getMainTabs().setActiveItem('journeyNavigationView');;
+//        };
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                me.getMainTabs().setActiveItem('journeyNavigationView');
-                Racloop.app.getController('UiController').showMyJourneys();
-                setTimeout(function(){
-                    Ext.getStore('journeyStore').load();
-                }, 500);
+                console.log("calling showAndLoadAfterDelay")
+                Racloop.app.getController('UiController').showAndLoadAfterDelay();
+//                setTimeout(function(){
+//                    Ext.getStore('journeyStore').load({
+//                        callback: function(records, operation, success) {
+//                            console.log("Journey Saved Ext.getStore('journeyStore').getAllCount() : " + Ext.getStore('journeyStore').getAllCount())
+//                            me.getMainTabs().setActiveItem('journeyNavigationView');
+//                            controller.showMyJourneys();
+//                        },
+//                        scope: controller
+//                    });
+//                }, 50);
                 Ext.Viewport.unmask();
                 Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
@@ -614,7 +674,7 @@ Ext.define('Racloop.controller.JourneysController', {
     },
 
     handleConfirmSearchRequestButtonTap: function(item) {
-        console.dir(item.getRecord());
+        var me = this;
         var record = item.getRecord();
         var recordData = record.get("matchedJourney");
         var matchedJourneyId = recordData.id;
@@ -625,11 +685,17 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
+                setTimeout(function(){
+                    Ext.getStore('journeyStore').load({
+                        callback: function(records, operation, success) {
+                            me.getMainTabs().setActiveItem('journeyNavigationView');
+                            Racloop.app.getController('UiController').showMyJourneys();
+                        },
+                        scope: me
+                    });
+                }, 500);
                 Ext.Viewport.unmask();
                 Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-                setTimeout(function(){
-                    Ext.getStore('journeyStore').load();
-                }, 1000);
             } else {
                 Ext.Msg.alert(data.message);
                 Ext.Viewport.unmask();

@@ -180,3 +180,11 @@ History
 * How many history results i should see?
 * Sorting
 
+Map
+----
+
+* Current Journey
+* No journey
+* No Internet
+* On connection with internet
+

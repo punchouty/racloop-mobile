@@ -88,6 +88,7 @@ $tabs-dark: $blue;
 @include icon('browser', '\e0c4', 'racloop-icons');
 @include icon('settings', '\e0fc', 'racloop-icons');
 @include icon('bell', '\e032', 'racloop-icons');
+@include icon('journeys', '\e071', 'racloop-icons');
 
 // List iconss
 .profileCls:before {

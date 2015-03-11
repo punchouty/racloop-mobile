@@ -14,35 +14,31 @@ Ext.define('Racloop.util.Common', {
                 return false;
             }
         },
+        supportsHtml5SessionStorage: function() {
+            try {
+                return 'sessionStorage' in window && window['sessionStorage'] !== null;
+            } catch (e) {
+                return false;
+            }
+        },
         getDefaultTime: function() {
             var now = new Date();
             return (now.getHours() + 1) + ':00'
         },
-        updateCurrentLocation: function(){
-            Ext.device.Geolocation.getCurrentPosition({
-                allowHighAccuracy : false,
-                timeout : 3000,
-                success: function(position) {
-                    var geocoder = new google.maps.Geocoder();
-                    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    geocoder.geocode({'latLng': latlng}, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            if (results.length > 0) {
-                                Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
-                                Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                                Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
-                            } else {
-                                console.log("No results found");
-                            }
-                        } else {
-                            console.log("Geocoder failed due to: " + status);
-                        }
-                    });
-                },
-                failure: function() {
-                    console.log('something went wrong!');
-                }
-            });
+        convertLatLangToObject : function(latLng) {
+            var obj = new Object();
+            obj['lat'] = latLng.lat();
+            obj['lng'] = latLng.lng();
+            return obj;
+        },
+        convertObjectToLatLan : function(obj) {
+            var latLng = new google.maps.LatLng(obj['lat'], obj['lng']);
+            return latLng;
+        },
+        getToleranceInDegrees : function(distanceInMeters) {
+            var nauticalMileInMeters = 1852;
+            var distanceInDegrees = (1/(1852 * 60)) * distanceInMeters;
+            return distanceInDegrees;
         },
         popToRoot: function(navigationView, destroy) {
             var navBar = navigationView.getNavigationBar(),
@@ -71,4 +67,29 @@ Ext.define('Racloop.util.Common', {
     constructor: function() {
         return this.config;
     }
+//    ,
+//
+//    checkInternet: function() {
+//        var isOffline = 'onLine' in navigator && !navigator.onLine;
+//        if(isOffline) {
+////            var networkState = navigator.connection.type;
+////            if(networkState == Connection.NONE) {
+////                return false;
+////
+////            } else {
+////                return true;
+////            }
+//            return false;
+//        }
+//        else {
+//            return true;
+//        }
+//
+//    },
+//
+//    isPhoneGap : function() {
+//        return (cordova || PhoneGap || phonegap)
+//            && /^file:\/{3}[^\/]/i.test(window.location.href)
+//            && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
+//    }
 });

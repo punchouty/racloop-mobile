@@ -27,13 +27,23 @@ Ext.define('Racloop.view.MainTabs', {
             }, // 
         items: [
             {
+                title: Config.tabHome,
+                iconCls: 'home',
+                xtype: 'mapPanel'
+//                styleHtmlContent: true,
+//
+//                html: [
+//                    "Home"
+//                ].join("")
+            },
+            {
                 title: Config.tabSearch,
                 iconCls: 'magnifier',
                 xtype: 'searchNavigationView'
             },
             {
                 title: Config.tabMyJourneys,
-                iconCls: 'home',
+                iconCls: 'journeys',
                 xtype: 'journeyNavigationView'
             },
             {
@@ -69,6 +79,7 @@ Ext.define('Racloop.view.MainTabs', {
                 iconCls: 'bell',
                 styleHtmlContent: true,
                 scrollable: true,
+                hidden : true,
 
                 items: {
                     docked: 'top',

@@ -99,6 +99,48 @@ Ext.define('Racloop.util.LoginHelper', {
         },
         removeLoginCounter: function() {
             if (Common.supportsHtml5Storage()) localStorage.removeItem('c');
+        },
+        setCurrentJourney : function(journey) {
+            if (Common.supportsHtml5SessionStorage()) {
+                var journeyString = JSON.stringify(journey);
+                sessionStorage.j = journeyString;
+            }
+        },
+        getCurrentJourney: function() {
+            if (Common.supportsHtml5SessionStorage()) {
+                if(sessionStorage.j) {
+                    var journeyString = sessionStorage.j;
+                    var journey = JSON.parse(journeyString);
+                    return journey;
+                }
+                else {
+                    return null;
+                }
+            }
+        },
+        removeCurrentJourney: function() {
+            if (Common.supportsHtml5SessionStorage()) localStorage.removeItem('j');
+        },
+        setRoutes : function(route) {
+            if (Common.supportsHtml5SessionStorage()) {
+                var routeString = JSON.stringify(route);
+                sessionStorage.r = routeString;
+            }
+        },
+        getRoutes : function() {
+            if (Common.supportsHtml5SessionStorage()) {
+                if(sessionStorage.r) {
+                    var routeString = sessionStorage.r;
+                    var route = JSON.parse(routeString);
+                    return route;
+                }
+                else {
+                    return null;
+                }
+            }
+        },
+        removeRoutes : function() {
+            if (Common.supportsHtml5SessionStorage()) localStorage.removeItem('r');
         }
     },
     constructor: function() {

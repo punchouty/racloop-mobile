@@ -2,6 +2,7 @@
 Ext.define('Racloop.view.MainNavigationView', {
     extend: 'Ext.navigation.View',
     alias: 'widget.mainNavigationView',
+    xtype: 'mainNavigationView',
 
     requires: [
         'Ext.Panel',
@@ -16,7 +17,6 @@ Ext.define('Racloop.view.MainNavigationView', {
             xtype: 'panel',
             itemId: 'homePanel',
             layout: 'vbox',
-            id: 'homePanel',
             items: [{
                 xtype: 'container',
                 html: '<div class="section-header">' +

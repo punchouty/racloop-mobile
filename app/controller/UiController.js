@@ -46,8 +46,30 @@ Ext.define('Racloop.controller.UiController', {
 
     },
 
+    enable : function() {
+        console.log("this.getSearchNavigationView() : " + this.getSearchNavigationView());
+//        this.getSearchNavigationView().enable();
+//        this.getSearchForm().enable();
+//        this.getSettingListView().enable();
+//        this.getJourneyNavigationView().enable();
+//        this.getHistoryNavigationView().enable();
+//        this.getMainNavigationView().enable();
+//        this.getMainTabs().enable();
+    },
+
+    disable : function() {
+//        this.getSearchNavigationView().disable();
+//        this.getSearchForm().disable();
+//        this.getSettingListView().disable();
+//        this.getJourneyNavigationView().disable();
+//        this.getHistoryNavigationView().disable();
+//        this.getMainNavigationView().disable();
+//        this.getMainTabs().disable();
+    },
+
     tabClicked: function(button, e, eOpts) {
         var me = this;
+        Racloop.app.getController('MapController').unwatchCurrentLocation();
         if(button.getTitle() === Config.tabMyJourneys) {
             Ext.getStore('journeyStore').load({
                 callback: function(records, operation, success) {
@@ -68,13 +90,34 @@ Ext.define('Racloop.controller.UiController', {
             var searchForm = this.getSearchForm();
             var activeItem = this.getSearchNavigationView().getActiveItem();
             if(searchForm != activeItem) this.getSearchNavigationView().pop();
+            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
         }
         else if(button.getTitle() === Config.tabSettings) {
             var settingListView = this.getSettingListView();
             var activeItem = this.getSettingNavigationView().getActiveItem();
             if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
+        else if(button.getTitle() === Config.tabHome) {
+            Racloop.app.getController('MapController').watchCurrentLocation();
+        }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
+    },
+
+    showAndLoadAfterDelay: function() {
+        var me = this;
+        var showMyJourneysFunction = me.showMyJourneys();
+        var loadMyJourney = function() {
+            console.log("Calling loadMyJourney");
+            Ext.getStore('journeyStore').load({
+                callback: function(records, operation, success) {
+                    console.log("Calling loadMyJourney load : " + Ext.getStore('journeyStore').getAllCount());
+                    me.showMyJourneys();
+                    //Ext.Function.defer(showMyJourneysFunction, 500, me);
+                },
+                scope: me
+            });
+        };
+        Ext.Function.defer(loadMyJourney, 500, me);
     },
 
     showMyJourneys: function() {
@@ -82,9 +125,9 @@ Ext.define('Racloop.controller.UiController', {
         var recordCount = Ext.getStore('journeyStore').getAllCount();
         var itemCount = this.getJourneyNavigationView().getItems().length;
         if(recordCount == 0) {
-            console.log("recordCount == 0");
+            console.log("showMyJourneys: recordCount == 0");
             if(itemCount == 1) {
-                console.log("recordCount == 0 & itemCount == 1");
+                console.log("showMyJourneys: recordCount == 0 & itemCount == 1");
                 var activeItem = journeyNavigationView.getActiveItem();
                 var journeyEmptyView = this.getJourneyEmptyView();
                 if(activeItem != journeyEmptyView) {
@@ -96,7 +139,7 @@ Ext.define('Racloop.controller.UiController', {
                 }
             }
             else {
-                console.log("recordCount == 0 & itemCount != 1");
+                console.log("showMyJourneys: recordCount == 0 & itemCount != 1");
                 journeyNavigationView.removeAll(false, true);
                 journeyNavigationView.push({
                     title : Config.tabMyJourneys,
@@ -105,7 +148,7 @@ Ext.define('Racloop.controller.UiController', {
             }
         }
         else {
-            console.log("recordCount != 0");
+            console.log("showMyJourneys: recordCount != 0");
             var journeyView = this.getJourneyView();
             var activeItem = journeyNavigationView.getActiveItem();
             var journeyEmptyView = this.getJourneyEmptyView();
@@ -126,9 +169,9 @@ Ext.define('Racloop.controller.UiController', {
         var recordCount = Ext.getStore('historyStore').getAllCount();
         var itemCount = this.getHistoryNavigationView().getItems().length;
         if(recordCount == 0) {
-            console.log("recordCount == 0");
+            console.log("showHistory: recordCount == 0");
             if(itemCount == 1) {
-                console.log("recordCount == 0 & itemCount == 1");
+                console.log("showHistory: recordCount == 0 & itemCount == 1");
                 var activeItem = historyNavigationView.getActiveItem();
                 var historyEmptyView = this.getHistoryEmptyView();
                 if(activeItem != historyEmptyView) {
@@ -139,7 +182,7 @@ Ext.define('Racloop.controller.UiController', {
                     });
                 }
                 else {
-                    console.log("recordCount == 0 & itemCount != 1");
+                    console.log("showHistory: recordCount == 0 & itemCount != 1");
                     historyNavigationView.setActiveItem(historyEmptyView);
                     historyNavigationView.push({
                         title : Config.tabHistory,
@@ -148,7 +191,7 @@ Ext.define('Racloop.controller.UiController', {
                 }
             }
             else {
-                console.log("recordCount == 0 & itemCount != 1");
+                console.log("showHistory: recordCount == 0 & itemCount != 1");
                 historyNavigationView.removeAll(false, true);
                 historyNavigationView.push({
                     title : Config.tabHistory,
@@ -157,7 +200,7 @@ Ext.define('Racloop.controller.UiController', {
             }
         }
         else {
-            console.log("recordCount != 0");
+            console.log("showHistory: recordCount != 0");
             var historyView = this.getHistoryView();
             var activeItem = historyNavigationView.getActiveItem();
             var historyEmptyView = this.getHistoryEmptyView();
@@ -182,7 +225,8 @@ Ext.define('Racloop.controller.UiController', {
             xtype: "loginForm",
             title: "Sign In"
         });
-        if(LoginHelper.getEmail()) {
+        console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+        if(!LoginHelper.getEmail()) {
             var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
             emailField.setValue(LoginHelper.getEmail());
         }

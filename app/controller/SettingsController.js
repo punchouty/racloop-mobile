@@ -53,10 +53,27 @@ Ext.define('Racloop.controller.SettingsController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
+                console.log("Logged out successfully");
                 LoginHelper.removeUser();
+                LoginHelper.removeCurrentJourney();
                 Ext.Viewport.unmask();
-                Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
-                Ext.Viewport.remove(mainTabs, true);
+                var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
+                Ext.Viewport.setActiveItem(mainNavigationView);
+                var loginForm = Ext.ComponentQuery.query('loginForm')[0];
+                if(loginForm) {
+                    mainNavigationView.setActiveItem(loginForm);
+                }
+                else {
+                    mainNavigationView.push({
+                        itemId: 'loginForm',
+                        xtype: "loginForm",
+                        title: "Sign In"
+                    });
+                    if(!LoginHelper.getEmail()) {
+                        var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                        emailField.setValue(LoginHelper.getEmail());
+                    }
+                }
 
             } else {
                 Ext.Msg.alert("Logout Failure", data.message);
@@ -68,7 +85,6 @@ Ext.define('Racloop.controller.SettingsController', {
         var failureCallback = function(response, ops) {
             Ext.Msg.alert("Logout Failure", response.message);
             Ext.Viewport.unmask();
-
         };
 
         Ext.Viewport.mask({

@@ -12,7 +12,7 @@ Ext.define('Racloop.util.Config', {
             timeout: 5000
         },
         toastTimeout : 2500,
-        offline : true,
+        initComplete : false,
         //Setting menu
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
@@ -21,6 +21,7 @@ Ext.define('Racloop.util.Config', {
         settingNameTerms : 'Terms and Conditions',
         settingNameLogout : 'Logout',
         //Tabs
+        tabHome : 'Home',
         tabSearch : 'Search',
         tabMyJourneys : 'My Journeys',
         tabHistory : 'History',

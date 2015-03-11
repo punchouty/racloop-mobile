@@ -18,6 +18,9 @@ Ext.application({
     },
     requires: [
         'Ext.MessageBox',
+        'Ext.device.Connection',
+        'Racloop.view.MapPanel',
+        'Racloop.view.OfflineView',
         'Racloop.util.Config',
         'Racloop.util.Common',
         'Racloop.util.LoginHelper'
@@ -55,6 +58,7 @@ Ext.application({
         'JourneyViewItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
+        'MapPanel',
         'OutgoingRequestViewItem',
         'VerifySmsForm',
         'EmergencyContactForm'
@@ -66,7 +70,8 @@ Ext.application({
         'SettingsController',
         'AccountController',
         'JourneysController',
-        'WorkflowController'
+        'WorkflowController',
+        'MapController'
 //        'SearchController',
 //        'ProfileController'
     ],
@@ -96,13 +101,12 @@ Ext.application({
     },
 
     launch: function() {
+        if (!Ext.device.Connection.isOnline()) {
+            Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
+        }
         // Destroy the #appLoadingIndicator element
         this.cleanup();
         Ext.fly('appLoadingIndicator').destroy();
-        
-        Ext.create('Racloop.view.MainNavigationView', {
-            fullscreen: true
-        });
     },
 
     onUpdated: function() {
@@ -124,12 +128,8 @@ Ext.application({
             function(animation, component, newState, oldState, options, controller) {
                 var me = this;
                 if (animation && (!newState || (newState && this.isPainted()))) {
-
-
                     this.activeAnimation = new Ext.fx.Animation(animation);
                     this.activeAnimation.setElement(component.element);
-
-
                     if (!Ext.isEmpty(newState)) {
                         var onEndInvoked = false;
                         var onEnd = function() {
@@ -139,16 +139,10 @@ Ext.application({
                                 controller.resume();
                             }
                         };
-
-
                         this.activeAnimation.setOnEnd(onEnd);
                         window.setTimeout(onEnd, 50 + (this.activeAnimation.getDuration() || 500));
-
-
                         controller.pause();
                     }
-
-
                     Ext.Animator.run(me.activeAnimation);
                 }
             };

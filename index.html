@@ -51,11 +51,41 @@
             }
         }
     </style>
+    <script>
+        var isMapLoaded = false;
+        var googleMapJs = document.createElement('script')
+        googleMapJs.setAttribute("type","text/javascript")
+        googleMapJs.setAttribute("src", "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry")
+
+        function onLoad() {
+            document.addEventListener("online", onOnline, false);
+            document.addEventListener("offline", onOffline, false);
+        }
+
+        function onOnline() {
+            console.log("onOnline");
+            loadMaps();
+        }
+
+        function onOffline() {
+            console.log("onOffline");
+        }
+
+        function loadMaps() {
+            if(isMapLoaded == false) {
+                document.getElementsByTagName("head")[0].appendChild(googleMapJs);
+                isMapLoaded = true;
+            }
+        }
+    </script>
     <!-- The line below must be kept intact for Sencha Command to build your application -->
-    <script id="microloader" type="text/javascript" src=".sencha/app/microloader/development.js"></script>
+    <!--
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry"></script>
+    -->
+    <script id="microloader" type="text/javascript" src=".sencha/app/microloader/development.js"></script>
+
 </head>
-<body>
+<body onload="onLoad()">
     <div id="appLoadingIndicator">
         <div></div>
         <div></div>
