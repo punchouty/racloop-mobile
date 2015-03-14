@@ -114,7 +114,7 @@ Ext.define('Racloop.controller.MapController', {
         };
         this.directionsDisplay.setOptions(mapRendererOptions);
         this.infoWindow = new google.maps.InfoWindow({
-            content: "<div style='color: #ff0000;'>My Location</div>"
+            content: "<div style='color: #ff0000;'>Watching Location</div>"
         });
         this.marker = new google.maps.Marker({
             map: this.googleMap,
@@ -127,42 +127,6 @@ Ext.define('Racloop.controller.MapController', {
     sosButtonClicked: function(button, e, eOpts) {
         console.log("sosButtonClicked");
     },
-
-//    updateMap: function() {
-//        var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
-//        var successCallback = function(response, ops) {
-//            var mobileResponse = Ext.decode(response.responseText);
-//            if (mobileResponse.success) {
-//
-//                Ext.Viewport.unmask();
-//            } else {
-//                Ext.Viewport.unmask();
-//            }
-//        };
-//        // Failure
-//        var failureCallback = function(response, ops) {
-//            Ext.Viewport.unmask();
-//            Ext.Msg.alert("Network Error", response.message);
-//        };
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Fetching Current Journey...'
-//        });
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_EXISTINGJOURNEY,
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            params: Ext.JSON.encode({
-//                currentDateString: currentDateString
-//            }),
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-//    },
 
     updateCurrentLocationOnMap: function(){
         var me = this;
@@ -319,7 +283,7 @@ Ext.define('Racloop.controller.MapController', {
             callback: function (position) {
                 console.log("location updated");
                 var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                current = new google.maps.LatLng(28.9853413, 77.7029944);//28.9853413,77.7029944
+                //current = new google.maps.LatLng(28.9853413, 77.7029944);//28.9853413,77.7029944
                 me.marker.setPosition(current);
                 me.googleMap.panTo(current);
                 me.infoWindow.open(me.googleMap, me.marker);
@@ -365,5 +329,9 @@ Ext.define('Racloop.controller.MapController', {
 
     unwatchCurrentLocation : function() {
         Ext.device.Geolocation.clearWatch();
+        this.infoWindow.close();
+        this.marker.setMap(null);
+        this.showCurrentJourney();
+
     }
 });

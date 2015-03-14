@@ -43,6 +43,16 @@ Ext.define('Racloop.view.LoginForm', {
             iconMask: true,
             iconAlign: 'left',
             ui: 'action'
+        },  {
+            xtype: 'button',
+            itemId: 'facebookLoginButton',
+            margin: 20,
+            padding: 8,
+            text: 'Login with Facebook',
+            iconCls: 'facebookCls',
+            iconMask: true,
+            iconAlign: 'left',
+            ui: 'action'
         }, {
             xtype: 'container',
             html: '<div class="links">' +

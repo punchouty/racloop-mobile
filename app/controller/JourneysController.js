@@ -172,7 +172,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
     },
 
-    initGoogleElements : function() {
+    initGoogleElements : function() { // Called from MapController initApp method
         console.log("Journey Controller initGoogleElements starts");
         var me = this;
         var searchForm = this.getSearchForm();

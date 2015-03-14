@@ -21,14 +21,22 @@ Ext.define('Racloop.view.MapPanel', {
                 title: 'Map',
                 items : [
                     {
-                        xtype : 'spacer'
-                    },
-                    {
                         xtype: 'button',
                         itemId : 'sosButton',
                         ui: 'action',
                         text: 'SOS!',
                         iconCls: 'bell',
+                        iconMask: true
+                    },
+                    {
+                        xtype : 'spacer'
+                    },
+                    {
+                        xtype: 'button',
+                        itemId : 'watchButton',
+                        ui: 'action',
+                        text: 'Unwatch',
+                        iconCls: 'eye',
                         iconMask: true
                     }
                 ]

@@ -33,7 +33,11 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
   "Racloop": "app",
-  "Racloop.view.JourneyNavigationView": "app/view/journeyNavigationView.js"
+  "Racloop.view.IncomingRequestList": "app/view/Deprecated_IncomingRequestList.js",
+  "Racloop.view.OutgoingRequestList": "app/view/Deprecated_OutgoingRequestList.js",
+  "Racloop.view.SearchViewItem": "app/view/Deprecated_SearchViewItem.js",
+  "Racloop.view.SettingsMenu": "app/view/Deprecated_SettingsMenu.js",
+  "Racloop.view.UserSearchList": "app/view/Deprecated_UserSearchList.js"
 });
 
 Ext.ClassManager.addNameAlternateMappings({
@@ -664,9 +668,14 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.viewport.WP"
   ],
   "Racloop.controller.AccountController": [],
+  "Racloop.controller.JourneysController": [],
+  "Racloop.controller.MapController": [],
   "Racloop.controller.ProfileController": [],
   "Racloop.controller.SearchController": [],
+  "Racloop.controller.SessionsController": [],
   "Racloop.controller.SettingsController": [],
+  "Racloop.controller.UiController": [],
+  "Racloop.controller.WorkflowController": [],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],
   "Racloop.model.ForgotPassword": [],
@@ -675,6 +684,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.model.Search": [],
   "Racloop.model.User": [],
   "Racloop.model.VerifySms": [],
+  "Racloop.store.History": [],
   "Racloop.store.Journeys": [],
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [
@@ -692,17 +702,29 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.ExistingJourneyPanel": [],
   "Racloop.view.FaqPanel": [],
   "Racloop.view.ForgotPasswordForm": [],
+  "Racloop.view.HistoryEmptyView": [],
+  "Racloop.view.HistoryNavigationView": [],
+  "Racloop.view.HistoryViewItem": [],
   "Racloop.view.IncomingRequestList": [],
+  "Racloop.view.IncomingRequestViewItem": [],
+  "Racloop.view.JourneyEmptyView": [],
   "Racloop.view.JourneyNavigationView": [],
   "Racloop.view.JourneyViewItem": [],
   "Racloop.view.LoginForm": [],
   "Racloop.view.MainNavigationView": [],
   "Racloop.view.MainTabs": [],
+  "Racloop.view.MapPanel": [],
+  "Racloop.view.OfflineView": [],
   "Racloop.view.OutgoingRequestList": [],
+  "Racloop.view.OutgoingRequestViewItem": [],
   "Racloop.view.PrivacyPanel": [],
   "Racloop.view.RegisterForm": [],
   "Racloop.view.RequestJourneyPanel": [],
   "Racloop.view.SearchNavigationView": [],
+  "Racloop.view.SearchResultViewItem": [],
+  "Racloop.view.SearchResultsDataView": [],
+  "Racloop.view.SearchResultsEmptyView": [],
+  "Racloop.view.SearchResultsView": [],
   "Racloop.view.SearchViewItem": [],
   "Racloop.view.SettingNavigationView": [],
   "Racloop.view.SettingsMenu": [],
@@ -1436,9 +1458,14 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
   "Racloop.controller.AccountController": [],
+  "Racloop.controller.JourneysController": [],
+  "Racloop.controller.MapController": [],
   "Racloop.controller.ProfileController": [],
   "Racloop.controller.SearchController": [],
+  "Racloop.controller.SessionsController": [],
   "Racloop.controller.SettingsController": [],
+  "Racloop.controller.UiController": [],
+  "Racloop.controller.WorkflowController": [],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],
   "Racloop.model.ForgotPassword": [],
@@ -1447,6 +1474,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.model.Search": [],
   "Racloop.model.User": [],
   "Racloop.model.VerifySms": [],
+  "Racloop.store.History": [
+    "widget.historyStore"
+  ],
   "Racloop.store.Journeys": [
     "widget.journeyStore"
   ],
@@ -1458,7 +1488,7 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.changePasswordForm"
   ],
   "Racloop.view.EditProfileForm": [
-    "widget.editprofileform"
+    "widget.editProfileForm"
   ],
   "Racloop.view.EmergencyContactForm": [
     "widget.emergencyContactForm"
@@ -1472,14 +1502,29 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.view.ForgotPasswordForm": [
     "widget.forgotPasswordForm"
   ],
+  "Racloop.view.HistoryEmptyView": [
+    "widget.historyEmptyView"
+  ],
+  "Racloop.view.HistoryNavigationView": [
+    "widget.historyNavigationView"
+  ],
+  "Racloop.view.HistoryViewItem": [
+    "widget.historyViewItem"
+  ],
   "Racloop.view.IncomingRequestList": [
     "widget.IncomingRequestItem"
   ],
+  "Racloop.view.IncomingRequestViewItem": [
+    "widget.incomingRequestViewItem"
+  ],
+  "Racloop.view.JourneyEmptyView": [
+    "widget.journeyEmptyView"
+  ],
   "Racloop.view.JourneyNavigationView": [
-    "widget.userJourneysList"
+    "widget.journeyNavigationView"
   ],
   "Racloop.view.JourneyViewItem": [
-    "widget.JourneyDataItem"
+    "widget.journeyViewItem"
   ],
   "Racloop.view.LoginForm": [
     "widget.loginForm"
@@ -1490,8 +1535,17 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.view.MainTabs": [
     "widget.mainTabs"
   ],
+  "Racloop.view.MapPanel": [
+    "widget.mapPanel"
+  ],
+  "Racloop.view.OfflineView": [
+    "widget.offlineView"
+  ],
   "Racloop.view.OutgoingRequestList": [
-    "widget.OutgoingRequestItem"
+    "widget.outgoingRequestList"
+  ],
+  "Racloop.view.OutgoingRequestViewItem": [
+    "widget.outgoingRequestViewItem"
   ],
   "Racloop.view.PrivacyPanel": [
     "widget.privacyPanel"
@@ -1504,6 +1558,18 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.SearchNavigationView": [
     "widget.searchNavigationView"
+  ],
+  "Racloop.view.SearchResultViewItem": [
+    "widget.searchResultViewItem"
+  ],
+  "Racloop.view.SearchResultsDataView": [
+    "widget.searchResultsDataView"
+  ],
+  "Racloop.view.SearchResultsEmptyView": [
+    "widget.searchResultsEmptyView"
+  ],
+  "Racloop.view.SearchResultsView": [
+    "widget.searchResultsView"
   ],
   "Racloop.view.SearchViewItem": [
     "widget.SearchDataItem"
