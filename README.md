@@ -10,8 +10,17 @@ Installation
 * sudo npm install -g cordova
 * sudo npm install -g phonegap
 * sudo npm install -g ios-sim
-* clone reporsiory from Github or 
+
+Application Creation
+--------------------
+* clone reporsiory from Github 
+* sencha phonegap init com.racloop.mobile App - http://www.joshmorony.com/building-your-app-remotely-with-phonegap-build-and-sencha-cmd/
 * sencha phonegap init FFUH83A68B.com.racloop.app
+
+Application Build Commands
+--------------------------
+* sencha app clean
+* sencha -d app build native
 * sencha ant sass
 
 Notes for Node.js
