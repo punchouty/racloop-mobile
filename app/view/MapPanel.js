@@ -44,12 +44,12 @@ Ext.define('Racloop.view.MapPanel', {
             {
                 xtype: "map",
                 flex : 1,
-                itemId : "googleMap",
-                mapOptions: {
+                itemId : "googleMap"
+//                mapOptions: {
 //                    center: new google.maps.LatLng (23.843138,79.44171),
 //                    mapTypeId: google.maps.MapTypeId.ROADMAP,
 //                    zoom: 5
-                }
+//                }
             }
         ]
     }
@@ -62,18 +62,17 @@ Ext.define('Racloop.view.MapPanel', {
     initMap: function() {
         var mapPanel = this.down('map');
         var gMap = mapPanel.getMap();
-        console.log("init map : " + mapPanel.getMap());
 
         if (gMap == null) {
             Ext.Function.defer(this.initMap,250,this);
         } else {
-            var center = new google.maps.LatLng (23.843138,79.44171);
-            var mapOptions = {
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                zoom: 5
-            }
-            gMap.setOptions(mapOptions);
-            gMap.panTo(center);
+//            var center = new google.maps.LatLng (23.843138,79.44171);
+//            var mapOptions = {
+//                mapTypeId: google.maps.MapTypeId.ROADMAP,
+//                zoom: 5
+//            }
+//            gMap.setOptions(mapOptions);
+//            gMap.panTo(center);
         }
     }
 });

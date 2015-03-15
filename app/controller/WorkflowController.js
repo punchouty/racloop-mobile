@@ -4,6 +4,7 @@ Ext.define('Racloop.controller.WorkflowController', {
     requires: [
         'Racloop.view.JourneyNavigationView',
         'Racloop.view.JourneyViewItem',
+        'Racloop.util.LoginHelper',
         //'Racloop.view.IncomingRequestList',
         //'Racloop.view.OutgoingRequestList',
         'Racloop.view.IncomingRequestViewItem',
@@ -42,6 +43,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             'journeyViewItem': {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
+                viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
                 incomingButtonTap: 'handleInComingButtonTap',
                 outgoingButtonTap: 'handleOutGoingButtonTap'
             },
@@ -164,6 +166,24 @@ Ext.define('Racloop.controller.WorkflowController', {
             success: successCallback,
             failure: failureCallback
         });
+    },
+    handleViewJourneyOnMapButtonTap : function(item) {
+        var record = item.getRecord();
+        var journeyId = record.get("journeyId");
+        var fromLatitude = record.get("fromLatitude");
+        var fromLongitude = record.get("fromLongitude");
+        var toLatitude = record.get("toLatitude");
+        var toLongitude = record.get("toLongitude");
+        var currentJourney = {
+            journeyId : journeyId,
+            fromLatitude : fromLatitude,
+            fromLongitude : fromLongitude,
+            toLatitude : toLatitude,
+            toLongitude : toLongitude
+        };
+        LoginHelper.setCurrentJourney(currentJourney);
+        this.getMainTabs().setActiveItem('mapPanel');
+        Racloop.app.getController('MapController').showCurrentJourney();
     },
     handleInComingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();

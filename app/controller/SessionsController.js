@@ -23,7 +23,7 @@ Ext.define('Racloop.controller.SessionsController', {
         }
     },
 
-    autoLogin : function(app) {
+    autoLogin : function(app) { // Called from MapController launch
         var mainNavigationView = this.getMainNavigationView(); // Main view
         var me = this;
         var user = LoginHelper.getUser();
@@ -37,10 +37,8 @@ Ext.define('Racloop.controller.SessionsController', {
                 message: 'Logging in...'
             });
             var successCallback = function(response, ops) {
-                console.log('login success during launch : ' + response.responseText);
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    console.log('login success data.success : ' + data.success + " , currentJourney : " + currentJourney);
                     LoginHelper.setUser(data.data);
                     LoginHelper.setEmail(user.email);
                     var currentJourney = data.currentJourney
@@ -49,7 +47,6 @@ Ext.define('Racloop.controller.SessionsController', {
                     mainTabs.show();
                     Ext.Viewport.unmask();
                     if(currentJourney) {
-                        console.log("login success currentJourney : " + currentJourney);
                         mainTabs.setActiveItem('mapPanel');
                         LoginHelper.setCurrentJourney(currentJourney);
                         Racloop.app.getController('MapController').showCurrentJourney();
@@ -84,7 +81,6 @@ Ext.define('Racloop.controller.SessionsController', {
 
                         }
                         else {
-                            console.log('login success emergency contact : false');
                             mainTabs.setActiveItem('mapPanel');
                             Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         }

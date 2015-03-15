@@ -50,7 +50,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
-                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button></span>\
+                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button><button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button></span>\
                     </div>\
                     <div>\
                         <span class="card-label card-label-blue">'+drivingText+'</span>\
@@ -91,6 +91,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
         });
         this.element.on({
             scope      : this,
+            tap        : 'viewJourneyOnMapButtonTapFired',
+            delegate   : 'button.viewMapButton'
+        });
+        this.element.on({
+            scope      : this,
             tap        : 'deleteJourneyButtonTapFired',
             delegate   : 'button.deleteJourneyButton'
         });
@@ -109,6 +114,9 @@ Ext.define('Racloop.view.JourneyViewItem', {
     },
     searchAgainButtonTapFired: function(e) {
         this.fireEvent('searchAgainButtonTap',this);
+    },
+    viewJourneyOnMapButtonTapFired: function(e) {
+        this.fireEvent('viewJourneyOnMapButtonTap',this);
     },
     deleteJourneyButtonTapFired: function(e) {
         this.fireEvent('deleteJourneyButtonTap',this);

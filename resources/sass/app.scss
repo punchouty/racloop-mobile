@@ -243,6 +243,10 @@ $tabs-dark: $blue;
   font-family: "racloop-icons";
   content: "\e080";
 }
+.eyeCls:before {
+  font-family: "racloop-icons";
+  content: "\e09a";
+}
 //@include sencha-toolbar-ui('light', darken($black,10%), 'recessed');
 
 .error .x-component-outer{
