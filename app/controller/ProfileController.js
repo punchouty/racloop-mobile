@@ -18,11 +18,13 @@ Ext.define('Racloop.controller.ProfileController', {
         //another view need to be added here for edit profile
         refs: {
             mainNavigationView: 'mainNavigationView',
+
+            updateProfileButton: 'editProfileForm #updateProfileButton',
+
             signupScreen: 'signupScreen',
             passwordForm: 'changePasswordForm',
             changeButton: 'button[action=change]',
-            editProfileForm: 'editprofileform',
-            editButton: 'button[action=edit]',
+            //editProfileForm: 'editprofileform',
             forgotPassword: '#ForgotPasswordForm',
             forgotButton: 'button[action=forgotpassword]',
             loginPanel: 'mainNavigationView #loginPanel',
@@ -36,11 +38,11 @@ Ext.define('Racloop.controller.ProfileController', {
 
         },
         control: {
+            updateProfileButton: {
+                tap: 'updateProfile'
+            },
             changeButton: {
                 tap: 'changePassword'
-            },
-            editButton: {
-                tap: 'editProfile'
             },
             forgotButton: {
                 tap: 'forgotPassword'
@@ -189,70 +191,69 @@ Ext.define('Racloop.controller.ProfileController', {
     },
 
 
-    editProfile: function(button, e, eOpts) {
-        this.resetErrorEditFields();
-        var user = Ext.create("Racloop.model.EditProfile", {});
-        var form = button.up('formpanel'), // Login form
-            values = form.getValues(), // Form values
-            editForm = this.getEditProfileForm();
-        editForm.updateRecord(user);
-        // Success
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            console.log('EditProfile success during launch : ' + response.responseText);
-            if (data.success) {
-                Ext.Msg.alert("Edit Profile success", data.message)
-                var userdata = LoginHelper.getUser();
-                LoginHelper.removeUser();
-                console.log(data);
-                var editedUser = data.data;
-                userdata.fullName = values.fullName;
-                userdata.mobile = values.mobile;
-                userdata.gender = values.gender;
-                LoginHelper.setUser(userdata);
-                Ext.Viewport.unmask();
-            } else {
-                Ext.Msg.alert("Edit Profile Failure", data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert("EditProfile Failure", response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-
-        var validationObj = user.validate();
-        if (!validationObj.isValid()) {
-            var errorString = this.handleEditValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
-        } else {
-            Ext.Viewport.mask({
-                xtype: 'loadmask',
-                indicator: true,
-                message: 'EditProfile...'
-            });
-            Ext.Ajax.request({
-                url: Racloop.util.Config.url.RACLOOP_EDIT,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    email: values.email,
-                    fullName: values.fullName,
-                    mobile: values.mobile,
-                    sex: values.gender
-                }),
-                success: successCallback,
-                failure: failureCallback
-            });
-        }
-
-
+    updateProfile: function(button, e, eOpts) {
+//        this.resetErrorEditFields();
+//        var user = Ext.create("Racloop.model.EditProfile", {});
+//        var form = button.up('formpanel'), // Login form
+//            values = form.getValues(), // Form values
+//            editForm = this.getEditProfileForm();
+//        editForm.updateRecord(user);
+//        // Success
+//        var successCallback = function(response, ops) {
+//            var data = Ext.decode(response.responseText);
+//            console.log('EditProfile success during launch : ' + response.responseText);
+//            if (data.success) {
+//                Ext.Msg.alert("Edit Profile success", data.message)
+//                var userdata = LoginHelper.getUser();
+//                LoginHelper.removeUser();
+//                console.log(data);
+//                var editedUser = data.data;
+//                userdata.fullName = values.fullName;
+//                userdata.mobile = values.mobile;
+//                userdata.gender = values.gender;
+//                LoginHelper.setUser(userdata);
+//                Ext.Viewport.unmask();
+//            } else {
+//                Ext.Msg.alert("Edit Profile Failure", data.message);
+//                Ext.Viewport.unmask();
+//            }
+//        };
+//        // Failure
+//        var failureCallback = function(response, ops) {
+//            Ext.Msg.alert("EditProfile Failure", response.message);
+//            Ext.Viewport.unmask();
+//
+//        };
+//
+//
+//        var validationObj = user.validate();
+//        if (!validationObj.isValid()) {
+//            var errorString = this.handleEditValidation(validationObj);
+//            Ext.Msg.alert("Oops", errorString);
+//        } else {
+//            Ext.Viewport.mask({
+//                xtype: 'loadmask',
+//                indicator: true,
+//                message: 'EditProfile...'
+//            });
+//            Ext.Ajax.request({
+//                url: Racloop.util.Config.url.RACLOOP_EDIT,
+//                withCredentials: true,
+//                useDefaultXhrHeader: false,
+//                headers: {
+//                    'Content-Type': 'application/json'
+//                },
+//                params: Ext.JSON.encode({
+//                    email: values.email,
+//                    fullName: values.fullName,
+//                    mobile: values.mobile,
+//                    sex: values.gender
+//                }),
+//                success: successCallback,
+//                failure: failureCallback
+//            });
+//        }
+        Ext.Msg.alert("Test", "Success");
     },
 
     handleEditValidation: function(validationObj) {

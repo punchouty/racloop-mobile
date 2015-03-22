@@ -63,8 +63,9 @@ Ext.define('Racloop.controller.SessionsController', {
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
                                 else {
-                                    mainTabs.setActiveItem('mapPanel');
-                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    mainTabs.setActiveItem('searchNavigationView');
+//                                    mainTabs.setActiveItem('mapPanel');
+//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                                 }
                             }
                             else {
@@ -74,15 +75,17 @@ Ext.define('Racloop.controller.SessionsController', {
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
                                 else {
-                                    mainTabs.setActiveItem('mapPanel');
-                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    mainTabs.setActiveItem('searchNavigationView');
+//                                    mainTabs.setActiveItem('mapPanel');
+//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                                 }
                             }
 
                         }
                         else {
-                            mainTabs.setActiveItem('mapPanel');
-                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            mainTabs.setActiveItem('searchNavigationView');
+//                            mainTabs.setActiveItem('mapPanel');
+//                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         }
 
                     }
@@ -136,13 +139,12 @@ Ext.define('Racloop.controller.SessionsController', {
         var mainNavigationView = this.getMainNavigationView(); // Main view
         loginForm.updateRecord(user);
         var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
-        console.log("launch currentDateString : " + currentDateString);
         // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 LoginHelper.setUser(data.data);
-                LoginHelper.setEmail(user.email);
+                LoginHelper.setEmail(values.email);
                 var currentJourney = data.currentJourney
                 var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
                 Ext.Viewport.setActiveItem(mainTabs);
@@ -166,8 +168,9 @@ Ext.define('Racloop.controller.SessionsController', {
                                 Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                             }
                             else {
-                                mainTabs.setActiveItem('mapPanel');
-                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                mainTabs.setActiveItem('searchNavigationView');
+//                                mainTabs.setActiveItem('mapPanel');
+//                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                             }
                         }
                         else {
@@ -177,16 +180,18 @@ Ext.define('Racloop.controller.SessionsController', {
                                 Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                             }
                             else {
-                                mainTabs.setActiveItem('mapPanel');
-                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                mainTabs.setActiveItem('searchNavigationView');
+//                                mainTabs.setActiveItem('mapPanel');
+//                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                             }
                         }
 
                     }
                     else {
                         console.log('login success emergency contact : false');
-                        mainTabs.setActiveItem('mapPanel');
-                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                        mainTabs.setActiveItem('searchNavigationView');
+//                        mainTabs.setActiveItem('mapPanel');
+//                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                     }
 
                 }

@@ -6,19 +6,19 @@ Ext.define('Racloop.view.EmergencyContactForm', {
     config: {
         items: [{
             xtype: 'fieldset',
-            title: 'Emergency Contac',
-            instructions: "Contacts you want to notify in case of emergency",
+            title: 'Emergency Contacts',
+            instructions: "Contacts you want to notify in case of emergency. Mobile number of your parent, family member or your friend",
 
             items: [{
                 name: 'contactOne',
                 xtype: 'textfield',
-                label: 'Emergency Contact 1',
+                label: 'Contact 1',
                 placeHolder: 'Mobile Number 1',
                 itemId: 'emergencyContactOne'
             }, {
                 name: 'contactTwo',
                 xtype: 'textfield',
-                label: 'Emergency Contact 2',
+                label: 'Contact 2',
                 placeHolder: 'Mobile Number 2',
                 itemId: 'emergencyContactTwo'
             } ]

@@ -136,8 +136,13 @@ Ext.define('Racloop.controller.MapController', {
             this.stopWatchingJourney();
         }
         else {
-            this.isWatching = true;
-            this.startWatchingJourney();
+            if(LoginHelper.getCurrentJourney()) {
+                this.isWatching = true;
+                this.startWatchingJourney();
+            }
+            else {
+                Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
+            }
         }
 
     },
@@ -154,7 +159,7 @@ Ext.define('Racloop.controller.MapController', {
         }
     },
 
-    updateCurrentLocationOnMap: function(){
+    updateCurrentLocationOnMap: function(){ // Used in login and autologin
         var me = this;
         var mapPanel = this.getMapPanel();
         var gMap = mapPanel.down('map').getMap();
@@ -167,34 +172,39 @@ Ext.define('Racloop.controller.MapController', {
             allowHighAccuracy : true,
             timeout : 3000,
             success: function(position) {
+                console.log('updateCurrentLocationOnMap success');
                 var geocoder = new google.maps.Geocoder();
                 var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                geocoder.geocode({'latLng': latlng}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results.length > 0) {
-                            var currentLocation = results[0].geometry.location;
-                            var mapOptions = {
-                                center: currentLocation,
-                                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                                zoom: 12
-                            }
-                            gMap.setOptions(mapOptions);
-                            me.marker.setPosition(currentLocation);
-//                            me.marker = new google.maps.Marker({
-//                                position: currentLocation,
-//                                map: gMap,
-//                                title: 'Current Location'
-//                            });
-//                            gMap.setZoom(10);
-//                            gMap.panTo(currentLocation);
-                        } else {
-                            console.log("No results found");
-                        }
-                    } else {
-                        console.log("Geocoder failed due to: " + status);
-                    }
-                    Ext.Viewport.unmask();
-                });
+                var mapOptions = {
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoom: 12
+                };
+                gMap.setOptions(mapOptions);
+                me.marker.setMap(gMap);
+                me.marker.setPosition(latlng);
+//                geocoder.geocode({'latLng': latlng}, function(results, status) {
+//                    if (status == google.maps.GeocoderStatus.OK) {
+//                        if (results.length > 0) {
+//                            var currentLocation = results[0].geometry.location;
+//                            var mapOptions = {
+//                                center: currentLocation,
+//                                mapTypeId: google.maps.MapTypeId.ROADMAP,
+//                                zoom: 12
+//                            };
+//                            console.log(latlng + ' updateCurrentLocationOnMap success : ' + currentLocation);
+//                            gMap.setOptions(mapOptions);
+//                            me.marker.setMap(gMap);
+//                            me.marker.setPosition(latlng);
+//                        } else {
+//                            console.log("No results found");
+//                        }
+//                    } else {
+//                        console.log("Geocoder failed due to: " + status);
+//                    }
+//                    Ext.Viewport.unmask();
+//                });
+                Ext.Viewport.unmask();
             },
             failure: function() {
                 console.log('something went wrong!');
@@ -244,6 +254,7 @@ Ext.define('Racloop.controller.MapController', {
         var me = this;
         var currentJourney = LoginHelper.getCurrentJourney();
         if(currentJourney) {
+            me.isWatching = true;
             var fromLatitude = currentJourney.fromLatitude;
             var fromLongitude = currentJourney.fromLongitude;
             var toLatitude = currentJourney.toLatitude;
@@ -260,6 +271,7 @@ Ext.define('Racloop.controller.MapController', {
             };
             this.directionsService.route(request, function (results, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
+                    display.setMap(me.googleMap);
                     display.setDirections(results);
                     var tracks = [];
                     var routes = results.routes;
@@ -290,10 +302,11 @@ Ext.define('Racloop.controller.MapController', {
                         }
                     }
                     me.tracks = tracks;
+                    me.googleMap.panTo(from);
                     //console.log("TRACKS : " + tracks);
                 }
                 else {
-                    //console.error("Direction Status not OK");
+                    console.error("Direction Status not OK");
                 }
             });
         }
@@ -306,10 +319,13 @@ Ext.define('Racloop.controller.MapController', {
         }
         else {
             this.isGeolocationActive = true;
+            console.log("watch position : " + new Date())
             Ext.device.Geolocation.watchPosition({
                 frequency: Config.locationUpdateFrequency, // Update every 30 seconds
                 allowHighAccuracy : true,
+                maximumAge : 0,
                 callback: function (position) {
+                    console.log(me.isWatching + " : Rajan : " + new Date());
                     if(me.isSosActivated) {
                         me.sendSosMessage(position.coords.latitude, position.coords.longitude);
                     }
@@ -317,7 +333,6 @@ Ext.define('Racloop.controller.MapController', {
                         var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                         me.marker.setPosition(current);
                         me.marker.setMap(me.googleMap);
-                        me.googleMap.panTo(current);
                         me.infoWindow.open(me.googleMap, me.marker);
                         var tracks = me.tracks;//LoginHelper.getRoutes();
                         var isDanger = false;
@@ -358,15 +373,15 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     unwatchCurrentLocation : function() {
+        this.infoWindow.close();
+        this.marker.setMap(null);
+        this.showCurrentJourney();
         if(this.isSosActivated) {
 
         }
         else {
-            this.isGeolocationActive = false;
             Ext.device.Geolocation.clearWatch();
-            this.infoWindow.close();
-            this.marker.setMap(null);
-            this.showCurrentJourney();
+            this.isGeolocationActive = false;
         }
 
     },
@@ -378,9 +393,10 @@ Ext.define('Racloop.controller.MapController', {
 
         // Failure
         var failureCallback = function(response, ops) {
-
+            Ext.toast({message: "Issue with sending message", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
         };
-
+        var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
+        var user = LoginHelper.getUser();
         Ext.Ajax.request({
             url: Config.url.RACLOOP_SOS,
             withCredentials: true,
@@ -389,8 +405,10 @@ Ext.define('Racloop.controller.MapController', {
                 'Content-Type': 'application/json'
             },
             params: Ext.JSON.encode({
+                email: user.email,
                 lat: lat,
-                lng: lng
+                lng: lng,
+                currentDateString : currentDateString
             }),
             success: successCallback,
             failure: failureCallback

@@ -13,7 +13,7 @@ Ext.define('Racloop.util.Config', {
         },
         toastTimeout : 2500,
         initComplete : false,
-        locationUpdateFrequency : 60000,
+        locationUpdateFrequency : 10000,
         //Setting menu
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
@@ -96,7 +96,6 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_TERMS='http://www.racloop.com/mobile/terms';
             this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/mobile/privacy';
             this.config.url.RACLOOP_SOS='http://www.racloop.com/mobile/sos';
-            this.config.url.RACLOOP_CANCEL_SOS='http://www.racloop.com/mobile/cancelSos';
         } else if (this.config.env == 'dev') {
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
@@ -120,7 +119,6 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_TERMS='http://localhost:8080/app/mobile/terms';
             this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/mobile/privacy';
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/mobile/sos';
-            this.config.url.RACLOOP_CANCEL_SOS='http://localhost:8080/app/mobile/cancelSos';
         } else {
             this.config.url.RACLOOP_LOGIN = '/test-data/login_success.json';
             this.config.url.RACLOOP_LOGOUT = '/test-data/logout.json';

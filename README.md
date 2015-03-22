@@ -1,3 +1,14 @@
+TO DO
+=====
+
+* Emergency contacts
+* flow for startup
+* icons
+* Push Notification
+* Feedback star rating
+* Terms and Privacy from server
+
+
 Racloop Mobile App
 ====================
 
@@ -157,13 +168,44 @@ Sencha Important Links
 Test Cases
 ==========
 
+Startup
+-------
+* No internet connection
+* With internet connection
+* Offline event
+* Online event
+
+Screen Navigation and Back button
+----------------------------------
+* All links should work properly along with back button
+* New User
+* Sign In
+* Forgot password
+* Verify Mobile
+* Terms
+* Privacy
+
 Login
 -----
 * Empty User name
 * Empty Password
 * Wrong User name
 * Wrong Password
-* Male is to female - emergency contacts
+* Emergency contacts - Male
+* Emergency contacts - Female 
+
+* Behaviour when current journey present
+* Behaviour when current journey not present
+* Behaviour when user record present in local storage (auto login)
+* Behaviour when user record not present in local storage
+* Mix above 4 scenario
+
+Home
+----
+
+* Watch - when current journey present
+* Watch - when no current journey present
+* Unwatch
 
 Register
 --------

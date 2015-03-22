@@ -44,7 +44,8 @@ Ext.define('Racloop.view.MapPanel', {
             {
                 xtype: "map",
                 flex : 1,
-                itemId : "googleMap"
+                itemId : "googleMap",
+                useCurrentLocation: true
 //                mapOptions: {
 //                    center: new google.maps.LatLng (23.843138,79.44171),
 //                    mapTypeId: google.maps.MapTypeId.ROADMAP,

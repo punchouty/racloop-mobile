@@ -98,7 +98,16 @@ Ext.define('Racloop.controller.UiController', {
             if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
         else if(button.getTitle() === Config.tabHome) {
-            Racloop.app.getController('MapController').startWatchingJourney();
+            var currentJourney = LoginHelper.getCurrentJourney();
+            if(currentJourney) {
+                Racloop.app.getController('MapController').startWatchingJourney();
+                console.log('startWatchingJourney');
+            }
+            else {
+                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                console.log('updateCurrentLocationOnMap');
+            }
+            //Racloop.app.getController('MapController').startWatchingJourney();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
     },

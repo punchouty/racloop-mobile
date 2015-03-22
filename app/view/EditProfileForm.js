@@ -1,6 +1,7 @@
 
 Ext.define('Racloop.view.EditProfileForm', {
     extend: 'Ext.form.Panel',
+    alias: 'widget.editProfileForm',
     xtype: 'editProfileForm',
 
     requires: [
@@ -53,7 +54,7 @@ Ext.define('Racloop.view.EditProfileForm', {
             ]
         }, {
             xtype: 'button',
-            itemId: 'editButton',
+            itemId: 'updateProfileButton',
             text: 'Update Profile',
             action: 'edit',
             ui: 'action',

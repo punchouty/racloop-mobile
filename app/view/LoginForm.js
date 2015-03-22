@@ -45,6 +45,7 @@ Ext.define('Racloop.view.LoginForm', {
             ui: 'action'
         },  {
             xtype: 'button',
+            hidden : true,
             itemId: 'facebookLoginButton',
             margin: 20,
             padding: 8,
