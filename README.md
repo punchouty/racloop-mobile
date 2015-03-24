@@ -126,6 +126,7 @@ Rajan To Do
 * Calendar widget missing arrow-right and arrow-left - Done
 * URL mapping for mobile. Not required. Need to change.
 * Capacity Testing - no more than 5 request per day
+* Edit phone number should kick off verification
 
 Rohit to do
 * Session time out handling - web and mobile also - To change session time out - http://grails.github.io/grails-howtos/en/performanceTuning.html

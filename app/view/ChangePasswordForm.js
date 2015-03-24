@@ -7,31 +7,32 @@ Ext.define('Racloop.view.ChangePasswordForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Change Password',
-
+            instructions : 'Password should contain upper case, lower case, numeric value and a symbol.',
             items: [{
                 name: 'currentPassword',
                 xtype: 'passwordfield',
-                label: 'Old Password',
+                label: 'Old',
                 placeHolder: 'Current Password',
-                itemId: 'changeScreenoldPassword'
+                itemId: 'changeScreenOldPassword'
             }, {
-                name: 'newpassword',
+                name: 'newPassword',
                 xtype: 'passwordfield',
-                label: 'New Password',
-                placeHolder: 'New Password',
-                itemId: 'changeScreennewpassword'
+                label: 'New',
+                placeHolder: '7 to 25 characters',
+                itemId: 'changeScreenNewPassword'
             }, {
-                name: 'repeatpassword',
+                name: 'repeatPassword',
                 xtype: 'passwordfield',
                 label: 'Repeat Password',
                 placeHolder: 'Repeat Password',
-                itemId: 'changeScreenrepeatpassword'
+                hidden : true,
+                itemId: 'changeScreenRepeatPassword'
             }
 
             ]
         }, {
             xtype: 'button',
-            itemId: 'changeButton',
+            itemId: 'changePasswordButton',
             action: 'change',
             text: 'Change Password',
             ui: 'action',

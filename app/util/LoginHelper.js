@@ -47,6 +47,9 @@ Ext.define('Racloop.util.LoginHelper', {
                 return localStorage.e;
             }
         },
+        removeEmail: function() {
+            if (Common.supportsHtml5Storage()) localStorage.removeItem('e');
+        },
         isFemale: function(user) {
             if(user.isMale == true) {
                 return false
@@ -119,7 +122,7 @@ Ext.define('Racloop.util.LoginHelper', {
             }
         },
         removeCurrentJourney: function() {
-            if (Common.supportsHtml5SessionStorage()) localStorage.removeItem('j');
+            if (Common.supportsHtml5SessionStorage()) sessionStorage.removeItem('j');
         },
         setRoutes : function(route) {
             if (Common.supportsHtml5SessionStorage()) {
@@ -140,7 +143,7 @@ Ext.define('Racloop.util.LoginHelper', {
             }
         },
         removeRoutes : function() {
-            if (Common.supportsHtml5SessionStorage()) localStorage.removeItem('r');
+            if (Common.supportsHtml5SessionStorage()) sessionStorage.removeItem('r');
         }
     },
     constructor: function() {

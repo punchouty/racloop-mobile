@@ -18,39 +18,50 @@ Ext.define('Racloop.model.EditProfile', {
         }
 
         ],
-        validations: [{
-            type: 'presence',
-            field: 'fullName',
-            message: "Name is required"
-        }, {
+        validations: [
+//            {
+//            type: 'presence',
+//            field: 'fullName',
+//            message: "Name is required"
+//        },
+            {
             type: 'length',
             field: 'fullName',
             min: 3,
-            message: "Name should be minimum 3 characters long"
-        }, {
-            type: 'length',
-            field: 'fullName',
             max: 50,
-            message: "Name should be maximum 50 characters long"
-        }, {
-            type: 'presence',
-            field: 'mobile'
-        }, {
+            message: "Name should be between 3 and 50 characters"
+        },
+//            {
+//            type: 'length',
+//            field: 'fullName',
+//            max: 50,
+//            message: "Name should be maximum 50 characters long"
+//        },
+//            {
+//            type: 'presence',
+//            field: 'mobile',
+//            message: "Mobile is required"
+//        },
+            {
             type: 'format',
             field: 'mobile',
-            matcher: /^[7-9][0-9]{9}$/
-        }, {
-            type: 'presence',
-            field: 'email',
-            message: "Email is required"
-        }, {
-            type: 'email',
-            field: 'email',
-            message: 'Email format is invalid'
-        }, {
-            type: 'inclusion',
-            field: 'gender',
-            list: ['male', 'female']
-        }]
+            matcher: /^[7-9][0-9]{9}$/,
+            message: "Mobile should be like 98XXXXXXXX"
+        }
+//            , {
+//            type: 'presence',
+//            field: 'email',
+//            message: "Email is required"
+//        }, {
+//            type: 'email',
+//            field: 'email',
+//            message: 'Email format is invalid'
+//        }
+//            , {
+//            type: 'inclusion',
+//            field: 'gender',
+//            list: ['male', 'female']
+//        }
+        ]
     }
 });

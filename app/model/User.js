@@ -42,7 +42,7 @@ Ext.define('Racloop.model.User', {
             field: 'name',
             min: 3,
             max: 50,
-            message: "Name should be between 3 and 50 characters "
+            message: "Name should be between 3 and 50 characters"
         }, {
             type: 'presence',
             field: 'email',
@@ -60,16 +60,18 @@ Ext.define('Racloop.model.User', {
             field: 'password',
             min: 7,
             max: 25,
-            message: "Password should be between 7 and 25 characters "
+            message: "Password should be between 7 and 25 characters"
         }, {
             type: 'presence',
             field: 'repeatpassword',
             message: "Repeat Password is required"
-        }, {
-            type: 'presence',
-            field: 'mobile',
-            message: "Mobile is required"
-        }, {
+        },
+//            {
+//            type: 'presence',
+//            field: 'mobile',
+//            message: "Mobile is required"
+//        },
+            {
             type: 'format',
             field: 'mobile',
             matcher: /^[7-9][0-9]{9}$/,

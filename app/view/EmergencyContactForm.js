@@ -13,13 +13,13 @@ Ext.define('Racloop.view.EmergencyContactForm', {
                 name: 'contactOne',
                 xtype: 'textfield',
                 label: 'Contact 1',
-                placeHolder: 'Mobile Number 1',
+                placeHolder: '10 digit mobile number',
                 itemId: 'emergencyContactOne'
             }, {
                 name: 'contactTwo',
                 xtype: 'textfield',
                 label: 'Contact 2',
-                placeHolder: 'Mobile Number 2',
+                placeHolder: '10 digit mobile number',
                 itemId: 'emergencyContactTwo'
             } ]
         }, {

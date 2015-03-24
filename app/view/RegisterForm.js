@@ -17,44 +17,47 @@ Ext.define('Racloop.view.RegisterForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Sign Up',
-            instructions: 'By registering you are agreeing to ' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
+            instructions : 'Password should contain upper case, lower case, numeric value and a symbol.',
+//            instructions: 'By registering you are agreeing to ' +
+//                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
+//                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
             items: [{
+                name: 'email',
+                xtype: 'textfield',
+                label: 'Email*',
+                placeHolder: 'user@racloop.com',
+                itemId: 'registerScreenEmail'
+            }, {
+                name: 'password',
+                xtype: 'passwordfield',
+                label: 'Password*',
+                placeHolder: 'Secret',
+                itemId: 'registerScreenPassword'
+            }, {
+                name: 'repeatpassword',
+                xtype: 'passwordfield',
+                label: 'Again*',
+                hidden: true,
+                placeHolder: 'Password Confirmation',
+                itemId: 'registerScreenRepeatPassword'
+            }, {
                 name: 'name',
                 xtype: 'textfield',
                 label: 'Name*',
                 placeHolder: 'Full Name',
                 itemId: 'registerScreenName'
             }, {
-                name: 'email',
-                xtype: 'textfield',
-                label: 'Email*',
-                placeHolder: 'user@example.com',
-                itemId: 'registerScreenEmail'
-            }, {
-                name: 'password',
-                xtype: 'passwordfield',
-                label: 'Password*',
-                placeHolder: 'Password',
-                itemId: 'registerScreenPassword'
-            }, {
-                name: 'repeatpassword',
-                xtype: 'passwordfield',
-                label: 'Again*',
-                placeHolder: 'Password Confirmation',
-                itemId: 'registerScreenRepeatPassword'
-            }, {
                 name: 'mobile',
                 xtype: 'textfield',
                 label: 'Mobile*',
-                placeHolder: 'Mobile No.',
+                placeHolder: '10 digit mobile number',
                 itemId: 'registerScreenMobile'
             }, {
                 xtype: 'radiofield',
                 name: 'gender',
                 value: 'male',
                 label: 'Male',
+                hidden: true,
                 checked: true,
                 itemId: 'registerScreenMale'
             }, {
@@ -62,6 +65,7 @@ Ext.define('Racloop.view.RegisterForm', {
                 name: 'gender',
                 value: 'female',
                 label: 'Female',
+                hidden: true,
                 itemId: 'registerScreenFemale'
             }]
         }, {
@@ -75,7 +79,17 @@ Ext.define('Racloop.view.RegisterForm', {
             padding: 8,
             ui: 'action',
             text: 'Sign Up'
-        }]
+        },
+            {
+                xtype : 'panel',
+                styleHtmlContent: true,
+                html: [
+                    //"Password should contain upper case, lower case, numeric value and a symbol."
+                        'By registering you are agreeing to ' +
+                        '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
+                        '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop'
+                ].join("")
+            } ]
     }
 
 });

@@ -6,10 +6,10 @@ Ext.define('Racloop.model.ChangePassword', {
             name: 'currentPassword',
             type: 'string'
         }, {
-            name: 'newpassword',
+            name: 'newPassword',
             type: 'string'
         }, {
-            name: 'repeatpassword',
+            name: 'repeatPassword',
             type: 'string'
         }
 
@@ -18,24 +18,30 @@ Ext.define('Racloop.model.ChangePassword', {
             type: 'presence',
             field: 'currentPassword',
             message: "Old Password is required"
-        }, {
-            type: 'presence',
-            field: 'newpassword',
-            message: "New Password is required"
-        }, {
+        },
+//            {
+//            type: 'presence',
+//            field: 'newpassword',
+//            message: "New Password is required"
+//        },
+            {
             type: 'length',
-            field: 'newpassword',
+            field: 'newPassword',
             min: 7,
-            message: "New Password should be minimum 7 characters long"
-        }, {
-            type: 'length',
-            field: 'newpassword',
             max: 25,
-            message: "New Password should be maximum 25 characters long"
-        }, {
-            type: 'presence',
-            field: 'repeatpassword',
-            message: "Repeat Password is required"
-        }]
+            message: "New Password should be between 7 and 25 characters"
+        }
+//            , {
+//            type: 'length',
+//            field: 'newpassword',
+//            max: 25,
+//            message: "New Password should be maximum 25 characters long"
+//        }
+//            , {
+//            type: 'presence',
+//            field: 'repeatpassword',
+//            message: "Repeat Password is required"
+//        }
+        ]
     }
 });

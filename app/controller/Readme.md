@@ -1,16 +1,19 @@
 This folder contains the controllers
 
 Sessions Controller
-Login, Logout, Main Navigation, terms, privacy
+Login, Auto login, Logout
 
 Setting Controller
-logout, terms, privacy, screen navigation
+terms (ajax call), privacy (ajax call), screen navigation for Setting Navigation View
+
+UI Controller (No business logic)
+Navigation (Login, Register, Forgot Password, verify mobile), My Journey, History, Tab Navigation, Terms (forward to setting controller), Privacy (forward to setting controller), 
 
 Account Controller
 Register, SMS Verification, Resend SMS, Forgot Password
 
 Profile Controller
-Edit Profile, Change Password, Edit Emergency Contacts, terms, privacy
+Edit Profile, Change Password, Edit Emergency Contacts
 
 Security Controller
 sos, log, isSafe

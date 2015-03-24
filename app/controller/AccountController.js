@@ -51,6 +51,10 @@ Ext.define('Racloop.controller.AccountController', {
         var user = Ext.create("Racloop.model.User", {});
         var registerForm = button.up('formpanel'); // Register form
         var values = registerForm.getValues(); // Form values
+
+        //TODO Need to be removed
+        Ext.ComponentQuery.query('#registerScreenRepeatPassword')[0].setValue(values.password);
+        Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
         var mainNavigationView = this.getMainNavigationView(); // Main view
         registerForm.updateRecord(user);
 
@@ -75,14 +79,14 @@ Ext.define('Racloop.controller.AccountController', {
                         Ext.Viewport.unmask();
                         Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                     } else {
-                        Ext.Msg.alert("Registartion Failure", data.message);
+                        Ext.Msg.alert("Failure", data.message);
                         Ext.Viewport.unmask();
                     }
                 };
 
                 // Failure
                 var failureCallback = function(response, ops) {
-                    Ext.Msg.alert("Registartion Failure", response.message);
+                    Ext.Msg.alert("Failure", response.message);
                     Ext.Viewport.unmask();
 
                 };
@@ -100,7 +104,7 @@ Ext.define('Racloop.controller.AccountController', {
                     params: Ext.JSON.encode({
                         email: values.email,
                         password: values.password,
-                        passwordConfirm: values.repeatpassword,
+                        passwordConfirm: values.password,
                         fullName: values.name,
                         mobile: values.mobile,
                         gender: values.gender
