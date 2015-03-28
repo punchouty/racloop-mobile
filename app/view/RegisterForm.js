@@ -49,7 +49,7 @@ Ext.define('Racloop.view.RegisterForm', {
             }, {
                 name: 'mobile',
                 xtype: 'textfield',
-                label: 'Mobile*',
+                label: 'Mobile* (+91)',
                 placeHolder: '10 digit mobile number',
                 itemId: 'registerScreenMobile'
             }, {

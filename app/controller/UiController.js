@@ -285,7 +285,8 @@ Ext.define('Racloop.controller.UiController', {
         mainNavigationView.push({
             itemId: 'termsPanel',
             xtype: "termsPanel",
-            title: "Terms of Use"
+            title: "Terms of Use",
+            scrollable : true
         });
         Racloop.app.getController('SettingsController').setTerms();
     },
@@ -297,7 +298,8 @@ Ext.define('Racloop.controller.UiController', {
         mainNavigationView.push({
             itemId: 'privacyPanel',
             xtype: "privacyPanel",
-            title: "Data Privacy"
+            title: "Data Privacy",
+            scrollable : true
         });
         Racloop.app.getController('SettingsController').setPrivacy();
     }

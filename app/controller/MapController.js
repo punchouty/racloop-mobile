@@ -321,7 +321,7 @@ Ext.define('Racloop.controller.MapController', {
             this.isGeolocationActive = true;
             console.log("watch position : " + new Date())
             Ext.device.Geolocation.watchPosition({
-                frequency: Config.locationUpdateFrequency, // Update every 30 seconds
+                frequency: Config.locationUpdateFrequency,
                 allowHighAccuracy : true,
                 maximumAge : 0,
                 callback: function (position) {

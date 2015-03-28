@@ -188,7 +188,6 @@ Ext.define('Racloop.controller.SettingsController', {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 var termsHtml = Ext.ComponentQuery.query('#termsText')[0];
-                console.log(data.message);
                 termsHtml.setHtml(data.message);
                 Ext.Viewport.unmask();
             } else {

@@ -13,7 +13,7 @@ Ext.define('Racloop.util.Config', {
         },
         toastTimeout : 2500,
         initComplete : false,
-        locationUpdateFrequency : 10000,
+        locationUpdateFrequency : 180000,
         //Setting menu
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
