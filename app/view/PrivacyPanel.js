@@ -10,9 +10,8 @@ Ext.define('Racloop.view.PrivacyPanel', {
     config: {
         itemId: 'privacyPanel',
         items: [{
-            xtype: 'container',
-            centered: true,
-            html: 'Privacy Statement',
+            xtype: 'panel',
+            styleHtmlContent: true,
             itemId: 'privacyText'
         }]
     }

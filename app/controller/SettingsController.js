@@ -61,14 +61,16 @@ Ext.define('Racloop.controller.SettingsController', {
             searchNavigationView.push({
                 itemId: itemId,
                 xtype: navView,
-                title: title
+                title: title,
+                scrollable : true
             });
             this.setTerms();
         } else if(title === Config.settingNameDataPrivacy) {
             searchNavigationView.push({
                 itemId: itemId,
                 xtype: navView,
-                title: title
+                title: title,
+                scrollable : true
             });
             this.setPrivacy();
         } else {
@@ -186,6 +188,7 @@ Ext.define('Racloop.controller.SettingsController', {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 var termsHtml = Ext.ComponentQuery.query('#termsText')[0];
+                console.log(data.message);
                 termsHtml.setHtml(data.message);
                 Ext.Viewport.unmask();
             } else {
@@ -221,8 +224,8 @@ Ext.define('Racloop.controller.SettingsController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                var termsHtml = Ext.ComponentQuery.query('#privacyText')[0];
-                termsHtml.setHtml(data.message);
+                var privacyHtml = Ext.ComponentQuery.query('#privacyText')[0];
+                privacyHtml.setHtml(data.message);
                 Ext.Viewport.unmask();
             } else {
                 Ext.Msg.alert("Network Failure", data.message);

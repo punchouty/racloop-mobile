@@ -3,15 +3,14 @@ Ext.define('Racloop.view.TermsPanel', {
     alias: 'widget.termsPanel',
 
     requires: [
-        'Ext.Label'
+
     ],
 
     config: {
         itemId: 'termsPanel',
         items: [{
-            xtype: 'container',
-            centered: true,
-            html: 'Terms and Conditions',
+            xtype: 'panel',
+            styleHtmlContent: true,
             itemId: 'termsText'
         }]
     }
