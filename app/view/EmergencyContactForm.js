@@ -3,6 +3,11 @@ Ext.define('Racloop.view.EmergencyContactForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.emergencyContactForm',
 
+    requires: [
+        'Ext.form.FieldSet',
+        'Ext.field.Number'
+    ],
+
     config: {
         items: [{
             xtype: 'fieldset',
@@ -11,13 +16,13 @@ Ext.define('Racloop.view.EmergencyContactForm', {
 
             items: [{
                 name: 'contactOne',
-                xtype: 'textfield',
+                xtype: 'numberfield',
                 label: 'Contact 1',
                 placeHolder: '10 digit mobile number',
                 itemId: 'emergencyContactOne'
             }, {
                 name: 'contactTwo',
-                xtype: 'textfield',
+                xtype: 'numberfield',
                 label: 'Contact 2',
                 placeHolder: '10 digit mobile number',
                 itemId: 'emergencyContactTwo'

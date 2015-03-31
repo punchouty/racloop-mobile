@@ -7,6 +7,7 @@ Ext.define('Racloop.view.RegisterForm', {
     requires: [
         'Ext.form.FieldSet',
         'Ext.field.Email',
+        'Ext.field.Number',
         'Ext.field.Password',
         'Ext.field.Search',
         'Ext.field.DatePicker',
@@ -23,7 +24,7 @@ Ext.define('Racloop.view.RegisterForm', {
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
             items: [{
                 name: 'email',
-                xtype: 'textfield',
+                xtype: 'emailfield',
                 label: 'Email*',
                 placeHolder: 'user@racloop.com',
                 itemId: 'registerScreenEmail'
@@ -48,9 +49,9 @@ Ext.define('Racloop.view.RegisterForm', {
                 itemId: 'registerScreenName'
             }, {
                 name: 'mobile',
-                xtype: 'textfield',
-                label: 'Mobile* (+91)',
-                placeHolder: '10 digit mobile number',
+                xtype: 'numberfield',
+                label: 'Mobile*',
+                placeHolder: '98XXXXXXXX',
                 itemId: 'registerScreenMobile'
             }, {
                 xtype: 'radiofield',

@@ -5,18 +5,10 @@
             "packager": "phonegap",
             "phonegap" : {
                 "config": {
-                    // Uncomment the line below and add the platform you wish to build for
-                    //"platform": "ios",
                     "platform": "android ios wp8",
                     "remote":true,
-                    // Uncomment and Set this line to true to enable PhoneGap Remote Building.
-                    // To properly use this you must set the following properties in your local.properties file (if this file does not exist create it in your app root)
-                    // phonegap.remote.username=myname@domain.com
-                    // phonegap.remote.password=mys3cr3tp@ssw0rd
-                    //"remote":false,
-
-                    "id": "com.racloop.mobile",
-                    "name": "App"
+                    "id": "com.domain.Racloop",
+                    "name": "Racloop"
                 }
             }
         }
