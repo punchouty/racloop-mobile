@@ -24,9 +24,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
             var drivingText = '';
-            var day=Ext.Date.format(record.get("dateOfJourney"), 'd');
-            var month=Ext.Date.format(record.get("dateOfJourney"), 'F');
-            var time=Ext.Date.format(record.get("dateOfJourney"), 'g:i A');
+            var dateUnadjusted = record.get("dateOfJourney");
+            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var day = Ext.Date.format(dateOfJourney, 'd');
+            var month = Ext.Date.format(dateOfJourney, 'F');
+            var time = Ext.Date.format(dateOfJourney, 'g:i A');
             if(record.get("numberOfIncomingRequests")) {
                 matchedJourneyCount = record.get("numberOfIncomingRequests");
             }
@@ -50,7 +52,10 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
-                        <span class="card-pull-right"><button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button><button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button></span>\
+                        <span class="card-pull-right">\
+                            <button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>\
+                            <button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>\
+                        </span>\
                     </div>\
                     <div>\
                         <span class="card-label card-label-blue">'+drivingText+'</span>\

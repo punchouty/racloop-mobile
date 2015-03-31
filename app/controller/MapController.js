@@ -74,12 +74,14 @@ Ext.define('Racloop.controller.MapController', {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             console.log('pageRefresh google already there .....');
         } else {
-            window.location.reload();
+            //window.location.reload();
+            window.location.href = "";
         }
     },
 
     online : function() {
-        window.location.reload();
+        //window.location.reload();
+        window.location.href = "";
     },
 
     offline : function() {

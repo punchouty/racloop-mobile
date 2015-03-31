@@ -162,11 +162,16 @@ Ext.define('Racloop.controller.UiController', {
             var activeItem = journeyNavigationView.getActiveItem();
             var journeyEmptyView = this.getJourneyEmptyView();
             if(activeItem == journeyEmptyView) {
+                console.log("showMyJourneys: recordCount != 0 && activeItem == journeyEmptyView");
                 journeyNavigationView.removeAll(false, true);
                 journeyNavigationView.push(journeyView);
             }
             else if(activeItem != journeyEmptyView) {
+                console.log("showMyJourneys: recordCount != 0 && activeItem != journeyEmptyView");
                 journeyNavigationView.pop();
+            }
+            else {
+                console.log("showMyJourneys: recordCount != 0 && else ");
             }
             Ext.ComponentQuery.query('journeyNavigationView #journeyView')[0].refresh();
         }

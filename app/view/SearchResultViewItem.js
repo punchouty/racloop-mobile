@@ -30,15 +30,17 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         var drivingText = '';
         if (record != null) {
             recordData = record.get("matchedJourney");
-            var date = new Date(recordData.dateOfJourney);
-            var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
+            var dateUnadjusted = new Date(recordData.dateOfJourney);
+            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var dateString = Ext.Date.format(dateOfJourney, 'j M, Y, g:i a');
+//            var day = Ext.Date.format(date, 'd');
+//            var month = Ext.Date.format(date, 'F');
+//            var time = Ext.Date.format(date, 'g:i A');
+
             var legend = "";
             var legendText = "";
             var buttonHtml = "";
             var labelHtml = "";
-            var day = Ext.Date.format(date, 'd');
-            var month = Ext.Date.format(date, 'F');
-            var time = Ext.Date.format(date, 'g:i A');
             var imgSrc = '';
             var cardControl = '';
             if (recordData.isDriver) {
@@ -126,7 +128,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             }
             else {
                 // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');
-                imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128";
+                imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
             }
             // me.down('#textCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>' + recordData.name + '</strong></div><div class="journeyDate">' + Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A') + '</div></div></div>');
             // me.down('#locCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>From : </strong><i>' + recordData.fromPlace + '</i></div><div class="name"><strong>To :</strong> <i>' + recordData.toPlace + '</i></div></div></div>');

@@ -13,7 +13,6 @@ Ext.define('Racloop.util.Config', {
         },
         toastTimeout : 2500,
         initComplete : false,
-        locationUpdateFrequency : 180000,
         //Setting menu
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
@@ -74,6 +73,7 @@ Ext.define('Racloop.util.Config', {
     },
     constructor: function() {
         if (this.config.env == 'prod') {
+            this.config.locationUpdateFrequency = 180000;
             this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/mlogout';
             this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/msignup';
@@ -98,6 +98,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.racloop.com/mobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://www.racloop.com/mobile/sos';
         } else if (this.config.env == 'dev') {
+            this.config.locationUpdateFrequency = 10000;
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
             this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/msignup';

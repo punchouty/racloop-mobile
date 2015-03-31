@@ -263,7 +263,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     var total = 0;
                     var myroute = results.routes[0];
                     var numberOfLegs = 0;
-                    console.log("numberOfLegs : " + myroute.legs.length);
+                    //console.log("numberOfLegs : " + myroute.legs.length);
                     for ( var i = 0; i < myroute.legs.length; i++) {
                         total += myroute.legs[i].distance.value;
                         var start_location = myroute.legs[i].start_location
@@ -277,11 +277,11 @@ Ext.define('Racloop.controller.JourneysController', {
                             var start_location_step = steps[j].start_location
                             var end_location_step = steps[j].end_location
                             var stepDistance = steps[j].distance.value;
-                            console.log("start_location_step : " + start_location_step + " end_location_step : " + end_location_step + " stepDistance : " + stepDistance)
+                            //console.log("start_location_step : " + start_location_step + " end_location_step : " + end_location_step + " stepDistance : " + stepDistance)
                         }
                     }
                     if(numberOfLegs != 1) {
-                        console.log("numberOfLegs : " + numberOfLegs);
+                        //console.log("numberOfLegs : " + numberOfLegs);
                     }
                     total = total / 1000
                     searchForm.down('field[name=tripUnit]').setValue('KM');
@@ -352,12 +352,14 @@ Ext.define('Racloop.controller.JourneysController', {
 
                     var newIsDriver = newJourney.isDriver? "Driver": "Passenger";
                     var existingIsDriver = existingJourney.isDriver? "Driver": "Passenger";
-                    var newDate = new Date(newJourney.dateOfJourney);
+                    var newDateUnadjusted = new Date(newJourney.dateOfJourney);
+                    var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
                     var newTime = Ext.Date.format(newDate, 'g:i A');
 
-                    var existingDate = new Date(existingJourney.dateOfJourney);
+                    var existingDateUnadjusted = new Date(existingJourney.dateOfJourney);
+                    var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
                     var existingDay = Ext.Date.format(existingDate, 'd');
                     var existingMonth = Ext.Date.format(existingDate, 'F');
                     var existingTime = Ext.Date.format(existingDate, 'g:i A');

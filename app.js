@@ -101,12 +101,13 @@ Ext.application({
     },
 
     launch: function() {
+        console.log('launching');
         if (!Ext.device.Connection.isOnline()) {
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }
         // Destroy the #appLoadingIndicator element
         this.cleanup();
-        Ext.fly('appLoadingIndicator').destroy();
+        if(Ext.fly('appLoadingIndicator')) Ext.fly('appLoadingIndicator').destroy();
     },
 
     onUpdated: function() {

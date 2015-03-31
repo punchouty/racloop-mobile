@@ -26,10 +26,11 @@ Ext.define('Racloop.view.OutgoingRequestViewItem', {
           var drivingText="Need Lift";
           var cardControl='';
         if (record != null) {
-            var date = new Date(record.get("workflow").requestedDateTime);
-            var day=Ext.Date.format(date, 'd');
-            var month=Ext.Date.format(date, 'F');
-            var time=Ext.Date.format(date, 'g:i A');
+            var dateUnadjusted = new Date(record.get("workflow").requestedDateTime);
+            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var day=Ext.Date.format(dateOfJourney, 'd');
+            var month=Ext.Date.format(dateOfJourney, 'F');
+            var time=Ext.Date.format(dateOfJourney, 'g:i A');
             userName=record.get("workflow").matchingUser;
             if (record.get("workflow").isRequesterDriving){
                 drivingText="Driving";
@@ -102,7 +103,7 @@ Ext.define('Racloop.view.OutgoingRequestViewItem', {
                 // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="name">' + record.get("otherUser").fullName + '</div><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');
             }
             else {
-                 imgSrc="http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128";
+                 imgSrc="http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
               // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');   
             }
             // me.down('#locCmp').setHtml('</div></div><div class="journeycontent"><b>Route</b><div class="name">From :' + record.get("workflow").requestedFromPlace + '</div><div class="name">To :' + record.get("workflow").requestedToPlace + '</div>');

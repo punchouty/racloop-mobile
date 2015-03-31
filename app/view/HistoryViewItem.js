@@ -24,9 +24,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
             var drivingText = '';
-            var day=Ext.Date.format(record.get("dateOfJourney"), 'd');
-            var month=Ext.Date.format(record.get("dateOfJourney"), 'F');
-            var time=Ext.Date.format(record.get("dateOfJourney"), 'g:i A');
+            var dateUnadjusted = record.get("dateOfJourney");
+            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var day = Ext.Date.format(dateOfJourney, 'd');
+            var month = Ext.Date.format(dateOfJourney, 'F');
+            var time = Ext.Date.format(dateOfJourney, 'g:i A');
             if(record.get("numberOfIncomingRequests")) {
                 matchedJourneyCount = record.get("numberOfIncomingRequests");
             }
