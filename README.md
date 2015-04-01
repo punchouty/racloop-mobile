@@ -240,3 +240,10 @@ Map
 * No Internet
 * On connection with internet
 
+Workflow
+----
+
+* User 1 sends, User 2 accepts 
+* User 1 sends, User 2 rejects
+* User1 sends, User 2 accepts, then User 2 cancels. Repeat with User 1 cancels
+
