@@ -243,7 +243,33 @@ Map
 Workflow
 ----
 
-* User 1 sends, User 2 accepts 
-* User 1 sends, User 2 rejects
-* User1 sends, User 2 accepts, then User 2 cancels. Repeat with User 1 cancels
+* When 
+user1 sends a request to user2
+>Then
+user 1 see the my request as requested (both search result and my journey page)
+user2 see the request with option to accept or reject
+user2 gest SMS and email notification
+
+* When 
+User2 accepts a request from user1
+>Then
+both users see the my request as accepted (both search result and my journey page)
+both user have the option to cancel
+both user should see each others the contact number
+both users get SMS and email notification
+
+* When 
+User2 rejects the request of user1
+>Then
+both user see the my request as cancelled (both search result and my journey page)
+both user have no option enabled
+user1 gets SMS and email notification
+
+* When
+User1 decides to cancel the journey
+>Then
+A popup ask for confirmation with warning
+All incoming and outgoing request with the journey are cancelled
+All other user attached to each request get SMS and email
+This journey is soft deleted from the index and not visible on my journey
 
