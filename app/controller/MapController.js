@@ -211,6 +211,7 @@ Ext.define('Racloop.controller.MapController', {
             failure: function() {
                 console.log('something went wrong!');
                 Ext.Viewport.unmask();
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
     },
@@ -248,6 +249,7 @@ Ext.define('Racloop.controller.MapController', {
             failure: function() {
                 console.log('something went wrong!');
                 Ext.Viewport.unmask();
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
     },
@@ -369,6 +371,7 @@ Ext.define('Racloop.controller.MapController', {
                 },
                 failure: function () {
                     console.log('something went wrong!');
+                    Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
                 }
             });
         }
