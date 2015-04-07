@@ -106,13 +106,13 @@ Ext.define('Racloop.util.LoginHelper', {
         setCurrentJourney : function(journey) {
             if (Common.supportsHtml5SessionStorage()) {
                 var journeyString = JSON.stringify(journey);
-                sessionStorage.j = journeyString;
+                window.localStorage.j = journeyString;
             }
         },
         getCurrentJourney: function() {
             if (Common.supportsHtml5SessionStorage()) {
-                if(sessionStorage.j) {
-                    var journeyString = window.sessionStorage.getItem("j");
+                if(window.localStorage.getItem("j")) {
+                    var journeyString = window.localStorage.getItem("j");
                     var journey = JSON.parse(journeyString);
                     return journey;
                 }
@@ -122,18 +122,18 @@ Ext.define('Racloop.util.LoginHelper', {
             }
         },
         removeCurrentJourney: function() {
-            if (Common.supportsHtml5SessionStorage()) window.sessionStorage.removeItem('j');
+            if (Common.supportsHtml5SessionStorage()) window.localStorage.removeItem('j');
         },
         setRoutes : function(route) {
             if (Common.supportsHtml5SessionStorage()) {
                 var routeString = JSON.stringify(route);
-                window.sessionStorage.setItem("r", routeString);
+                window.localStorage.setItem("r", routeString);
             }
         },
         getRoutes : function() {
             if (Common.supportsHtml5SessionStorage()) {
-                if(sessionStorage.r) {
-                    var routeString = window.sessionStorage.getItem("r");
+                if(window.localStorage.getItem("r")) {
+                    var routeString = window.localStorage.getItem("r");
                     var route = JSON.parse(routeString);
                     return route;
                 }
@@ -143,7 +143,7 @@ Ext.define('Racloop.util.LoginHelper', {
             }
         },
         removeRoutes : function() {
-            if (Common.supportsHtml5SessionStorage()) sessionStorage.removeItem('r');
+            if (Common.supportsHtml5SessionStorage()) window.localStorage.removeItem('r');
         }
     },
     constructor: function() {

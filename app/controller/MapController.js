@@ -36,6 +36,7 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     launch : function() {
+        var me = this;
         window.addEventListener("online", this.online, false);
         window.addEventListener("offline", this.offline, false);
         if (Ext.device.Connection.isOnline()) {
@@ -66,10 +67,11 @@ Ext.define('Racloop.controller.MapController', {
                 Racloop.app.getController('JourneysController').initGoogleElements();
                 Racloop.app.getController('SessionsController').autoLogin();
             }
-            Ext.Function.defer(this.pageRefresh, 10000, this);
+            //Ext.Function.defer(this.pageRefresh, 10000, this);
         }
     },
 
+    //DEPRECATED
     pageRefresh : function() {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             console.log('pageRefresh google already there .....');
@@ -80,8 +82,15 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     online : function() {
+        var me = this;
+        if (typeof google === 'object' && typeof google.maps === 'object') {
+            Racloop.app.getController('SessionsController').autoLogin();
+        } else {
+            Racloop.app.getController('MapController').initApp();
+        }
+
         //window.location.reload();
-        window.location.href = "";
+        //window.location.href = "";
     },
 
     offline : function() {
