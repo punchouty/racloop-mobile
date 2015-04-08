@@ -21,7 +21,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
         }, {
             xtype: 'button',
             itemId: 'forgotPasswordButton',
-            text: 'Send Email!',
+            text: 'Send SMS',
             iconCls: 'emailCls',
             iconMask: true,
             iconAlign: 'left',

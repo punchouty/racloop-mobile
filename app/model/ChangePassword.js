@@ -27,9 +27,9 @@ Ext.define('Racloop.model.ChangePassword', {
             {
             type: 'length',
             field: 'newPassword',
-            min: 7,
+            min: 5,
             max: 25,
-            message: "New Password should be between 7 and 25 characters"
+            message: "New Password should be between 5 and 25 characters"
         }
 //            , {
 //            type: 'length',

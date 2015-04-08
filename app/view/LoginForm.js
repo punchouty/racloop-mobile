@@ -30,7 +30,7 @@ Ext.define('Racloop.view.LoginForm', {
                 name: 'password',
                 xtype: 'passwordfield',
                 label: 'Password*',
-                placeHolder: 'Password',
+                placeHolder: 'secret',
                 itemId: 'loginScreenPassword'
             }]
         }, {

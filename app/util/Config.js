@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'prod',
+        env: 'local',
         app: {
             messageText: 'Test message.'
         },
@@ -98,7 +98,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.racloop.com/mobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://www.racloop.com/mobile/sos';
         } else if (this.config.env == 'dev') {
-            this.config.locationUpdateFrequency = 10000;
+            this.config.locationUpdateFrequency = 20000;
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
             this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/msignup';
@@ -123,18 +123,30 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/mobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/mobile/sos';
         } else {
-            this.config.url.RACLOOP_LOGIN = '/test-data/login_success.json';
-            this.config.url.RACLOOP_LOGOUT = '/test-data/logout.json';
-            this.config.url.RACLOOP_SIGNUP = '/test-data/registeration_success.json';
-            this.config.url.RACLOOP_CHANGEPASSWORD = '/test-data/change_password.json';
-            this.config.url.RACLOOP_EDIT = '/test-data/accept_request.json';
-            this.config.url.RACLOOP_FORGOTPASSWORD = '/test-data/accept_request.json';
-            this.config.url.RACLOOP_SEARCH = '/test-data/accept_request.json';
-            this.config.url.RACLOOP_JOURNEYS = '/test-data/accept_request.json';
-            this.config.url.RACLOOP_ACCEPTREQUEST = '/test-data/accept_request.json';
-            this.config.url.RACLOOP_REJECTREQUEST = '/test-data/reject_request.json';
-            this.config.url.RACLOOP_REQUEST = '/test-data/request_success.json';
-            this.config.url.RACLOOP_CANCELREQUEST = '/test-data/request_cancel.json';
+            var ip = "192.168.1.3";
+            this.config.locationUpdateFrequency = 20000;
+            this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/mlogin';
+            this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/mlogout';
+            this.config.url.RACLOOP_SIGNUP = 'http://' + ip + ':8080/app/msignup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://' + ip + ':8080/app/mverifymobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://' + ip + ':8080/app/mresendsms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://' + ip + ':8080/app/mpassword';
+            this.config.url.RACLOOP_EDIT = 'http://' + ip + ':8080/app/meditprofile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/mforgot';
+            this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/mobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/mobile/searchAgain';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://' + ip + ':8080/app/mobile/deleteJourney';
+            this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/mobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/mobile/history';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://' + ip + ':8080/app/mobile/acceptResponse';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/mobile/rejectResponse';
+            this.config.url.RACLOOP_REQUEST = 'http://' + ip + ':8080/app/mobile/requestService';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/mobile/cancelResponse';
+            this.config.url.RACLOOP_EXISTINGJOURNEY='http://' + ip + ':8080/app/mobile/searchWithExistingJourney';
+            this.config.url.RACLOOP_TERMS='http://' + ip + ':8080/app/mobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://' + ip + ':8080/app/mobile/privacy';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://' + ip + ':8080/app/mobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS='http://' + ip + ':8080/app/mobile/sos';
         }
         return this.config;
     }

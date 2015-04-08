@@ -18,7 +18,7 @@ Ext.define('Racloop.view.RegisterForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Sign Up',
-            instructions : 'Password should contain upper case, lower case, numeric value and a symbol.',
+            instructions : 'Please provide valid mobile. SMS will be sent for verification.',
 //            instructions: 'By registering you are agreeing to ' +
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
@@ -26,13 +26,13 @@ Ext.define('Racloop.view.RegisterForm', {
                 name: 'email',
                 xtype: 'emailfield',
                 label: 'Email*',
-                placeHolder: 'user@racloop.com',
+                placeHolder: 'user@example.com',
                 itemId: 'registerScreenEmail'
             }, {
                 name: 'password',
                 xtype: 'passwordfield',
                 label: 'Password*',
-                placeHolder: 'Secret',
+                placeHolder: 'Min 5 characters',
                 itemId: 'registerScreenPassword'
             }, {
                 name: 'repeatpassword',
