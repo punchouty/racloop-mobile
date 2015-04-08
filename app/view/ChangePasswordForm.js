@@ -18,7 +18,7 @@ Ext.define('Racloop.view.ChangePasswordForm', {
                 name: 'newPassword',
                 xtype: 'passwordfield',
                 label: 'New',
-                placeHolder: '7 to 25 characters',
+                placeHolder: 'Minimum 5 characters',
                 itemId: 'changeScreenNewPassword'
             }, {
                 name: 'repeatPassword',

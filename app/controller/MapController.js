@@ -218,7 +218,7 @@ Ext.define('Racloop.controller.MapController', {
                 Ext.Viewport.unmask();
             },
             failure: function() {
-                console.log('something went wrong!');
+                console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
@@ -255,8 +255,8 @@ Ext.define('Racloop.controller.MapController', {
                     }
                 });
             },
-            failure: function() {
-                console.log('something went wrong!');
+            failure: function(error) {
+                console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
@@ -378,8 +378,8 @@ Ext.define('Racloop.controller.MapController', {
                         }
                     }
                 },
-                failure: function () {
-                    console.log('something went wrong!');
+                failure: function (error) {
+                    console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
                     Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
                 }
             });

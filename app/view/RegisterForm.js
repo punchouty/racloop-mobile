@@ -32,7 +32,7 @@ Ext.define('Racloop.view.RegisterForm', {
                 name: 'password',
                 xtype: 'passwordfield',
                 label: 'Password*',
-                placeHolder: 'Min 5 characters',
+                placeHolder: 'Minimum 5 characters',
                 itemId: 'registerScreenPassword'
             }, {
                 name: 'repeatpassword',
