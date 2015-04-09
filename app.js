@@ -101,7 +101,7 @@ Ext.application({
     },
 
     launch: function() {
-        console.log('launching');
+        console.log('launching application......');
         if (!Ext.device.Connection.isOnline()) {
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }

@@ -36,57 +36,75 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     launch : function() {
+        console.log("Map Controller  - launch");
         var me = this;
         window.addEventListener("online", this.online, false);
         window.addEventListener("offline", this.offline, false);
         if (Ext.device.Connection.isOnline()) {
+            console.log("Map Controller  - launch - online application");
             this.initApp();
+        }
+        else {
+            console.log("Map Controller  - launch - offline application");
         }
     },
 
     initApp : function() {
         var me = this;
+        console.log("initApp - initialising Maps");
         if (typeof google === 'object' && typeof google.maps === 'object') {
-            console.log('google already there .....');
+            console.log("Google Maps are already loaded : google === 'object' && typeof google.maps === 'object'")
         } else {
-            Ext.Viewport.mask({
-                xtype: 'loadmask',
-                indicator: true,
-                message: 'Loading Maps...'
-            });
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry&callback=handleApiReady";
-            document.body.appendChild(script);
-            window.handleApiReady = function() {
-                Ext.Viewport.unmask();
-                Ext.Viewport.add(Ext.create('Racloop.view.MapPanel'));
-                Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
-                Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
-                me.initGoogleElements();
-                Racloop.app.getController('JourneysController').initGoogleElements();
-                Racloop.app.getController('SessionsController').autoLogin();
+            if(window.mapLoaded) {
+                console.log("Google Maps are already loaded : window.mapLoaded = true");
+            }
+            else {
+                Ext.Viewport.mask({
+                    xtype: 'loadmask',
+                    indicator: true,
+                    message: 'Loading Maps...'
+                });
+                console.log("Google Maps are not loaded : creating dynamic links for google maps");
+                window.mapLoading = true;
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry&callback=handleApiReady";
+                document.body.appendChild(script);
+                window.handleApiReady = function() {
+                    console.log("Google Maps loaded successfully");
+                    window.mapLoading = false;
+                    console.log("Starting sencha touch application init start");
+                    Ext.Viewport.unmask();
+                    Ext.Viewport.add(Ext.create('Racloop.view.MapPanel'));
+                    Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
+                    Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
+                    me.initGoogleElements();
+                    Racloop.app.getController('JourneysController').initGoogleElements();
+                    Racloop.app.getController('SessionsController').autoLogin();
+                    console.log("Starting sencha touch application init ends");
+                    window.mapLoaded = true;
+                }
+
             }
             //Ext.Function.defer(this.pageRefresh, 10000, this);
         }
     },
 
-    //DEPRECATED
-    pageRefresh : function() {
-        if (typeof google === 'object' && typeof google.maps === 'object') {
-            console.log('pageRefresh google already there .....');
-        } else {
-            //window.location.reload();
-            window.location.href = "";
-        }
-    },
-
     online : function() {
+        console.log("online event fired");
         var me = this;
         if (typeof google === 'object' && typeof google.maps === 'object') {
             Racloop.app.getController('SessionsController').autoLogin();
         } else {
-            Racloop.app.getController('MapController').initApp();
+            if(window.mapLoaded) {
+                console.log("Google Maps are already loaded : online event");
+            }
+            else if(window.mapLoading) {
+                console.log("Google Maps loading in process : online event");
+            }
+            else {
+                Racloop.app.getController('MapController').initApp();
+            }
         }
 
         //window.location.reload();
@@ -94,6 +112,7 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     offline : function() {
+        console.log("offline event fired");
         var offlineView = Ext.ComponentQuery.query('offlineView')[0];
         if(offlineView) {
             Ext.Viewport.setActiveItem(offlineView);

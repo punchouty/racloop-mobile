@@ -12,13 +12,13 @@ Ext.define('Racloop.view.VerifySmsForm', {
 
             items: [{
                 name: 'mobile',
-                xtype: 'textfield',
+                xtype: 'numberfield',
                 label: 'Mobile',
                 placeHolder: 'Mobile Number',
                 itemId: 'mobileForVerification'
             }, {
                 name: 'verificationCode',
-                xtype: 'textfield',
+                xtype: 'numberfield',
                 label: 'Code',
                 placeHolder: 'Verification Code',
                 itemId: 'verificationCode'

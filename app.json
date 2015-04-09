@@ -5,9 +5,9 @@
             "packager": "phonegap",
             "phonegap" : {
                 "config": {
-                    //"platform": "android ios wp8",
-                    "platform": "android",
-                    "remote":false,
+                    "platform": "android ios wp8",
+                    //"platform": "android",
+                    "remote":true,
                     "id": "com.domain.Racloop",
                     "name": "Racloop"
                 }
@@ -70,7 +70,7 @@
         },
         {
             "path": "app.js",
-            "bundle": false,  /* Indicates that all class dependencies are concatenated into this file when build */
+            "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
             "update": "delta"
         }
     ],
