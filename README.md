@@ -1,3 +1,13 @@
+TODO
+====
+
+Ripple chrome extension
+emulate.phonegap.com
+Install Parallel to run windows
+Hydration Services - push updates directly to mobile devices
+ios-sim
+http://developer.apple.com/library/ios/#documentation/userexperience/conceptual/mobilehig/UEBestPractices/UEBestPractices.html
+Live Reload
 TO DO
 =====
 

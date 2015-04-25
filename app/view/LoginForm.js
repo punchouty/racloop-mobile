@@ -13,8 +13,14 @@ Ext.define('Racloop.view.LoginForm', {
         'Ext.field.Password'
     ],
 
+    //listeners: {
+    //    blur: function(comp, e, eopts) {
+    //        window.scrollTo(0, 0);
+    //    }
+    //},
+
     config: {
-        cls: 'form-bg',
+        //cls: 'form-bg',
         items: [{
             xtype: 'fieldset',
             title: 'Login',

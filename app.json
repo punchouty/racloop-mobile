@@ -5,9 +5,9 @@
             "packager": "phonegap",
             "phonegap" : {
                 "config": {
-                    "platform": "android ios wp8",
+                    "platform": "android",
                     //"platform": "android",
-                    "remote":true,
+                    //"remote":true,
                     "id": "com.domain.Racloop",
                     "name": "Racloop"
                 }

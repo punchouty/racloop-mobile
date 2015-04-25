@@ -18,7 +18,7 @@ Ext.define('Racloop.view.RegisterForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Sign Up',
-            instructions : 'Please provide valid mobile. SMS will be sent for verification.',
+            instructions : 'Please provide valid mobile.',
 //            instructions: 'By registering you are agreeing to ' +
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',

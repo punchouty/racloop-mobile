@@ -13,8 +13,11 @@
 Ext.application({
     name: 'Racloop',
 
-     viewport: {
+    viewport: {
         autoBlurInput: false
+        //,
+        //width: '100.2%',
+        //height: '100.2%'
     },
     requires: [
         'Ext.MessageBox',
@@ -102,6 +105,13 @@ Ext.application({
 
     launch: function() {
         console.log('launching application......');
+        document.addEventListener('deviceready', function () {
+            //StatusBar.hide();
+            //if (Ext.os.is.iOS && Ext.os.version.major >= 7) {
+            //    document.body.style.marginTop = "20px";
+            //    Ext.Viewport.setHeight(Ext.Viewport.getWindowHeight() - 20);
+            //}
+        });
         if (!Ext.device.Connection.isOnline()) {
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }

@@ -150,7 +150,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 searchForm.down('field[name=fromLatitude]').setValue("");
                 searchForm.down('field[name=fromLongitude]').setValue("");
                 actionSheetFrom.down('field[name=from]').setValue("");
-                actionSheetFrom.down("#actionScreenFrom").focus();
+                actionSheetFrom.down('field[name=from]').focus();
+                //actionSheetFrom.down("#actionScreenFrom").focus();
                 actionSheetFrom.show();
             }
         });
@@ -162,7 +163,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 searchForm.down('field[name=toLatitude]').setValue("");
                 searchForm.down('field[name=toLongitude]').setValue("");
                 actionSheetTo.down('field[name=to]').setValue("");
-                actionSheetTo.down("#actionScreenTo").focus();
+                actionSheetFrom.down('field[name=from]').focus();
+                //actionSheetTo.down("#actionScreenTo").focus();
                 actionSheetTo.show();
             }
         });

@@ -32,9 +32,9 @@ Ext.define('Racloop.controller.SessionsController', {
         var me = this;
         var user = LoginHelper.getUser();
         var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
-        console.log("launch currentDateString : " + currentDateString);
+        console.log("SessionController - autoLogin : " + currentDateString);
         if (user) {
-            console.log("autoLogin user : " + user);
+            console.log("autoLogin user : " + user.email);
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
@@ -43,6 +43,7 @@ Ext.define('Racloop.controller.SessionsController', {
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
+                    console.log("SessionController - autoLogin - successfully login");
                     LoginHelper.setUser(data.data);
                     LoginHelper.setEmail(user.email);
                     var currentJourney = data.currentJourney
@@ -51,12 +52,14 @@ Ext.define('Racloop.controller.SessionsController', {
                     mainTabs.show();
                     Ext.Viewport.unmask();
                     if(currentJourney) {
+                        console.log("SessionController - autoLogin - currentJourney exists");
                         mainTabs.setActiveItem('mapPanel');
                         LoginHelper.setCurrentJourney(currentJourney);
                         Racloop.app.getController('MapController').showCurrentJourney();
                         Racloop.app.getController('MapController').watchCurrentLocation();
                     }
                     else {
+                        console.log("SessionController - autoLogin - currentJourney does not exists");
                         LoginHelper.removeCurrentJourney();
                         console.log('login success data.currentJourney : false');
                         if(!LoginHelper.isEmergencyContactDefined(data.data)) {
