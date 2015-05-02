@@ -123,7 +123,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/mobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/mobile/sos';
         } else {
-            var ip = "192.168.1.3";
+            var ip = "192.168.1.11";
             this.config.locationUpdateFrequency = 20000;
             this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/mlogout';
@@ -135,6 +135,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/mforgot';
             this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/mobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/mobile/searchAgain';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://' + ip + ':8080/app/mobile/addJourney';
             this.config.url.RACLOOP_DELETE_JOURNEY = 'http://' + ip + ':8080/app/mobile/deleteJourney';
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/mobile/myJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/mobile/history';

@@ -740,6 +740,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.SearchViewItem": [],
   "Racloop.view.SettingNavigationView": [],
   "Racloop.view.SettingsMenu": [],
+  "Racloop.view.SosView": [],
   "Racloop.view.TermsPanel": [],
   "Racloop.view.UserSearchList": [],
   "Racloop.view.VerifySmsForm": []
@@ -1603,6 +1604,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.SettingsMenu": [
     "widget.settingsMenu"
+  ],
+  "Racloop.view.SosView": [
+    "widget.sosView"
   ],
   "Racloop.view.TermsPanel": [
     "widget.termsPanel"

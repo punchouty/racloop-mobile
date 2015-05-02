@@ -56,7 +56,7 @@ Ext.define('Racloop.controller.SessionsController', {
                         mainTabs.setActiveItem('mapPanel');
                         LoginHelper.setCurrentJourney(currentJourney);
                         Racloop.app.getController('MapController').showCurrentJourney();
-                        Racloop.app.getController('MapController').watchCurrentLocation();
+                        //Racloop.app.getController('MapController').watchCurrentLocation();
                     }
                     else {
                         console.log("SessionController - autoLogin - currentJourney does not exists");
@@ -177,7 +177,7 @@ Ext.define('Racloop.controller.SessionsController', {
                     mainTabs.setActiveItem('mapPanel');
                     LoginHelper.setCurrentJourney(currentJourney);
                     Racloop.app.getController('MapController').showCurrentJourney();
-                    Racloop.app.getController('MapController').watchCurrentLocation();
+                    //Racloop.app.getController('MapController').watchCurrentLocation();
                 }
                 else {
                     LoginHelper.removeCurrentJourney();

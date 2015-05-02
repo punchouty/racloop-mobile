@@ -20,8 +20,11 @@ Ext.define('Racloop.controller.MapController', {
             searchNavigationView : 'searchNavigationView',
             searchForm : 'searchNavigationView #searchForm',
 
+            sosView : 'sosView',
+
             mapPanel : 'mainTabs mapPanel',
             sosButton : 'mainTabs #sosButton',
+            sosCancelButton : 'sosView #cancelSos',
             watchButton : 'mainTabs #watchButton'
         },
 
@@ -31,8 +34,15 @@ Ext.define('Racloop.controller.MapController', {
             },
             watchButton : {
                 tap : 'watchButtonClicked'
+            },
+            sosCancelButton : {
+                tap : 'sosCancelButtonClicked'
             }
-        }
+        },
+        watching : false,
+        sosActivated : false,
+        mapLoadingInProgress : false,
+        mapLoadingCompleted : false
     },
 
     launch : function() {
@@ -55,24 +65,28 @@ Ext.define('Racloop.controller.MapController', {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             console.log("Google Maps are already loaded : google === 'object' && typeof google.maps === 'object'")
         } else {
-            if(window.mapLoaded) {
-                console.log("Google Maps are already loaded : window.mapLoaded = true");
+            if(me.getMapLoadingCompleted()) {
+            //if(window.mapLoaded) {
+                console.log("Google Maps are already loaded : me.getMapLoadingCompleted() === true");
             }
             else {
+                console.log("Google Maps are already loaded : me.getMapLoadingCompleted() === false");
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
                     message: 'Loading Maps...'
                 });
                 console.log("Google Maps are not loaded : creating dynamic links for google maps");
-                window.mapLoading = true;
+                me.setMapLoadingInProgress(true);
+                //window.mapLoading = true;
                 var script = document.createElement("script");
                 script.type = "text/javascript";
                 script.src = "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry&callback=handleApiReady";
                 document.body.appendChild(script);
                 window.handleApiReady = function() {
                     console.log("Google Maps loaded successfully");
-                    window.mapLoading = false;
+                    //window.mapLoading = false;
+                    me.setMapLoadingInProgress(false);
                     console.log("Starting sencha touch application init start");
                     Ext.Viewport.unmask();
                     Ext.Viewport.add(Ext.create('Racloop.view.MapPanel'));
@@ -82,7 +96,8 @@ Ext.define('Racloop.controller.MapController', {
                     Racloop.app.getController('JourneysController').initGoogleElements();
                     Racloop.app.getController('SessionsController').autoLogin();
                     console.log("Starting sencha touch application init ends");
-                    window.mapLoaded = true;
+                    me.setMapLoadingCompleted(true);
+                    //window.mapLoaded = true;
                 }
 
             }
@@ -96,13 +111,16 @@ Ext.define('Racloop.controller.MapController', {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             Racloop.app.getController('SessionsController').autoLogin();
         } else {
-            if(window.mapLoaded) {
-                console.log("Google Maps are already loaded : online event");
+            //if(window.mapLoaded) {
+            if(me.getMapLoadingCompleted()) {
+                console.log("Google Maps are already loaded : online event : me.getMapLoadingCompleted() == true");
             }
-            else if(window.mapLoading) {
-                console.log("Google Maps loading in process : online event");
+            //else if(window.mapLoading) {
+            else if(me.getMapLoadingInProgress()) {
+                console.log("Google Maps loading in process : online event : me.getMapLoadingInProgress() == true");
             }
             else {
+                console.log("Google Maps loading in process : online event : me.getMapLoadingInProgress() == false : me.getMapLoadingCompleted() == false");
                 Racloop.app.getController('MapController').initApp();
             }
         }
@@ -125,10 +143,10 @@ Ext.define('Racloop.controller.MapController', {
     },
 
     initGoogleElements: function() { // Called from MapController initApp method
+        var me = this;
         var mainNavigationView = this.getMainNavigationView(); // Main view
         var mapPanel = this.getMapPanel();
-        this.googleMap = mapPanel.down('map').getMap();
-        var me = this;
+        me.googleMap = mapPanel.down('map').getMap();
         this.directionsDisplay = new google.maps.DirectionsRenderer();
         this.directionsService = new google.maps.DirectionsService();
         var mapRendererOptions = {
@@ -145,31 +163,65 @@ Ext.define('Racloop.controller.MapController', {
         });
     },
 
+    sosCancelButtonClicked : function(button, e, eOpts) {
+        console.log("sosCancelButton event fired");
+        var me = this;
+        Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", function(buttonId){
+            console.log("buttonId : " + buttonId);
+            //var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+            //Ext.Viewport.setActiveItem(mainTabs);
+            //me.setSosActivated(false);
+        });
+    },
+
     sosButtonClicked: function(button, e, eOpts) {
-        if(button.getText() === "SOS!") {
-            this.isSosActivated = true;
-            this.getSosButton().setUi('decline');
-            this.getSosButton().setText("Cancel SOS");
-            this.watchCurrentLocation();
+        console.log("sosButtonClicked event fired");
+        this.setSosActivated(true);
+        var sosView = Ext.ComponentQuery.query('sosView')[0];
+        if(sosView) {
+            Ext.Viewport.setActiveItem(sosView);
         }
         else {
-            this.isSosActivated = false;
-            this.getSosButton().setUi('action');
-            this.getSosButton().setText("SOS!");
-            this.unwatchCurrentLocation();
+            sosView = Ext.create('Racloop.view.SosView');
+            Ext.Viewport.add(sosView);
+            Ext.Viewport.setActiveItem(sosView);
         }
+        this.sos();
+    },
+
+    sos : function() {
+        var me = this;
+        console.log("sos : " + new Date());
+        if(!this.getSosActivated()) return;
+
+        Ext.device.Geolocation.getCurrentPosition({
+            allowHighAccuracy : true,
+            timeout : 5000,
+            success: function(position) {
+                console.log("MapController : sos : getCurrentPosition : success");
+                me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+            },
+            failure: function() {
+                console.log('MapController : sos : getCurrentPosition : failure : ' + error.code + " : " + error.message);
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+            }
+        });
+
+        var task = Ext.create('Ext.util.DelayedTask', this.sos, this);
+        task.delay(Config.locationUpdateFrequency);
     },
 
     watchButtonClicked : function(button, e, eOpts) {
         console.log("MapController - watchButtonClicked - STARTS");
         if(button.getText() === "Unwatch") {
-            this.isWatching = false;
-            this.stopWatchingJourney();
+            this.setWatching(false);
+            this.getWatchButton().setText("Watch");
         }
         else {
             if(LoginHelper.getCurrentJourney()) {
-                this.isWatching = true;
-                this.startWatchingJourney();
+                this.setWatching(true);
+                this.getWatchButton().setText("Unwatch");
+                this.processCurrentLocation();
             }
             else {
                 Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
@@ -178,19 +230,29 @@ Ext.define('Racloop.controller.MapController', {
 
     },
 
-    stopWatchingJourney: function() {
-        console.log("MapController - stopWatchingJourney - STARTS");
-        this.getWatchButton().setText("Watch");
-        this.unwatchCurrentLocation();
+    processCurrentLocation : function() {
+        console.log("MapController - processCurrentLocation - STARTS");
+        var me = this;
+        console.log("processCurrentLocation : " + new Date());
+        if(!this.getWatching()) return;
+
+        var task = Ext.create('Ext.util.DelayedTask', this.processCurrentLocation, this);
+        task.delay(Config.locationUpdateFrequency);
     },
 
-    startWatchingJourney: function() {
-        console.log("MapController - startWatchingJourney - STARTS");
-        if(this.isWatching) {
-            this.getWatchButton().setText("Unwatch");
-            this.watchCurrentLocation();
-        }
-    },
+    //stopWatchingJourney: function() {
+    //    console.log("MapController - stopWatchingJourney - STARTS");
+    //    this.getWatchButton().setText("Watch");
+    //    this.unwatchCurrentLocation();
+    //},
+    //
+    //startWatchingJourney: function() {
+    //    console.log("MapController - startWatchingJourney - STARTS");
+    //    if(this.isWatching) {
+    //        this.getWatchButton().setText("Unwatch");
+    //        this.watchCurrentLocation();
+    //    }
+    //},
 
     updateCurrentLocationOnMap: function(){ // Used in login and autologin
         console.log("MapController - updateCurrentLocationOnMap - STARTS");
@@ -227,7 +289,7 @@ Ext.define('Racloop.controller.MapController', {
         /* */
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy : true,
-            timeout : 3000,
+            timeout : 5000,
             success: function(position) {
                 console.log("MapController - updateCurrentLocationOnMap - success");
                 var geocoder = new google.maps.Geocoder();
@@ -390,150 +452,151 @@ Ext.define('Racloop.controller.MapController', {
         }
     },
 
-    watchCurrentLocation : function() { //from sessioncontroller login and auto login methods
-        console.log("MapController - watchCurrentLocation - START");
-        var me = this;
-        if(this.isGeolocationActive) {
-            console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
-        }
-        else {
-            console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
-            this.isGeolocationActive = true;
-            console.log("watch position : " + new Date());
-            /*
-            var geolocationSuccess = function(position) {
-                console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
-                if(me.isSosActivated) {
-                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
-                    me.sendSosMessage(position.coords.latitude, position.coords.longitude);
-                }
-                else {
-                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
-                }
-                if(me.isWatching) {
-                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
-                    var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    me.marker.setPosition(current);
-                    me.marker.setMap(me.googleMap);
-                    me.infoWindow.open(me.googleMap, me.marker);
-                    var tracks = me.tracks;//LoginHelper.getRoutes();
-                    var isDanger = false;
-                    var message = "All Good";
-                    if (tracks) {
-                        for (var i = 0; i < tracks.length; i++) {
-                            var routeInfo = tracks[i];
-                            var track = routeInfo.track;
-                            var polyline = new google.maps.Polyline({
-                                path: track
-                            });
-                            var distance = routeInfo.length;
-                            var tolerance = Common.getToleranceInDegrees(distance / 10);
-                            if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
-                                isDanger = false;
-                                message = "On Track";
-                            }
-                            else {
-                                isDanger = true;
-                                message = "Danger : Off Track";
-                                break;
-                                //Ext.Msg.alert('Bad', 'Not OK');
-                            }
-                        }
 
-                    }
-                    Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-                    if (isDanger) {
-                        navigator.vibrate();
-                    }
-                }
-                else {
-                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
-                }
-            };
-            var geolocationError = function(error) {
-                console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
-                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
-            };
-            var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-            navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationOptions);
-
-            */
-            Ext.device.Geolocation.watchPosition({
-                frequency: Config.locationUpdateFrequency,
-                allowHighAccuracy : true,
-                maximumAge : 0,
-                callback: function (position) {
-                    console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
-                    if(me.isSosActivated) {
-                        console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
-                        me.sendSosMessage(position.coords.latitude, position.coords.longitude);
-                    }
-                    else {
-                        console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
-                    }
-                    if(me.isWatching) {
-                        console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
-                        var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                        me.marker.setPosition(current);
-                        me.marker.setMap(me.googleMap);
-                        me.infoWindow.open(me.googleMap, me.marker);
-                        var tracks = me.tracks;//LoginHelper.getRoutes();
-                        var isDanger = false;
-                        var message = "All Good";
-                        if (tracks) {
-                            for (var i = 0; i < tracks.length; i++) {
-                                var routeInfo = tracks[i];
-                                var track = routeInfo.track;
-                                var polyline = new google.maps.Polyline({
-                                    path: track
-                                });
-                                var distance = routeInfo.length;
-                                var tolerance = Common.getToleranceInDegrees(distance / 10);
-                                if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
-                                    isDanger = false;
-                                    message = "On Track";
-                                }
-                                else {
-                                    isDanger = true;
-                                    message = "Danger : Off Track";
-                                    break;
-                                    //Ext.Msg.alert('Bad', 'Not OK');
-                                }
-                            }
-
-                        }
-                        Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-                        if (isDanger) {
-                            Ext.device.Notification.vibrate();
-                        }
-                    }
-                    else {
-                        console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
-                    }
-                },
-                failure: function (error) {
-                    console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
-                    Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
-                }
-            });
-            /* */
-        }
-    },
-
-    unwatchCurrentLocation : function() {
-        this.infoWindow.close();
-        this.marker.setMap(null);
-        this.showCurrentJourney();
-        if(this.isSosActivated) {
-            console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
-        }
-        else {
-            console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
-            Ext.device.Geolocation.clearWatch();
-            this.isGeolocationActive = false;
-        }
-
-    },
+    //watchCurrentLocation : function() { //from sessioncontroller login and auto login methods
+    //    console.log("MapController - watchCurrentLocation - START");
+    //    var me = this;
+    //    if(this.isGeolocationActive) {
+    //        console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
+    //    }
+    //    else {
+    //        console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
+    //        this.isGeolocationActive = true;
+    //        console.log("watch position : " + new Date());
+    //        /*
+    //        var geolocationSuccess = function(position) {
+    //            console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
+    //            if(me.isSosActivated) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+    //            }
+    //            else {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //            }
+    //            if(me.isWatching) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //                me.marker.setPosition(current);
+    //                me.marker.setMap(me.googleMap);
+    //                me.infoWindow.open(me.googleMap, me.marker);
+    //                var tracks = me.tracks;//LoginHelper.getRoutes();
+    //                var isDanger = false;
+    //                var message = "All Good";
+    //                if (tracks) {
+    //                    for (var i = 0; i < tracks.length; i++) {
+    //                        var routeInfo = tracks[i];
+    //                        var track = routeInfo.track;
+    //                        var polyline = new google.maps.Polyline({
+    //                            path: track
+    //                        });
+    //                        var distance = routeInfo.length;
+    //                        var tolerance = Common.getToleranceInDegrees(distance / 10);
+    //                        if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
+    //                            isDanger = false;
+    //                            message = "On Track";
+    //                        }
+    //                        else {
+    //                            isDanger = true;
+    //                            message = "Danger : Off Track";
+    //                            break;
+    //                            //Ext.Msg.alert('Bad', 'Not OK');
+    //                        }
+    //                    }
+    //
+    //                }
+    //                Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+    //                if (isDanger) {
+    //                    navigator.vibrate();
+    //                }
+    //            }
+    //            else {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //            }
+    //        };
+    //        var geolocationError = function(error) {
+    //            console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
+    //            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+    //        };
+    //        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    //        navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationOptions);
+    //
+    //        */
+    //        Ext.device.Geolocation.watchPosition({
+    //            frequency: Config.locationUpdateFrequency,
+    //            allowHighAccuracy : true,
+    //            maximumAge : 0,
+    //            callback: function (position) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
+    //                if(me.isSosActivated) {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                    me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+    //                }
+    //                else {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                }
+    //                if(me.isWatching) {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                    var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //                    me.marker.setPosition(current);
+    //                    me.marker.setMap(me.googleMap);
+    //                    me.infoWindow.open(me.googleMap, me.marker);
+    //                    var tracks = me.tracks;//LoginHelper.getRoutes();
+    //                    var isDanger = false;
+    //                    var message = "All Good";
+    //                    if (tracks) {
+    //                        for (var i = 0; i < tracks.length; i++) {
+    //                            var routeInfo = tracks[i];
+    //                            var track = routeInfo.track;
+    //                            var polyline = new google.maps.Polyline({
+    //                                path: track
+    //                            });
+    //                            var distance = routeInfo.length;
+    //                            var tolerance = Common.getToleranceInDegrees(distance / 10);
+    //                            if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
+    //                                isDanger = false;
+    //                                message = "On Track";
+    //                            }
+    //                            else {
+    //                                isDanger = true;
+    //                                message = "Danger : Off Track";
+    //                                break;
+    //                                //Ext.Msg.alert('Bad', 'Not OK');
+    //                            }
+    //                        }
+    //
+    //                    }
+    //                    Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+    //                    if (isDanger) {
+    //                        Ext.device.Notification.vibrate();
+    //                    }
+    //                }
+    //                else {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                }
+    //            },
+    //            failure: function (error) {
+    //                console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
+    //                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+    //            }
+    //        });
+    //        /* */
+    //    }
+    //},
+    //
+    //unwatchCurrentLocation : function() {
+    //    this.infoWindow.close();
+    //    this.marker.setMap(null);
+    //    this.showCurrentJourney();
+    //    if(this.isSosActivated) {
+    //        console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
+    //    }
+    //    else {
+    //        console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
+    //        Ext.device.Geolocation.clearWatch();
+    //        this.isGeolocationActive = false;
+    //    }
+    //
+    //},
 
     sendSosMessage : function(lat, lng) {
         var successCallback = function(response, ops) {

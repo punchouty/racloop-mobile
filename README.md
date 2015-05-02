@@ -175,3 +175,18 @@ Sencha Important Links
 ----------------------
 
 * Date Docs - http://docs.sencha.com/touch/2.1.1/#!/api/Ext.Date
+
+Important Commands
+------------------
+* sencha app build native testing :- make build on build.phonegap.com without minifying java script
+* sencha ant sass :- generate css
+* sencha app refresh :- after any changes in app.json (addition of third party lib)
+* sencha app build native :- make build on build.phonegap.com
+* phonegap serve :- to test application using phonegap developer app on mobile phone
+
+
+Release
+-------
+
+* keytool -genkey -v -keystore racloop.keystore -alias racloop -keyalg RSA -validity 10000
+* Got to build.phonegap.com and add key. If error unlock key and rebuild.

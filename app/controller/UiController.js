@@ -69,7 +69,8 @@ Ext.define('Racloop.controller.UiController', {
 
     tabClicked: function(button, e, eOpts) {
         var me = this;
-        Racloop.app.getController('MapController').stopWatchingJourney();
+        //Racloop.app.getController('MapController').stopWatchingJourney();
+        Racloop.app.getController('MapController').setWatching(false);
         if(button.getTitle() === Config.tabMyJourneys) {
             Ext.getStore('journeyStore').load({
                 callback: function(records, operation, success) {
@@ -98,13 +99,15 @@ Ext.define('Racloop.controller.UiController', {
             if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
         else if(button.getTitle() === Config.tabHome) {
+            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
             var currentJourney = LoginHelper.getCurrentJourney();
             if(currentJourney) {
-                Racloop.app.getController('MapController').startWatchingJourney();
+                Racloop.app.getController('MapController').setWatching(true);
+                Racloop.app.getController('MapController').processCurrentLocation();
                 console.log('startWatchingJourney');
             }
             else {
-                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+
                 console.log('updateCurrentLocationOnMap');
             }
             //Racloop.app.getController('MapController').startWatchingJourney();

@@ -64,7 +64,8 @@ Ext.application({
         'MapPanel',
         'OutgoingRequestViewItem',
         'VerifySmsForm',
-        'EmergencyContactForm'
+        'EmergencyContactForm',
+        'SosView'
     ],
 
     controllers: [
