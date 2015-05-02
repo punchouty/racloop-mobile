@@ -27,7 +27,7 @@ Ext.define('Racloop.view.MapPanel', {
                         text: 'SOS!',
                         iconCls: 'bell',
                         iconMask: true
-                    },
+                    }/*,
                     {
                         xtype : 'spacer'
                     },
@@ -38,7 +38,7 @@ Ext.define('Racloop.view.MapPanel', {
                         text: 'Unwatch',
                         iconCls: 'eye',
                         iconMask: true
-                    }
+                    }*/
                 ]
             },
             {

@@ -15,3 +15,5 @@ resources/sass/.sass-cache/
 
 .idea
 node_modules/
+
+racloop.keystore

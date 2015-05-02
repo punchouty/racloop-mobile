@@ -168,9 +168,9 @@ Ext.define('Racloop.controller.MapController', {
         var me = this;
         Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", function(buttonId){
             console.log("buttonId : " + buttonId);
-            //var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
-            //Ext.Viewport.setActiveItem(mainTabs);
-            //me.setSosActivated(false);
+            var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+            Ext.Viewport.setActiveItem(mainTabs);
+            me.setSosActivated(false);
         });
     },
 
@@ -211,31 +211,60 @@ Ext.define('Racloop.controller.MapController', {
         task.delay(Config.locationUpdateFrequency);
     },
 
-    watchButtonClicked : function(button, e, eOpts) {
-        console.log("MapController - watchButtonClicked - STARTS");
-        if(button.getText() === "Unwatch") {
-            this.setWatching(false);
-            this.getWatchButton().setText("Watch");
-        }
-        else {
-            if(LoginHelper.getCurrentJourney()) {
-                this.setWatching(true);
-                this.getWatchButton().setText("Unwatch");
-                this.processCurrentLocation();
-            }
-            else {
-                Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
-            }
-        }
-
-    },
+    //watchButtonClicked : function(button, e, eOpts) {
+    //    console.log("MapController - watchButtonClicked - STARTS");
+    //    if(button.getText() === "Unwatch") {
+    //        this.setWatching(false);
+    //        this.getWatchButton().setText("Watch");
+    //    }
+    //    else {
+    //        if(LoginHelper.getCurrentJourney()) {
+    //            this.setWatching(true);
+    //            this.getWatchButton().setText("Unwatch");
+    //            this.processCurrentLocation();
+    //        }
+    //        else {
+    //            Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
+    //        }
+    //    }
+    //
+    //},
 
     processCurrentLocation : function() {
         console.log("MapController - processCurrentLocation - STARTS");
         var me = this;
         console.log("processCurrentLocation : " + new Date());
         if(!this.getWatching()) return;
-
+        var mapPanel = this.getMapPanel();
+        var gMap = mapPanel.down('map').getMap();
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Location..'
+        });
+        Ext.device.Geolocation.getCurrentPosition({
+            allowHighAccuracy : true,
+            timeout : 5000,
+            success: function(position) {
+                console.log("MapController - updateCurrentLocationOnMap - success");
+                var geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                var mapOptions = {
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoom: 12
+                };
+                gMap.setOptions(mapOptions);
+                me.marker.setMap(gMap);
+                me.marker.setPosition(latlng);
+                Ext.Viewport.unmask();
+            },
+            failure: function() {
+                console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+            }
+        });
         var task = Ext.create('Ext.util.DelayedTask', this.processCurrentLocation, this);
         task.delay(Config.locationUpdateFrequency);
     },
@@ -264,6 +293,7 @@ Ext.define('Racloop.controller.MapController', {
             indicator: true,
             message: 'Getting Location..'
         });
+
         /*
         var geolocationSuccess = function(position) {
             console.log("MapController - updateCurrentLocationOnMap - success");

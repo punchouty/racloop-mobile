@@ -1,8 +1,8 @@
 
-Ext.define('Racloop.view.OfflineView', {
+Ext.define('Racloop.view.SosView', {
     extend: 'Ext.Container',
-    alias: 'widget.offlineView',
-    xtype : 'offlineView',
+    alias: 'widget.sosView',
+    xtype : 'sosView',
 
     requires: [
         'Ext.Panel',
@@ -18,19 +18,27 @@ Ext.define('Racloop.view.OfflineView', {
                 {
                     docked: 'top',
                     xtype: 'titlebar',
-                    title : "Device Offline"
+                    title : "Danger"
                 },
                 {
                 xtype: 'container',
                 html: '<div class="section-header">' +
                         '<div class="small-text-medium uppercase colored-text">' +
-                        'Connectivity Issues' +
+                        'Please switch on your phone GPS' +
                         '</div>' +
+                        '<h2 class="dark-text">SOS</h2>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading">Your device is not connected to internet. Please check you data connection.</div>' +
+                        '<div class="sub-heading">If you are not in danger please click <strong>Cancel SOS</strong></div>' +
                       '</div>'
 
-            }]
+            }, {
+                    xtype: 'button',
+                    itemId: 'cancelSos',
+                    margin: 20,
+                    padding: 8,
+                    text: 'Cancel SOS',
+                    ui: 'decline'
+                }]
         }]
     }
 
