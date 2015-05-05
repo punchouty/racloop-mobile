@@ -146,7 +146,7 @@ Ext.define('Racloop.controller.JourneysController', {
         fromField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetFrom);
-                searchForm.down('field[name=fromPlace]').setValue("");
+                searchForm.down('field[name=fromPlace]').setValue("").blur();
                 searchForm.down('field[name=fromLatitude]').setValue("");
                 searchForm.down('field[name=fromLongitude]').setValue("");
                 actionSheetFrom.down('field[name=from]').setValue("");
@@ -159,7 +159,7 @@ Ext.define('Racloop.controller.JourneysController', {
         toField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetTo);
-                searchForm.down('field[name=toPlace]').setValue("");
+                searchForm.down('field[name=toPlace]').setValue("").blur();
                 searchForm.down('field[name=toLatitude]').setValue("");
                 searchForm.down('field[name=toLongitude]').setValue("");
                 actionSheetTo.down('field[name=to]').setValue("");
