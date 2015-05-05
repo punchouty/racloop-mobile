@@ -123,7 +123,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/mobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/mobile/sos';
         } else {
-            var ip = "192.168.1.11";
+            var ip = "192.168.1.2";
             this.config.locationUpdateFrequency = 20000;
             this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/mlogin';
             this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/mlogout';

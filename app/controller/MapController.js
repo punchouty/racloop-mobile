@@ -166,11 +166,16 @@ Ext.define('Racloop.controller.MapController', {
     sosCancelButtonClicked : function(button, e, eOpts) {
         console.log("sosCancelButton event fired");
         var me = this;
-        Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", function(buttonId){
-            console.log("buttonId : " + buttonId);
-            var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
-            Ext.Viewport.setActiveItem(mainTabs);
-            me.setSosActivated(false);
+        Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", function(btn, text){
+            console.log("buttonId : " + btn);
+             if (btn == 'yes'){
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                me.setSosActivated(false);
+              } else {
+                   return false;
+             }
+            
         });
     },
 
@@ -252,7 +257,7 @@ Ext.define('Racloop.controller.MapController', {
                 var mapOptions = {
                     center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 12
+                    zoom: 06
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
@@ -327,7 +332,7 @@ Ext.define('Racloop.controller.MapController', {
                 var mapOptions = {
                     center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 12
+                    zoom: 06
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
