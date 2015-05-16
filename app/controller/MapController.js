@@ -412,7 +412,7 @@ Ext.define('Racloop.controller.MapController', {
                 });
             },
             failure: function(error) {
-                console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
+                console.log('Error : updateFromFieldWithCurrentLocation : ');
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }

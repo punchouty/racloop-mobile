@@ -24,8 +24,8 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
             var drivingText = '';
-            var dateUnadjusted = record.get("dateOfJourney");
-            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var dateOfJourney = record.get("dateOfJourney");
+            //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
@@ -75,8 +75,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 <div>\
                     <span class="card-control">\
                         <button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>\
-                        <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Incoming('+matchedJourneyCount+')</button>\
-                        <button  class="racloop-btn racloop-btn-primary outgoingButton"><span class="outgoingCls"></span> Outgoing('+requestedJourneyCount+')</button>\
+                        <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Travel Mates ('+matchedJourneyCount+')</button>\
                     </span>\
                 </div>\
             </div>\
