@@ -57,10 +57,12 @@ Ext.define('Racloop.controller.SessionsController', {
                         LoginHelper.setCurrentJourney(currentJourney);
                         Racloop.app.getController('MapController').showCurrentJourney();
                         //Racloop.app.getController('MapController').watchCurrentLocation();
+                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                     }
                     else {
                         console.log("SessionController - autoLogin - currentJourney does not exists");
                         LoginHelper.removeCurrentJourney();
+                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         console.log('login success data.currentJourney : false');
                         if(!LoginHelper.isEmergencyContactDefined(data.data)) {
                             LoginHelper.incrementLoginCounter();
