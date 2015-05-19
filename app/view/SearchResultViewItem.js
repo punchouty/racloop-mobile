@@ -29,21 +29,17 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         var html = '';
         var drivingText = '';
         if (record != null) {
-            recordData = record.get("matchedJourney");
-            var dateUnadjusted = new Date(recordData.dateOfJourney);
-            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            //recordData = record.get("data");
+            var dateOfJourney = new Date(record.get("dateOfJourney"));
+            //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
             var dateString = Ext.Date.format(dateOfJourney, 'j M, Y, g:i a');
-//            var day = Ext.Date.format(date, 'd');
-//            var month = Ext.Date.format(date, 'F');
-//            var time = Ext.Date.format(date, 'g:i A');
-
             var legend = "";
             var legendText = "";
             var buttonHtml = "";
             var labelHtml = "";
             var imgSrc = '';
             var cardControl = '';
-            if (recordData.isDriver) {
+            if (record.get("isDriver")) {
                 legend = "C";
                 legendText = "Car Owner";
                 buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
@@ -122,9 +118,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
 //                }
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
-            if (recordData.photoUrl != null) {
-                // me.down('#imgCmp').setHtml('<img style="height: 60px; width: 60px; margin-right:10px;" src="' + recordData.photoUrl + '" />');
-                imgSrc = recordData.photoUrl;
+            if (record.get("photoUrl") != null) {
+                imgSrc = record.get("photoUrl");
             }
             else {
                 // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');
@@ -143,7 +138,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             </div>\
                             <div class="card-main">\
                                 <div class="card-name">\
-                                    <h3>' + recordData.name + '</h3>\
+                                    <h3>' + record.get("name") + '</h3>\
                                 </div>\
                                 <div>\
                                     <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>\
@@ -156,11 +151,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         <div class="card-footer">\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">From :</span>\
-                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + recordData.fromPlace + '</span>\
+                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("fromPlace") + '</span>\
                             </div>\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">To :</span>\
-                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + recordData.toPlace + '</span>\
+                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("toPlace") + '</span>\
                             </div>\
                         </div>\
                     </div>';

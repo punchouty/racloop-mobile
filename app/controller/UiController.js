@@ -151,7 +151,7 @@ Ext.define('Racloop.controller.UiController', {
                 }
             }
             else {
-                console.log("showMyJourneys: recordCount == 0 & itemCount != 1");
+                console.log("showMyJourneys: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
                 journeyNavigationView.removeAll(false, true);
                 journeyNavigationView.push({
                     title : Config.tabMyJourneys,
@@ -160,7 +160,7 @@ Ext.define('Racloop.controller.UiController', {
             }
         }
         else {
-            console.log("showMyJourneys: recordCount != 0");
+            console.log("showMyJourneys: recordCount != 0, recordCount : " + recordCount);
             var journeyView = this.getJourneyView();
             var activeItem = journeyNavigationView.getActiveItem();
             var journeyEmptyView = this.getJourneyEmptyView();
@@ -199,7 +199,7 @@ Ext.define('Racloop.controller.UiController', {
                     });
                 }
                 else {
-                    console.log("showHistory: recordCount == 0 & itemCount != 1");
+                    console.log("showHistory: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
                     historyNavigationView.setActiveItem(historyEmptyView);
                     historyNavigationView.push({
                         title : Config.tabHistory,
@@ -217,7 +217,7 @@ Ext.define('Racloop.controller.UiController', {
             }
         }
         else {
-            console.log("showHistory: recordCount != 0");
+            console.log("showHistory: recordCount != 0, recordCount : " + recordCount);
             var historyView = this.getHistoryView();
             var activeItem = historyNavigationView.getActiveItem();
             var historyEmptyView = this.getHistoryEmptyView();
@@ -228,7 +228,8 @@ Ext.define('Racloop.controller.UiController', {
             else if(activeItem != historyView) {
                 historyNavigationView.pop();
             }
-            Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+            //Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+            historyView.refresh();
         }
 
     },

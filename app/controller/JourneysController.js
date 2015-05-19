@@ -224,7 +224,7 @@ Ext.define('Racloop.controller.JourneysController', {
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
 
-        var validStartTimeString = validStartTime.toString('dd MMMM hh:mm tt');
+        var validStartTimeString = Ext.Date.format(validStartTime, 'c');//validStartTime.toString('dd MMMM hh:mm tt');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
         searchForm.down('field[name=date]').setValue({
             day: now.getDate(),
@@ -243,10 +243,20 @@ Ext.define('Racloop.controller.JourneysController', {
         var selectedTime = searchForm.down('field[name=time]').getValue();
 
         if (selectedDate != null && selectedTime != null) {
+            var formatDate = 'd M y';
+            var formatTime = 'h:i A';
+            var format = formatDate + " " + formatTime;
             var dateString = Ext.Date.format(selectedDate, 'd M y');
             var timeString = Ext.Date.format(selectedTime, 'h:i A');
             var datetimeString = dateString + " " + timeString;
-            searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
+            var journeyDate = Ext.Date.parse(datetimeString, format);
+            var journeyDateString = Ext.Date.format(journeyDate,'c');
+            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
+            searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
+            //var dateString = Ext.Date.format(selectedDate, 'd M y');
+            //var timeString = Ext.Date.format(selectedTime, 'h:i A');
+            //var datetimeString = dateString + " " + timeString;
+            //searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
         }
         console.log("Journey Controller initGoogleElements ends");
     },
@@ -312,17 +322,23 @@ Ext.define('Racloop.controller.JourneysController', {
         var selectedTime = searchForm.down('field[name=time]').getValue();
 
         if (selectedDate != null && selectedTime != null) {
+            var formatDate = 'd M y';
+            var formatTime = 'h:i A';
+            var format = formatDate + " " + formatTime;
             var dateString = Ext.Date.format(selectedDate, 'd M y');
             var timeString = Ext.Date.format(selectedTime, 'h:i A');
             var datetimeString = dateString + " " + timeString;
-            searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
-            //console.log("Date and Time : " + datetimeString);
+            var journeyDate = Ext.Date.parse(datetimeString, format);
+            var journeyDateString = Ext.Date.format(journeyDate,'c');
+            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
+            searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
         }
         var now = new Date();
         var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7; //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
-        var validStartTimeString = Ext.Date.format(validStartTime, 'd F Y    h:i A'); //validStartTime.toString('dd MMMM hh:mm tt');
+        var validStartTimeString = Ext.Date.format(validStartTime, 'c');
+        console.log("validStartTimeString : " + validStartTimeString);
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
 
@@ -347,6 +363,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
+            console.dir(data)
             if (data.success) {
                 if(data.existingJourney){ // If user is searching similar journey
                     var newJourney = data.data.currentJourney;
@@ -429,7 +446,7 @@ Ext.define('Racloop.controller.JourneysController', {
                                     </div>\
                                 </div>';
                     var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
-                        title: 'Similar Journey Found!'
+                        title: 'Another journey at same time!!'
                     });
                     existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                     existingPanel.setPreviousJourney(existingJourney);
@@ -439,11 +456,15 @@ Ext.define('Racloop.controller.JourneysController', {
                 else{
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
-                    var jsonObj = data.data.matchedJourneys;
+                    var jsonObj = data.data.journeys;
+                    console.log("data.data.journey : " + data.data.journey);
+                    console.dir(data.data);
+                    console.log("jsonObj : " + jsonObj);
+                    console.dir(jsonObj);
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     };
-                    if(data.data.matchedJourneys.length == 0) {
+                    if(data.total.length == 0) {
                         me.getSearchNavigationView().push({
                             title : 'Search Results',
                             xtype : 'searchResultsEmptyView'
@@ -681,7 +702,7 @@ Ext.define('Racloop.controller.JourneysController', {
         var me = this;
         var record = item.getRecord();
         var recordData = record.get("matchedJourney");
-        var matchedJourneyId = recordData.id;
+        var journeyId = record.get("id");//recordData.id;
         var searchNavView = this.getSearchNavigationView();
         var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
         var isDummy = searchList.isDummy;
@@ -725,7 +746,7 @@ Ext.define('Racloop.controller.JourneysController', {
             withCredentials: true,
             useDefaultXhrHeader: false,
             params: Ext.JSON.encode({
-                matchedJourneyId: matchedJourneyId,
+                matchedJourneyId: journeyId,
                 isDummy: isDummy
             }),
             success: successCallback,
