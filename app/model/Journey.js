@@ -30,7 +30,7 @@ Ext.define('Racloop.model.Journey', {
             name: 'dateOfJourneyString',
             type: 'string'
         }, {
-            name: 'fromPlace',
+            name: 'from',
             type: 'string'
         }, {
             name: 'fromLatitude',
@@ -39,7 +39,7 @@ Ext.define('Racloop.model.Journey', {
             name: 'fromLongitude',
             type: 'float'
         }, {
-            name: 'toPlace',
+            name: 'to',
             type: 'string'
         }, {
             name: 'toLatitude',
@@ -63,33 +63,20 @@ Ext.define('Racloop.model.Journey', {
             name: 'photoUrl',
             type: 'string'
         }, {
-            name: 'incomingRequests',
-            type: 'auto'
-        }, {
-            name: 'outgoingRequests',
-            type: 'auto'
-        }, {
-            name: 'numberOfIncomingRequests',
-            type: 'integer'
-        }, {
-            name: 'numberOfOutgoingRequests',
-            type: 'integer'
-        },{
-            name: 'matchedJourney',
+            name: 'relatedJourneys',
             type: 'auto'
         },{
-            name: 'workflow',
-            type: 'auto'
+            name: 'numberOfCopassengers',
+            type: 'integer'
         }
-
         ],
         validations: [{
             type: 'presence',
-            field: 'fromPlace',
+            field: 'from',
             message: "From Place is required"
         }, {
             type: 'presence',
-            field: 'toPlace',
+            field: 'to',
             message: "To Place is required"
         }, {
             type: 'presence',

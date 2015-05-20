@@ -21,6 +21,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
             saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
+            searchResultsView : 'searchResultsView',
             // RequestJourneyPanel: '#requestPanel',
             //  SearchForm: 'searchForm',
             // searchDataView: 'UserSearchList',
@@ -146,7 +147,7 @@ Ext.define('Racloop.controller.JourneysController', {
         fromField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetFrom);
-                searchForm.down('field[name=fromPlace]').setValue("").blur();
+                searchForm.down('field[name=from]').setValue("").blur();
                 searchForm.down('field[name=fromLatitude]').setValue("");
                 searchForm.down('field[name=fromLongitude]').setValue("");
                 actionSheetFrom.down('field[name=from]').setValue("").focus();
@@ -158,7 +159,7 @@ Ext.define('Racloop.controller.JourneysController', {
         toField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetTo);
-                searchForm.down('field[name=toPlace]').setValue("").blur();
+                searchForm.down('field[name=to]').setValue("").blur();
                 searchForm.down('field[name=toLatitude]').setValue("");
                 searchForm.down('field[name=toLongitude]').setValue("");
                 actionSheetTo.down('field[name=to]').setValue("").focus();
@@ -193,7 +194,7 @@ Ext.define('Racloop.controller.JourneysController', {
             latFrom = place.geometry.location.lat();
             longFrom = place.geometry.location.lng();
             var selectedPlace = fromInput.value;
-            searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=from]').setValue(selectedPlace);
             searchForm.down('field[name=fromLatitude]').setValue(latFrom);
             searchForm.down('field[name=fromLongitude]').setValue(longFrom);
             latTo = searchForm.down('field[name=toLatitude]').getValue();
@@ -207,7 +208,7 @@ Ext.define('Racloop.controller.JourneysController', {
             latTo = place.geometry.location.lat();
             longTo = place.geometry.location.lng();
             var selectedPlace = toInput.value;
-            searchForm.down('field[name=toPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=to]').setValue(selectedPlace);
             searchForm.down('field[name=toLatitude]').setValue(latTo);
             searchForm.down('field[name=toLongitude]').setValue(longTo);
             latFrom = searchForm.down('field[name=fromLatitude]').getValue();
@@ -361,7 +362,6 @@ Ext.define('Racloop.controller.JourneysController', {
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.dir(data)
             if (data.success) {
                 if(data.existingJourney){ // If user is searching similar journey
                     var newJourney = data.data.currentJourney;
@@ -369,14 +369,14 @@ Ext.define('Racloop.controller.JourneysController', {
 
                     var newIsDriver = newJourney.isDriver? "Driver": "Passenger";
                     var existingIsDriver = existingJourney.isDriver? "Driver": "Passenger";
-                    var newDateUnadjusted = new Date(newJourney.dateOfJourney);
-                    var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
+                    var newDate = new Date(newJourney.dateOfJourney);
+                    //var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
                     var newTime = Ext.Date.format(newDate, 'g:i A');
 
-                    var existingDateUnadjusted = new Date(existingJourney.dateOfJourney);
-                    var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
+                    var existingDate = new Date(existingJourney.dateOfJourney);
+                    //var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
                     var existingDay = Ext.Date.format(existingDate, 'd');
                     var existingMonth = Ext.Date.format(existingDate, 'F');
                     var existingTime = Ext.Date.format(existingDate, 'g:i A');
@@ -404,11 +404,11 @@ Ext.define('Racloop.controller.JourneysController', {
                                         <div class="card-footer">\
                                             <div class="card-footer-row">\
                                                 <span class="card-location-label">From :</span>\
-                                                <span class="card-location">'+newJourney.fromPlace+'</span>\
+                                                <span class="card-location">'+newJourney.from+'</span>\
                                             </div>\
                                             <div class="card-footer-row">\
                                                 <span class="card-location-label">To :</span>\
-                                                <span class="card-location"> '+newJourney.toPlace+'</span>\
+                                                <span class="card-location"> '+newJourney.to+'</span>\
                                             </div>\
                                         </div>\
                                     </div>\
@@ -435,16 +435,16 @@ Ext.define('Racloop.controller.JourneysController', {
                                     <div class="card-footer">\
                                         <div class="card-footer-row">\
                                             <span class="card-location-label">From :</span>\
-                                            <span class="card-location">'+existingJourney.fromPlace+'</span>\
+                                            <span class="card-location"> &nbsp;<span class="fromCls"> </span> '+existingJourney.from+'</span>\
                                         </div>\
                                         <div class="card-footer-row">\
                                             <span class="card-location-label">To :</span>\
-                                            <span class="card-location"> '+existingJourney.toPlace+'</span>\
+                                            <span class="card-location"> &nbsp;<span class="toCls"> </span> '+existingJourney.to+'</span>\
                                         </div>\
                                     </div>\
                                 </div>';
                     var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
-                        title: 'Another journey at same time!!'
+                        title: 'Timing Issue!'
                     });
                     existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                     existingPanel.setPreviousJourney(existingJourney);
@@ -455,10 +455,6 @@ Ext.define('Racloop.controller.JourneysController', {
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
                     var jsonObj = data.data.journeys;
-                    console.log("data.data.journey : " + data.data.journey);
-                    console.dir(data.data);
-                    console.log("jsonObj : " + jsonObj);
-                    console.dir(jsonObj);
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     };
@@ -472,7 +468,8 @@ Ext.define('Racloop.controller.JourneysController', {
                         var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
                         me.getSearchNavigationView().push(searchResultsView);
                         var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                        comp.isDummy = data.data.isDummyData;
+                        comp.isDummy = data.isDummy;
+                        me.getSaveJourneyButtonInSearchResults().setHidden(false);
                     }
                 }
                 Ext.Viewport.unmask();
@@ -504,10 +501,10 @@ Ext.define('Racloop.controller.JourneysController', {
             params: Ext.JSON.encode({
                 dateOfJourneyString: journey.dateOfJourneyString,
                 validStartTimeString: journey.validStartTimeString,
-                fromPlace: journey.fromPlace,
+                from: journey.from,
                 fromLatitude: journey.fromLatitude,
                 fromLongitude: journey.fromLongitude,
-                toPlace: journey.toPlace,
+                to: journey.to,
                 toLatitude: journey.toLatitude,
                 toLongitude: journey.toLongitude,
                 isDriver: journey.isDriver,
@@ -522,7 +519,7 @@ Ext.define('Racloop.controller.JourneysController', {
     validateSearchForm: function(validationObj) {
         var errorstring = "";
         var formPlaceError = false;
-        var fromPlaceErrors = validationObj.getByField('fromPlace');
+        var fromPlaceErrors = validationObj.getByField('from');
         if (fromPlaceErrors != null && fromPlaceErrors.length > 0) {
             formPlaceError = true;
         }
@@ -539,7 +536,7 @@ Ext.define('Racloop.controller.JourneysController', {
             errorstring += "Invalid Location : From* field<br />";
         }
 
-        var toPlaceErrors = validationObj.getByField('toPlace');
+        var toPlaceErrors = validationObj.getByField('to');
         var toPlaceError = false;
         if (toPlaceErrors != null && toPlaceErrors.length > 0) {
             toPlaceError = true;
@@ -582,10 +579,10 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSearchAgainHistoryButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("fromPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("toPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
         Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
 
@@ -610,10 +607,10 @@ Ext.define('Racloop.controller.JourneysController', {
     // NOT USED - //CALLED FROM WORKFLOW CONTROLLER
     handleSearchAgainMyJourneyButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("fromPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("toPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
         Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
 
@@ -641,27 +638,39 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSaveJourneyTap : function() {
         var me = this;
-//        var controller = Racloop.app.getController('UiController');
-//        var renderMyJourney = function() {
-//            me.getMainTabs().setActiveItem('journeyNavigationView');;
-//        };
+        var searchNavView = this.getSearchNavigationView();
+
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                console.log("calling showAndLoadAfterDelay")
-                Racloop.app.getController('UiController').showAndLoadAfterDelay();
-//                setTimeout(function(){
-//                    Ext.getStore('journeyStore').load({
-//                        callback: function(records, operation, success) {
-//                            console.log("Journey Saved Ext.getStore('journeyStore').getAllCount() : " + Ext.getStore('journeyStore').getAllCount())
-//                            me.getMainTabs().setActiveItem('journeyNavigationView');
-//                            controller.showMyJourneys();
-//                        },
-//                        scope: controller
-//                    });
-//                }, 50);
-                Ext.Viewport.unmask();
-                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    searchNavView.reset();
+                    var searchStore = Ext.getStore('SearchStore');
+                    searchStore.removeAll();
+                    var jsonObj = data.data.journeys;
+                    for (var i in jsonObj) {
+                        searchStore.add(jsonObj[i]);
+                    };
+                    if(data.total.length == 0) {
+                        me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsEmptyView'
+                        });
+                    }
+                    else {
+                        var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
+                        me.getSearchNavigationView().push(searchResultsView);
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.isDummy;
+                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    }
+                    Ext.Viewport.unmask();
+                    Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                } else {
+                    Ext.Viewport.unmask();
+                    Ext.Msg.alert("Search Failure", data.message);
+                }
             } else {
                 Ext.Msg.alert("Server Failure", data.message);
                 Ext.Viewport.unmask();
@@ -686,7 +695,7 @@ Ext.define('Racloop.controller.JourneysController', {
             withCredentials: true,
             useDefaultXhrHeader: false,
             params: Ext.JSON.encode({
-                journeyId : "from_session"
+                journeyId : "from_session" //not used
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -704,7 +713,6 @@ Ext.define('Racloop.controller.JourneysController', {
         var searchNavView = this.getSearchNavigationView();
         var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
         var isDummy = searchList.isDummy;
-
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
@@ -756,212 +764,8 @@ Ext.define('Racloop.controller.JourneysController', {
 
     },
 
-//    onRequestButtonTap: function(item) { //TODO for testing
-//        console.dir(item.getRecord());
-//        var searchDataView= this.getSearchDataView();
-//        console.debug(searchDataView);
-//        console.debug(searchDataView.getIsDummy());
-//        var record = item.getRecord();
-//
-//        var recordData=record.get("matchedJourney");
-//        //TODO need to verify
-//        var currentJourney=LoginHelper.getJourney();
-//        var myJourneyId=currentJourney.id;
-//        var matchedJourneyId=recordData.id;
-//        // var requestPanel = Ext.create('Racloop.view.RequestJourneyPanel', {
-//        //     title: 'Driver Information',
-//        //   });
-//        // requestPanel.setMyJourneyId(currentJourney.id);
-//        // requestPanel.setMatchedJourneyId(recordData.id);
-//        // requestPanel.setIsDummy(searchDataView.getIsDummy());
-//        // var requestPhoto="";
-//        // if(recordData.photoUrl!=null){
-//        //     requestPhoto=recordData.photoUrl;
-//        // }else {
-//        //     requestPhoto='<img style="height: 100px; width: 100px; margin-right:10px;" src="http://www.gravatar.com/avatar/00000000000000000000000000000000" />';
-//        // }
-//
-//        // requestPanel.down("#requestJourneyInfo").down("#requestPhoto").setHtml(requestPhoto);
-//        // requestPanel.down("#requestJourneyInfo").down("#requestData").setHtml('<h1>'+recordData.name+'</h1><ul>'+
-//        //     '<li><b>From:</b> '+recordData.fromPlace+'</li>'+
-//        //     '<li><b>To:</b>   '+recordData.toPlace+'</li>'+
-//        //     '<li><b>Date:</b> '+Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A')+'</li>'+
-//        //     '</ul>');
-//        // searchFrm.up().push(requestPanel);
-//
-//
-//        var searchNavView = this.getSearchNavigationView();
-//        var me=this;
-//        // var myJourneyId=button.up().up().getMyJourneyId();
-//        var isDummy=searchDataView.getIsDummy();
-//        var successCallback = function(response, ops) {
-//            var data = Ext.decode(response.responseText);
-//            console.log('Request success during launch : ' + response.responseText);
-//            if (data.success) {
-//               // Ext.Msg.alert("Request Successful " + data.message);
-//                // searchFrm.up().pop();
-//
-//                 LoginHelper.setJourney(data.data);
-//                 currentJourney=data.data;
-//                 setTimeout(function(){
-//                    me.CallSearchAjax(currentJourney,function(){
-//                        searchNavView.pop(1);
-//                        Ext.getStore('journeyStore').load();
-//                        Ext.Viewport.unmask();
-//                    });
-//                 }, 1000);
-//
-//               // Ext.Viewport.unmask();
-//            } else {
-//                Ext.Msg.alert(data.message);
-//                Ext.Viewport.unmask();
-//            }
-//        };
-//       // Failure
-//        var failureCallback = function(response, ops) {
-//            Ext.Msg.alert(response.message);
-//            Ext.Viewport.unmask();
-//
-//        };
-//
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Sending Request...'
-//        });
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_REQUEST,
-//            headers: {
-//                    'Content-Type': 'application/json'
-//                },
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            params: Ext.JSON.encode({
-//                matchedJourneyId: matchedJourneyId,
-//                isDummy: isDummy
-//            }),
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-//
-//
-//
-//
-//    },
-//    onCancelButtonTap: function(item) { //TODO for testing
-//        var searchNavView = this.getSearchNavigationView();
-//        var currentJourney=LoginHelper.getJourney();
-//        var record = item.getRecord();
-//        var me=this;
-//        var workflowId=record.get("workflow").id;
-//        var successCallback = function(response, ops) {
-//            var data = Ext.decode(response.responseText);
-//            console.log('Cancel Request success during launch : ' + response.responseText);
-//            if (data.success) {
-//
-//                setTimeout(function(){
-//                    me.CallSearchAjax(currentJourney,function(){
-//                        searchNavView.pop();
-//                        Ext.getStore('journeyStore').load();
-//                        Ext.Viewport.unmask();
-//                    });
-//                 }, 1000);
-//                // Ext.Viewport.unmask();
-//            } else {
-//                Ext.Msg.alert("Cancel Request Failure", data.message);
-//                Ext.Viewport.unmask();
-//            }
-//        };
-//        // Failure
-//        var failureCallback = function(response, ops) {
-//            Ext.Msg.alert("Cancel Request Failure", response.message);
-//            Ext.Viewport.unmask();
-//
-//        };
-//
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Sending Request...'
-//        });
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_CANCELREQUEST,
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            params: Ext.JSON.encode({
-//                workflowId: workflowId
-//            }),
-//            //params: values, //TODO need to uncomment it
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-//
-//
-//
-//    },
-//    // "user":"admin","name":"Administrator","myJourneyId":"89","matchedJourneyId":"12de4899-74af-451a-a5ad-f3a8bfd1f678","isDummy":true}
-//    onSendRequestButton: function(button){
-//        var searchNavView = this.getSearchNavigationView();
-//        var currentJourney;
-//        var me=this;
-//        // var myJourneyId=button.up().up().getMyJourneyId();
-//        console.debug(button.up().up());
-//        var matchedJourneyId=button.up().up().getMatchedJourneyId();
-//        var isDummy=button.up().up().getIsDummy();
-//        var successCallback = function(response, ops) {
-//            var data = Ext.decode(response.responseText);
-//            console.log('Request success during launch : ' + response.responseText);
-//            if (data.success) {
-//                // Ext.Msg.alert("Request Successful " + data.message);
-//                // searchFrm.up().pop();
-//
-//                LoginHelper.setJourney(data.data);
-//                currentJourney=data.data;
-//                Ext.getStore('journeyStore').load();
-//                setTimeout(function(){
-//                    me.CallSearchAjax(currentJourney,function(){
-//                        searchNavView.pop(2);
-//                        Ext.Viewport.unmask();
-//                    });
-//                }, 1000);
-//
-//                // Ext.Viewport.unmask();
-//            } else {
-//                Ext.Msg.alert(data.message);
-//                Ext.Viewport.unmask();
-//            }
-//        };
-//        // Failure
-//        var failureCallback = function(response, ops) {
-//            Ext.Msg.alert(response.message);
-//            Ext.Viewport.unmask();
-//
-//        };
-//
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Sending Request...'
-//        });
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_REQUEST,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            params: Ext.JSON.encode({
-//                matchedJourneyId: matchedJourneyId,
-//                isDummy: isDummy
-//            }),
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-//    },
     handleExistingJourneyReplaceButtonTap: function(button){
+        var me = this;
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -975,25 +779,32 @@ Ext.define('Racloop.controller.JourneysController', {
         }
 
         var successCallback = function(response, ops) {
-            var searchData = Ext.decode(response.responseText);
-            if (searchData.success) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                searchNavView.reset();
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
-                var jsonObj = searchData.data.matchedJourneys;
+                var jsonObj = data.data.journeys;
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
-                searchNavView.reset();
-
-                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
-                searchNavView.push(searchResultsView);
-                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                comp.isDummy = searchData.data.isDummyData;
-
+                if(data.total.length == 0) {
+                    me.getSearchNavigationView().push({
+                        title : 'Search Results',
+                        xtype : 'searchResultsEmptyView'
+                    });
+                }
+                else {
+                    var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
+                    me.getSearchNavigationView().push(searchResultsView);
+                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                    comp.isDummy = data.isDummy;
+                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                }
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("Search Failure", searchData.message);
+                Ext.Msg.alert("Search Failure", data.message);
             }
         };
         // Failure
@@ -1007,7 +818,7 @@ Ext.define('Racloop.controller.JourneysController', {
             message: 'Searching...'
         });
         Ext.Ajax.request({
-            url: Config.url.RACLOOP_EXISTINGJOURNEY,
+            url: Config.url.RACLOOP_REPLACE_AND_SEARCH,
             withCredentials: true,
             useDefaultXhrHeader: false,
             headers: {
@@ -1038,23 +849,32 @@ Ext.define('Racloop.controller.JourneysController', {
         var existingJourney = existingJourneyPanel.getPreviousJourney();
         var existingJourneyId = existingJourney.id;
         var successCallback = function(response, ops) {
-            var searchData = Ext.decode(response.responseText);
-            if (searchData.success) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
                 searchNavView.reset();
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
-                var jsonObj = searchData.data.matchedJourneys;
+                var jsonObj = data.data.journeys;
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
-                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
-                searchNavView.push(searchResultsView);
-                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                comp.isDummy = searchData.data.isDummyData;
+                if(data.total.length == 0) {
+                    me.getSearchNavigationView().push({
+                        title : 'Search Results',
+                        xtype : 'searchResultsEmptyView'
+                    });
+                }
+                else {
+                    var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
+                    me.getSearchNavigationView().push(searchResultsView);
+                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                    comp.isDummy = data.isDummy;
+                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                }
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("Search Failure", searchData.message);
+                Ext.Msg.alert("Search Failure", data.message);
             }
         };
         // Failure
@@ -1068,7 +888,7 @@ Ext.define('Racloop.controller.JourneysController', {
             message: 'Searching...'
         });
         Ext.Ajax.request({
-            url: Config.url.RACLOOP_EXISTINGJOURNEY,
+            url: Config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH,
             withCredentials: true,
             useDefaultXhrHeader: false,
             headers: {
@@ -1082,211 +902,4 @@ Ext.define('Racloop.controller.JourneysController', {
             failure: failureCallback
         });
     }
-//    ,
-//    searchAgain: function(searchType) {
-//        var searchNavView = this.getSearchNavigationView();
-//        var existingJourneyPanel = this.getExistingJourneyPanel();
-//        var existingJourney = existingJourneyPanel.getPreviousJourney();
-//        var existingJourneyId = existingJourney.id;
-//        var successCallback = function(response, ops) {
-//            var searchData = Ext.decode(response.responseText);
-//            if (searchData.success) {
-//                var searchStore = Ext.getStore('SearchStore');
-//                searchStore.removeAll();
-//                var jsonObj = searchData.data.matchedJourneys;
-//                for (var i in jsonObj) {
-//                    searchStore.add(jsonObj[i]);
-//                };
-//
-//                var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsDataView');
-//                searchNavView.push(searchResultsView);
-//                var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-//                comp.isDummy = data.data.isDummyData;
-//
-//                Ext.Viewport.unmask();
-//            } else {
-//                Ext.Viewport.unmask();
-//                Ext.Msg.alert("Search Failure", searchData.message);
-//            }
-//        };
-//        // Failure
-//        var failureCallback = function(response, ops) {
-//            Ext.Viewport.unmask();
-//            Ext.Msg.alert("Search Failure", response.message);
-//        };
-//        Ext.Viewport.mask({
-//            xtype: 'loadmask',
-//            indicator: true,
-//            message: 'Searching...'
-//        });
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_EXISTINGJOURNEY,
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            params: Ext.JSON.encode({
-//                searchWithNewJourney: searchType,
-//                existingJourneyId: existingJourneyId
-//            }),
-//            success: successCallback,
-//            failure: failureCallback
-//        });
-//    },
-//    CallSearchAjax: function(currentJourney,callback){
-//        var searchNavView = this.getSearchNavigationView();
-//        var me=this;
-//        var successSearchCallback = function(response, ops) {
-//            var searchData = Ext.decode(response.responseText);
-//            console.log('Search success during launch : ' + response.responseText);
-//            if (searchData.success) {
-//                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
-//                var SearchStore = Ext.getStore('SearchStore');
-//                SearchStore.removeAll();
-//                var jsonObj = searchData.data.matchedJourneys;
-//                for (var i in jsonObj) {
-//                    SearchStore.add(jsonObj[i]);
-//                };
-//
-//                searchNavView.push({
-//                    title: 'Results',
-//                    xtype: 'UserSearchList'
-//                });
-//
-//                if (typeof callback === "function") {
-//                    callback();
-//                }
-//            } else {
-//                Ext.Msg.alert("Search Failure", searchData.message);
-//                if (typeof callback === "function") {
-//                    callback();
-//                }
-//            }
-//        };
-//
-//
-//        // Failure
-//        var failureSearchCallback = function(response, ops) {
-//            Ext.Msg.alert("Search Failure", response.message);
-//            if (typeof callback === "function") {
-//                callback();
-//            }
-//        };
-//
-//        if (currentJourney.dateOfJourneyString== null && currentJourney.dateOfJourney!=null) {
-//            var datetimeString = Ext.Date.format(new Date(currentJourney.dateOfJourney),'d F Y    g:i A');
-//            currentJourney.dateOfJourneyString=datetimeString;
-//            console.log(datetimeString);
-//        }
-//
-//
-//        Ext.Ajax.request({
-//            url: Config.url.RACLOOP_SEARCH,
-//            withCredentials: true,
-//            useDefaultXhrHeader: false,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            params: Ext.JSON.encode({
-//                id: currentJourney.id,
-//                dateOfJourneyString: currentJourney.dateOfJourneyString,
-//                fromPlace: currentJourney.fromPlace,
-//                fromLatitude: currentJourney.fromLatitude,
-//                fromLongitude: currentJourney.fromLongitude,
-//                toPlace: currentJourney.toPlace,
-//                toLatitude: currentJourney.toLatitude,
-//                toLongitude: currentJourney.toLongitude,
-//                isDriver: currentJourney.isDriver,
-//                tripDistance: currentJourney.tripDistance,
-//                tripUnit: currentJourney.tripUnit
-//            }),
-//            success: successSearchCallback,
-//            failure: failureSearchCallback
-//        });
-//    },
-//    CallExistingJourneyAjax: function(Journey,existingJourneyId,searchWithNewJourney,callback){
-//        var searchNavView = this.getSearchNavigationView();
-//        var me=this;
-//        var successSearchCallback = function(response, ops) {
-//            var searchData = Ext.decode(response.responseText);
-//            console.log('Search success during launch : ' + response.responseText);
-//            if (searchData.success) {
-//                Ext.Msg.alert("Search Successful "+ searchData.message+" find "+searchData.total+" Records" );
-//                var SearchStore = Ext.getStore('SearchStore');
-//                SearchStore.removeAll();
-//                var jsonObj = searchData.data.matchedJourneys;
-//                for (var i in jsonObj) {
-//                    SearchStore.add(jsonObj[i]);
-//                };
-//
-//                searchNavView.push({
-//                    title: 'Results',
-//                    xtype: 'UserSearchList'
-//                });
-//
-//                if (typeof callback === "function") {
-//                    callback();
-//                }
-//            } else {
-//                Ext.Msg.alert("Search Failure", searchData.message);
-//                if (typeof callback === "function") {
-//                    callback();
-//                }
-//            }
-//        };
-//
-//
-//        // Failure
-//        var failureSearchCallback = function(response, ops) {
-//            Ext.Msg.alert("Search Failure", response.message);
-//            if (typeof callback === "function") {
-//                callback();
-//            }
-//        };
-//
-//        if (searchWithNewJourney){
-//            console.log('with new journey');
-//            Ext.Ajax.request({
-//                url: Config.url.RACLOOP_EXISTINGJOURNEY,
-//                withCredentials: true,
-//                useDefaultXhrHeader: false,
-//                headers: {
-//                    'Content-Type': 'application/json'
-//                },
-//                params: Ext.JSON.encode({
-//                    dateOfJourneyString: Journey.dateOfJourneyString,
-//                    fromPlace: Journey.fromPlace,
-//                    fromLatitude: Journey.fromLatitude,
-//                    fromLongitude: Journey.fromLongitude,
-//                    toPlace: Journey.toPlace,
-//                    toLatitude: Journey.toLatitude,
-//                    toLongitude: Journey.toLongitude,
-//                    isDriver: Journey.isDriver,
-//                    tripDistance: Journey.tripDistance,
-//                    tripUnit: Journey.tripUnit,
-//                    searchWithNewJourney: 'newJourney',
-//                    existingJourneyId: existingJourneyId
-//                }),
-//                success: successSearchCallback,
-//                failure: failureSearchCallback
-//            });
-//        }else {
-//            console.log('with existing journey');
-//            Ext.Ajax.request({
-//                url: Config.url.RACLOOP_EXISTINGJOURNEY,
-//                withCredentials: true,
-//                useDefaultXhrHeader: false,
-//                headers: {
-//                    'Content-Type': 'application/json'
-//                },
-//                params: Ext.JSON.encode({
-//                    searchWithNewJourney: 'existingJourney',
-//                    existingJourneyId: existingJourneyId
-//                }),
-//                success: successSearchCallback,
-//                failure: failureSearchCallback
-//            });
-//        }
-//    }
 });

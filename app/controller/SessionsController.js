@@ -31,7 +31,7 @@ Ext.define('Racloop.controller.SessionsController', {
         var settingNavigationView = this.getSettingNavigationView();
         var me = this;
         var user = LoginHelper.getUser();
-        var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
+        var currentDateString = Ext.Date.format(new Date(),'c');
         console.log("SessionController - autoLogin : " + currentDateString);
         if (user) {
             console.log("autoLogin user : " + user.email);
@@ -42,6 +42,7 @@ Ext.define('Racloop.controller.SessionsController', {
             });
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
+                console.log(data);
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
                     LoginHelper.setUser(data.data);
@@ -162,7 +163,7 @@ Ext.define('Racloop.controller.SessionsController', {
         var values = loginForm.getValues(); // Form values
         var mainNavigationView = this.getMainNavigationView(); // Main view
         loginForm.updateRecord(user);
-        var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
+        var currentDateString = Ext.Date.format(new Date(),'c');
         // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);

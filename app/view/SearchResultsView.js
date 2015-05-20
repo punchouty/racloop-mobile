@@ -22,6 +22,7 @@ Ext.define('Racloop.view.SearchResultsView', {
             iconMask: true,
             iconAlign: 'left',
             ui: 'confirm',
+            hidden: true,
             margin: 10
             //padding: 8
         },

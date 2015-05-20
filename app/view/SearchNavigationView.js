@@ -28,12 +28,12 @@ Ext.define('Racloop.view.SearchNavigationView', {
                 title: 'Search Journeys',
                 instructions: "Search where other people are going.",
                 items: [{
-                    name: 'fromPlace',
+                    name: 'from',
                     xtype: 'searchfield',
                     label: 'From*',
                     itemId: 'searchScreenFrom'
                 }, {
-                    name: 'toPlace',
+                    name: 'to',
                     xtype: 'searchfield',
                     label: 'To*',
                     itemId: 'searchScreenTo'

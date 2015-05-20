@@ -101,15 +101,15 @@ Ext.define('Racloop.util.Config', {
             this.config.locationUpdateFrequency = 20000;
             //this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
             //this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
-            this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/msignup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://localhost:8080/app/mverifymobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/mresendsms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/mpassword';
-            this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/meditprofile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/mforgot';
-            this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/mobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/mobile/searchAgain';
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/mobile/addJourney';
+            //this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/msignup';
+            //this.config.url.RACLOOP_VERIFYMOBILE = 'http://localhost:8080/app/mverifymobile';
+            //this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/mresendsms';
+            //this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/mpassword';
+            //this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/meditprofile';
+            //this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/mforgot';
+            //this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/mobile/search';
+            //this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/mobile/searchAgain';
+            //this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/mobile/addJourney';
             this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/mobile/deleteJourney';
             //this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/mobile/myJourneys';
             //this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/mobile/history';
@@ -118,17 +118,30 @@ Ext.define('Racloop.util.Config', {
             //this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/mobile/requestService';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/mobile/cancelResponse';
             this.config.url.RACLOOP_EXISTINGJOURNEY='http://localhost:8080/app/mobile/searchWithExistingJourney';
-            this.config.url.RACLOOP_TERMS='http://localhost:8080/app/mobile/terms';
-            this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/mobile/privacy';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/mobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS='http://localhost:8080/app/mobile/sos';
+
+            this.config.url.RACLOOP_TERMS='http://localhost:8080/app/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/userMobile/privacy';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS='http://localhost:8080/app/userMobile/sos';
 
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://localhost:8080/app/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/userMobile/forgotPassword';
+
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://localhost:8080/app/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://localhost:8080/app/journeyMobile/replaceAndSearch';
+
             this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/workflowMobile/request';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/workflowMobile/save';
 
         } else {
             var ip = "127.0.0.1";//"192.168.1.3";

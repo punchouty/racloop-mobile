@@ -21,6 +21,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
+            var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
             var drivingText = '';
@@ -29,13 +30,9 @@ Ext.define('Racloop.view.HistoryViewItem', {
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
-            if(record.get("numberOfIncomingRequests")) {
-                matchedJourneyCount = record.get("numberOfIncomingRequests");
+            if(record.get("numberOfCopassengers")) {
+                numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if(record.get("numberOfOutgoingRequests")) {
-                requestedJourneyCount = record.get("numberOfOutgoingRequests");
-            }
-            //console.log("............... : " + record.get("isDriver"))
             if(record.get("isDriver")) {
                 drivingText = "Car Owner";
             }
@@ -67,11 +64,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
             <div class="card-footer">\
                 <div class="card-footer-row">\
                     <span class="card-location-label">From : </span>\
-                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+record.get("fromPlace")+'</span>\
+                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+record.get("from")+'</span>\
                 </div>\
                 <div class="card-footer-row">\
                     <span class="card-location-label">To : </span>\
-                    <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("toPlace")+' </span>\
+                    <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("to")+' </span>\
                 </div>\
             </div>\
         </div>';

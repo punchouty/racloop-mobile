@@ -75,58 +75,16 @@ Ext.define('Racloop.view.SearchResultViewItem', {
 
                     cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
                 }
-
-//                else {
-//                    if (recordData.isDriver) {
-//                        // me.down('button[action="Request"]').setText("Request");
-//                        legend = "C";
-//                        legendText = "Car Owner";
-//                        drivingText = "Car Owner";
-//                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-//                                <span class="card-control">\
-//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request a Ride</</button>\
-//                                </span>';
-//                    } else {
-//                        // me.down('button[action="Request"]').setText("Ask for Drive");
-//                        legend = "P";
-//                        legendText = "Passenger";
-//                        drivingText = "Passenger";
-//                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-//                                <span class="card-control">\
-//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
-//                                </span>';
-//                    }
-//                }
             } else {
-//                if (recordData.isDriver) {
-//                    // me.down('button[action="Request"]').setText("Request");
-//                    legend = "C";
-//                    legendText = "Car Owner";
-//                    drivingText = "Car Owner";
-//                    cardControl = '<span class="card-control">\
-//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Ride</button>\
-//                                </span>';
-//                } else {
-//                    // me.down('button[action="Request"]').setText("Offer a Ride");
-//                    legend = "P";
-//                    legendText = "Passenger";
-//                    drivingText = "Passenger";
-//                    drivingText = "Ride Seeker";
-//                    cardControl = '<span class="card-control">\
-//                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
-//                                </span>';
-//                }
+
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
             if (record.get("photoUrl") != null) {
                 imgSrc = record.get("photoUrl");
             }
             else {
-                // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');
                 imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
             }
-            // me.down('#textCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>' + recordData.name + '</strong></div><div class="journeyDate">' + Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A') + '</div></div></div>');
-            // me.down('#locCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>From : </strong><i>' + recordData.fromPlace + '</i></div><div class="name"><strong>To :</strong> <i>' + recordData.toPlace + '</i></div></div></div>');
             html = '<div class="card">\
                         <div class="card-info">\
                             <div class="image">\
@@ -151,11 +109,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         <div class="card-footer">\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">From :</span>\
-                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("fromPlace") + '</span>\
+                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>\
                             </div>\
                             <div class="card-footer-row">\
                                 <span class="card-location-label">To :</span>\
-                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("toPlace") + '</span>\
+                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + '</span>\
                             </div>\
                         </div>\
                     </div>';

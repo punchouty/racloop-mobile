@@ -207,7 +207,7 @@ Ext.define('Racloop.controller.MapController', {
                 me.sendSosMessage(position.coords.latitude, position.coords.longitude);
             },
             failure: function() {
-                console.log('MapController : sos : getCurrentPosition : failure : ' + error.code + " : " + error.message);
+                console.log('MapController : sos : getCurrentPosition : failure : ');
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
@@ -265,7 +265,7 @@ Ext.define('Racloop.controller.MapController', {
                 Ext.Viewport.unmask();
             },
             failure: function() {
-                console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
+                console.log('Error : processCurrentLocation : ');
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
@@ -340,7 +340,7 @@ Ext.define('Racloop.controller.MapController', {
                 Ext.Viewport.unmask();
             },
             failure: function() {
-                console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
+                console.log('Error : updateCurrentLocationOnMap Ext.device.Geolocation.getCurrentPosition');
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
@@ -396,7 +396,7 @@ Ext.define('Racloop.controller.MapController', {
                 this.geocoder.geocode({'latLng': latlng}, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
+                            Ext.ComponentQuery.query('textfield[name=from]')[0].setValue(results[0].formatted_address);
                             Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
                             Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
                             console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());

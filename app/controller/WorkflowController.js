@@ -5,10 +5,12 @@ Ext.define('Racloop.controller.WorkflowController', {
         'Racloop.view.JourneyNavigationView',
         'Racloop.view.JourneyViewItem',
         'Racloop.util.LoginHelper',
+
         //'Racloop.view.IncomingRequestList',
         //'Racloop.view.OutgoingRequestList',
         'Racloop.view.IncomingRequestViewItem',
         'Racloop.view.OutgoingRequestViewItem',
+
         'Racloop.model.EditProfile'
     ],
 
@@ -17,8 +19,6 @@ Ext.define('Racloop.controller.WorkflowController', {
         refs: {
             mainTabs: 'mainTabs',
             journeyNavigationView: 'journeyNavigationView',
-//            incomingButton: "button[action=Incoming]",
-//            outgoingButton: "button[action=Outgoing]",
             acceptButton: "button[action=Accept]",
             rejectButton: "button[action=Reject]",
             cancelButton: "button[action=Cancel]"
@@ -44,15 +44,24 @@ Ext.define('Racloop.controller.WorkflowController', {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
                 viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
-                incomingButtonTap: 'handleInComingButtonTap',
-                outgoingButtonTap: 'handleOutGoingButtonTap'
+                travelBuddiesButtonTap : 'handleTravelBuddiesButtonTap'
+                //,
+                //
+                //incomingButtonTap: 'handleInComingButtonTap',
+                //outgoingButtonTap: 'handleOutGoingButtonTap'
             },
-            'IncomingRequestItem': {
-                myAcceptButtonTap: 'acceptButtonTap',
-                myRejectButtonTap:  'rejectButtonTap'
-            },
-            'OutgoingRequestItem': {
-                myCancelButtonTap: 'cancelButtonTap'
+            //'IncomingRequestItem': {
+            //    myAcceptButtonTap: 'acceptButtonTap',
+            //    myRejectButtonTap:  'rejectButtonTap'
+            //},
+            //'OutgoingRequestItem': {
+            //    myCancelButtonTap: 'cancelButtonTap'
+            //},
+            'relatedJourneyItem': {
+                acceptButtonTap: 'acceptButtonTap',
+                rejectButtonTap: 'rejectButtonTap',
+                cancelButtonTap: 'cancelButtonTap',
+                cancelSelfButtonTap: 'cancelSelfButtonTap'
             }
         }
     },
@@ -64,18 +73,17 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleSearchAgainButtonTap : function(item) { //TODO UNCOMMENT BELOW
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 if(data.total > 0) {
-                    var SearchStore = Ext.getStore('SearchStore');
-                    SearchStore.removeAll();
-                    var jsonObj = data.data.matchedJourneys;
+                    var searchStore = Ext.getStore('SearchStore');
+                    searchStore.removeAll();
+                    var jsonObj = data.data.journeys;
                     for (var i in jsonObj) {
-                        SearchStore.add(jsonObj[i]);
+                        searchStore.add(jsonObj[i]);
                     };
-
                     journeyNavigationView.push({
                         title: 'Search Results',
                         xtype: 'searchResultsDataView'
