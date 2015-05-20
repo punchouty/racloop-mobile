@@ -65,11 +65,13 @@ Ext.define('Racloop.controller.WorkflowController', {
             }
         }
     },
+
     //called when the Application is launched, remove if not needed
     launch: function(app) {
 
 
     },
+
     handleSearchAgainButtonTap : function(item) { //TODO UNCOMMENT BELOW
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
@@ -126,9 +128,10 @@ Ext.define('Racloop.controller.WorkflowController', {
         //Racloop.app.getController('JourneysController').handleSearchAgainMyJourneyButtonTap(item);
 
     },
+
     handleDeleteJourneyButtonTap : function(item) {
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var me = this;
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
@@ -175,9 +178,10 @@ Ext.define('Racloop.controller.WorkflowController', {
             failure: failureCallback
         });
     },
+
     handleViewJourneyOnMapButtonTap : function(item) {
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var fromLatitude = record.get("fromLatitude");
         var fromLongitude = record.get("fromLongitude");
         var toLatitude = record.get("toLatitude");
@@ -193,6 +197,26 @@ Ext.define('Racloop.controller.WorkflowController', {
         this.getMainTabs().setActiveItem('mapPanel');
         Racloop.app.getController('MapController').showCurrentJourney();
     },
+
+    handleTravelBuddiesButtonTap : function(item) {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var record = item.getRecord();
+        var data = record.get("relatedJourneys");
+        var relatedRequestDataView ;
+        if (data.length>0) {
+            relatedRequestDataView = Ext.create('Ext.DataView', {
+                title: 'Travel Buddies',
+                data: data,
+                defaultType: 'relatedRequestViewItem',
+                useComponents: true
+            });
+            journeyNavigationView.push(relatedRequestDataView);
+        }
+        else {
+            Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+        }
+    },
+
     handleInComingButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();

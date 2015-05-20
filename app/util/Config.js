@@ -110,7 +110,7 @@ Ext.define('Racloop.util.Config', {
             //this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/mobile/search';
             //this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/mobile/searchAgain';
             //this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/mobile/addJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/mobile/deleteJourney';
+            //this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/mobile/deleteJourney';
             //this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/mobile/myJourneys';
             //this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/mobile/history';
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/mobile/acceptResponse';
@@ -142,6 +142,7 @@ Ext.define('Racloop.util.Config', {
 
             this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/workflowMobile/request';
             this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/workflowMobile/save';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/workflowMobile/deleteJourney';
 
         } else {
             var ip = "127.0.0.1";//"192.168.1.3";

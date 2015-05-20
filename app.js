@@ -59,6 +59,7 @@ Ext.application({
         'ForgotPasswordForm',
         //'SearchViewItem',
         'JourneyViewItem',
+        'RelatedRequestViewItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
         'MapPanel',

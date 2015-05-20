@@ -3,6 +3,7 @@ Ext.define('Racloop.controller.MapController', {
 
     requires: [
         'Ext.device.Notification',
+        'Ext.util.DelayedTask',
         'Racloop.view.MainTabs',
         'Racloop.view.MainNavigationView',
         'Racloop.view.MapPanel',
@@ -643,7 +644,7 @@ Ext.define('Racloop.controller.MapController', {
             console.log("MapController - sendSosMessage - failureCallback ");
             Ext.toast({message: "Issue with sending message", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
         };
-        var currentDateString = Ext.Date.format(new Date(),'d M y h:i A');
+        var currentDateString = Ext.Date.format(new Date(),'c');
         var user = LoginHelper.getUser();
         Ext.Ajax.request({
             url: Config.url.RACLOOP_SOS,
