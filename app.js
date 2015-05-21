@@ -119,6 +119,7 @@ Ext.application({
         }
         // Destroy the #appLoadingIndicator element
         this.cleanup();
+        this.fixOverflowChangedIssue();
         if(Ext.fly('appLoadingIndicator')) Ext.fly('appLoadingIndicator').destroy();
     },
 
@@ -159,5 +160,24 @@ Ext.application({
                     Ext.Animator.run(me.activeAnimation);
                 }
             };
+    },
+
+    fixOverflowChangedIssue: function() {
+        if (Ext.browser.is.WebKit) {
+            console.info(this.$className + ': Fix a Sencha Touch Bug (TOUCH-5716 / Scrolling Issues in Google Chrome v43+)');
+
+            Ext.override(Ext.util.SizeMonitor, {
+                constructor: function (config) {
+                    var namespace = Ext.util.sizemonitor;
+                    return new namespace.Scroll(config);
+                }
+            });
+
+            Ext.override(Ext.util.PaintMonitor, {
+                constructor: function (config) {
+                    return new Ext.util.paintmonitor.CssAnimation(config);
+                }
+            });
+        }
     }
 });
