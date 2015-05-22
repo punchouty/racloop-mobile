@@ -27,6 +27,8 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
+            var myStatus = record.get("myStatus");
+            console.log("myStatusmyStatusmyStatusmyStatusmyStatus : " + myStatus)
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
@@ -36,7 +38,13 @@ Ext.define('Racloop.view.JourneyViewItem', {
             else {
                 drivingText = "I need a Ride";
             }
-
+            var statusMarkup = '<span class="card-label card-label-blue">' + drivingText + '</span>';
+            var buttonMarkup = '<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>  ' +
+                '<button  class="racloop-btn racloop-btn-success travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+            if(myStatus) {
+                statusMarkup = '<span class="card-label card-label-red">Cancelled</span>';
+                buttonMarkup = '';
+            }
             var html='\
             <div class="card">\
                 <div class="card-info">\
@@ -53,7 +61,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                             </span>\
                         </div>\
                         <div>\
-                            <span class="card-label card-label-blue">'+drivingText+'</span>\
+                            ' + statusMarkup + '\
                         </div>\
                     </div>\
                 </div>\
@@ -69,8 +77,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                     </div>\
                     <div>\
                         <span class="card-control">\
-                            <button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>\
-                            <button  class="racloop-btn racloop-btn-success travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies ('+numberOfCopassengers+')</button>\
+                            ' + buttonMarkup + '\
                         </span>\
                     </div>\
                 </div>\

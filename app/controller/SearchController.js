@@ -826,6 +826,8 @@ Ext.define('Racloop.controller.SearchController', {
             failure: failureSearchCallback
         });
     },
+
+    //deprecated - dont use it
     CallExistingJourneyAjax: function(Journey,existingJourneyId,searchWithNewJourney,callback){
         var searchNavView = this.getSearchNavigationView();
         var me=this;

@@ -716,15 +716,22 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                setTimeout(function(){
-                    Ext.getStore('journeyStore').load({
-                        callback: function(records, operation, success) {
-                            me.getMainTabs().setActiveItem('journeyNavigationView');
-                            Racloop.app.getController('UiController').showMyJourneys();
-                        },
-                        scope: me
-                    });
-                }, 500);
+                Ext.getStore('journeyStore').load({
+                    callback: function(records, operation, success) {
+                        me.getMainTabs().setActiveItem('journeyNavigationView');
+                        Racloop.app.getController('UiController').showMyJourneys();
+                    },
+                    scope: me
+                });
+                //setTimeout(function(){
+                //    Ext.getStore('journeyStore').load({
+                //        callback: function(records, operation, success) {
+                //            me.getMainTabs().setActiveItem('journeyNavigationView');
+                //            Racloop.app.getController('UiController').showMyJourneys();
+                //        },
+                //        scope: me
+                //    });
+                //}, 500);
                 Ext.Viewport.unmask();
                 Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
