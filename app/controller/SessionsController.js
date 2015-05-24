@@ -40,9 +40,10 @@ Ext.define('Racloop.controller.SessionsController', {
         var settingNavigationView = this.getSettingNavigationView();
         var me = this;
         var user = LoginHelper.getUser();
+        console.log("user.email : " + user.email + ", user.password : " + user.password);
         var currentDateString = Ext.Date.format(new Date(),'c');
         console.log("SessionController - autoLogin : " + currentDateString);
-        if (user) {
+        if (user != null && user.email != null && user.password != null) {
             console.log("autoLogin user : " + user.email);
             Ext.Viewport.mask({
                 xtype: 'loadmask',
@@ -176,6 +177,8 @@ Ext.define('Racloop.controller.SessionsController', {
         }
         else {
             console.log("autoLogin no user in local cache");
+            LoginHelper.removeUser();
+            LoginHelper.removeEmail();
             Ext.Viewport.unmask();
             Ext.Viewport.setActiveItem(mainNavigationView);
         }

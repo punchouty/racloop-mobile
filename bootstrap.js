@@ -731,6 +731,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.OutgoingRequestViewItem": [],
   "Racloop.view.PrivacyPanel": [],
   "Racloop.view.RegisterForm": [],
+  "Racloop.view.RelatedRequestViewItem": [],
   "Racloop.view.RequestJourneyPanel": [],
   "Racloop.view.SearchNavigationView": [],
   "Racloop.view.SearchResultViewItem": [],
@@ -1577,6 +1578,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.RegisterForm": [
     "widget.registerForm"
+  ],
+  "Racloop.view.RelatedRequestViewItem": [
+    "widget.relatedRequestViewItem"
   ],
   "Racloop.view.RequestJourneyPanel": [
     "widget.requestJourneyPanel"

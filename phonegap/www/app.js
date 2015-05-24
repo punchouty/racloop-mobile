@@ -56203,6 +56203,145 @@ Ext.define('Ext.device.Notification', {
     }
 });
 
+/**
+ * The DelayedTask class provides a convenient way to "buffer" the execution of a method,
+ * performing `setTimeout` where a new timeout cancels the old timeout. When called, the
+ * task will wait the specified time period before executing. If during that time period,
+ * the task is called again, the original call will be canceled. This continues so that
+ * the function is only called a single time for each iteration.
+ *
+ * This method is especially useful for things like detecting whether a user has finished
+ * typing in a text field. An example would be performing validation on a keypress. You can
+ * use this class to buffer the keypress events for a certain number of milliseconds, and
+ * perform only if they stop for that amount of time.
+ *
+ * Using {@link Ext.util.DelayedTask} is very simple:
+ *
+ *     //create the delayed task instance with our callback
+ *     var task = Ext.create('Ext.util.DelayedTask', {
+ *          fn: function() {
+ *             console.log('callback!');
+ *          }
+ *     });
+ *
+ *     task.delay(1500); //the callback function will now be called after 1500ms
+ *
+ *     task.cancel(); //the callback function will never be called now, unless we call delay() again
+ *
+ * ## Example
+ *
+ *     @example
+ *     //create a textfield where we can listen to text
+ *     var field = Ext.create('Ext.field.Text', {
+ *         xtype: 'textfield',
+ *         label: 'Length: 0'
+ *     });
+ *
+ *     //add the textfield into a fieldset
+ *     Ext.Viewport.add({
+ *         xtype: 'formpanel',
+ *         items: [{
+ *             xtype: 'fieldset',
+ *             items: [field],
+ *             instructions: 'Type into the field and watch the count go up after 500ms.'
+ *         }]
+ *     });
+ *
+ *     //create our delayed task with a function that returns the fields length as the fields label
+ *     var task = Ext.create('Ext.util.DelayedTask', function() {
+ *         field.setLabel('Length: ' + field.getValue().length);
+ *     });
+ *
+ *     // Wait 500ms before calling our function. If the user presses another key
+ *     // during that 500ms, it will be canceled and we'll wait another 500ms.
+ *     field.on('keyup', function() {
+ *         task.delay(500);
+ *     });
+ *
+ * @constructor
+ * The parameters to this constructor serve as defaults and are not required.
+ * @param {Function} fn The default function to call.
+ * @param {Object} scope The default scope (The `this` reference) in which the function is called. If
+ * not specified, `this` will refer to the browser window.
+ * @param {Array} args The default Array of arguments.
+ */
+Ext.define('Ext.util.DelayedTask', {
+    config: {
+        interval: null,
+        delay: null,
+        fn: null,
+        scope: null,
+        args: null
+    },
+    constructor: function(fn, scope, args) {
+        var config = {
+                fn: fn,
+                scope: scope,
+                args: args
+            };
+        this.initConfig(config);
+    },
+    /**
+     * Cancels any pending timeout and queues a new one.
+     * @param {Number} delay The milliseconds to delay
+     * @param {Function} newFn Overrides the original function passed when instantiated.
+     * @param {Object} newScope Overrides the original `scope` passed when instantiated. Remember that if no scope
+     * is specified, `this` will refer to the browser window.
+     * @param {Array} newArgs Overrides the original `args` passed when instantiated.
+     */
+    delay: function(delay, newFn, newScope, newArgs) {
+        var me = this;
+        //cancel any existing queued functions
+        me.cancel();
+        //set all the new configurations
+        if (Ext.isNumber(delay)) {
+            me.setDelay(delay);
+        }
+        if (Ext.isFunction(newFn)) {
+            me.setFn(newFn);
+        }
+        if (newScope) {
+            me.setScope(newScope);
+        }
+        if (newScope) {
+            me.setArgs(newArgs);
+        }
+        //create the callback method for this delayed task
+        var call = function() {
+                me.getFn().apply(me.getScope(), me.getArgs() || []);
+                me.cancel();
+            };
+        me.setInterval(setInterval(call, me.getDelay()));
+    },
+    /**
+     * Cancel the last queued timeout
+     */
+    cancel: function() {
+        this.setInterval(null);
+    },
+    /**
+     * @private
+     * Clears the old interval
+     */
+    updateInterval: function(newInterval, oldInterval) {
+        if (oldInterval) {
+            clearInterval(oldInterval);
+        }
+    },
+    /**
+     * @private
+     * Changes the value into an array if it isn't one.
+     */
+    applyArgs: function(config) {
+        if (!Ext.isArray(config)) {
+            config = [
+                config
+            ];
+        }
+        return config;
+    }
+});
+
 // Using @mixins to include all members of Ext.event.Touch
 // into here to keep documentation simpler
 /**
@@ -68419,20 +68558,21 @@ Ext.define('Racloop.view.MapPanel', {
                         text: 'SOS!',
                         iconCls: 'bell',
                         iconMask: true
-                    },
+                    }
+                ]
+            },
+            /*,
                     {
-                        xtype: 'spacer'
+                        xtype : 'spacer'
                     },
                     {
                         xtype: 'button',
-                        itemId: 'watchButton',
+                        itemId : 'watchButton',
                         ui: 'action',
                         text: 'Unwatch',
                         iconCls: 'eye',
                         iconMask: true
-                    }
-                ]
-            },
+                    }*/
             {
                 xtype: "map",
                 flex: 1,
@@ -68489,7 +68629,7 @@ Ext.define('Racloop.util.Config', {
         'Config'
     ],
     config: {
-        env: 'local',
+        env: 'dev',
         app: {
             messageText: 'Test message.'
         },
@@ -68553,79 +68693,84 @@ Ext.define('Racloop.util.Config', {
     constructor: function() {
         if (this.config.env == 'prod') {
             this.config.locationUpdateFrequency = 180000;
-            this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/mlogin';
-            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/mlogout';
-            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/msignup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com//mverifymobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com//mresendsms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/mpassword';
-            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/meditprofile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/mforgot';
-            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/mobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/mobile/searchAgain';
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/mobile/addJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/mobile/deleteJourney';
-            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/mobile/myJourneys';
-            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/mobile/history';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/mobile/acceptResponse';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/mobile/rejectResponse';
-            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/mobile/requestService';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/mobile/cancelResponse';
-            this.config.url.RACLOOP_EXISTINGJOURNEY = 'http://www.racloop.com/mobile/searchWithExistingJourney';
-            this.config.url.RACLOOP_TERMS = 'http://www.racloop.com/mobile/terms';
-            this.config.url.RACLOOP_PRIVACY = 'http://www.racloop.com/mobile/privacy';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://www.racloop.com/mobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS = 'http://www.racloop.com/mobile/sos';
+            this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/app/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/app/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/app/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com/app/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com/app/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/app/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/app/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/app/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://www.racloop.com/app/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS = 'http://www.racloop.com/app/userMobile/sos';
+            this.config.url.RACLOOP_TERMS = 'http://www.racloop.com/app/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY = 'http://www.racloop.com/app/userMobile/privacy';
+            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/app/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/app/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/app/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.racloop.com/app/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.racloop.com/app/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/app/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/app/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/app/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/app/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/app/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/app/workflowMobile/cancelRequest';
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
-            this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/mlogin';
-            this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/mlogout';
-            this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/msignup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://localhost:8080/app/mverifymobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/mresendsms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/mpassword';
-            this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/meditprofile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/mforgot';
-            this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/mobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/mobile/searchAgain';
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/mobile/addJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/mobile/deleteJourney';
-            this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/mobile/myJourneys';
-            this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/mobile/history';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/mobile/acceptResponse';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/mobile/rejectResponse';
-            this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/mobile/requestService';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/mobile/cancelResponse';
-            this.config.url.RACLOOP_EXISTINGJOURNEY = 'http://localhost:8080/app/mobile/searchWithExistingJourney';
-            this.config.url.RACLOOP_TERMS = 'http://localhost:8080/app/mobile/terms';
-            this.config.url.RACLOOP_PRIVACY = 'http://localhost:8080/app/mobile/privacy';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://localhost:8080/app/mobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS = 'http://localhost:8080/app/mobile/sos';
+            this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://localhost:8080/app/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://localhost:8080/app/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS = 'http://localhost:8080/app/userMobile/sos';
+            this.config.url.RACLOOP_TERMS = 'http://localhost:8080/app/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY = 'http://localhost:8080/app/userMobile/privacy';
+            this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://localhost:8080/app/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://localhost:8080/app/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://localhost:8080/app/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://localhost:8080/app/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'http://localhost:8080/app/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/workflowMobile/cancelRequest';
         } else {
-            var ip = "192.168.1.3";
+            var ip = "127.0.0.1";
+            //"192.168.1.3";
             this.config.locationUpdateFrequency = 20000;
-            this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/mlogin';
-            this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/mlogout';
-            this.config.url.RACLOOP_SIGNUP = 'http://' + ip + ':8080/app/msignup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://' + ip + ':8080/app/mverifymobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://' + ip + ':8080/app/mresendsms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://' + ip + ':8080/app/mpassword';
-            this.config.url.RACLOOP_EDIT = 'http://' + ip + ':8080/app/meditprofile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/mforgot';
-            this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/mobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/mobile/searchAgain';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://' + ip + ':8080/app/mobile/deleteJourney';
-            this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/mobile/myJourneys';
-            this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/mobile/history';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://' + ip + ':8080/app/mobile/acceptResponse';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/mobile/rejectResponse';
-            this.config.url.RACLOOP_REQUEST = 'http://' + ip + ':8080/app/mobile/requestService';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/mobile/cancelResponse';
-            this.config.url.RACLOOP_EXISTINGJOURNEY = 'http://' + ip + ':8080/app/mobile/searchWithExistingJourney';
-            this.config.url.RACLOOP_TERMS = 'http://' + ip + ':8080/app/mobile/terms';
-            this.config.url.RACLOOP_PRIVACY = 'http://' + ip + ':8080/app/mobile/privacy';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://' + ip + ':8080/app/mobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS = 'http://' + ip + ':8080/app/mobile/sos';
+            this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://' + ip + ':8080/app/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://' + ip + ':8080/app/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://' + ip + ':8080/app/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://' + ip + ':8080/app/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://' + ip + ':8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://' + ip + ':8080/app/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS = 'http://' + ip + ':8080/app/userMobile/sos';
+            this.config.url.RACLOOP_TERMS = 'http://' + ip + ':8080/app/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY = 'http://' + ip + ':8080/app/userMobile/privacy';
+            this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://' + ip + ':8080/app/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://' + ip + ':8080/app/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'http://' + ip + ':8080/app/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/workflowMobile/cancelRequest';
         }
         return this.config;
     }
@@ -69030,7 +69175,7 @@ Ext.define('Racloop.model.Journey', {
                 type: 'string'
             },
             {
-                name: 'fromPlace',
+                name: 'from',
                 type: 'string'
             },
             {
@@ -69042,7 +69187,7 @@ Ext.define('Racloop.model.Journey', {
                 type: 'float'
             },
             {
-                name: 'toPlace',
+                name: 'to',
                 type: 'string'
             },
             {
@@ -69074,39 +69219,23 @@ Ext.define('Racloop.model.Journey', {
                 type: 'string'
             },
             {
-                name: 'incomingRequests',
+                name: 'relatedJourneys',
                 type: 'auto'
             },
             {
-                name: 'outgoingRequests',
-                type: 'auto'
-            },
-            {
-                name: 'numberOfIncomingRequests',
+                name: 'numberOfCopassengers',
                 type: 'integer'
-            },
-            {
-                name: 'numberOfOutgoingRequests',
-                type: 'integer'
-            },
-            {
-                name: 'matchedJourney',
-                type: 'auto'
-            },
-            {
-                name: 'workflow',
-                type: 'auto'
             }
         ],
         validations: [
             {
                 type: 'presence',
-                field: 'fromPlace',
+                field: 'from',
                 message: "From Place is required"
             },
             {
                 type: 'presence',
-                field: 'toPlace',
+                field: 'to',
                 message: "To Place is required"
             },
             {
@@ -69177,7 +69306,9 @@ Ext.define('Racloop.store.Journeys', {
         autoLoad: true,
         proxy: {
             type: 'ajax',
-            url: Config.url.RACLOOP_JOURNEYS,
+            url: Config.url.RACLOOP_JOURNEYS + "?" + Ext.urlEncode({
+                currentTime: Ext.Date.format(new Date(), 'c')
+            }),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -69218,13 +69349,13 @@ Ext.define('Racloop.view.SearchNavigationView', {
                         instructions: "Search where other people are going.",
                         items: [
                             {
-                                name: 'fromPlace',
+                                name: 'from',
                                 xtype: 'searchfield',
                                 label: 'From*',
                                 itemId: 'searchScreenFrom'
                             },
                             {
-                                name: 'toPlace',
+                                name: 'to',
                                 xtype: 'searchfield',
                                 label: 'To*',
                                 itemId: 'searchScreenTo'
@@ -69355,27 +69486,29 @@ Ext.define('Racloop.view.JourneyViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;
         if (record != null) {
-            var matchedJourneyCount = 0;
-            var requestedJourneyCount = 0;
+            var numberOfCopassengers = 0;
             var drivingText = '';
-            var dateUnadjusted = record.get("dateOfJourney");
-            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var dateOfJourney = record.get("dateOfJourney");
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
-            if (record.get("numberOfIncomingRequests")) {
-                matchedJourneyCount = record.get("numberOfIncomingRequests");
+            var myStatus = record.get("myStatus");
+            console.log("myStatusmyStatusmyStatusmyStatusmyStatus : " + myStatus);
+            if (record.get("numberOfCopassengers")) {
+                numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if (record.get("numberOfOutgoingRequests")) {
-                requestedJourneyCount = record.get("numberOfOutgoingRequests");
-            }
-            //console.log("............... : " + record.get("isDriver"))
             if (record.get("isDriver")) {
                 drivingText = "I am driving";
             } else {
                 drivingText = "I need a Ride";
             }
-            var html = '<div class="card">            <div class="card-info">                <div class="card-date">                    <div class="card-day">' + day + '</div>                    <div class="card-month">' + month + '</div>                </div>                <div class="card-main">                    <div>                        <span class="card-time"> <span class="timeCls"></span>  ' + time + '</span>                        <span class="card-pull-right">                            <button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>                            <button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>                        </span>                    </div>                    <div>                        <span class="card-label card-label-blue">' + drivingText + '</span>                    </div>                </div>            </div>            <div class="card-footer">                <div class="card-footer-row">                    <span class="card-location-label">From : </span>                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("fromPlace") + '</span>                </div>                <div class="card-footer-row">                    <span class="card-location-label">To : </span>                    <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("toPlace") + ' </span>                </div>                <div>                    <span class="card-control">                        <button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>                        <button  class="racloop-btn racloop-btn-success incomingButton"><span class="incomingCls"></span> Incoming(' + matchedJourneyCount + ')</button>                        <button  class="racloop-btn racloop-btn-primary outgoingButton"><span class="outgoingCls"></span> Outgoing(' + requestedJourneyCount + ')</button>                    </span>                </div>            </div>        </div>';
+            var statusMarkup = '<span class="card-label card-label-blue">' + drivingText + '</span>';
+            var buttonMarkup = '<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>  ' + '<button  class="racloop-btn racloop-btn-success travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+            if (myStatus) {
+                statusMarkup = '<span class="card-label card-label-red">Cancelled</span>';
+                buttonMarkup = '';
+            }
+            var html = '            <div class="card">                <div class="card-info">                    <div class="card-date">                        <div class="card-day">' + day + '</div>                        <div class="card-month">' + month + '</div>                    </div>                    <div class="card-main">                        <div>                            <span class="card-time"> <span class="timeCls"></span>  ' + time + '</span>                            <span class="card-pull-right">                                <button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>                                <button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>                            </span>                        </div>                        <div>                            ' + statusMarkup + '                        </div>                    </div>                </div>                    <div class="card-footer">                    <div class="card-footer-row">                        <span class="card-location-label">From : </span>                        <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                    </div>                    <div class="card-footer-row">                        <span class="card-location-label">To : </span>                        <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + ' </span>                    </div>                    <div>                        <span class="card-control">                            ' + buttonMarkup + '                        </span>                    </div>                </div>            </div>';
             me.down('#textCmp').setHtml(html);
         }
         me.callParent(arguments);
@@ -69398,14 +69531,19 @@ Ext.define('Racloop.view.JourneyViewItem', {
         });
         this.element.on({
             scope: this,
-            tap: 'incomingButtonTapFired',
-            delegate: 'button.incomingButton'
+            tap: 'travelBuddiesButtonTapFired',
+            delegate: 'button.travelBuddiesButton'
         });
-        this.element.on({
-            scope: this,
-            tap: 'outgoingButtonTapFired',
-            delegate: 'button.outgoingButton'
-        });
+        //this.element.on({
+        //    scope      : this,
+        //    tap        : 'incomingButtonTapFired',
+        //    delegate   : 'button.incomingButton'
+        //});
+        //this.element.on({
+        //    scope      : this,
+        //    tap        : 'outgoingButtonTapFired',
+        //    delegate   : 'button.outgoingButton'
+        //});
         this.callParent(arguments);
     },
     searchAgainButtonTapFired: function(e) {
@@ -69417,11 +69555,14 @@ Ext.define('Racloop.view.JourneyViewItem', {
     deleteJourneyButtonTapFired: function(e) {
         this.fireEvent('deleteJourneyButtonTap', this);
     },
-    incomingButtonTapFired: function(e) {
-        this.fireEvent('incomingButtonTap', this);
-    },
-    outgoingButtonTapFired: function(e) {
-        this.fireEvent('outgoingButtonTap', this);
+    //incomingButtonTapFired: function(e) {
+    //    this.fireEvent('incomingButtonTap',this);
+    //},
+    //outgoingButtonTapFired: function(e) {
+    //    this.fireEvent('outgoingButtonTap',this);
+    //},
+    travelBuddiesButtonTapFired: function(e) {
+        this.fireEvent('travelBuddiesButtonTap', this);
     }
 });
 
@@ -69475,27 +69616,24 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;
         if (record != null) {
+            var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
             var drivingText = '';
-            var dateUnadjusted = record.get("dateOfJourney");
-            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            var dateOfJourney = record.get("dateOfJourney");
+            //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
-            if (record.get("numberOfIncomingRequests")) {
-                matchedJourneyCount = record.get("numberOfIncomingRequests");
+            if (record.get("numberOfCopassengers")) {
+                numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if (record.get("numberOfOutgoingRequests")) {
-                requestedJourneyCount = record.get("numberOfOutgoingRequests");
-            }
-            //console.log("............... : " + record.get("isDriver"))
             if (record.get("isDriver")) {
                 drivingText = "Car Owner";
             } else {
                 drivingText = "Passenger";
             }
-            var html = '<div class="card">            <div class="card-info">                <div class="card-date">                    <div class="card-day">' + day + '</div>                    <div class="card-month">' + month + '</div>                </div>                <div class="card-main">                    <div>                        <span class="card-time"> <span class="timeCls"></span>  ' + time + '</span>                        <div>                            <span class="card-control">                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>                            </span>                        </div>                    </div>                    <div>                        <span class="card-label card-label-blue">' + drivingText + '</span>                    </div>                </div>            </div>            <div class="card-footer">                <div class="card-footer-row">                    <span class="card-location-label">From : </span>                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("fromPlace") + '</span>                </div>                <div class="card-footer-row">                    <span class="card-location-label">To : </span>                    <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("toPlace") + ' </span>                </div>            </div>        </div>';
+            var html = '<div class="card">            <div class="card-info">                <div class="card-date">                    <div class="card-day">' + day + '</div>                    <div class="card-month">' + month + '</div>                </div>                <div class="card-main">                    <div>                        <span class="card-time"> <span class="timeCls"></span>  ' + time + '</span>                        <div>                            <span class="card-control">                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>                            </span>                        </div>                    </div>                    <div>                        <span class="card-label card-label-blue">' + drivingText + '</span>                    </div>                </div>            </div>            <div class="card-footer">                <div class="card-footer-row">                    <span class="card-location-label">From : </span>                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                </div>                <div class="card-footer-row">                    <span class="card-location-label">To : </span>                    <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + ' </span>                </div>            </div>        </div>';
             me.down('#textCmp').setHtml(html);
         }
         me.callParent(arguments);
@@ -69523,7 +69661,9 @@ Ext.define('Racloop.store.History', {
         autoLoad: true,
         proxy: {
             type: 'ajax',
-            url: Config.url.RACLOOP_HISTORY,
+            url: Config.url.RACLOOP_HISTORY + "?" + Ext.urlEncode({
+                currentTime: Ext.Date.format(new Date(), 'c')
+            }),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -69800,7 +69940,8 @@ Ext.define('Racloop.controller.UiController', {
     //        this.getMainTabs().disable();
     tabClicked: function(button, e, eOpts) {
         var me = this;
-        Racloop.app.getController('MapController').stopWatchingJourney();
+        //Racloop.app.getController('MapController').stopWatchingJourney();
+        Racloop.app.getController('MapController').setWatching(false);
         if (button.getTitle() === Config.tabMyJourneys) {
             Ext.getStore('journeyStore').load({
                 callback: function(records, operation, success) {
@@ -69833,12 +69974,14 @@ Ext.define('Racloop.controller.UiController', {
         } else if (button.getTitle() === Config.tabHome) {
             var currentJourney = LoginHelper.getCurrentJourney();
             if (currentJourney) {
-                Racloop.app.getController('MapController').startWatchingJourney();
+                Racloop.app.getController('MapController').showCurrentJourney();
+                Racloop.app.getController('MapController').setWatching(true);
+                Racloop.app.getController('MapController').processCurrentLocation();
                 console.log('startWatchingJourney');
             } else {
-                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                console.log('updateCurrentLocationOnMap');
+                console.log('currentJourney not found');
             }
+            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
         }
     },
     //Racloop.app.getController('MapController').startWatchingJourney();
@@ -69877,7 +70020,7 @@ Ext.define('Racloop.controller.UiController', {
                     });
                 }
             } else {
-                console.log("showMyJourneys: recordCount == 0 & itemCount != 1");
+                console.log("showMyJourneys: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
                 journeyNavigationView.removeAll(false, true);
                 journeyNavigationView.push({
                     title: Config.tabMyJourneys,
@@ -69885,7 +70028,7 @@ Ext.define('Racloop.controller.UiController', {
                 });
             }
         } else {
-            console.log("showMyJourneys: recordCount != 0");
+            console.log("showMyJourneys: recordCount != 0, recordCount : " + recordCount);
             var journeyView = this.getJourneyView();
             var activeItem = journeyNavigationView.getActiveItem();
             var journeyEmptyView = this.getJourneyEmptyView();
@@ -69919,7 +70062,7 @@ Ext.define('Racloop.controller.UiController', {
                         xtype: "historyEmptyView"
                     });
                 } else {
-                    console.log("showHistory: recordCount == 0 & itemCount != 1");
+                    console.log("showHistory: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
                     historyNavigationView.setActiveItem(historyEmptyView);
                     historyNavigationView.push({
                         title: Config.tabHistory,
@@ -69935,7 +70078,7 @@ Ext.define('Racloop.controller.UiController', {
                 });
             }
         } else {
-            console.log("showHistory: recordCount != 0");
+            console.log("showHistory: recordCount != 0, recordCount : " + recordCount);
             var historyView = this.getHistoryView();
             var activeItem = historyNavigationView.getActiveItem();
             var historyEmptyView = this.getHistoryEmptyView();
@@ -69945,7 +70088,8 @@ Ext.define('Racloop.controller.UiController', {
             } else if (activeItem != historyView) {
                 historyNavigationView.pop();
             }
-            Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+            //Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+            historyView.refresh();
         }
     },
     showLogin: function(button, e, eOpts) {
@@ -70047,10 +70191,10 @@ Ext.define('Racloop.controller.SessionsController', {
         var settingNavigationView = this.getSettingNavigationView();
         var me = this;
         var user = LoginHelper.getUser();
-        var currentDateString = Ext.Date.format(new Date(), 'd M y h:i A');
-        console.log("launch currentDateString : " + currentDateString);
+        var currentDateString = Ext.Date.format(new Date(), 'c');
+        console.log("SessionController - autoLogin : " + currentDateString);
         if (user) {
-            console.log("autoLogin user : " + user);
+            console.log("autoLogin user : " + user.email);
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
@@ -70058,7 +70202,9 @@ Ext.define('Racloop.controller.SessionsController', {
             });
             var successCallback = function(response, ops) {
                     var data = Ext.decode(response.responseText);
+                    console.log(data);
                     if (data.success) {
+                        console.log("SessionController - autoLogin - successfully login");
                         LoginHelper.setUser(data.data);
                         LoginHelper.setEmail(user.email);
                         var currentJourney = data.currentJourney;
@@ -70067,12 +70213,16 @@ Ext.define('Racloop.controller.SessionsController', {
                         mainTabs.show();
                         Ext.Viewport.unmask();
                         if (currentJourney) {
+                            console.log("SessionController - autoLogin - currentJourney exists");
                             mainTabs.setActiveItem('mapPanel');
                             LoginHelper.setCurrentJourney(currentJourney);
                             Racloop.app.getController('MapController').showCurrentJourney();
-                            Racloop.app.getController('MapController').watchCurrentLocation();
+                            //Racloop.app.getController('MapController').watchCurrentLocation();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         } else {
+                            console.log("SessionController - autoLogin - currentJourney does not exists");
                             LoginHelper.removeCurrentJourney();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                             console.log('login success data.currentJourney : false');
                             if (!LoginHelper.isEmergencyContactDefined(data.data)) {
                                 LoginHelper.incrementLoginCounter();
@@ -70164,7 +70314,7 @@ Ext.define('Racloop.controller.SessionsController', {
         var mainNavigationView = this.getMainNavigationView();
         // Main view
         loginForm.updateRecord(user);
-        var currentDateString = Ext.Date.format(new Date(), 'd M y h:i A');
+        var currentDateString = Ext.Date.format(new Date(), 'c');
         // Success
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
@@ -70181,8 +70331,8 @@ Ext.define('Racloop.controller.SessionsController', {
                         mainTabs.setActiveItem('mapPanel');
                         LoginHelper.setCurrentJourney(currentJourney);
                         Racloop.app.getController('MapController').showCurrentJourney();
-                        Racloop.app.getController('MapController').watchCurrentLocation();
-                    } else {
+                    } else //Racloop.app.getController('MapController').watchCurrentLocation();
+                    {
                         LoginHelper.removeCurrentJourney();
                         console.log('login success data.currentJourney : false');
                         if (!LoginHelper.isEmergencyContactDefined(data.data)) {
@@ -70305,6 +70455,10 @@ Ext.define('Racloop.controller.SessionsController', {
                     LoginHelper.removeUser();
                     LoginHelper.removeEmail();
                     LoginHelper.removeCurrentJourney();
+                    //Emptying all stores
+                    Ext.getStore('journeyStore').removeAll();
+                    Ext.getStore('historyStore').removeAll();
+                    Ext.getStore('SearchStore').removeAll();
                     Ext.Viewport.unmask();
                     var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
                     Ext.Viewport.setActiveItem(mainNavigationView);
@@ -70870,8 +71024,13 @@ Ext.define('Racloop.view.LoginForm', {
     extend: Ext.form.Panel,
     alias: 'widget.loginForm',
     xtype: 'loginForm',
+    //listeners: {
+    //    blur: function(comp, e, eopts) {
+    //        window.scrollTo(0, 0);
+    //    }
+    //},
     config: {
-        cls: 'form-bg',
+        //cls: 'form-bg',
         items: [
             {
                 xtype: 'fieldset',
@@ -70936,7 +71095,7 @@ Ext.define('Racloop.view.RegisterForm', {
             {
                 xtype: 'fieldset',
                 title: 'Sign Up',
-                instructions: 'Please provide valid mobile. SMS will be sent for verification.',
+                instructions: 'Please provide valid mobile.',
                 //            instructions: 'By registering you are agreeing to ' +
                 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
                 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
@@ -71069,14 +71228,14 @@ Ext.define('Racloop.view.VerifySmsForm', {
                 items: [
                     {
                         name: 'mobile',
-                        xtype: 'textfield',
+                        xtype: 'numberfield',
                         label: 'Mobile',
                         placeHolder: 'Mobile Number',
                         itemId: 'mobileForVerification'
                     },
                     {
                         name: 'verificationCode',
-                        xtype: 'textfield',
+                        xtype: 'numberfield',
                         label: 'Code',
                         placeHolder: 'Verification Code',
                         itemId: 'verificationCode'
@@ -71536,20 +71695,17 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         var html = '';
         var drivingText = '';
         if (record != null) {
-            recordData = record.get("matchedJourney");
-            var dateUnadjusted = new Date(recordData.dateOfJourney);
-            var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
+            //recordData = record.get("data");
+            var dateOfJourney = new Date(record.get("dateOfJourney"));
+            //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
             var dateString = Ext.Date.format(dateOfJourney, 'j M, Y, g:i a');
-            //            var day = Ext.Date.format(date, 'd');
-            //            var month = Ext.Date.format(date, 'F');
-            //            var time = Ext.Date.format(date, 'g:i A');
             var legend = "";
             var legendText = "";
             var buttonHtml = "";
             var labelHtml = "";
             var imgSrc = '';
             var cardControl = '';
-            if (recordData.isDriver) {
+            if (record.get("isDriver")) {
                 legend = "C";
                 legendText = "Car Owner";
                 buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
@@ -71576,57 +71732,14 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     labelHtml = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
                     cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
                 }
-            } else //                else {
-            //                    if (recordData.isDriver) {
-            //                        // me.down('button[action="Request"]').setText("Request");
-            //                        legend = "C";
-            //                        legendText = "Car Owner";
-            //                        drivingText = "Car Owner";
-            //                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-            //                                <span class="card-control">\
-            //                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request a Ride</</button>\
-            //                                </span>';
-            //                    } else {
-            //                        // me.down('button[action="Request"]').setText("Ask for Drive");
-            //                        legend = "P";
-            //                        legendText = "Passenger";
-            //                        drivingText = "Passenger";
-            //                        cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-            //                                <span class="card-control">\
-            //                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
-            //                                </span>';
-            //                    }
-            //                }
-            {}
-            //                if (recordData.isDriver) {
-            //                    // me.down('button[action="Request"]').setText("Request");
-            //                    legend = "C";
-            //                    legendText = "Car Owner";
-            //                    drivingText = "Car Owner";
-            //                    cardControl = '<span class="card-control">\
-            //                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Ride</button>\
-            //                                </span>';
-            //                } else {
-            //                    // me.down('button[action="Request"]').setText("Offer a Ride");
-            //                    legend = "P";
-            //                    legendText = "Passenger";
-            //                    drivingText = "Passenger";
-            //                    drivingText = "Ride Seeker";
-            //                    cardControl = '<span class="card-control">\
-            //                                <button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Ask to Join</button>\
-            //                                </span>';
-            //                }
+            } else {}
             cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
-            if (recordData.photoUrl != null) {
-                // me.down('#imgCmp').setHtml('<img style="height: 60px; width: 60px; margin-right:10px;" src="' + recordData.photoUrl + '" />');
-                imgSrc = recordData.photoUrl;
+            if (record.get("photoUrl") != null) {
+                imgSrc = record.get("photoUrl");
             } else {
-                // me.down('#textCmp').setHtml('<div class="content"><b>Name</b><div class="affiliation">' + Ext.Date.format(date, 'd/m/Y g:i A') + '</div></div>');
                 imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
             }
-            // me.down('#textCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>' + recordData.name + '</strong></div><div class="journeyDate">' + Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A') + '</div></div></div>');
-            // me.down('#locCmp').setHtml('<div class="searchcontent"><div class="content"><div class="name"><strong>From : </strong><i>' + recordData.fromPlace + '</i></div><div class="name"><strong>To :</strong> <i>' + recordData.toPlace + '</i></div></div></div>');
-            html = '<div class="card">                        <div class="card-info">                            <div class="image">                                <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                            </div>                            <div class="card-date">                                <div class="card-day">' + legend + '</div>                                <div class="card-month">' + legendText + '</div>                            </div>                            <div class="card-main">                                <div class="card-name">                                    <h3>' + recordData.name + '</h3>                                </div>                                <div>                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>                                    ' + cardControl + '                                </div>                                <div>                                </div>                            </div>                        </div>                        <div class="card-footer">                            <div class="card-footer-row">                                <span class="card-location-label">From :</span>                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + recordData.fromPlace + '</span>                            </div>                            <div class="card-footer-row">                                <span class="card-location-label">To :</span>                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + recordData.toPlace + '</span>                            </div>                        </div>                    </div>';
+            html = '<div class="card">                        <div class="card-info">                            <div class="image">                                <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                            </div>                            <div class="card-date">                                <div class="card-day">' + legend + '</div>                                <div class="card-month">' + legendText + '</div>                            </div>                            <div class="card-main">                                <div class="card-name">                                    <h3>' + record.get("name") + '</h3>                                </div>                                <div>                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>                                    ' + cardControl + '                                </div>                                <div>                                </div>                            </div>                        </div>                        <div class="card-footer">                            <div class="card-footer-row">                                <span class="card-location-label">From :</span>                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                            </div>                            <div class="card-footer-row">                                <span class="card-location-label">To :</span>                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + '</span>                            </div>                        </div>                    </div>';
             me.down('#textCmp').setHtml(html);
         }
         me.callParent(arguments);
@@ -71773,6 +71886,7 @@ Ext.define('Racloop.controller.JourneysController', {
             searchButton: 'searchNavigationView #searchButton',
             saveJourneyButtonInEmptyResults: 'searchResultsEmptyView #saveJourneyButton',
             saveJourneyButtonInSearchResults: 'searchResultsView #saveJourneyButton',
+            searchResultsView: 'searchResultsView',
             // RequestJourneyPanel: '#requestPanel',
             //  SearchForm: 'searchForm',
             // searchDataView: 'UserSearchList',
@@ -71899,11 +72013,11 @@ Ext.define('Racloop.controller.JourneysController', {
         fromField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetFrom);
-                searchForm.down('field[name=fromPlace]').setValue("");
+                searchForm.down('field[name=from]').setValue("").blur();
                 searchForm.down('field[name=fromLatitude]').setValue("");
                 searchForm.down('field[name=fromLongitude]').setValue("");
-                actionSheetFrom.down('field[name=from]').setValue("");
-                actionSheetFrom.down("#actionScreenFrom").focus();
+                actionSheetFrom.down('field[name=from]').setValue("").focus();
+                //actionSheetFrom.down("#actionScreenFrom").focus();
                 actionSheetFrom.show();
             }
         });
@@ -71911,11 +72025,11 @@ Ext.define('Racloop.controller.JourneysController', {
         toField.element.on({
             tap: function(e) {
                 Ext.Viewport.add(actionSheetTo);
-                searchForm.down('field[name=toPlace]').setValue("");
+                searchForm.down('field[name=to]').setValue("").blur();
                 searchForm.down('field[name=toLatitude]').setValue("");
                 searchForm.down('field[name=toLongitude]').setValue("");
-                actionSheetTo.down('field[name=to]').setValue("");
-                actionSheetTo.down("#actionScreenTo").focus();
+                actionSheetTo.down('field[name=to]').setValue("").focus();
+                //actionSheetTo.down("#actionScreenTo").focus();
                 actionSheetTo.show();
             }
         });
@@ -71940,7 +72054,7 @@ Ext.define('Racloop.controller.JourneysController', {
             latFrom = place.geometry.location.lat();
             longFrom = place.geometry.location.lng();
             var selectedPlace = fromInput.value;
-            searchForm.down('field[name=fromPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=from]').setValue(selectedPlace);
             searchForm.down('field[name=fromLatitude]').setValue(latFrom);
             searchForm.down('field[name=fromLongitude]').setValue(longFrom);
             latTo = searchForm.down('field[name=toLatitude]').getValue();
@@ -71953,7 +72067,7 @@ Ext.define('Racloop.controller.JourneysController', {
             latTo = place.geometry.location.lat();
             longTo = place.geometry.location.lng();
             var selectedPlace = toInput.value;
-            searchForm.down('field[name=toPlace]').setValue(selectedPlace);
+            searchForm.down('field[name=to]').setValue(selectedPlace);
             searchForm.down('field[name=toLatitude]').setValue(latTo);
             searchForm.down('field[name=toLongitude]').setValue(longTo);
             latFrom = searchForm.down('field[name=fromLatitude]').getValue();
@@ -71968,7 +72082,8 @@ Ext.define('Racloop.controller.JourneysController', {
         //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
-        var validStartTimeString = validStartTime.toString('dd MMMM hh:mm tt');
+        var validStartTimeString = Ext.Date.format(validStartTime, 'c');
+        //validStartTime.toString('dd MMMM hh:mm tt');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
         searchForm.down('field[name=date]').setValue({
             day: now.getDate(),
@@ -71985,11 +72100,21 @@ Ext.define('Racloop.controller.JourneysController', {
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
         if (selectedDate != null && selectedTime != null) {
+            var formatDate = 'd M y';
+            var formatTime = 'h:i A';
+            var format = formatDate + " " + formatTime;
             var dateString = Ext.Date.format(selectedDate, 'd M y');
             var timeString = Ext.Date.format(selectedTime, 'h:i A');
             var datetimeString = dateString + " " + timeString;
-            searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
+            var journeyDate = Ext.Date.parse(datetimeString, format);
+            var journeyDateString = Ext.Date.format(journeyDate, 'c');
+            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
+            searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
         }
+        //var dateString = Ext.Date.format(selectedDate, 'd M y');
+        //var timeString = Ext.Date.format(selectedTime, 'h:i A');
+        //var datetimeString = dateString + " " + timeString;
+        //searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
         console.log("Journey Controller initGoogleElements ends");
     },
     calculateDistance: function(latFrom, longFrom, latTo, longTo) {
@@ -72050,20 +72175,25 @@ Ext.define('Racloop.controller.JourneysController', {
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
         if (selectedDate != null && selectedTime != null) {
+            var formatDate = 'd M y';
+            var formatTime = 'h:i A';
+            var format = formatDate + " " + formatTime;
             var dateString = Ext.Date.format(selectedDate, 'd M y');
             var timeString = Ext.Date.format(selectedTime, 'h:i A');
             var datetimeString = dateString + " " + timeString;
-            searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
+            var journeyDate = Ext.Date.parse(datetimeString, format);
+            var journeyDateString = Ext.Date.format(journeyDate, 'c');
+            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
+            searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
         }
-        //console.log("Date and Time : " + datetimeString);
         var now = new Date();
         var reserveTime = 25;
         //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7;
         //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
-        var validStartTimeString = Ext.Date.format(validStartTime, 'd F Y    h:i A');
-        //validStartTime.toString('dd MMMM hh:mm tt');
+        var validStartTimeString = Ext.Date.format(validStartTime, 'c');
+        console.log("validStartTimeString : " + validStartTimeString);
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
     searchButtonTap: function(button, e, eOpts) {
@@ -72093,19 +72223,19 @@ Ext.define('Racloop.controller.JourneysController', {
                         var existingJourney = data.data.existingJourney;
                         var newIsDriver = newJourney.isDriver ? "Driver" : "Passenger";
                         var existingIsDriver = existingJourney.isDriver ? "Driver" : "Passenger";
-                        var newDateUnadjusted = new Date(newJourney.dateOfJourney);
-                        var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
+                        var newDate = new Date(newJourney.dateOfJourney);
+                        //var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
                         var newDay = Ext.Date.format(newDate, 'd');
                         var newMonth = Ext.Date.format(newDate, 'F');
                         var newTime = Ext.Date.format(newDate, 'g:i A');
-                        var existingDateUnadjusted = new Date(existingJourney.dateOfJourney);
-                        var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
+                        var existingDate = new Date(existingJourney.dateOfJourney);
+                        //var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
                         var existingDay = Ext.Date.format(existingDate, 'd');
                         var existingMonth = Ext.Date.format(existingDate, 'F');
                         var existingTime = Ext.Date.format(existingDate, 'g:i A');
-                        var journeyHtml = '<div class="card">                                        <span class="colored-text"><h3>Requested Journey</h3></span>                                        <div class="card-info">                                            <div class="card-date">                                                <div class="card-day">' + newDay + '</div>                                                <div class="card-month">' + newMonth + '</div>                                            </div>                                            <div class="card-main">                                             <div class="card-name">                                                <h3></h3>                                            </div>                                                <div>                                                    <span class="card-time">' + newTime + '</span>                                                    <span class="card-label card-label-blue">' + newIsDriver + '</span>                                                                                                   </div>                                                <div>                                                </div>                                            </div>                                        </div>                                        <div class="card-footer">                                            <div class="card-footer-row">                                                <span class="card-location-label">From :</span>                                                <span class="card-location">' + newJourney.fromPlace + '</span>                                            </div>                                            <div class="card-footer-row">                                                <span class="card-location-label">To :</span>                                                <span class="card-location"> ' + newJourney.toPlace + '</span>                                            </div>                                        </div>                                    </div>                                                                            <div class="card">                                    <span class="colored-text"><h3>Similar Existing Journey</h3></span>                                    <div class="card-info">                                        <div class="card-date">                                            <div class="card-day">' + existingDay + '</div>                                            <div class="card-month">' + existingMonth + '</div>                                        </div>                                        <div class="card-main">                                        <div class="card-name">                                                <h3></h3>                                            </div>                                            <div>                                                <span class="card-time">' + existingTime + '</span>                                                <span class="card-label card-label-blue">' + existingIsDriver + '</span>                                            </div>                                            <div>                                            </div>                                        </div>                                    </div>                                    <div class="card-footer">                                        <div class="card-footer-row">                                            <span class="card-location-label">From :</span>                                            <span class="card-location">' + existingJourney.fromPlace + '</span>                                        </div>                                        <div class="card-footer-row">                                            <span class="card-location-label">To :</span>                                            <span class="card-location"> ' + existingJourney.toPlace + '</span>                                        </div>                                    </div>                                </div>';
+                        var journeyHtml = '<div class="card">                                        <span class="colored-text"><h3>Requested Journey</h3></span>                                        <div class="card-info">                                            <div class="card-date">                                                <div class="card-day">' + newDay + '</div>                                                <div class="card-month">' + newMonth + '</div>                                            </div>                                            <div class="card-main">                                             <div class="card-name">                                                <h3></h3>                                            </div>                                                <div>                                                    <span class="card-time">' + newTime + '</span>                                                    <span class="card-label card-label-blue">' + newIsDriver + '</span>                                                                                                   </div>                                                <div>                                                </div>                                            </div>                                        </div>                                        <div class="card-footer">                                            <div class="card-footer-row">                                                <span class="card-location-label">From :</span>                                                <span class="card-location">' + newJourney.from + '</span>                                            </div>                                            <div class="card-footer-row">                                                <span class="card-location-label">To :</span>                                                <span class="card-location"> ' + newJourney.to + '</span>                                            </div>                                        </div>                                    </div>                                                                            <div class="card">                                    <span class="colored-text"><h3>Similar Existing Journey</h3></span>                                    <div class="card-info">                                        <div class="card-date">                                            <div class="card-day">' + existingDay + '</div>                                            <div class="card-month">' + existingMonth + '</div>                                        </div>                                        <div class="card-main">                                        <div class="card-name">                                                <h3></h3>                                            </div>                                            <div>                                                <span class="card-time">' + existingTime + '</span>                                                <span class="card-label card-label-blue">' + existingIsDriver + '</span>                                            </div>                                            <div>                                            </div>                                        </div>                                    </div>                                    <div class="card-footer">                                        <div class="card-footer-row">                                            <span class="card-location-label">From :</span>                                            <span class="card-location"> &nbsp;<span class="fromCls"> </span> ' + existingJourney.from + '</span>                                        </div>                                        <div class="card-footer-row">                                            <span class="card-location-label">To :</span>                                            <span class="card-location"> &nbsp;<span class="toCls"> </span> ' + existingJourney.to + '</span>                                        </div>                                    </div>                                </div>';
                         var existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel', {
-                                title: 'Similar Journey Found!'
+                                title: 'Timing Issue!'
                             });
                         existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                         existingPanel.setPreviousJourney(existingJourney);
@@ -72114,12 +72244,12 @@ Ext.define('Racloop.controller.JourneysController', {
                     } else {
                         var searchStore = Ext.getStore('SearchStore');
                         searchStore.removeAll();
-                        var jsonObj = data.data.matchedJourneys;
+                        var jsonObj = data.data.journeys;
                         for (var i in jsonObj) {
                             searchStore.add(jsonObj[i]);
                         }
                         ;
-                        if (data.data.matchedJourneys.length == 0) {
+                        if (data.total.length == 0) {
                             me.getSearchNavigationView().push({
                                 title: 'Search Results',
                                 xtype: 'searchResultsEmptyView'
@@ -72130,7 +72260,8 @@ Ext.define('Racloop.controller.JourneysController', {
                                 }, 'searchResultsView');
                             me.getSearchNavigationView().push(searchResultsView);
                             var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                            comp.isDummy = data.data.isDummyData;
+                            comp.isDummy = data.isDummy;
+                            me.getSaveJourneyButtonInSearchResults().setHidden(false);
                         }
                     }
                     Ext.Viewport.unmask();
@@ -72159,10 +72290,10 @@ Ext.define('Racloop.controller.JourneysController', {
             params: Ext.JSON.encode({
                 dateOfJourneyString: journey.dateOfJourneyString,
                 validStartTimeString: journey.validStartTimeString,
-                fromPlace: journey.fromPlace,
+                from: journey.from,
                 fromLatitude: journey.fromLatitude,
                 fromLongitude: journey.fromLongitude,
-                toPlace: journey.toPlace,
+                to: journey.to,
                 toLatitude: journey.toLatitude,
                 toLongitude: journey.toLongitude,
                 isDriver: journey.isDriver,
@@ -72176,7 +72307,7 @@ Ext.define('Racloop.controller.JourneysController', {
     validateSearchForm: function(validationObj) {
         var errorstring = "";
         var formPlaceError = false;
-        var fromPlaceErrors = validationObj.getByField('fromPlace');
+        var fromPlaceErrors = validationObj.getByField('from');
         if (fromPlaceErrors != null && fromPlaceErrors.length > 0) {
             formPlaceError = true;
         }
@@ -72192,7 +72323,7 @@ Ext.define('Racloop.controller.JourneysController', {
             Ext.ComponentQuery.query('#searchForm  #searchScreenFrom')[0].addCls('error');
             errorstring += "Invalid Location : From* field<br />";
         }
-        var toPlaceErrors = validationObj.getByField('toPlace');
+        var toPlaceErrors = validationObj.getByField('to');
         var toPlaceError = false;
         if (toPlaceErrors != null && toPlaceErrors.length > 0) {
             toPlaceError = true;
@@ -72228,10 +72359,10 @@ Ext.define('Racloop.controller.JourneysController', {
     resetFields: function() {},
     handleSearchAgainHistoryButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("fromPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("toPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
         Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
@@ -72254,10 +72385,10 @@ Ext.define('Racloop.controller.JourneysController', {
     // NOT USED - //CALLED FROM WORKFLOW CONTROLLER
     handleSearchAgainMyJourneyButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("fromPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("toPlace"));
+        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
         Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
         var dateOfJourney = record.get("dateOfJourney");
@@ -72282,32 +72413,45 @@ Ext.define('Racloop.controller.JourneysController', {
     //this.searchButtonTap();
     handleSaveJourneyTap: function() {
         var me = this;
-        //        var controller = Racloop.app.getController('UiController');
-        //        var renderMyJourney = function() {
-        //            me.getMainTabs().setActiveItem('journeyNavigationView');;
-        //        };
+        var searchNavView = this.getSearchNavigationView();
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    console.log("calling showAndLoadAfterDelay");
-                    Racloop.app.getController('UiController').showAndLoadAfterDelay();
-                    //                setTimeout(function(){
-                    //                    Ext.getStore('journeyStore').load({
-                    //                        callback: function(records, operation, success) {
-                    //                            console.log("Journey Saved Ext.getStore('journeyStore').getAllCount() : " + Ext.getStore('journeyStore').getAllCount())
-                    //                            me.getMainTabs().setActiveItem('journeyNavigationView');
-                    //                            controller.showMyJourneys();
-                    //                        },
-                    //                        scope: controller
-                    //                    });
-                    //                }, 50);
-                    Ext.Viewport.unmask();
-                    Ext.toast({
-                        message: "Successfully saved your request",
-                        timeout: Config.toastTimeout,
-                        animation: true,
-                        cls: 'toastClass'
-                    });
+                    var data = Ext.decode(response.responseText);
+                    if (data.success) {
+                        searchNavView.reset();
+                        var searchStore = Ext.getStore('SearchStore');
+                        searchStore.removeAll();
+                        var jsonObj = data.data.journeys;
+                        for (var i in jsonObj) {
+                            searchStore.add(jsonObj[i]);
+                        }
+                        ;
+                        if (data.total.length == 0) {
+                            me.getSearchNavigationView().push({
+                                title: 'Search Results',
+                                xtype: 'searchResultsEmptyView'
+                            });
+                        } else {
+                            var searchResultsView = Ext.ComponentManager.create({
+                                    title: 'Search Results'
+                                }, 'searchResultsView');
+                            me.getSearchNavigationView().push(searchResultsView);
+                            var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                            comp.isDummy = data.isDummy;
+                            me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                        }
+                        Ext.Viewport.unmask();
+                        Ext.toast({
+                            message: "Successfully saved your request",
+                            timeout: Config.toastTimeout,
+                            animation: true,
+                            cls: 'toastClass'
+                        });
+                    } else {
+                        Ext.Viewport.unmask();
+                        Ext.Msg.alert("Search Failure", data.message);
+                    }
                 } else {
                     Ext.Msg.alert("Server Failure", data.message);
                     Ext.Viewport.unmask();
@@ -72331,6 +72475,7 @@ Ext.define('Racloop.controller.JourneysController', {
             params: Ext.JSON.encode({
                 journeyId: "from_session"
             }),
+            //not used
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -72342,22 +72487,30 @@ Ext.define('Racloop.controller.JourneysController', {
         var me = this;
         var record = item.getRecord();
         var recordData = record.get("matchedJourney");
-        var matchedJourneyId = recordData.id;
+        var journeyId = record.get("id");
+        //recordData.id;
         var searchNavView = this.getSearchNavigationView();
         var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
         var isDummy = searchList.isDummy;
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    setTimeout(function() {
-                        Ext.getStore('journeyStore').load({
-                            callback: function(records, operation, success) {
-                                me.getMainTabs().setActiveItem('journeyNavigationView');
-                                Racloop.app.getController('UiController').showMyJourneys();
-                            },
-                            scope: me
-                        });
-                    }, 500);
+                    Ext.getStore('journeyStore').load({
+                        callback: function(records, operation, success) {
+                            me.getMainTabs().setActiveItem('journeyNavigationView');
+                            Racloop.app.getController('UiController').showMyJourneys();
+                        },
+                        scope: me
+                    });
+                    //setTimeout(function(){
+                    //    Ext.getStore('journeyStore').load({
+                    //        callback: function(records, operation, success) {
+                    //            me.getMainTabs().setActiveItem('journeyNavigationView');
+                    //            Racloop.app.getController('UiController').showMyJourneys();
+                    //        },
+                    //        scope: me
+                    //    });
+                    //}, 500);
                     Ext.Viewport.unmask();
                     Ext.toast({
                         message: data.message,
@@ -72388,7 +72541,7 @@ Ext.define('Racloop.controller.JourneysController', {
             withCredentials: true,
             useDefaultXhrHeader: false,
             params: Ext.JSON.encode({
-                matchedJourneyId: matchedJourneyId,
+                matchedJourneyId: journeyId,
                 isDummy: isDummy
             }),
             success: successCallback,
@@ -72397,212 +72550,8 @@ Ext.define('Racloop.controller.JourneysController', {
     },
     handleCancelSearchRequestButtonTap: function(item) {},
     //TODO for testing
-    //    onRequestButtonTap: function(item) { //TODO for testing
-    //        console.dir(item.getRecord());
-    //        var searchDataView= this.getSearchDataView();
-    //        console.debug(searchDataView);
-    //        console.debug(searchDataView.getIsDummy());
-    //        var record = item.getRecord();
-    //
-    //        var recordData=record.get("matchedJourney");
-    //        //TODO need to verify
-    //        var currentJourney=LoginHelper.getJourney();
-    //        var myJourneyId=currentJourney.id;
-    //        var matchedJourneyId=recordData.id;
-    //        // var requestPanel = Ext.create('Racloop.view.RequestJourneyPanel', {
-    //        //     title: 'Driver Information',
-    //        //   });
-    //        // requestPanel.setMyJourneyId(currentJourney.id);
-    //        // requestPanel.setMatchedJourneyId(recordData.id);
-    //        // requestPanel.setIsDummy(searchDataView.getIsDummy());
-    //        // var requestPhoto="";
-    //        // if(recordData.photoUrl!=null){
-    //        //     requestPhoto=recordData.photoUrl;
-    //        // }else {
-    //        //     requestPhoto='<img style="height: 100px; width: 100px; margin-right:10px;" src="http://www.gravatar.com/avatar/00000000000000000000000000000000" />';
-    //        // }
-    //
-    //        // requestPanel.down("#requestJourneyInfo").down("#requestPhoto").setHtml(requestPhoto);
-    //        // requestPanel.down("#requestJourneyInfo").down("#requestData").setHtml('<h1>'+recordData.name+'</h1><ul>'+
-    //        //     '<li><b>From:</b> '+recordData.fromPlace+'</li>'+
-    //        //     '<li><b>To:</b>   '+recordData.toPlace+'</li>'+
-    //        //     '<li><b>Date:</b> '+Ext.Date.format(new Date(recordData.dateOfJourney), 'd/m/Y g:i A')+'</li>'+
-    //        //     '</ul>');
-    //        // searchFrm.up().push(requestPanel);
-    //
-    //
-    //        var searchNavView = this.getSearchNavigationView();
-    //        var me=this;
-    //        // var myJourneyId=button.up().up().getMyJourneyId();
-    //        var isDummy=searchDataView.getIsDummy();
-    //        var successCallback = function(response, ops) {
-    //            var data = Ext.decode(response.responseText);
-    //            console.log('Request success during launch : ' + response.responseText);
-    //            if (data.success) {
-    //               // Ext.Msg.alert("Request Successful " + data.message);
-    //                // searchFrm.up().pop();
-    //
-    //                 LoginHelper.setJourney(data.data);
-    //                 currentJourney=data.data;
-    //                 setTimeout(function(){
-    //                    me.CallSearchAjax(currentJourney,function(){
-    //                        searchNavView.pop(1);
-    //                        Ext.getStore('journeyStore').load();
-    //                        Ext.Viewport.unmask();
-    //                    });
-    //                 }, 1000);
-    //
-    //               // Ext.Viewport.unmask();
-    //            } else {
-    //                Ext.Msg.alert(data.message);
-    //                Ext.Viewport.unmask();
-    //            }
-    //        };
-    //       // Failure
-    //        var failureCallback = function(response, ops) {
-    //            Ext.Msg.alert(response.message);
-    //            Ext.Viewport.unmask();
-    //
-    //        };
-    //
-    //        Ext.Viewport.mask({
-    //            xtype: 'loadmask',
-    //            indicator: true,
-    //            message: 'Sending Request...'
-    //        });
-    //        Ext.Ajax.request({
-    //            url: Config.url.RACLOOP_REQUEST,
-    //            headers: {
-    //                    'Content-Type': 'application/json'
-    //                },
-    //            withCredentials: true,
-    //            useDefaultXhrHeader: false,
-    //            params: Ext.JSON.encode({
-    //                matchedJourneyId: matchedJourneyId,
-    //                isDummy: isDummy
-    //            }),
-    //            success: successCallback,
-    //            failure: failureCallback
-    //        });
-    //
-    //
-    //
-    //
-    //    },
-    //    onCancelButtonTap: function(item) { //TODO for testing
-    //        var searchNavView = this.getSearchNavigationView();
-    //        var currentJourney=LoginHelper.getJourney();
-    //        var record = item.getRecord();
-    //        var me=this;
-    //        var workflowId=record.get("workflow").id;
-    //        var successCallback = function(response, ops) {
-    //            var data = Ext.decode(response.responseText);
-    //            console.log('Cancel Request success during launch : ' + response.responseText);
-    //            if (data.success) {
-    //
-    //                setTimeout(function(){
-    //                    me.CallSearchAjax(currentJourney,function(){
-    //                        searchNavView.pop();
-    //                        Ext.getStore('journeyStore').load();
-    //                        Ext.Viewport.unmask();
-    //                    });
-    //                 }, 1000);
-    //                // Ext.Viewport.unmask();
-    //            } else {
-    //                Ext.Msg.alert("Cancel Request Failure", data.message);
-    //                Ext.Viewport.unmask();
-    //            }
-    //        };
-    //        // Failure
-    //        var failureCallback = function(response, ops) {
-    //            Ext.Msg.alert("Cancel Request Failure", response.message);
-    //            Ext.Viewport.unmask();
-    //
-    //        };
-    //
-    //        Ext.Viewport.mask({
-    //            xtype: 'loadmask',
-    //            indicator: true,
-    //            message: 'Sending Request...'
-    //        });
-    //        Ext.Ajax.request({
-    //            url: Config.url.RACLOOP_CANCELREQUEST,
-    //            withCredentials: true,
-    //            useDefaultXhrHeader: false,
-    //            headers: {
-    //                'Content-Type': 'application/json'
-    //            },
-    //            params: Ext.JSON.encode({
-    //                workflowId: workflowId
-    //            }),
-    //            //params: values, //TODO need to uncomment it
-    //            success: successCallback,
-    //            failure: failureCallback
-    //        });
-    //
-    //
-    //
-    //    },
-    //    // "user":"admin","name":"Administrator","myJourneyId":"89","matchedJourneyId":"12de4899-74af-451a-a5ad-f3a8bfd1f678","isDummy":true}
-    //    onSendRequestButton: function(button){
-    //        var searchNavView = this.getSearchNavigationView();
-    //        var currentJourney;
-    //        var me=this;
-    //        // var myJourneyId=button.up().up().getMyJourneyId();
-    //        console.debug(button.up().up());
-    //        var matchedJourneyId=button.up().up().getMatchedJourneyId();
-    //        var isDummy=button.up().up().getIsDummy();
-    //        var successCallback = function(response, ops) {
-    //            var data = Ext.decode(response.responseText);
-    //            console.log('Request success during launch : ' + response.responseText);
-    //            if (data.success) {
-    //                // Ext.Msg.alert("Request Successful " + data.message);
-    //                // searchFrm.up().pop();
-    //
-    //                LoginHelper.setJourney(data.data);
-    //                currentJourney=data.data;
-    //                Ext.getStore('journeyStore').load();
-    //                setTimeout(function(){
-    //                    me.CallSearchAjax(currentJourney,function(){
-    //                        searchNavView.pop(2);
-    //                        Ext.Viewport.unmask();
-    //                    });
-    //                }, 1000);
-    //
-    //                // Ext.Viewport.unmask();
-    //            } else {
-    //                Ext.Msg.alert(data.message);
-    //                Ext.Viewport.unmask();
-    //            }
-    //        };
-    //        // Failure
-    //        var failureCallback = function(response, ops) {
-    //            Ext.Msg.alert(response.message);
-    //            Ext.Viewport.unmask();
-    //
-    //        };
-    //
-    //        Ext.Viewport.mask({
-    //            xtype: 'loadmask',
-    //            indicator: true,
-    //            message: 'Sending Request...'
-    //        });
-    //        Ext.Ajax.request({
-    //            url: Config.url.RACLOOP_REQUEST,
-    //            headers: {
-    //                'Content-Type': 'application/json'
-    //            },
-    //            withCredentials: true,
-    //            useDefaultXhrHeader: false,
-    //            params: Ext.JSON.encode({
-    //                matchedJourneyId: matchedJourneyId,
-    //                isDummy: isDummy
-    //            }),
-    //            success: successCallback,
-    //            failure: failureCallback
-    //        });
-    //    },
     handleExistingJourneyReplaceButtonTap: function(button) {
+        var me = this;
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -72614,26 +72563,34 @@ Ext.define('Racloop.controller.JourneysController', {
             console.log(datetimeString);
         }
         var successCallback = function(response, ops) {
-                var searchData = Ext.decode(response.responseText);
-                if (searchData.success) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    searchNavView.reset();
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
-                    var jsonObj = searchData.data.matchedJourneys;
+                    var jsonObj = data.data.journeys;
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     }
                     ;
-                    searchNavView.reset();
-                    var searchResultsView = Ext.ComponentManager.create({
-                            title: 'Search Results'
-                        }, 'searchResultsDataView');
-                    searchNavView.push(searchResultsView);
-                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    comp.isDummy = searchData.data.isDummyData;
+                    if (data.total.length == 0) {
+                        me.getSearchNavigationView().push({
+                            title: 'Search Results',
+                            xtype: 'searchResultsEmptyView'
+                        });
+                    } else {
+                        var searchResultsView = Ext.ComponentManager.create({
+                                title: 'Search Results'
+                            }, 'searchResultsView');
+                        me.getSearchNavigationView().push(searchResultsView);
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.isDummy;
+                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    }
                     Ext.Viewport.unmask();
                 } else {
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert("Search Failure", searchData.message);
+                    Ext.Msg.alert("Search Failure", data.message);
                 }
             };
         // Failure
@@ -72647,7 +72604,7 @@ Ext.define('Racloop.controller.JourneysController', {
             message: 'Searching...'
         });
         Ext.Ajax.request({
-            url: Config.url.RACLOOP_EXISTINGJOURNEY,
+            url: Config.url.RACLOOP_REPLACE_AND_SEARCH,
             withCredentials: true,
             useDefaultXhrHeader: false,
             headers: {
@@ -72678,26 +72635,34 @@ Ext.define('Racloop.controller.JourneysController', {
         var existingJourney = existingJourneyPanel.getPreviousJourney();
         var existingJourneyId = existingJourney.id;
         var successCallback = function(response, ops) {
-                var searchData = Ext.decode(response.responseText);
-                if (searchData.success) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
                     searchNavView.reset();
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
-                    var jsonObj = searchData.data.matchedJourneys;
+                    var jsonObj = data.data.journeys;
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     }
                     ;
-                    var searchResultsView = Ext.ComponentManager.create({
-                            title: 'Search Results'
-                        }, 'searchResultsDataView');
-                    searchNavView.push(searchResultsView);
-                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    comp.isDummy = searchData.data.isDummyData;
+                    if (data.total.length == 0) {
+                        me.getSearchNavigationView().push({
+                            title: 'Search Results',
+                            xtype: 'searchResultsEmptyView'
+                        });
+                    } else {
+                        var searchResultsView = Ext.ComponentManager.create({
+                                title: 'Search Results'
+                            }, 'searchResultsView');
+                        me.getSearchNavigationView().push(searchResultsView);
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.isDummy;
+                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    }
                     Ext.Viewport.unmask();
                 } else {
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert("Search Failure", searchData.message);
+                    Ext.Msg.alert("Search Failure", data.message);
                 }
             };
         // Failure
@@ -72711,7 +72676,7 @@ Ext.define('Racloop.controller.JourneysController', {
             message: 'Searching...'
         });
         Ext.Ajax.request({
-            url: Config.url.RACLOOP_EXISTINGJOURNEY,
+            url: Config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH,
             withCredentials: true,
             useDefaultXhrHeader: false,
             headers: {
@@ -72972,8 +72937,6 @@ Ext.define('Racloop.controller.WorkflowController', {
         refs: {
             mainTabs: 'mainTabs',
             journeyNavigationView: 'journeyNavigationView',
-            //            incomingButton: "button[action=Incoming]",
-            //            outgoingButton: "button[action=Outgoing]",
             acceptButton: "button[action=Accept]",
             rejectButton: "button[action=Reject]",
             cancelButton: "button[action=Cancel]"
@@ -72998,15 +72961,24 @@ Ext.define('Racloop.controller.WorkflowController', {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
                 viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
-                incomingButtonTap: 'handleInComingButtonTap',
-                outgoingButtonTap: 'handleOutGoingButtonTap'
+                travelBuddiesButtonTap: 'handleTravelBuddiesButtonTap'
             },
-            'IncomingRequestItem': {
-                myAcceptButtonTap: 'acceptButtonTap',
-                myRejectButtonTap: 'rejectButtonTap'
-            },
-            'OutgoingRequestItem': {
-                myCancelButtonTap: 'cancelButtonTap'
+            //,
+            //
+            //incomingButtonTap: 'handleInComingButtonTap',
+            //outgoingButtonTap: 'handleOutGoingButtonTap'
+            //'IncomingRequestItem': {
+            //    myAcceptButtonTap: 'acceptButtonTap',
+            //    myRejectButtonTap:  'rejectButtonTap'
+            //},
+            //'OutgoingRequestItem': {
+            //    myCancelButtonTap: 'cancelButtonTap'
+            //},
+            'relatedRequestViewItem': {
+                rejectButtonTap: 'handleRejectButtonTap',
+                acceptButtonTap: 'handleAcceptButtonTap',
+                cancelButtonTap: 'handleCancelButtonTap',
+                callButtonTap: 'handleCallButtonTap'
             }
         }
     },
@@ -73016,16 +72988,16 @@ Ext.define('Racloop.controller.WorkflowController', {
         //TODO UNCOMMENT BELOW
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     if (data.total > 0) {
-                        var SearchStore = Ext.getStore('SearchStore');
-                        SearchStore.removeAll();
-                        var jsonObj = data.data.matchedJourneys;
+                        var searchStore = Ext.getStore('SearchStore');
+                        searchStore.removeAll();
+                        var jsonObj = data.data.journeys;
                         for (var i in jsonObj) {
-                            SearchStore.add(jsonObj[i]);
+                            searchStore.add(jsonObj[i]);
                         }
                         ;
                         journeyNavigationView.push({
@@ -73068,7 +73040,7 @@ Ext.define('Racloop.controller.WorkflowController', {
     //Racloop.app.getController('JourneysController').handleSearchAgainMyJourneyButtonTap(item);
     handleDeleteJourneyButtonTap: function(item) {
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var me = this;
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
@@ -73119,7 +73091,7 @@ Ext.define('Racloop.controller.WorkflowController', {
     },
     handleViewJourneyOnMapButtonTap: function(item) {
         var record = item.getRecord();
-        var journeyId = record.get("journeyId");
+        var journeyId = record.get("id");
         var fromLatitude = record.get("fromLatitude");
         var fromLongitude = record.get("fromLongitude");
         var toLatitude = record.get("toLatitude");
@@ -73135,60 +73107,76 @@ Ext.define('Racloop.controller.WorkflowController', {
         this.getMainTabs().setActiveItem('mapPanel');
         Racloop.app.getController('MapController').showCurrentJourney();
     },
-    handleInComingButtonTap: function(item) {
+    handleTravelBuddiesButtonTap: function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        var data = record.get("incomingRequests");
-        var incomingRequest;
+        var data = record.get("relatedJourneys");
+        var relatedRequestDataView;
         if (data.length > 0) {
-            incomingRequest = Ext.create('Ext.DataView', {
-                title: 'Incoming Requests',
+            relatedRequestDataView = Ext.create('Ext.DataView', {
+                title: 'Travel Buddies',
                 data: data,
-                defaultType: 'incomingRequestViewItem',
+                defaultType: 'relatedRequestViewItem',
                 useComponents: true
             });
-            journeyNavigationView.push(incomingRequest);
+            journeyNavigationView.push(relatedRequestDataView);
         } else {
             Ext.Msg.alert("No data Available", "No incoming requests against this journey");
         }
     },
-    handleOutGoingButtonTap: function(item) {
-        var journeyNavigationView = this.getJourneyNavigationView();
-        var record = item.getRecord();
-        var data = record.get("outgoingRequests");
-        var outgoingRequest;
-        if (data.length > 0) {
-            outgoingRequest = Ext.create('Ext.DataView', {
-                title: 'Outgoing Requests',
-                fullscreen: true,
-                itemTpl: '{name}',
-                itemId: 'myJourneyOutgoingRequestView',
-                data: data,
-                defaultType: 'outgoingRequestViewItem',
-                useComponents: true
-            });
-            journeyNavigationView.push(outgoingRequest);
-        } else {
-            Ext.Msg.alert("No data Available", "You haven't requested any one yet against this journey");
-        }
-    },
-    acceptButtonTap: function(item) {
+    //
+    //handleInComingButtonTap: function(item) {
+    //    var journeyNavigationView = this.getJourneyNavigationView();
+    //    var record = item.getRecord();
+    //    var data = record.get("incomingRequests");
+    //    var incomingRequest;
+    //    if (data.length>0) {
+    //        incomingRequest= Ext.create('Ext.DataView', {
+    //            title: 'Incoming Requests',
+    //            data: data,
+    //            defaultType: 'incomingRequestViewItem',
+    //            useComponents: true
+    //        });
+    //        journeyNavigationView.push(incomingRequest);
+    //    }
+    //    else {
+    //        Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+    //    }
+    //},
+    //handleOutGoingButtonTap: function(item) {
+    //    var journeyNavigationView = this.getJourneyNavigationView();
+    //    var record = item.getRecord();
+    //    var data = record.get("outgoingRequests");
+    //    var outgoingRequest;
+    //    if (data.length>0) {
+    //        outgoingRequest = Ext.create('Ext.DataView', {
+    //            title: 'Outgoing Requests',
+    //            fullscreen: true,
+    //            itemTpl: '{name}',
+    //            itemId: 'myJourneyOutgoingRequestView',
+    //            data: data,
+    //            defaultType: 'outgoingRequestViewItem',
+    //            useComponents: true
+    //        });
+    //        journeyNavigationView.push(outgoingRequest);
+    //    }
+    //    else {
+    //        Ext.Msg.alert("No data Available", "You haven't requested any one yet against this journey");
+    //    }
+    //},
+    handleAcceptButtonTap: function(item) {
         console.log('AcceptButton clicked');
         // var record = button.up().getRecord();
         // Ext.Msg.alert("Mobile No. is :-"+record.get("mobile"));
         var record = item.getRecord();
-        var myJourneyId = record.get("workflow").requestJourneyId;
-        var workflowId = record.get("workflow").id;
-        var journeyList = this.getJourneyList();
-        // var textCmp=button.up().down('textCmp').element.domquerySelectorAll('.card-main');
-        // textCmp.innerHTML="";
+        var journeyId = record.get("id");
+        //var journeyList = this.getJourneyList();
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
-                console.log('Request success during launch : ' + response.responseText);
                 if (data.success) {
-                    Ext.Msg.alert("Request Successful " + data.message);
-                    Ext.getStore('journeyStore').load();
-                    journeyList.pop();
+                    //Ext.Msg.alert("Request Successful " + data.message);
+                    //Ext.getStore('journeyStore').load();
+                    //journeyList.pop();
                     // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Accepted</div><div class="name">'+mobile+'</div>');
                     // button.up().down('button[action="Accept"]').hide();
                     // button.up().down('button[action="Reject"]').show();
@@ -73216,27 +73204,25 @@ Ext.define('Racloop.controller.WorkflowController', {
                 'Content-Type': 'application/json'
             },
             params: Ext.JSON.encode({
-                myJourneyId: myJourneyId,
-                workflowId: workflowId
+                journeyId: journeyId
             }),
             //params: values, //TODO need to uncomment it
             success: successCallback,
             failure: failureCallback
         });
     },
-    rejectButtonTap: function(item) {
+    handleRejectButtonTap: function(item) {
         console.log('RejectButton clicked');
         var record = item.getRecord();
-        var myJourneyId = record.get("workflow").requestJourneyId;
-        var workflowId = record.get("workflow").id;
-        var journeyList = this.getJourneyList();
+        var journeyId = record.get("id");
+        //var journeyList = this.getJourneyList();
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 console.log('Request success during launch : ' + response.responseText);
                 if (data.success) {
-                    Ext.Msg.alert("Request Successful " + data.message);
-                    Ext.getStore('journeyStore').load();
-                    journeyList.pop();
+                    //Ext.Msg.alert("Request Successful " + data.message);
+                    //Ext.getStore('journeyStore').load();
+                    //journeyList.pop();
                     // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Rejected</div>');
                     // button.up().down('button[action="Accept"]').show();
                     // button.up().down('button[action="Reject"]').hide();
@@ -73267,8 +73253,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                     'Content-Type': 'application/json'
                 },
                 params: Ext.JSON.encode({
-                    myJourneyId: myJourneyId,
-                    workflowId: workflowId
+                    journeyId: journeyId
                 }),
                 //params: values, //TODO need to uncomment it
                 success: successCallback,
@@ -73276,20 +73261,20 @@ Ext.define('Racloop.controller.WorkflowController', {
             });
         }
     },
-    cancelButtonTap: function(item) {
+    handleCancelButtonTap: function(item) {
         console.log('CancelButton clicked');
         // console.log("request");
         var record = item.getRecord();
-        var workflowId = record.get("workflow").id;
-        var journeyList = this.getJourneyList();
+        var journeyId = record.get("id");
+        //var journeyList = this.getJourneyList();
         // Ext.Msg.alert(record.get('name'));
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 console.log('Request success during launch : ' + response.responseText);
                 if (data.success) {
-                    Ext.Msg.alert("Request Successful " + data.message);
-                    Ext.getStore('journeyStore').load();
-                    journeyList.pop();
+                    //Ext.Msg.alert("Request Successful " + data.message);
+                    //Ext.getStore('journeyStore').load();
+                    //journeyList.pop();
                     // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Cancelled By Requester</div>');
                     //  button.up().down('button[action="Cancel"]').hide();
                     Ext.Viewport.unmask();
@@ -73308,25 +73293,21 @@ Ext.define('Racloop.controller.WorkflowController', {
             indicator: true,
             message: 'Sending Request...'
         });
-        if (Racloop.util.Config.debug) {
-            successCallbackDebug();
-        } else {
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_CANCELREQUEST,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    workflowId: workflowId
-                }),
-                //params: values, //TODO need to uncomment it
-                success: successCallback,
-                failure: failureCallback
-            });
-        }
-    }
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_CANCELREQUEST,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                journeyId: journeyId
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+    handleCallButtonTap: function(item) {}
 });
 
 Ext.define('Racloop.controller.MapController', {
@@ -73337,8 +73318,10 @@ Ext.define('Racloop.controller.MapController', {
             mainNavigationView: 'mainNavigationView',
             searchNavigationView: 'searchNavigationView',
             searchForm: 'searchNavigationView #searchForm',
+            sosView: 'sosView',
             mapPanel: 'mainTabs mapPanel',
             sosButton: 'mainTabs #sosButton',
+            sosCancelButton: 'sosView #cancelSos',
             watchButton: 'mainTabs #watchButton'
         },
         control: {
@@ -73347,8 +73330,15 @@ Ext.define('Racloop.controller.MapController', {
             },
             watchButton: {
                 tap: 'watchButtonClicked'
+            },
+            sosCancelButton: {
+                tap: 'sosCancelButtonClicked'
             }
-        }
+        },
+        watching: false,
+        sosActivated: false,
+        mapLoadingInProgress: false,
+        mapLoadingCompleted: false
     },
     launch: function() {
         console.log("Map Controller  - launch");
@@ -73368,23 +73358,27 @@ Ext.define('Racloop.controller.MapController', {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             console.log("Google Maps are already loaded : google === 'object' && typeof google.maps === 'object'");
         } else {
-            if (window.mapLoaded) {
-                console.log("Google Maps are already loaded : window.mapLoaded = true");
+            if (me.getMapLoadingCompleted()) {
+                //if(window.mapLoaded) {
+                console.log("Google Maps are already loaded : me.getMapLoadingCompleted() === true");
             } else {
+                console.log("Google Maps are already loaded : me.getMapLoadingCompleted() === false");
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
                     message: 'Loading Maps...'
                 });
                 console.log("Google Maps are not loaded : creating dynamic links for google maps");
-                window.mapLoading = true;
+                me.setMapLoadingInProgress(true);
+                //window.mapLoading = true;
                 var script = document.createElement("script");
                 script.type = "text/javascript";
                 script.src = "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyD-2SVsFAN8CLCAU7gU7xdbF2Xdkox9JoI&sensor=true&libraries=places,geometry&callback=handleApiReady";
                 document.body.appendChild(script);
                 window.handleApiReady = function() {
                     console.log("Google Maps loaded successfully");
-                    window.mapLoading = false;
+                    //window.mapLoading = false;
+                    me.setMapLoadingInProgress(false);
                     console.log("Starting sencha touch application init start");
                     Ext.Viewport.unmask();
                     Ext.Viewport.add(Ext.create('Racloop.view.MapPanel'));
@@ -73394,11 +73388,12 @@ Ext.define('Racloop.controller.MapController', {
                     Racloop.app.getController('JourneysController').initGoogleElements();
                     Racloop.app.getController('SessionsController').autoLogin();
                     console.log("Starting sencha touch application init ends");
-                    window.mapLoaded = true;
+                    me.setMapLoadingCompleted(true);
                 };
             }
         }
     },
+    //window.mapLoaded = true;
     //Ext.Function.defer(this.pageRefresh, 10000, this);
     online: function() {
         console.log("online event fired");
@@ -73406,11 +73401,15 @@ Ext.define('Racloop.controller.MapController', {
         if (typeof google === 'object' && typeof google.maps === 'object') {
             Racloop.app.getController('SessionsController').autoLogin();
         } else {
-            if (window.mapLoaded) {
-                console.log("Google Maps are already loaded : online event");
-            } else if (window.mapLoading) {
-                console.log("Google Maps loading in process : online event");
+            //if(window.mapLoaded) {
+            if (me.getMapLoadingCompleted()) {
+                console.log("Google Maps are already loaded : online event : me.getMapLoadingCompleted() == true");
+            }
+            //else if(window.mapLoading) {
+            else if (me.getMapLoadingInProgress()) {
+                console.log("Google Maps loading in process : online event : me.getMapLoadingInProgress() == true");
             } else {
+                console.log("Google Maps loading in process : online event : me.getMapLoadingInProgress() == false : me.getMapLoadingCompleted() == false");
                 Racloop.app.getController('MapController').initApp();
             }
         }
@@ -73430,11 +73429,11 @@ Ext.define('Racloop.controller.MapController', {
     },
     initGoogleElements: function() {
         // Called from MapController initApp method
+        var me = this;
         var mainNavigationView = this.getMainNavigationView();
         // Main view
         var mapPanel = this.getMapPanel();
-        this.googleMap = mapPanel.down('map').getMap();
-        var me = this;
+        me.googleMap = mapPanel.down('map').getMap();
         this.directionsDisplay = new google.maps.DirectionsRenderer();
         this.directionsService = new google.maps.DirectionsService();
         var mapRendererOptions = {
@@ -73450,45 +73449,81 @@ Ext.define('Racloop.controller.MapController', {
             title: 'Current Location'
         });
     },
-    sosButtonClicked: function(button, e, eOpts) {
-        if (button.getText() === "SOS!") {
-            this.isSosActivated = true;
-            this.getSosButton().setUi('decline');
-            this.getSosButton().setText("Cancel SOS");
-            this.watchCurrentLocation();
-        } else {
-            this.isSosActivated = false;
-            this.getSosButton().setUi('action');
-            this.getSosButton().setText("SOS!");
-            this.unwatchCurrentLocation();
-        }
-    },
-    watchButtonClicked: function(button, e, eOpts) {
-        if (button.getText() === "Unwatch") {
-            this.isWatching = false;
-            this.stopWatchingJourney();
-        } else {
-            if (LoginHelper.getCurrentJourney()) {
-                this.isWatching = true;
-                this.startWatchingJourney();
-            } else {
-                Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
-            }
-        }
-    },
-    stopWatchingJourney: function() {
-        this.getWatchButton().setText("Watch");
-        this.unwatchCurrentLocation();
-    },
-    startWatchingJourney: function() {
-        if (this.isWatching) {
-            this.getWatchButton().setText("Unwatch");
-            this.watchCurrentLocation();
-        }
-    },
-    updateCurrentLocationOnMap: function() {
-        // Used in login and autologin
+    sosCancelButtonClicked: function(button, e, eOpts) {
+        console.log("sosCancelButton event fired");
         var me = this;
+        Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", function(btn, text) {
+            console.log("buttonId : " + btn);
+            if (btn == 'yes') {
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                me.setSosActivated(false);
+            } else {
+                return false;
+            }
+        });
+    },
+    sosButtonClicked: function(button, e, eOpts) {
+        console.log("sosButtonClicked event fired");
+        this.setSosActivated(true);
+        var sosView = Ext.ComponentQuery.query('sosView')[0];
+        if (sosView) {
+            Ext.Viewport.setActiveItem(sosView);
+        } else {
+            sosView = Ext.create('Racloop.view.SosView');
+            Ext.Viewport.add(sosView);
+            Ext.Viewport.setActiveItem(sosView);
+        }
+        this.sos();
+    },
+    sos: function() {
+        var me = this;
+        console.log("sos : " + new Date());
+        if (!this.getSosActivated())  {
+            return;
+        }
+        
+        Ext.device.Geolocation.getCurrentPosition({
+            allowHighAccuracy: true,
+            timeout: 5000,
+            success: function(position) {
+                console.log("MapController : sos : getCurrentPosition : success");
+                me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+            },
+            failure: function() {
+                console.log('MapController : sos : getCurrentPosition : failure : ');
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+            }
+        });
+        var task = Ext.create('Ext.util.DelayedTask', this.sos, this);
+        task.delay(Config.locationUpdateFrequency);
+    },
+    //watchButtonClicked : function(button, e, eOpts) {
+    //    console.log("MapController - watchButtonClicked - STARTS");
+    //    if(button.getText() === "Unwatch") {
+    //        this.setWatching(false);
+    //        this.getWatchButton().setText("Watch");
+    //    }
+    //    else {
+    //        if(LoginHelper.getCurrentJourney()) {
+    //            this.setWatching(true);
+    //            this.getWatchButton().setText("Unwatch");
+    //            this.processCurrentLocation();
+    //        }
+    //        else {
+    //            Ext.Msg.alert("No Journey to Watch", "Please select journey from 'My Journeys'");
+    //        }
+    //    }
+    //
+    //},
+    processCurrentLocation: function() {
+        console.log("MapController - processCurrentLocation - STARTS");
+        var me = this;
+        console.log("processCurrentLocation : " + new Date());
+        if (!this.getWatching())  {
+            return;
+        }
+        
         var mapPanel = this.getMapPanel();
         var gMap = mapPanel.down('map').getMap();
         Ext.Viewport.mask({
@@ -73498,59 +73533,145 @@ Ext.define('Racloop.controller.MapController', {
         });
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy: true,
-            timeout: 3000,
+            timeout: 5000,
             success: function(position) {
-                console.log('updateCurrentLocationOnMap success');
+                console.log("MapController - updateCurrentLocationOnMap - success");
                 var geocoder = new google.maps.Geocoder();
                 var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
                 var mapOptions = {
                         center: latlng,
                         mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        zoom: 12
+                        zoom: 6
                     };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
                 me.marker.setPosition(latlng);
-                //                geocoder.geocode({'latLng': latlng}, function(results, status) {
-                //                    if (status == google.maps.GeocoderStatus.OK) {
-                //                        if (results.length > 0) {
-                //                            var currentLocation = results[0].geometry.location;
-                //                            var mapOptions = {
-                //                                center: currentLocation,
-                //                                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                //                                zoom: 12
-                //                            };
-                //                            console.log(latlng + ' updateCurrentLocationOnMap success : ' + currentLocation);
-                //                            gMap.setOptions(mapOptions);
-                //                            me.marker.setMap(gMap);
-                //                            me.marker.setPosition(latlng);
-                //                        } else {
-                //                            console.log("No results found");
-                //                        }
-                //                    } else {
-                //                        console.log("Geocoder failed due to: " + status);
-                //                    }
-                //                    Ext.Viewport.unmask();
-                //                });
                 Ext.Viewport.unmask();
             },
             failure: function() {
-                console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
+                console.log('Error : processCurrentLocation : ');
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+            }
+        });
+        var task = Ext.create('Ext.util.DelayedTask', this.processCurrentLocation, this);
+        task.delay(Config.locationUpdateFrequency);
+    },
+    //stopWatchingJourney: function() {
+    //    console.log("MapController - stopWatchingJourney - STARTS");
+    //    this.getWatchButton().setText("Watch");
+    //    this.unwatchCurrentLocation();
+    //},
+    //
+    //startWatchingJourney: function() {
+    //    console.log("MapController - startWatchingJourney - STARTS");
+    //    if(this.isWatching) {
+    //        this.getWatchButton().setText("Unwatch");
+    //        this.watchCurrentLocation();
+    //    }
+    //},
+    updateCurrentLocationOnMap: function() {
+        // Used in login and autologin
+        console.log("MapController - updateCurrentLocationOnMap - STARTS");
+        var me = this;
+        var mapPanel = this.getMapPanel();
+        var gMap = mapPanel.down('map').getMap();
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Location..'
+        });
+        /*
+        var geolocationSuccess = function(position) {
+            console.log("MapController - updateCurrentLocationOnMap - success");
+            var geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var mapOptions = {
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                zoom: 12
+            };
+            gMap.setOptions(mapOptions);
+            me.marker.setMap(gMap);
+            me.marker.setPosition(latlng);
+            Ext.Viewport.unmask();
+        };
+        var geolocationError = function() {
+            console.log('Error : updateCurrentLocationOnMap : ' + error.code + " : " + error.message);
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+        };
+        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, geolocationOptions);
+        /* */
+        Ext.device.Geolocation.getCurrentPosition({
+            allowHighAccuracy: true,
+            timeout: 5000,
+            success: function(position) {
+                console.log("MapController - updateCurrentLocationOnMap - success");
+                var geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                var mapOptions = {
+                        center: latlng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        zoom: 6
+                    };
+                gMap.setOptions(mapOptions);
+                me.marker.setMap(gMap);
+                me.marker.setPosition(latlng);
+                Ext.Viewport.unmask();
+            },
+            failure: function() {
+                console.log('Error : updateCurrentLocationOnMap Ext.device.Geolocation.getCurrentPosition');
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
     },
+    /* */
     updateFromFieldWithCurrentLocation: function() {
+        console.log("MapController - updateFromFieldWithCurrentLocation - STARTS");
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
             message: 'Getting Location'
         });
+        /*
+        var geolocationSuccess = function(position) {
+            console.log("MapController - updateFromFieldWithCurrentLocation - Ext.device.Geolocation.getCurrentPosition - success");
+            if(this.geocoder == null) this.geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            this.geocoder.geocode({'latLng': latlng}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results.length > 0) {
+                        Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
+                        Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                        Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                        console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
+                        console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng())
+                    } else {
+                        console.log("No results found");
+                    }
+                    Ext.Viewport.unmask();
+                } else {
+                    Ext.Viewport.unmask();
+                    console.log("Geocoder failed due to: " + status);
+                }
+            });
+        };
+        var geolocationError = function() {
+            console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+        };
+        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, geolocationOptions);
+        /* */
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy: true,
             timeout: 3000,
             success: function(position) {
+                console.log("MapController - updateFromFieldWithCurrentLocation - Ext.device.Geolocation.getCurrentPosition - success");
                 if (this.geocoder == null)  {
                     this.geocoder = new google.maps.Geocoder();
                 }
@@ -73561,7 +73682,7 @@ Ext.define('Racloop.controller.MapController', {
                 }, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
+                            Ext.ComponentQuery.query('textfield[name=from]')[0].setValue(results[0].formatted_address);
                             Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
                             Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
                             console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
@@ -73577,17 +73698,20 @@ Ext.define('Racloop.controller.MapController', {
                 });
             },
             failure: function(error) {
-                console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
+                console.log('Error : updateFromFieldWithCurrentLocation : ');
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
     },
+    /* */
     showCurrentJourney: function() {
         //from sessioncontroller login and auto login methods
+        console.log("MapController - showCurrentJourney - STARTS");
         var me = this;
         var currentJourney = LoginHelper.getCurrentJourney();
         if (currentJourney) {
+            console.log("MapController - showCurrentJourney - currentJourney exists");
             me.isWatching = true;
             var fromLatitude = currentJourney.fromLatitude;
             var fromLongitude = currentJourney.fromLongitude;
@@ -73641,83 +73765,161 @@ Ext.define('Racloop.controller.MapController', {
                     console.error("Direction Status not OK");
                 }
             });
+        } else {
+            console.log("MapController - showCurrentJourney - currentJourney does not exists");
         }
     },
-    watchCurrentLocation: function() {
-        //from sessioncontroller login and auto login methods
-        var me = this;
-        if (this.isGeolocationActive) {} else {
-            this.isGeolocationActive = true;
-            console.log("watch position : " + new Date());
-            Ext.device.Geolocation.watchPosition({
-                frequency: Config.locationUpdateFrequency,
-                allowHighAccuracy: true,
-                maximumAge: 0,
-                callback: function(position) {
-                    console.log(me.isWatching + " : Rajan : " + new Date());
-                    if (me.isSosActivated) {
-                        me.sendSosMessage(position.coords.latitude, position.coords.longitude);
-                    }
-                    if (me.isWatching) {
-                        var current = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                        me.marker.setPosition(current);
-                        me.marker.setMap(me.googleMap);
-                        me.infoWindow.open(me.googleMap, me.marker);
-                        var tracks = me.tracks;
-                        //LoginHelper.getRoutes();
-                        var isDanger = false;
-                        var message = "All Good";
-                        if (tracks) {
-                            for (var i = 0; i < tracks.length; i++) {
-                                var routeInfo = tracks[i];
-                                var track = routeInfo.track;
-                                var polyline = new google.maps.Polyline({
-                                        path: track
-                                    });
-                                var distance = routeInfo.length;
-                                var tolerance = Common.getToleranceInDegrees(distance / 10);
-                                if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
-                                    isDanger = false;
-                                    message = "On Track";
-                                } else {
-                                    isDanger = true;
-                                    message = "Danger : Off Track";
-                                    break;
-                                }
-                            }
-                        }
-                        //Ext.Msg.alert('Bad', 'Not OK');
-                        Ext.toast({
-                            message: message,
-                            timeout: Config.toastTimeout,
-                            animation: true,
-                            cls: 'toastClass'
-                        });
-                        if (isDanger) {
-                            Ext.device.Notification.vibrate();
-                        }
-                    }
-                },
-                failure: function(error) {
-                    console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
-                    Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
-                }
-            });
-        }
-    },
-    unwatchCurrentLocation: function() {
-        this.infoWindow.close();
-        this.marker.setMap(null);
-        this.showCurrentJourney();
-        if (this.isSosActivated) {} else {
-            Ext.device.Geolocation.clearWatch();
-            this.isGeolocationActive = false;
-        }
-    },
+    //watchCurrentLocation : function() { //from sessioncontroller login and auto login methods
+    //    console.log("MapController - watchCurrentLocation - START");
+    //    var me = this;
+    //    if(this.isGeolocationActive) {
+    //        console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
+    //    }
+    //    else {
+    //        console.log("MapController - watchCurrentLocation - this.isGeolocationActive : " + this.isGeolocationActive);
+    //        this.isGeolocationActive = true;
+    //        console.log("watch position : " + new Date());
+    //        /*
+    //        var geolocationSuccess = function(position) {
+    //            console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
+    //            if(me.isSosActivated) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+    //            }
+    //            else {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //            }
+    //            if(me.isWatching) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //                me.marker.setPosition(current);
+    //                me.marker.setMap(me.googleMap);
+    //                me.infoWindow.open(me.googleMap, me.marker);
+    //                var tracks = me.tracks;//LoginHelper.getRoutes();
+    //                var isDanger = false;
+    //                var message = "All Good";
+    //                if (tracks) {
+    //                    for (var i = 0; i < tracks.length; i++) {
+    //                        var routeInfo = tracks[i];
+    //                        var track = routeInfo.track;
+    //                        var polyline = new google.maps.Polyline({
+    //                            path: track
+    //                        });
+    //                        var distance = routeInfo.length;
+    //                        var tolerance = Common.getToleranceInDegrees(distance / 10);
+    //                        if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
+    //                            isDanger = false;
+    //                            message = "On Track";
+    //                        }
+    //                        else {
+    //                            isDanger = true;
+    //                            message = "Danger : Off Track";
+    //                            break;
+    //                            //Ext.Msg.alert('Bad', 'Not OK');
+    //                        }
+    //                    }
+    //
+    //                }
+    //                Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+    //                if (isDanger) {
+    //                    navigator.vibrate();
+    //                }
+    //            }
+    //            else {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //            }
+    //        };
+    //        var geolocationError = function(error) {
+    //            console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
+    //            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+    //        };
+    //        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    //        navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationOptions);
+    //
+    //        */
+    //        Ext.device.Geolocation.watchPosition({
+    //            frequency: Config.locationUpdateFrequency,
+    //            allowHighAccuracy : true,
+    //            maximumAge : 0,
+    //            callback: function (position) {
+    //                console.log("MapController - watchCurrentLocation - watchPosition - callback " + new Date());
+    //                if(me.isSosActivated) {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                    me.sendSosMessage(position.coords.latitude, position.coords.longitude);
+    //                }
+    //                else {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isSosActivated : " + me.isSosActivated);
+    //                }
+    //                if(me.isWatching) {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                    var current = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //                    me.marker.setPosition(current);
+    //                    me.marker.setMap(me.googleMap);
+    //                    me.infoWindow.open(me.googleMap, me.marker);
+    //                    var tracks = me.tracks;//LoginHelper.getRoutes();
+    //                    var isDanger = false;
+    //                    var message = "All Good";
+    //                    if (tracks) {
+    //                        for (var i = 0; i < tracks.length; i++) {
+    //                            var routeInfo = tracks[i];
+    //                            var track = routeInfo.track;
+    //                            var polyline = new google.maps.Polyline({
+    //                                path: track
+    //                            });
+    //                            var distance = routeInfo.length;
+    //                            var tolerance = Common.getToleranceInDegrees(distance / 10);
+    //                            if (google.maps.geometry.poly.isLocationOnEdge(current, polyline, tolerance)) {
+    //                                isDanger = false;
+    //                                message = "On Track";
+    //                            }
+    //                            else {
+    //                                isDanger = true;
+    //                                message = "Danger : Off Track";
+    //                                break;
+    //                                //Ext.Msg.alert('Bad', 'Not OK');
+    //                            }
+    //                        }
+    //
+    //                    }
+    //                    Ext.toast({message: message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+    //                    if (isDanger) {
+    //                        Ext.device.Notification.vibrate();
+    //                    }
+    //                }
+    //                else {
+    //                    console.log("MapController - watchCurrentLocation - watchPosition - callback - me.isWatching : " + me.isWatching);
+    //                }
+    //            },
+    //            failure: function (error) {
+    //                console.log('Error : watchCurrentLocation : ' + error.code + " : " + error.message);
+    //                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+    //            }
+    //        });
+    //        /* */
+    //    }
+    //},
+    //
+    //unwatchCurrentLocation : function() {
+    //    this.infoWindow.close();
+    //    this.marker.setMap(null);
+    //    this.showCurrentJourney();
+    //    if(this.isSosActivated) {
+    //        console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
+    //    }
+    //    else {
+    //        console.log("MapController - unwatchCurrentLocation - this.isSosActivated : " + this.isSosActivated);
+    //        Ext.device.Geolocation.clearWatch();
+    //        this.isGeolocationActive = false;
+    //    }
+    //
+    //},
     sendSosMessage: function(lat, lng) {
-        var successCallback = function(response, ops) {};
+        var successCallback = function(response, ops) {
+                console.log("MapController - sendSosMessage - successCallback ");
+            };
         // Failure
         var failureCallback = function(response, ops) {
+                console.log("MapController - sendSosMessage - failureCallback ");
                 Ext.toast({
                     message: "Issue with sending message",
                     timeout: Config.toastTimeout,
@@ -73725,7 +73927,7 @@ Ext.define('Racloop.controller.MapController', {
                     cls: 'toastClass'
                 });
             };
-        var currentDateString = Ext.Date.format(new Date(), 'd M y h:i A');
+        var currentDateString = Ext.Date.format(new Date(), 'c');
         var user = LoginHelper.getUser();
         Ext.Ajax.request({
             url: Config.url.RACLOOP_SOS,
@@ -73831,6 +74033,7 @@ Ext.define('Racloop.view.SearchResultsView', {
                 iconMask: true,
                 iconAlign: 'left',
                 ui: 'confirm',
+                hidden: true,
                 margin: 10
             },
             //padding: 8
@@ -73987,6 +74190,92 @@ Ext.define('Racloop.view.EditProfileForm', {
     }
 });
 
+Ext.define('Racloop.view.RelatedRequestViewItem', {
+    extend: Ext.dataview.component.DataItem,
+    alias: 'widget.relatedRequestViewItem',
+    xtype: 'relatedRequestViewItem',
+    config: {
+        padding: 10,
+        layout: {
+            type: 'hbox'
+        },
+        items: [
+            {
+                xtype: 'component',
+                flex: 1,
+                html: 'Name',
+                itemId: 'textCmp'
+            }
+        ]
+    },
+    updateRecord: function(record) {
+        // Provide an implementation to update this container's child items
+        var me = this;
+        var userName = "";
+        var imgSrc = "";
+        var html = "";
+        var drivingText = "Need Lift";
+        var cardMain = "";
+        if (record != null) {
+            console.dir(record);
+            userName = record.get("name");
+            if (record.get("isDriver")) {
+                drivingText = "Driving";
+            }
+            var date = new Date(record.get("dateOfJourney"));
+            var day = Ext.Date.format(date, 'd');
+            var month = Ext.Date.format(date, 'F');
+            var time = Ext.Date.format(date, 'g:i A');
+            var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
+            if (record.get("otherUser") != null) {
+                imgSrc = record.get("photoUrl");
+            } else {
+                imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128";
+            }
+            var statusMarkup = '<span class="card-label card-label-blue">Active</span>';
+            var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  ' + '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+            html = '<div class="card">                    <div class="card-info">                        <div class="image">                            <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                        </div>                        <div class="card-date">                            <div class="card-day">' + day + '</div>                            <div class="card-month">' + month + '</div>                        </div>                        <div class="card-main">                            <div class="card-name">                                <h3>' + record.get("name") + '</h3>                            </div>                            <div>                                <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>                                <span class="card-time">  ' + statusMarkup + '</span>                            </div>                        </div>                    </div>                    <div class="card-footer">                        <div class="card-footer-row">                            <span class="card-location-label">From :</span>                            <span class="card-location"> &nbsp;<span class="fromCls"> </span> ' + record.get("from") + '</span>                        </div>                        <div class="card-footer-row">                            <span class="card-location-label">To :</span>                            <span class="card-location"> &nbsp;<span class="toCls"> </span> ' + record.get("to") + '</span>                        </div>                        <div>                            <span class="card-control">                                ' + buttonMarkup + '                            </span>                        </div>                    </div>                </div>';
+            me.down('#textCmp').setHtml(html);
+        }
+        me.callParent(arguments);
+    },
+    initialize: function() {
+        this.element.on({
+            scope: this,
+            tap: 'rejectButtonTapFired',
+            delegate: 'button.rejectButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'acceptButtonTapFired',
+            delegate: 'button.acceptButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'cancelButtonTapFired',
+            delegate: 'button.cancelButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'callButtonTapFired',
+            delegate: 'button.callButton'
+        });
+        this.callParent(arguments);
+    },
+    rejectButtonTapFired: function(e) {
+        this.fireEvent('rejectButtonTap', this);
+    },
+    acceptButtonTapFired: function(e) {
+        this.fireEvent('acceptButtonTap', this);
+    },
+    cancelButtonTapFired: function(e) {
+        this.fireEvent('cancelButtonTap', this);
+    },
+    callButtonTapFired: function(e) {
+        this.fireEvent('callButtonTap', this);
+    }
+});
+
 Ext.define('Racloop.view.EmergencyContactForm', {
     extend: Ext.form.Panel,
     alias: 'widget.emergencyContactForm',
@@ -74021,6 +74310,37 @@ Ext.define('Racloop.view.EmergencyContactForm', {
                 ui: 'action',
                 margin: 20,
                 padding: 8
+            }
+        ]
+    }
+});
+
+Ext.define('Racloop.view.SosView', {
+    extend: Ext.Container,
+    alias: 'widget.sosView',
+    xtype: 'sosView',
+    config: {
+        items: [
+            {
+                items: [
+                    {
+                        docked: 'top',
+                        xtype: 'titlebar',
+                        title: "Danger"
+                    },
+                    {
+                        xtype: 'container',
+                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'Please switch on your phone GPS' + '</div>' + '<h2 class="dark-text">SOS</h2>' + '<div class="colored-line"></div>' + '<div class="sub-heading">If you are not in danger please click <strong>Cancel SOS</strong></div>' + '</div>'
+                    },
+                    {
+                        xtype: 'button',
+                        itemId: 'cancelSos',
+                        margin: 20,
+                        padding: 8,
+                        text: 'Cancel SOS',
+                        ui: 'decline'
+                    }
+                ]
             }
         ]
     }
@@ -74071,12 +74391,14 @@ Ext.application({
         'ForgotPasswordForm',
         //'SearchViewItem',
         'JourneyViewItem',
+        'RelatedRequestViewItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
         'MapPanel',
         'OutgoingRequestViewItem',
         'VerifySmsForm',
-        'EmergencyContactForm'
+        'EmergencyContactForm',
+        'SosView'
     ],
     controllers: [
         'UiController',
@@ -74111,11 +74433,18 @@ Ext.application({
     },
     launch: function() {
         console.log('launching application......');
+        document.addEventListener('deviceready', function() {
+            StatusBar.hide();
+            if (Ext.os.is.iOS && Ext.os.version.major >= 7) {}
+        });
+        //    document.body.style.marginTop = "20px";
+        //    Ext.Viewport.setHeight(Ext.Viewport.getWindowHeight() - 20);
         if (!Ext.device.Connection.isOnline()) {
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }
         // Destroy the #appLoadingIndicator element
         this.cleanup();
+        this.fixOverflowChangedIssue();
         if (Ext.fly('appLoadingIndicator'))  {
             Ext.fly('appLoadingIndicator').destroy();
         }
@@ -74153,6 +74482,22 @@ Ext.application({
                 Ext.Animator.run(me.activeAnimation);
             }
         };
+    },
+    fixOverflowChangedIssue: function() {
+        if (Ext.browser.is.WebKit) {
+            console.info(this.$className + ': Fix a Sencha Touch Bug (TOUCH-5716 / Scrolling Issues in Google Chrome v43+)');
+            Ext.override(Ext.util.SizeMonitor, {
+                constructor: function(config) {
+                    var namespace = Ext.util.sizemonitor;
+                    return new namespace.Scroll(config);
+                }
+            });
+            Ext.override(Ext.util.PaintMonitor, {
+                constructor: function(config) {
+                    return new Ext.util.paintmonitor.CssAnimation(config);
+                }
+            });
+        }
     }
 });
 
