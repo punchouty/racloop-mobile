@@ -10,7 +10,7 @@ phonegap/platforms/
 phonegap/plugins/
 
 # sass cache folder
-resources/css/**
+resources/css/app.css
 resources/sass/.sass-cache/
 
 .idea
