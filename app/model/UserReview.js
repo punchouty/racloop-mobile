@@ -24,10 +24,10 @@ Ext.define('Racloop.model.UserReview', {
             name: 'comment2',
             type: 'string'
         },{
-            name: 'punchuality1',
+            name: 'punctuality1',
             type: 'string'
         },{
-            name: 'punchuality2',
+            name: 'punctuality2',
             type: 'string'
         },{
             name: 'overall1',

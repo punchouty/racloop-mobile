@@ -1,6 +1,6 @@
 Ext.define('Racloop.view.JourneyRatingView', {
-    extend: 'Ext.Container',
-    alias: 'widget.sosView',
+    extend: 'Ext.form.Panel',
+    alias: 'widget.ratingView',
     xtype : 'ratingView',
 
     requires: [
@@ -22,9 +22,22 @@ Ext.define('Racloop.view.JourneyRatingView', {
                 xtype: 'titlebar',
                 title : "FeedBack"
             },{
-                xtype: 'formpanel',
+                xtype: 'container',
                 itemId: 'ratingViewPanel',
-                items: []
+                html: 'Feedback'
+            },{
+                xtype: 'panel',
+                itemId: 'userReviews',
+                items: [{
+                     xtype: "hiddenfield",
+                     name: 'journeyId'
+                }]
+                // listeners: {
+                //     add: function( field, item, index, eOpts ) {
+                //         // body...
+                //         console.log(field);
+                //     }
+                // } 
             },
             {
                 xtype: 'button',

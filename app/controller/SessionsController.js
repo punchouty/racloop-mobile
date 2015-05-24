@@ -40,7 +40,6 @@ Ext.define('Racloop.controller.SessionsController', {
         var settingNavigationView = this.getSettingNavigationView();
         var me = this;
         var user = LoginHelper.getUser();
-        console.log("user.email : " + user.email + ", user.password : " + user.password);
         var currentDateString = Ext.Date.format(new Date(),'c');
         console.log("SessionController - autoLogin : " + currentDateString);
         if (user != null && user.email != null && user.password != null) {
@@ -60,17 +59,16 @@ Ext.define('Racloop.controller.SessionsController', {
                      var currentJourney = data.currentJourney;                  
                     if (data.feedbackPending){
                         var feedbackJournies = data.currentJourney.relatedJourneys;
-                        console.log("____________________"+feedbackJournies.length);
                         console.log(data);
                          var ratingView =me.getRatingView();
                             if(!ratingView) {                            
                                 ratingView = Ext.create('Racloop.view.JourneyRatingView');
                                 Ext.Viewport.add(ratingView);
-                            }
-                            var ratingViewPanel = ratingView.down("#ratingViewPanel");
+                            }                           
 
                              for (var i in feedbackJournies) {
-                                me.setRatingView(ratingViewPanel, feedbackJournies[i], currentJourney, i);
+                                var index = parseInt(i)+1;
+                                me.setRatingView(ratingView, feedbackJournies[i], currentJourney, index);
                               }
                             Ext.Viewport.setActiveItem(ratingView);
                             Ext.Viewport.unmask();
@@ -209,10 +207,10 @@ Ext.define('Racloop.controller.SessionsController', {
                                 ratingView = Ext.create('Racloop.view.JourneyRatingView');
                                 Ext.Viewport.add(ratingView);
                             }
-                            var ratingViewPanel = ratingView.down("#ratingViewPanel");
 
                              for (var i in feedbackJournies) {
-                                me.setRatingView(ratingViewPanel, feedbackJournies[i], currentJourney, i);
+                                var index = parseInt(i)+1;
+                                me.setRatingView(ratingView, feedbackJournies[i], currentJourney, index);
                               }
                             Ext.Viewport.setActiveItem(ratingView);
                             Ext.Viewport.unmask();
@@ -421,7 +419,9 @@ Ext.define('Racloop.controller.SessionsController', {
         });
 
     },
-    setRatingView: function(ratingViewPanel, feedbackJourney, currentJourney, i){
+    setRatingView: function(ratingView, feedbackJourney, currentJourney, index){
+          var ratingViewPanel = ratingView.down("#ratingViewPanel");
+          var userReviews = ratingView.down("#userReviews");
           var day = Ext.Date.format(new Date(), 'd');
           var month = Ext.Date.format(new Date(), 'F');
           var time = Ext.Date.format(new Date(), 'g:i A');
@@ -452,17 +452,17 @@ Ext.define('Racloop.controller.SessionsController', {
                     </div>\
                 </div>';
                 ratingViewPanel.setHtml(html);
+                var journeyField = userReviews.down("hiddenfield[name='journeyId']");
+                journeyField.setValue(currentJourney.id);
 
-                ratingViewPanel.add({
-                    xtype: 'fieldset',
-                    itemId: 'userReviews',
-                    journeyId: feedbackJourney.id,
+                var newItem = {   
+                    xtype: 'fieldset',                                   
                     title: feedbackJourney.name,
                     items: [
                     {
                         xtype: 'rating',
-                        label : 'Punchuality',
-                        name: 'punchuality'+i,
+                        label : 'punctuality',
+                        name: 'punctuality'+index,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
                         itemCls : 'x-rating-star',
@@ -470,7 +470,7 @@ Ext.define('Racloop.controller.SessionsController', {
                     },{
                         xtype: 'rating',
                         label : 'Overall',
-                        name: 'overall'+i,
+                        name: 'overall'+index,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
                         itemCls : 'x-rating-star',
@@ -478,18 +478,23 @@ Ext.define('Racloop.controller.SessionsController', {
                     },{
                         xtype: 'textareafield',
                         label: 'Comments',
-                        name: 'comment'+i,
-                        maxRows: 4,
-                        name: 'userCommentField'
+                        name: 'comment'+index,
+                        maxRows: 4                        
+                    },{
+                        xtype: "hiddenfield",
+                        name: 'pairId'+index,
+                        value: feedbackJourney.myPairId
                     }]
-                });
+                };
+
+                userReviews.add(newItem);
     },
     onSaveFeedbackTap: function(button, e, eOpts){
         console.log("onSaveFeedbackTap");
         var me = this;        
         var user = Ext.create("Racloop.model.UserReview", {});
-        var reviewForm = button.up('formpanel'); // review form
-        var values = reviewForm.getValues(); // Form values         
+        var reviewForm = button.up('ratingView'); // review form
+        var values = reviewForm.getValues(); // Form values  
         console.log(values);
 
             var successCallback = function(response, ops) {
@@ -532,8 +537,8 @@ Ext.define('Racloop.controller.SessionsController', {
                     pairId2: values.pairId2,
                     comment1: values.comment1,
                     comment2: values.comment2,
-                    punchuality1: values.punchuality1,
-                    punchuality2: values.punchuality2,
+                    punchuality1: values.punctuality1,
+                    punchuality2: values.punctuality2,
                     overall1: values.overall1,
                     overall2: values.overall2
                 }),
