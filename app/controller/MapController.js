@@ -258,7 +258,7 @@ Ext.define('Racloop.controller.MapController', {
                 var mapOptions = {
                     center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 06
+                    zoom: 14
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
@@ -333,7 +333,7 @@ Ext.define('Racloop.controller.MapController', {
                 var mapOptions = {
                     center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 06
+                    zoom: 14
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
@@ -426,7 +426,8 @@ Ext.define('Racloop.controller.MapController', {
         var me = this;
         var currentJourney = LoginHelper.getCurrentJourney();
         if(currentJourney) {
-            console.log("MapController - showCurrentJourney - currentJourney exists");
+            console.log("MapController - showCurrentJourney - currentJourney exists : ");
+            console.dir(currentJourney);
             me.isWatching = true;
             var fromLatitude = currentJourney.fromLatitude;
             var fromLongitude = currentJourney.fromLongitude;
@@ -434,6 +435,7 @@ Ext.define('Racloop.controller.MapController', {
             var toLongitude = currentJourney.toLongitude;
             var from = new google.maps.LatLng(fromLatitude, fromLongitude);
             var to = new google.maps.LatLng(toLatitude, toLongitude);
+            console.log(from + " : " + to);
             var display = this.directionsDisplay;
             var request = {
                 origin: from,
@@ -479,7 +481,7 @@ Ext.define('Racloop.controller.MapController', {
                     //console.log("TRACKS : " + tracks);
                 }
                 else {
-                    console.error("Direction Status not OK");
+                    console.error("Direction Status not OK " + status);
                 }
             });
         }

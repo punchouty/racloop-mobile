@@ -60,6 +60,12 @@ Ext.define('Racloop.model.Journey', {
             name: 'tripUnit',
             type: 'string'
         }, {
+            name: 'myStatus',
+            type: 'string'
+        }, {
+            name: 'myPairId',
+            type: 'string'
+        }, {
             name: 'photoUrl',
             type: 'string'
         }, {
