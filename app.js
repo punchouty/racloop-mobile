@@ -32,7 +32,8 @@ Ext.application({
     models: [
         'User',
         'LoginCredential',
-        'Journey'
+        'Journey',
+        'UserReview'
     ],
 
     views: [
@@ -66,7 +67,8 @@ Ext.application({
         'OutgoingRequestViewItem',
         'VerifySmsForm',
         'EmergencyContactForm',
-        'SosView'
+        'SosView',
+        'JourneyRatingView'
     ],
 
     controllers: [

@@ -85,6 +85,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SOS='http://www.racloop.com/app/userMobile/sos';
             this.config.url.RACLOOP_TERMS='http://www.racloop.com/app/userMobile/terms';
             this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/app/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.racloop.com/app/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/app/journeyMobile/myHistory';
@@ -99,6 +101,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/app/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/app/workflowMobile/cancelRequest';
+
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
@@ -115,6 +118,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/userMobile/sos';
             this.config.url.RACLOOP_TERMS='http://localhost:8080/app/userMobile/terms';
             this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://localhost:8080/app/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
@@ -146,6 +151,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SOS='http://' + ip + ':8080/app/userMobile/sos';
             this.config.url.RACLOOP_TERMS='http://' + ip + ':8080/app/userMobile/terms';
             this.config.url.RACLOOP_PRIVACY='http://' + ip + ':8080/app/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://' + ip + ':8080/app/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'http://' + ip + ':8080/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';

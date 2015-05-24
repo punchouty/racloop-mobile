@@ -16,12 +16,21 @@ Ext.define('Racloop.controller.SessionsController', {
             mainTabs: 'mainTabs',
             mainNavigationView: 'mainNavigationView',
             settingNavigationView : 'settingNavigationView',
-            loginButton: 'loginForm #loginButton'
+            loginButton: 'loginForm #loginButton',
+            ratingView: 'ratingView',
+            saveFeedBackButton: 'ratingView #saveFeedBack',
+            cancelFeedBackButton: 'ratingView #cancelFeedBack'
         },
 
         control: {
             loginButton: {
                 tap: 'login'
+            },
+            saveFeedBackButton: {
+                tap: 'onSaveFeedbackTap'
+            },
+            cancelFeedBackButton: {
+                tap: 'onCancelFeedbackTap'
             }
         }
     },
@@ -45,73 +54,91 @@ Ext.define('Racloop.controller.SessionsController', {
                 console.log(data);
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
-                    LoginHelper.setUser(data.data);
-                    LoginHelper.setEmail(user.email);
-                    var currentJourney = data.currentJourney
-                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
-                    Ext.Viewport.setActiveItem(mainTabs);
-                    mainTabs.show();
-                    Ext.Viewport.unmask();
-                    if(currentJourney) {
-                        console.log("SessionController - autoLogin - currentJourney exists");
-                        mainTabs.setActiveItem('mapPanel');
-                        LoginHelper.setCurrentJourney(currentJourney);
-                        Racloop.app.getController('MapController').showCurrentJourney();
-                        //Racloop.app.getController('MapController').watchCurrentLocation();
-                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                    }
-                    else {
-                        console.log("SessionController - autoLogin - currentJourney does not exists");
-                        LoginHelper.removeCurrentJourney();
-                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                        console.log('login success data.currentJourney : false');
-                        if(!LoginHelper.isEmergencyContactDefined(data.data)) {
-                            LoginHelper.incrementLoginCounter();
-                            if(LoginHelper.isFemale(data.data)) {
-                                if(LoginHelper.getLoginCounter() >= 3) {
-                                    LoginHelper.resetLoginCounter();
-                                    mainTabs.setActiveItem('settingNavigationView');
-                                    settingNavigationView.push({
-                                        title: Config.settingNameEmergencyContacts,
-                                        xtype: 'emergencyContactForm',
-                                        itemId: 'emergencyContactForm'
-                                    });
-                                    Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                                }
-                                else {
-                                    mainTabs.setActiveItem('searchNavigationView');
-                                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                                    mainTabs.setActiveItem('mapPanel');
-//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                                }
+                     LoginHelper.setUser(data.data);
+                     LoginHelper.setEmail(user.email);                                             
+                     var currentJourney = data.currentJourney;                  
+                    if (data.feedbackPending){
+                        var feedbackJournies = data.currentJourney.relatedJourneys;
+                        console.log("____________________"+feedbackJournies.length);
+                        console.log(data);
+                         var ratingView =me.getRatingView();
+                            if(!ratingView) {                            
+                                ratingView = Ext.create('Racloop.view.JourneyRatingView');
+                                Ext.Viewport.add(ratingView);
                             }
-                            else {
-                                if(LoginHelper.getLoginCounter() >= 3) {
-                                    LoginHelper.resetLoginCounter();
-                                    mainTabs.setActiveItem('settingNavigationView');
-                                    settingNavigationView.push({
-                                        title: Config.settingNameEmergencyContacts,
-                                        xtype: 'emergencyContactForm',
-                                        itemId: 'emergencyContactForm'
-                                    });
-                                    Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                                }
-                                else {
-                                    mainTabs.setActiveItem('searchNavigationView');
-                                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                                    mainTabs.setActiveItem('mapPanel');
-//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                                }
-                            }
+                            var ratingViewPanel = ratingView.down("#ratingViewPanel");
 
+                             for (var i in feedbackJournies) {
+                                me.setRatingView(ratingViewPanel, feedbackJournies[i], currentJourney, i);
+                              }
+                            Ext.Viewport.setActiveItem(ratingView);
+                            Ext.Viewport.unmask();
+                    }else {  
+                        var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                        Ext.Viewport.setActiveItem(mainTabs);
+                        mainTabs.show();
+                        Ext.Viewport.unmask();
+                        if(currentJourney) {
+                            console.log("SessionController - autoLogin - currentJourney exists");
+                            mainTabs.setActiveItem('mapPanel');
+                            LoginHelper.setCurrentJourney(currentJourney);
+                            Racloop.app.getController('MapController').showCurrentJourney();
+                            //Racloop.app.getController('MapController').watchCurrentLocation();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         }
                         else {
-                            mainTabs.setActiveItem('searchNavigationView');
-                            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                            mainTabs.setActiveItem('mapPanel');
-//                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                        }
+                            console.log("SessionController - autoLogin - currentJourney does not exists");
+                            LoginHelper.removeCurrentJourney();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            console.log('login success data.currentJourney : false');
+                            if(!LoginHelper.isEmergencyContactDefined(data.data)) {
+                                LoginHelper.incrementLoginCounter();
+                                if(LoginHelper.isFemale(data.data)) {
+                                    if(LoginHelper.getLoginCounter() >= 3) {
+                                        LoginHelper.resetLoginCounter();
+                                        mainTabs.setActiveItem('settingNavigationView');
+                                        settingNavigationView.push({
+                                            title: Config.settingNameEmergencyContacts,
+                                            xtype: 'emergencyContactForm',
+                                            itemId: 'emergencyContactForm'
+                                        });
+                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                    }
+                                    else {
+                                        mainTabs.setActiveItem('searchNavigationView');
+                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                    mainTabs.setActiveItem('mapPanel');
+    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    }
+                                }
+                                else {
+                                    if(LoginHelper.getLoginCounter() >= 3) {
+                                        LoginHelper.resetLoginCounter();
+                                        mainTabs.setActiveItem('settingNavigationView');
+                                        settingNavigationView.push({
+                                            title: Config.settingNameEmergencyContacts,
+                                            xtype: 'emergencyContactForm',
+                                            itemId: 'emergencyContactForm'
+                                        });
+                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                    }
+                                    else {
+                                        mainTabs.setActiveItem('searchNavigationView');
+                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                    mainTabs.setActiveItem('mapPanel');
+    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    }
+                                }
 
+                            }
+                            else {
+                                mainTabs.setActiveItem('searchNavigationView');
+                                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                            mainTabs.setActiveItem('mapPanel');
+    //                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            }
+
+                        }
                     }
                 } else {
                     LoginHelper.removeUser();
@@ -168,71 +195,88 @@ Ext.define('Racloop.controller.SessionsController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                LoginHelper.setUser(data.data);
-                LoginHelper.setEmail(values.email);
-                var currentJourney = data.currentJourney
-                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
-                Ext.Viewport.setActiveItem(mainTabs);
-                mainTabs.show();
-                Ext.Viewport.unmask();
-                if(currentJourney) {
-                    console.log("login success currentJourney : " + currentJourney);
-                    mainTabs.setActiveItem('mapPanel');
-                    LoginHelper.setCurrentJourney(currentJourney);
-                    Racloop.app.getController('MapController').showCurrentJourney();
-                    //Racloop.app.getController('MapController').watchCurrentLocation();
-                }
-                else {
-                    LoginHelper.removeCurrentJourney();
-                    console.log('login success data.currentJourney : false');
-                    if(!LoginHelper.isEmergencyContactDefined(data.data)) {
-                        LoginHelper.incrementLoginCounter();
-                        if(LoginHelper.isFemale(data.data)) {
-                            if(LoginHelper.getLoginCounter() >= 3) {
-                                LoginHelper.resetLoginCounter();
-                                mainTabs.setActiveItem('settingNavigationView');
-                                settingNavigationView.push({
-                                    title: Config.settingNameEmergencyContacts,
-                                    xtype: 'emergencyContactForm',
-                                    itemId: 'emergencyContactForm'
-                                });
-                                Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                  LoginHelper.setUser(data.data);
+                  LoginHelper.setEmail(values.email);
+                  var currentJourney = data.currentJourney;
+                 if (data.feedbackPending){
+                        var feedbackJournies = data.currentJourney.relatedJourneys;
+                        console.log(data);
+                          var ratingView = me.getRatingView();
+                            if(!ratingView) {                            
+                                ratingView = Ext.create('Racloop.view.JourneyRatingView');
+                                Ext.Viewport.add(ratingView);
                             }
-                            else {
-                                mainTabs.setActiveItem('searchNavigationView');
-                                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                                mainTabs.setActiveItem('mapPanel');
-//                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                            }
-                        }
-                        else {
-                            if(LoginHelper.getLoginCounter() >= 3) {
-                                LoginHelper.resetLoginCounter();
-                                mainTabs.setActiveItem('settingNavigationView');
-                                settingNavigationView.push({
-                                    title: Config.settingNameEmergencyContacts,
-                                    xtype: 'emergencyContactForm',
-                                    itemId: 'emergencyContactForm'
-                                });
-                                Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                            }
-                            else {
-                                mainTabs.setActiveItem('searchNavigationView');
-                                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                                mainTabs.setActiveItem('mapPanel');
-//                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                            }
-                        }
+                            var ratingViewPanel = ratingView.down("#ratingViewPanel");
 
+                             for (var i in feedbackJournies) {
+                                me.setRatingView(ratingViewPanel, feedbackJournies[i], currentJourney, i);
+                              }
+                            Ext.Viewport.setActiveItem(ratingView);
+                            Ext.Viewport.unmask();
+                    }else {                    
+                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                    Ext.Viewport.setActiveItem(mainTabs);
+                    mainTabs.show();
+                    Ext.Viewport.unmask();
+                    if(currentJourney) {
+                        console.log("login success currentJourney : " + currentJourney);
+                        mainTabs.setActiveItem('mapPanel');
+                        LoginHelper.setCurrentJourney(currentJourney);
+                        Racloop.app.getController('MapController').showCurrentJourney();
+                        //Racloop.app.getController('MapController').watchCurrentLocation();
                     }
                     else {
-                        console.log('login success emergency contact : false');
-                        mainTabs.setActiveItem('searchNavigationView');
-                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-//                        mainTabs.setActiveItem('mapPanel');
-//                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                    }
+                        LoginHelper.removeCurrentJourney();
+                        console.log('login success data.currentJourney : false');
+                        if(!LoginHelper.isEmergencyContactDefined(data.data)) {
+                            LoginHelper.incrementLoginCounter();
+                            if(LoginHelper.isFemale(data.data)) {
+                                if(LoginHelper.getLoginCounter() >= 3) {
+                                    LoginHelper.resetLoginCounter();
+                                    mainTabs.setActiveItem('settingNavigationView');
+                                    settingNavigationView.push({
+                                        title: Config.settingNameEmergencyContacts,
+                                        xtype: 'emergencyContactForm',
+                                        itemId: 'emergencyContactForm'
+                                    });
+                                    Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                }
+                                else {
+                                    mainTabs.setActiveItem('searchNavigationView');
+                                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                mainTabs.setActiveItem('mapPanel');
+    //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                }
+                            }
+                            else {
+                                if(LoginHelper.getLoginCounter() >= 3) {
+                                    LoginHelper.resetLoginCounter();
+                                    mainTabs.setActiveItem('settingNavigationView');
+                                    settingNavigationView.push({
+                                        title: Config.settingNameEmergencyContacts,
+                                        xtype: 'emergencyContactForm',
+                                        itemId: 'emergencyContactForm'
+                                    });
+                                    Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                }
+                                else {
+                                    mainTabs.setActiveItem('searchNavigationView');
+                                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                mainTabs.setActiveItem('mapPanel');
+    //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                }
+                            }
 
+                        }
+                        else {
+                            console.log('login success emergency contact : false');
+                            mainTabs.setActiveItem('searchNavigationView');
+                            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                        mainTabs.setActiveItem('mapPanel');
+    //                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                        }
+
+                    }
                 }
             } else {
                 LoginHelper.removeUser();
@@ -373,5 +417,240 @@ Ext.define('Racloop.controller.SessionsController', {
             failure: failureCallback
         });
 
+    },
+    setRatingView: function(ratingViewPanel, feedbackJourney, currentJourney, i){
+          var day = Ext.Date.format(new Date(), 'd');
+          var month = Ext.Date.format(new Date(), 'F');
+          var time = Ext.Date.format(new Date(), 'g:i A');
+
+            var html='\
+                <div class="card">\
+                    <div class="card-info">\
+                        <div class="card-date">\
+                            <div class="card-day">'+day+'</div>\
+                            <div class="card-month">'+month+'</div>\
+                        </div>\
+                        <div class="card-main">\
+                            <div>\
+                                <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                            </div>\
+                        </div>\
+                    </div>\
+        \
+                    <div class="card-footer">\
+                        <div class="card-footer-row">\
+                            <span class="card-location-label">From : </span>\
+                            <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+currentJourney.from+'</span>\
+                        </div>\
+                        <div class="card-footer-row">\
+                            <span class="card-location-label">To : </span>\
+                            <span class="card-location"> &nbsp;<span class="toCls"> </span>'+currentJourney.to+' </span>\
+                        </div>\
+                    </div>\
+                </div>';
+                ratingViewPanel.setHtml(html);
+
+                ratingViewPanel.add({
+                    xtype: 'fieldset',
+                    itemId: 'userReviews',
+                    journeyId: feedbackJourney.id,
+                    title: feedbackJourney.name,
+                    items: [
+                    {
+                        xtype: 'rating',
+                        label : 'Punchuality',
+                        name: 'punchuality'+i,
+                        itemsCount : 5,
+                        value: 2, //zero-based!                     
+                        itemCls : 'x-rating-star',
+                        itemHoverCls : 'x-rating-star-hover'
+                    },{
+                        xtype: 'rating',
+                        label : 'Overall',
+                        name: 'overall'+i,
+                        itemsCount : 5,
+                        value: 2, //zero-based!                     
+                        itemCls : 'x-rating-star',
+                        itemHoverCls : 'x-rating-star-hover'
+                    },{
+                        xtype: 'textareafield',
+                        label: 'Comments',
+                        name: 'comment'+i,
+                        maxRows: 4,
+                        name: 'userCommentField'
+                    }]
+                });
+    },
+    onSaveFeedbackTap: function(button, e, eOpts){
+        console.log("onSaveFeedbackTap");
+        var me = this;        
+        var user = Ext.create("Racloop.model.UserReview", {});
+        var reviewForm = button.up('formpanel'); // review form
+        var values = reviewForm.getValues(); // Form values         
+        console.log(values);
+
+            var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    Ext.Viewport.unmask();
+                    Ext.toast({message: "Successfull", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    me.getCurrentJourney();
+                } else {
+                    Ext.Msg.alert("Failure", data.message);
+                    Ext.Viewport.unmask();
+                }
+              };
+
+
+            var failureCallback = function(response, ops) {
+                    Ext.Msg.alert("Failure", response.message);
+                    Ext.Viewport.unmask();
+
+            };
+            
+
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Logging in...'
+            }); 
+
+              Ext.Ajax.request({
+                url: Config.url.RACLOOP_SEND_USER_RATING,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                params: Ext.JSON.encode({
+                    journeyId: values.journeyId,
+                    pairId1: values.pairId1,
+                    pairId2: values.pairId2,
+                    comment1: values.comment1,
+                    comment2: values.comment2,
+                    punchuality1: values.punchuality1,
+                    punchuality2: values.punchuality2,
+                    overall1: values.overall1,
+                    overall2: values.overall2
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
+
+    },
+    onCancelFeedbackTap: function(button, e, eOpts){
+        console.log("onCancelFeedbackTap");
+        this.getCurrentJourney();
+    },
+    getCurrentJourney: function(){
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+        var settingNavigationView = this.getSettingNavigationView();
+        var me = this;
+        var currentDateString = Ext.Date.format(new Date(),'c');
+         var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                console.log(data);
+                if (data.success) {
+                        var currentJourney = data.currentJourney
+                        var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                        Ext.Viewport.setActiveItem(mainTabs);
+                        mainTabs.show();
+                        Ext.Viewport.unmask();
+                        if(currentJourney) {
+                            console.log("SessionController - autoLogin - currentJourney exists");
+                            mainTabs.setActiveItem('mapPanel');
+                            LoginHelper.setCurrentJourney(currentJourney);
+                            Racloop.app.getController('MapController').showCurrentJourney();
+                            //Racloop.app.getController('MapController').watchCurrentLocation();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                        }
+                        else {
+                            console.log("SessionController - autoLogin - currentJourney does not exists");
+                            LoginHelper.removeCurrentJourney();
+                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            console.log('login success data.currentJourney : false');
+                            if(!LoginHelper.isEmergencyContactDefined(data.data)) {
+                                LoginHelper.incrementLoginCounter();
+                                if(LoginHelper.isFemale(data.data)) {
+                                    if(LoginHelper.getLoginCounter() >= 3) {
+                                        LoginHelper.resetLoginCounter();
+                                        mainTabs.setActiveItem('settingNavigationView');
+                                        settingNavigationView.push({
+                                            title: Config.settingNameEmergencyContacts,
+                                            xtype: 'emergencyContactForm',
+                                            itemId: 'emergencyContactForm'
+                                        });
+                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                    }
+                                    else {
+                                        mainTabs.setActiveItem('searchNavigationView');
+                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                    mainTabs.setActiveItem('mapPanel');
+    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    }
+                                }
+                                else {
+                                    if(LoginHelper.getLoginCounter() >= 3) {
+                                        LoginHelper.resetLoginCounter();
+                                        mainTabs.setActiveItem('settingNavigationView');
+                                        settingNavigationView.push({
+                                            title: Config.settingNameEmergencyContacts,
+                                            xtype: 'emergencyContactForm',
+                                            itemId: 'emergencyContactForm'
+                                        });
+                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                                    }
+                                    else {
+                                        mainTabs.setActiveItem('searchNavigationView');
+                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                                    mainTabs.setActiveItem('mapPanel');
+    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                                    }
+                                }
+
+                            }
+                            else {
+                                mainTabs.setActiveItem('searchNavigationView');
+                                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+    //                            mainTabs.setActiveItem('mapPanel');
+    //                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            }
+
+                        }
+                    }else {
+                    Ext.Viewport.unmask();
+                    Ext.Msg.alert('Error', data.message);
+                    Ext.Viewport.setActiveItem(mainNavigationView);
+                }
+            };
+
+            var failureCallback = function(response, ops) {
+                //LoginHelper.removeUser();
+                Ext.Viewport.unmask();
+                Ext.Viewport.setActiveItem(mainNavigationView);
+                Ext.Msg.alert("Network Error", response.code);
+
+            };         
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Logging in...'
+            }); 
+
+              Ext.Ajax.request({
+                url: Config.url.RACLOOP_GET_CURRENT_JOURNEY,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                params: Ext.JSON.encode({
+                    currentDateString : currentDateString
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
     }
 });
