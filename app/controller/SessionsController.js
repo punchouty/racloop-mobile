@@ -43,7 +43,7 @@ Ext.define('Racloop.controller.SessionsController', {
         var currentDateString = Ext.Date.format(new Date(),'c');
         console.log("SessionController - autoLogin : " + currentDateString);
         if (user != null && user.email != null && user.password != null) {
-            console.log("autoLogin user : " + user.email);
+            console.log("autoLogin  user.email : " + user.email + ", user.password : " + user.password);
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,

@@ -21,11 +21,11 @@ Ext.define('Racloop.view.MainNavigationView', {
                 xtype: 'container',
                 html: '<div class="section-header">' +
                         '<div class="small-text-medium uppercase colored-text">' +
-                        'A Free Capool Finder' +
+                        'A Free Cab pool Finder' +
                         '</div>' +
                         '<h2 class="dark-text"><strong>Rac</strong>loop</h2>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading">Save money, Make friends and Contribute to Greener Environment.</div>' +
+                        '<div class="sub-heading">Share your Uber, Ola or Taxi for Sure cab.</div>' +
                       '</div>',
                 itemId: 'homeLabel'
 
