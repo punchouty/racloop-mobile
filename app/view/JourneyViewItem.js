@@ -28,7 +28,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
             var myStatus = record.get("myStatus");
-            console.log("myStatusmyStatusmyStatusmyStatusmyStatus : " + myStatus)
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
