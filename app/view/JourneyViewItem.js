@@ -29,9 +29,9 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
-            console.log("My Status : " + myStatus);
-            console.log("My Pair id : " + myPairId);
-            console.dir(record);
+            //console.log("My Status : " + myStatus);
+            //console.log("My Pair id : " + myPairId);
+            //console.dir(record);
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
@@ -52,7 +52,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {
-                console.log("status : " + myStatus);
+                //console.log("status : " + myStatus);
                 //statusMarkup = '<span class="card-label card-label-blue">' + drivingText + '</span>&nbsp;<span class="card-label card-label-green">' + myStatus + '</span>';
             }
             var html='\

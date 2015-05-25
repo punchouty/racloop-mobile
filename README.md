@@ -190,3 +190,9 @@ Release
 
 * keytool -genkey -v -keystore racloop.keystore -alias racloop -keyalg RSA -validity 10000
 * Got to build.phonegap.com and add key. If error unlock key and rebuild.
+
+Build issue - how to solve
+* Take backup of phonegap folder
+* sencha phonegap init com.racloop Racloop
+* sencha app build testing
+* phonegap serve

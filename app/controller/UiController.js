@@ -138,45 +138,55 @@ Ext.define('Racloop.controller.UiController', {
         var itemCount = this.getJourneyNavigationView().getItems().length;
         if(recordCount == 0) {
             console.log("showMyJourneys: recordCount == 0");
-            if(itemCount == 1) {
-                console.log("showMyJourneys: recordCount == 0 & itemCount == 1");
-                var activeItem = journeyNavigationView.getActiveItem();
-                var journeyEmptyView = this.getJourneyEmptyView();
-                if(activeItem != journeyEmptyView) {
-                    journeyNavigationView.removeAll(false, true);
-                    journeyNavigationView.push({
-                        title : Config.tabMyJourneys,
-                        xtype : "journeyEmptyView"
-                    });
-                }
-            }
-            else {
-                console.log("showMyJourneys: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
-                journeyNavigationView.removeAll(false, true);
-                journeyNavigationView.push({
-                    title : Config.tabMyJourneys,
-                    xtype : "journeyEmptyView"
-                });
-            }
+            journeyNavigationView.removeAll(false, true);
+            journeyNavigationView.push({
+                //title : Config.tabMyJourneys,
+                xtype : "journeyEmptyView"
+            });
+            //if(itemCount == 1) {
+            //    console.log("showMyJourneys: recordCount == 0 & itemCount == 1");
+            //    var activeItem = journeyNavigationView.getActiveItem();
+            //    var journeyEmptyView = this.getJourneyEmptyView();
+            //    if(activeItem != journeyEmptyView) {
+            //        journeyNavigationView.removeAll(false, true);
+            //        journeyNavigationView.push({
+            //            title : Config.tabMyJourneys,
+            //            xtype : "journeyEmptyView"
+            //        });
+            //    }
+            //}
+            //else {
+            //    console.log("showMyJourneys: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
+            //    journeyNavigationView.removeAll(false, true);
+            //    journeyNavigationView.push({
+            //        title : Config.tabMyJourneys,
+            //        xtype : "journeyEmptyView"
+            //    });
+            //}
         }
         else {
             console.log("showMyJourneys: recordCount != 0, recordCount : " + recordCount);
-            var journeyView = this.getJourneyView();
-            var activeItem = journeyNavigationView.getActiveItem();
-            var journeyEmptyView = this.getJourneyEmptyView();
-            if(activeItem == journeyEmptyView) {
-                console.log("showMyJourneys: recordCount != 0 && activeItem == journeyEmptyView");
-                journeyNavigationView.removeAll(false, true);
-                journeyNavigationView.push(journeyView);
-            }
-            else if(activeItem != journeyEmptyView) {
-                console.log("showMyJourneys: recordCount != 0 && activeItem != journeyEmptyView");
-                journeyNavigationView.pop();
-            }
-            else {
-                console.log("showMyJourneys: recordCount != 0 && else ");
-            }
-            Ext.ComponentQuery.query('journeyNavigationView #journeyView')[0].refresh();
+            journeyNavigationView.removeAll(false, true);
+            journeyNavigationView.push({
+                //title : Config.tabMyJourneys,
+                xtype : "journeyDataView"
+            });
+            //var journeyView = this.getJourneyView();
+            //var activeItem = journeyNavigationView.getActiveItem();
+            //var journeyEmptyView = this.getJourneyEmptyView();
+            //if(activeItem == journeyEmptyView) {
+            //    console.log("showMyJourneys: recordCount != 0 && activeItem == journeyEmptyView");
+            //    journeyNavigationView.removeAll(false, true);
+            //    journeyNavigationView.push(journeyView);
+            //}
+            //else if(activeItem != journeyEmptyView) {
+            //    console.log("showMyJourneys: recordCount != 0 && activeItem != journeyEmptyView");
+            //    journeyNavigationView.pop();
+            //}
+            //else {
+            //    console.log("showMyJourneys: recordCount != 0 && else ");
+            //}
+            //Ext.ComponentQuery.query('journeyNavigationView #journeyView')[0].refresh();
         }
 
     },
@@ -186,50 +196,60 @@ Ext.define('Racloop.controller.UiController', {
         var recordCount = Ext.getStore('historyStore').getAllCount();
         var itemCount = this.getHistoryNavigationView().getItems().length;
         if(recordCount == 0) {
-            console.log("showHistory: recordCount == 0");
-            if(itemCount == 1) {
-                console.log("showHistory: recordCount == 0 & itemCount == 1");
-                var activeItem = historyNavigationView.getActiveItem();
-                var historyEmptyView = this.getHistoryEmptyView();
-                if(activeItem != historyEmptyView) {
-                    historyNavigationView.removeAll(false, true);
-                    historyNavigationView.push({
-                        title : Config.tabHistory,
-                        xtype : "historyEmptyView"
-                    });
-                }
-                else {
-                    console.log("showHistory: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
-                    historyNavigationView.setActiveItem(historyEmptyView);
-                    historyNavigationView.push({
-                        title : Config.tabHistory,
-                        xtype : "historyEmptyView"
-                    });
-                }
-            }
-            else {
-                console.log("showHistory: recordCount == 0 & itemCount != 1");
-                historyNavigationView.removeAll(false, true);
-                historyNavigationView.push({
-                    title : Config.tabHistory,
-                    xtype : "historyEmptyView"
-                });
-            }
+            historyNavigationView.removeAll(false, true);
+            historyNavigationView.push({
+                //title : Config.tabHistory,
+                xtype : "historyEmptyView"
+            });
+            //console.log("showHistory: recordCount == 0");
+            //if(itemCount == 1) {
+            //    console.log("showHistory: recordCount == 0 & itemCount == 1");
+            //    var activeItem = historyNavigationView.getActiveItem();
+            //    var historyEmptyView = this.getHistoryEmptyView();
+            //    if(activeItem != historyEmptyView) {
+            //        historyNavigationView.removeAll(false, true);
+            //        historyNavigationView.push({
+            //            title : Config.tabHistory,
+            //            xtype : "historyEmptyView"
+            //        });
+            //    }
+            //    else {
+            //        console.log("showHistory: recordCount == 0 & itemCount != 1, itemCount : " + itemCount);
+            //        historyNavigationView.setActiveItem(historyEmptyView);
+            //        historyNavigationView.push({
+            //            title : Config.tabHistory,
+            //            xtype : "historyEmptyView"
+            //        });
+            //    }
+            //}
+            //else {
+            //    console.log("showHistory: recordCount == 0 & itemCount != 1");
+            //    historyNavigationView.removeAll(false, true);
+            //    historyNavigationView.push({
+            //        title : Config.tabHistory,
+            //        xtype : "historyEmptyView"
+            //    });
+            //}
         }
         else {
-            console.log("showHistory: recordCount != 0, recordCount : " + recordCount);
-            var historyView = this.getHistoryView();
-            var activeItem = historyNavigationView.getActiveItem();
-            var historyEmptyView = this.getHistoryEmptyView();
-            if(activeItem == historyEmptyView) {
-                historyNavigationView.removeAll(false, true);
-                historyNavigationView.push(historyView);
-            }
-            else if(activeItem != historyView) {
-                historyNavigationView.pop();
-            }
-            //Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
-            historyView.refresh();
+            historyNavigationView.removeAll(false, true);
+            historyNavigationView.push({
+                //title : Config.tabHistory,
+                xtype : "historyDataView"
+            });
+            //console.log("showHistory: recordCount != 0, recordCount : " + recordCount);
+            //var historyView = this.getHistoryView();
+            //var activeItem = historyNavigationView.getActiveItem();
+            //var historyEmptyView = this.getHistoryEmptyView();
+            //if(activeItem == historyEmptyView) {
+            //    historyNavigationView.removeAll(false, true);
+            //    historyNavigationView.push(historyView);
+            //}
+            //else if(activeItem != historyView) {
+            //    historyNavigationView.pop();
+            //}
+            ////Ext.ComponentQuery.query('historyNavigationView #historyView')[0].refresh();
+            //historyView.refresh();
         }
 
     },

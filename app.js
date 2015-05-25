@@ -68,7 +68,9 @@ Ext.application({
         'VerifySmsForm',
         'EmergencyContactForm',
         'SosView',
-        'JourneyRatingView'
+        'JourneyRatingView',
+        'JourneyDataView',
+        'HistoryDataView'
     ],
 
     controllers: [

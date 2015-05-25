@@ -18,6 +18,8 @@ Ext.define('Racloop.controller.WorkflowController', {
         //another view need to be added here for edit profile
         refs: {
             mainTabs: 'mainTabs',
+            searchNavigationView : 'searchNavigationView',
+            saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
             journeyNavigationView: 'journeyNavigationView',
             acceptButton: "button[action=Accept]",
             rejectButton: "button[action=Reject]",
@@ -73,6 +75,7 @@ Ext.define('Racloop.controller.WorkflowController', {
     },
 
     handleSearchAgainButtonTap : function(item) { //TODO UNCOMMENT BELOW
+        var me = this;
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
         var journeyId = record.get("id");
@@ -86,10 +89,38 @@ Ext.define('Racloop.controller.WorkflowController', {
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     };
-                    journeyNavigationView.push({
-                        title: 'Search Results',
-                        xtype: 'searchResultsDataView'
-                    });
+                    //journeyNavigationView.push({
+                    //    title: 'Search Results',
+                    //    xtype: 'searchResultsDataView'
+                    //});
+                    me.getMainTabs().setActiveItem(me.getSearchNavigationView());
+                    if(data.total.length == 0) {
+                        var componentArray = Ext.ComponentQuery.query("searchResultsEmptyView");
+                        var searchResultsEmptyView = null;
+                        if(componentArray != null && componentArray.length > 0) {
+                            searchResultsEmptyView = componentArray[0];
+                            me.getSearchNavigationView().setActiveItem(searchResultsEmptyView);
+                        }
+                        else {
+                            searchResultsEmptyView = Ext.create('Racloop.view.SearchResultsEmptyView');
+                            me.getSearchNavigationView().push(searchResultsEmptyView);
+                        }
+                    }
+                    else {
+                        var componentArray = Ext.ComponentQuery.query("searchResultsView");
+                        var searchResultsView = null;
+                        if(componentArray != null && componentArray.length > 0) {
+                            searchResultsView = componentArray[0];
+                            me.getSearchNavigationView().setActiveItem(searchResultsView);
+                        }
+                        else {
+                            searchResultsView = Ext.create('Racloop.view.SearchResultsView');
+                            me.getSearchNavigationView().push(searchResultsView);
+                        }
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.isDummy;
+                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    }
                 }
                 else {
                     Ext.Msg.alert('Search Results', 'No Results Found');
@@ -208,7 +239,12 @@ Ext.define('Racloop.controller.WorkflowController', {
                 title: 'Travel Buddies',
                 data: data,
                 defaultType: 'relatedRequestViewItem',
-                useComponents: true
+                useComponents: true,
+                items: {
+                    docked: 'top',
+                    xtype: 'titlebar',
+                    title: "Travel Buddies"
+                }
             });
             journeyNavigationView.push(relatedRequestDataView);
         }

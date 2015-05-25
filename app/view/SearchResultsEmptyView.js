@@ -13,7 +13,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
 
     config: {
         items: [{
-            title: 'Welcome',
+            title: 'Search Results',
             xtype: 'panel',
             layout: 'vbox',
             items: [{

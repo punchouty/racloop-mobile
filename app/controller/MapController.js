@@ -257,8 +257,9 @@ Ext.define('Racloop.controller.MapController', {
                 var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 var mapOptions = {
                     center: latlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 14
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    //,
+                    //zoom: 14
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
@@ -332,8 +333,9 @@ Ext.define('Racloop.controller.MapController', {
                 var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 var mapOptions = {
                     center: latlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoom: 14
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    //,
+                    //zoom: 14
                 };
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);

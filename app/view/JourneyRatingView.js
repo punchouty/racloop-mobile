@@ -8,7 +8,7 @@ Ext.define('Racloop.view.JourneyRatingView', {
         'Ext.Button',
         'Ext.Label',
         'Ext.layout.HBox',
-        'Ext.TitleBar',
+        'Ext.TitleBar'
     ],
 
     config: {
