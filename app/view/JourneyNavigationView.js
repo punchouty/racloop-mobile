@@ -4,29 +4,13 @@ Ext.define('Racloop.view.JourneyNavigationView', {
     alias : 'widget.journeyNavigationView',
 
     requires: [
-        'Ext.DataView',
-        'Racloop.store.Journeys',
-        'Racloop.view.JourneyViewItem',
+        'Racloop.view.MyJourneyView',
         'Racloop.util.Config'
     ],
     config: {
         items: [{
-            title: Config.tabMyJourneys,
-            itemId: 'journeyView',
-            xtype: 'dataview',
-            fullscreen: true,
-            defaultType: 'journeyViewItem',
-            useComponents: true,
-//            animation: {
-//                duration: 3000,
-//                easing: 'ease-in-out',
-//                type: 'slide',
-//                direction: 'right'
-//            },
-            scrollable: {
-                direction: 'vertical'
-            },
-            store: "journeyStore"
+            title : Config.tabMyJourneys,
+            xtype : 'myJourneyView'
         }]
     }
 });

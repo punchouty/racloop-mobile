@@ -5,12 +5,6 @@ Ext.define('Racloop.controller.WorkflowController', {
         'Racloop.view.JourneyNavigationView',
         'Racloop.view.JourneyViewItem',
         'Racloop.util.LoginHelper',
-
-        //'Racloop.view.IncomingRequestList',
-        //'Racloop.view.OutgoingRequestList',
-        'Racloop.view.IncomingRequestViewItem',
-        'Racloop.view.OutgoingRequestViewItem',
-
         'Racloop.model.EditProfile'
     ],
 
@@ -20,45 +14,16 @@ Ext.define('Racloop.controller.WorkflowController', {
             mainTabs: 'mainTabs',
             searchNavigationView : 'searchNavigationView',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
-            journeyNavigationView: 'journeyNavigationView',
-            acceptButton: "button[action=Accept]",
-            rejectButton: "button[action=Reject]",
-            cancelButton: "button[action=Cancel]"
+            journeyNavigationView: 'journeyNavigationView'
 
         },
         control: {
-//           incomingButton: {
-//                 tap: 'onInComingButtonTap'
-//            },
-//            outgoingButton: {
-//                 tap: 'onOutGoingButtonTap'
-//            },
-            acceptButton: {
-                tap: 'acceptButtonTap'
-            },
-            rejectButton: {
-                tap: 'rejectButtonTap'
-            },
-            cancelButton: {
-                tap: 'cancelButtonTap'
-            },
             'journeyViewItem': {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
                 viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
                 travelBuddiesButtonTap : 'handleTravelBuddiesButtonTap'
-                //,
-                //
-                //incomingButtonTap: 'handleInComingButtonTap',
-                //outgoingButtonTap: 'handleOutGoingButtonTap'
             },
-            //'IncomingRequestItem': {
-            //    myAcceptButtonTap: 'acceptButtonTap',
-            //    myRejectButtonTap:  'rejectButtonTap'
-            //},
-            //'OutgoingRequestItem': {
-            //    myCancelButtonTap: 'cancelButtonTap'
-            //},
             'relatedRequestViewItem': {
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
@@ -235,8 +200,22 @@ Ext.define('Racloop.controller.WorkflowController', {
         var data = record.get("relatedJourneys");
         var relatedRequestDataView ;
         if (data.length>0) {
-            relatedRequestDataView = Ext.create('Ext.DataView', {
+            //relatedRequestDataView = Ext.create('Ext.DataView', {
+            //    title: 'Travel Buddies',
+            //    data: data,
+            //    defaultType: 'relatedRequestViewItem',
+            //    useComponents: true
+            //    //,
+            //    //items: {
+            //    //    docked: 'top',
+            //    //    xtype: 'titlebar',
+            //    //    title: "Travel Buddies"
+            //    //}
+            //});
+            //journeyNavigationView.push(relatedRequestDataView);
+            journeyNavigationView.push({
                 title: 'Travel Buddies',
+                xtype : "dataview",
                 data: data,
                 defaultType: 'relatedRequestViewItem',
                 useComponents: true,
@@ -246,53 +225,11 @@ Ext.define('Racloop.controller.WorkflowController', {
                     title: "Travel Buddies"
                 }
             });
-            journeyNavigationView.push(relatedRequestDataView);
         }
         else {
             Ext.Msg.alert("No data Available", "No incoming requests against this journey");
         }
     },
-
-    //
-    //handleInComingButtonTap: function(item) {
-    //    var journeyNavigationView = this.getJourneyNavigationView();
-    //    var record = item.getRecord();
-    //    var data = record.get("incomingRequests");
-    //    var incomingRequest;
-    //    if (data.length>0) {
-    //        incomingRequest= Ext.create('Ext.DataView', {
-    //            title: 'Incoming Requests',
-    //            data: data,
-    //            defaultType: 'incomingRequestViewItem',
-    //            useComponents: true
-    //        });
-    //        journeyNavigationView.push(incomingRequest);
-    //    }
-    //    else {
-    //        Ext.Msg.alert("No data Available", "No incoming requests against this journey");
-    //    }
-    //},
-    //handleOutGoingButtonTap: function(item) {
-    //    var journeyNavigationView = this.getJourneyNavigationView();
-    //    var record = item.getRecord();
-    //    var data = record.get("outgoingRequests");
-    //    var outgoingRequest;
-    //    if (data.length>0) {
-    //        outgoingRequest = Ext.create('Ext.DataView', {
-    //            title: 'Outgoing Requests',
-    //            fullscreen: true,
-    //            itemTpl: '{name}',
-    //            itemId: 'myJourneyOutgoingRequestView',
-    //            data: data,
-    //            defaultType: 'outgoingRequestViewItem',
-    //            useComponents: true
-    //        });
-    //        journeyNavigationView.push(outgoingRequest);
-    //    }
-    //    else {
-    //        Ext.Msg.alert("No data Available", "You haven't requested any one yet against this journey");
-    //    }
-    //},
 
     handleAcceptButtonTap : function(item) {
         console.log('AcceptButton clicked');

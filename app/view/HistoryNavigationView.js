@@ -12,21 +12,7 @@ Ext.define('Racloop.view.HistoryNavigationView', {
     config: {
         items: [{
             title: Config.tabHistory,
-            xtype: 'dataview',
-            itemId: 'historyView',
-            fullscreen: true,
-            defaultType: 'historyViewItem',
-            useComponents: true,
-            store: "historyStore",
-//            animation: {
-//                duration: 3000,
-//                easing: 'ease-in-out',
-//                type: 'slide',
-//                direction: 'right'
-//            },
-            scrollable: {
-                direction: 'vertical'
-            }
+            xtype: 'historyView'
         }]
     }
 });

@@ -429,7 +429,6 @@ Ext.define('Racloop.controller.MapController', {
         var currentJourney = LoginHelper.getCurrentJourney();
         if(currentJourney) {
             console.log("MapController - showCurrentJourney - currentJourney exists : ");
-            console.dir(currentJourney);
             me.isWatching = true;
             var fromLatitude = currentJourney.fromLatitude;
             var fromLongitude = currentJourney.fromLongitude;

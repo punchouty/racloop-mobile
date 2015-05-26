@@ -145,7 +145,7 @@ Ext.define('Ext.Map', {
             }
 
             mapOptions.mapTypeId = mapOptions.mapTypeId || gm.MapTypeId.ROADMAP;
-            mapOptions.center = mapOptions.center || new gm.LatLng(37.381592, -122.135672); // Palo Alto
+            mapOptions.center = mapOptions.center || new gm.LatLng(30.696802, 76.766972); // My Home
 
             if (mapOptions.center && mapOptions.center.latitude && !Ext.isFunction(mapOptions.center.lat)) {
                 mapOptions.center = new gm.LatLng(mapOptions.center.latitude, mapOptions.center.longitude);

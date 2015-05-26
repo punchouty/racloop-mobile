@@ -51,12 +51,9 @@ Ext.application({
         //'SettingsMenu',
         'TermsPanel',
         'JourneyNavigationView',
-        'JourneyEmptyView',
         'HistoryNavigationView',
-        'HistoryEmptyView',
         'EditProfileForm',
         'ChangePasswordForm',
-        //'UserSearchList',
         'ForgotPasswordForm',
         //'SearchViewItem',
         'JourneyViewItem',
@@ -64,13 +61,12 @@ Ext.application({
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
         'MapPanel',
-        'OutgoingRequestViewItem',
         'VerifySmsForm',
         'EmergencyContactForm',
         'SosView',
         'JourneyRatingView',
-        'JourneyDataView',
-        'HistoryDataView'
+        'MyJourneyView',
+        'HistoryView'
     ],
 
     controllers: [
@@ -81,8 +77,6 @@ Ext.application({
         'JourneysController',
         'WorkflowController',
         'MapController'
-//        'SearchController',
-//        'ProfileController'
     ],
 
     stores: [

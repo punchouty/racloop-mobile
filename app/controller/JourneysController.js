@@ -4,8 +4,6 @@ Ext.define('Racloop.controller.JourneysController', {
         'Ext.Toast',
         'Racloop.store.Searches',
         'Racloop.view.SearchNavigationView',
-        //'Racloop.view.UserSearchList',
-        //'Racloop.view.SearchViewItem',
         'Racloop.view.SearchResultViewItem',
         'Racloop.view.RequestJourneyPanel',
         'Racloop.view.ExistingJourneyPanel',
@@ -22,13 +20,6 @@ Ext.define('Racloop.controller.JourneysController', {
             saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
             searchResultsView : 'searchResultsView',
-            // RequestJourneyPanel: '#requestPanel',
-            //  SearchForm: 'searchForm',
-            // searchDataView: 'UserSearchList',
-            RequestButton : 'button[action=Request]',
-            SearchListItem : 'SearchDataItem',
-            SendRequestButton :'button[action=SendRequest]',
-            CancelRequestButton : 'button[action=CancelRequest]',
 
             existingJourneyPanel : 'existingJourneyPanel',
             existingJourneyInfoHtmlContainer : 'existingJourneyPanel #existingJourneyInfo',
@@ -66,18 +57,6 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             'existingJourneyKeepOriginalButton' : {
                 tap: 'handleExistingJourneyKeepOriginalButtonTap'
-            },
-
-
-            RequestButton: {
-                tap: 'onRequestButtonTap'
-            },
-            existingSendRequestButton:{
-                tap: 'onexistingSendRequestButtonTap'
-            },
-            'SearchDataItem': {
-                myRequestButtonTap: 'onRequestButtonTap',
-                myCancelButtonTap:  'onCancelButtonTap'
             }
         }
     },
@@ -237,7 +216,7 @@ Ext.define('Racloop.controller.JourneysController', {
         defaultTime.setHours(defaultTime.getHours() + 3);
         var picker = searchForm.down('#searchScreenTime').getPicker();
         searchForm.down('#searchScreenTime').setValue(defaultTime);
-
+        searchForm.down('#searchScreenDate').setValue(defaultTime);
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
 
@@ -250,12 +229,7 @@ Ext.define('Racloop.controller.JourneysController', {
             var datetimeString = dateString + " " + timeString;
             var journeyDate = Ext.Date.parse(datetimeString, format);
             var journeyDateString = Ext.Date.format(journeyDate,'c');
-            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
             searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
-            //var dateString = Ext.Date.format(selectedDate, 'd M y');
-            //var timeString = Ext.Date.format(selectedTime, 'h:i A');
-            //var datetimeString = dateString + " " + timeString;
-            //searchForm.down('field[name=dateOfJourneyString]').setValue(datetimeString);
         }
         console.log("Journey Controller initGoogleElements ends");
     },
@@ -274,7 +248,6 @@ Ext.define('Racloop.controller.JourneysController', {
                     var total = 0;
                     var myroute = results.routes[0];
                     var numberOfLegs = 0;
-                    //console.log("numberOfLegs : " + myroute.legs.length);
                     for ( var i = 0; i < myroute.legs.length; i++) {
                         total += myroute.legs[i].distance.value;
                         var start_location = myroute.legs[i].start_location
@@ -288,7 +261,6 @@ Ext.define('Racloop.controller.JourneysController', {
                             var start_location_step = steps[j].start_location
                             var end_location_step = steps[j].end_location
                             var stepDistance = steps[j].distance.value;
-                            //console.log("start_location_step : " + start_location_step + " end_location_step : " + end_location_step + " stepDistance : " + stepDistance)
                         }
                     }
                     if(numberOfLegs != 1) {
@@ -329,7 +301,6 @@ Ext.define('Racloop.controller.JourneysController', {
             var datetimeString = dateString + " " + timeString;
             var journeyDate = Ext.Date.parse(datetimeString, format);
             var journeyDateString = Ext.Date.format(journeyDate,'c');
-            console.log("datetimeString : " + datetimeString + ", journeyDateString : " + journeyDateString);
             searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
         }
         var now = new Date();
@@ -337,7 +308,6 @@ Ext.define('Racloop.controller.JourneysController', {
         var timeLimitInDays = 7; //in days
         var validStartTime = new Date(now.getTime() + reserveTime * 60000);
         var validStartTimeString = Ext.Date.format(validStartTime, 'c');
-        console.log("validStartTimeString : " + validStartTimeString);
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
 
@@ -370,13 +340,11 @@ Ext.define('Racloop.controller.JourneysController', {
                     var newIsDriver = newJourney.isDriver? "Driver": "Passenger";
                     var existingIsDriver = existingJourney.isDriver? "Driver": "Passenger";
                     var newDate = new Date(newJourney.dateOfJourney);
-                    //var newDate = Ext.Date.add(newDateUnadjusted, Ext.Date.MINUTE, newDateUnadjusted.getTimezoneOffset());
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
                     var newTime = Ext.Date.format(newDate, 'g:i A');
 
                     var existingDate = new Date(existingJourney.dateOfJourney);
-                    //var existingDate = Ext.Date.add(existingDateUnadjusted, Ext.Date.MINUTE, existingDateUnadjusted.getTimezoneOffset());
                     var existingDay = Ext.Date.format(existingDate, 'd');
                     var existingMonth = Ext.Date.format(existingDate, 'F');
                     var existingTime = Ext.Date.format(existingDate, 'g:i A');
@@ -464,7 +432,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     for (var i in jsonObj) {
                         searchStore.add(jsonObj[i]);
                     };
-                    if(data.total.length == 0) {
+                    if(data.total == 0) {
                         var componentArray = Ext.ComponentQuery.query("searchResultsEmptyView");
                         var searchResultsEmptyView = null;
                         if(componentArray != null && componentArray.length > 0) {
@@ -621,38 +589,6 @@ Ext.define('Racloop.controller.JourneysController', {
         if(searchForm != activeItem) this.getSearchNavigationView().pop();
         this.getMainTabs().setActiveItem('searchNavigationView');
         //this.searchJourneys();
-
-    },
-
-    // NOT USED - //CALLED FROM WORKFLOW CONTROLLER
-    handleSearchAgainMyJourneyButtonTap: function(item) {
-        var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
-
-        var dateOfJourney = record.get("dateOfJourney");
-        Ext.ComponentQuery.query('#searchForm #searchScreenDate')[0].setValue(dateOfJourney);
-        Ext.ComponentQuery.query('#searchForm #searchScreenTime')[0].setValue(dateOfJourney);
-
-        var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
-
-        var isDriver = record.get("isDriver");
-        if(isDriver) {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
-        }
-        else {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
-        }
-        var searchForm = this.getSearchForm();
-        var activeItem = this.getSearchNavigationView().getActiveItem();
-        if(searchForm != activeItem) this.getSearchNavigationView().pop();
-        this.getMainTabs().setActiveItem('searchNavigationView');
-        //this.searchButtonTap();
 
     },
 

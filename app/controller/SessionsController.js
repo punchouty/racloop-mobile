@@ -51,7 +51,6 @@ Ext.define('Racloop.controller.SessionsController', {
             });
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
-                console.log(data);
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
                      LoginHelper.setUser(data.data);
