@@ -17,19 +17,10 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
             autoScroll: true
         },
         items: [
-              { 
+           {
                 xtype: 'container',                
                 itemId: 'existingJourneyInfo',
                 html: 'newJourney'                         
-            },{
-                xtype: 'button',
-                text: 'Replace and Search',
-                ui: 'action',
-                iconCls: 'replaceCls',
-                iconMask: true,
-                iconAlign: 'left',
-                margin: 10,
-                itemId: 'existingJourneyReplaceButton'
             },{
                 xtype: 'button',
                 text: 'Keep Original and Search',
@@ -39,6 +30,15 @@ Ext.define('Racloop.view.ExistingJourneyPanel', {
                 iconAlign: 'left',
                 margin: 10,
                 itemId: 'existingJourneyKeepOriginalButton'
+            },{
+                xtype: 'button',
+                text: 'Replace and Search',
+                ui: 'action',
+                iconCls: 'replaceCls',
+                iconMask: true,
+                iconAlign: 'left',
+                margin: 10,
+                itemId: 'existingJourneyReplaceButton'
             }
         ]
     }

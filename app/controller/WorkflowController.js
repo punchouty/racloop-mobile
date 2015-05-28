@@ -218,12 +218,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 xtype : "dataview",
                 data: data,
                 defaultType: 'relatedRequestViewItem',
-                useComponents: true,
-                items: {
-                    docked: 'top',
-                    xtype: 'titlebar',
-                    title: "Travel Buddies"
-                }
+                useComponents: true
             });
         }
         else {

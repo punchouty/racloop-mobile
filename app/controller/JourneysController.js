@@ -18,6 +18,7 @@ Ext.define('Racloop.controller.JourneysController', {
             searchButton : 'searchNavigationView #searchButton',
 
             saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
+            emptySearchResultsHtml : 'searchResultsEmptyView #emptySearchHtml',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
             searchResultsView : 'searchResultsView',
 
@@ -350,7 +351,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     var existingTime = Ext.Date.format(existingDate, 'g:i A');
 
                     var journeyHtml='<div class="card">\
-                                        <span class="colored-text"><h3>Requested Journey</h3></span>\
+                                        <div class="sub-heading">Requested Journey</div>\
                                         <div class="card-info">\
                                             <div class="card-date">\
                                                 <div class="card-day">'+newDay+'</div>\
@@ -382,7 +383,7 @@ Ext.define('Racloop.controller.JourneysController', {
                                     </div>\
                                         \
                                     <div class="card">\
-                                    <span class="colored-text"><h3>Similar Existing Journey</h3></span>\
+                                    <div class="sub-heading">Similar Existing Journey</div>\
                                     <div class="card-info">\
                                         <div class="card-date">\
                                             <div class="card-day">'+existingDay+'</div>\
@@ -411,16 +412,24 @@ Ext.define('Racloop.controller.JourneysController', {
                                         </div>\
                                     </div>\
                                 </div>';
-                    var componentArray = Ext.ComponentQuery.query("existingJourneyPanel");
-                    var existingPanel = null;
-                    if(componentArray != null && componentArray.length > 0) {
-                        existingPanel = componentArray[0];
-                        me.getSearchNavigationView().setActiveItem(existingPanel);
-                    }
-                    else {
-                        existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel');
-                        me.getSearchNavigationView().push(existingPanel);
-                    }
+                    //var componentArray = Ext.ComponentQuery.query("existingJourneyPanel");
+                    //var existingPanel = null;
+                    //if(componentArray != null && componentArray.length > 0) {
+                    //    existingPanel = componentArray[0];
+                    //    me.getSearchNavigationView().setActiveItem(existingPanel);
+                    //}
+                    //else {
+                    //    //existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel');
+                    //    //me.getSearchNavigationView().push(existingPanel);
+                    //    me.getSearchNavigationView().push({
+                    //        xtype: "existingJourneyPanel",
+                    //        title: "Sign In"
+                    //    });
+                    //}
+                    var existingPanel = me.getSearchNavigationView().push({
+                        xtype: "existingJourneyPanel",
+                        title: "Duplicate Request"
+                    });
                     existingPanel.down("#existingJourneyInfo").setHtml(journeyHtml);
                     existingPanel.setPreviousJourney(existingJourney);
                     existingPanel.setNewJourney(newJourney);
@@ -433,31 +442,29 @@ Ext.define('Racloop.controller.JourneysController', {
                         searchStore.add(jsonObj[i]);
                     };
                     if(data.total == 0) {
-                        var componentArray = Ext.ComponentQuery.query("searchResultsEmptyView");
-                        var searchResultsEmptyView = null;
-                        if(componentArray != null && componentArray.length > 0) {
-                            searchResultsEmptyView = componentArray[0];
-                            me.getSearchNavigationView().setActiveItem(searchResultsEmptyView);
-                        }
-                        else {
-                            searchResultsEmptyView = Ext.create('Racloop.view.SearchResultsEmptyView');
-                            me.getSearchNavigationView().push(searchResultsEmptyView);
+                        me.getSearchNavigationView().push({
+                            xtype: "searchResultsEmptyView",
+                            title: "Search Results"
+                        });
+                        if(data.data.hideSaveButton) {
+                            me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                            me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                         }
                     }
                     else {
-                        var componentArray = Ext.ComponentQuery.query("searchResultsView");
-                        var searchResultsView = null;
-                        if(componentArray != null && componentArray.length > 0) {
-                            searchResultsView = componentArray[0];
-                            me.getSearchNavigationView().setActiveItem(searchResultsView);
-                        }
-                        else {
-                            searchResultsView = Ext.create('Racloop.view.SearchResultsView');
-                            me.getSearchNavigationView().push(searchResultsView);
-                        }
+                        var searchResultsView = me.getSearchNavigationView().push({
+                            xtype: "searchResultsView",
+                            title: "Search Results"
+                        });
                         var comp = searchResultsView.getComponent('searchResultsDataViewInner');
                         comp.isDummy = data.isDummy;
-                        me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                        console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                        if(data.data.hideSaveButton) {
+                            me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                        }
+                        else {
+                            me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                        }
                     }
                 }
                 Ext.Viewport.unmask();
@@ -594,70 +601,42 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSaveJourneyTap : function() {
         var me = this;
+        this.getSearchNavigationView().pop();
         var searchNavView = this.getSearchNavigationView();
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                var data = Ext.decode(response.responseText);
-                if (data.success) {
-                    //searchNavView.reset();
-                    var searchStore = Ext.getStore('SearchStore');
-                    searchStore.removeAll();
-                    var jsonObj = data.data.journeys;
-                    for (var i in jsonObj) {
-                        searchStore.add(jsonObj[i]);
-                    };
-                    if(data.total.length == 0) {
-                        var componentArray = Ext.ComponentQuery.query("searchResultsEmptyView");
-                        var searchResultsEmptyView = null;
-                        if(componentArray != null && componentArray.length > 0) {
-                            searchResultsEmptyView = componentArray[0];
-                            me.getSearchNavigationView().setActiveItem(searchResultsEmptyView);
-                        }
-                        else {
-                            searchResultsEmptyView = Ext.create('Racloop.view.SearchResultsEmptyView');
-                            me.getSearchNavigationView().push(searchResultsEmptyView);
-                        }
-                        me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                    }
-                    else {
-                        var componentArray = Ext.ComponentQuery.query("searchResultsView");
-                        var searchResultsView = null;
-                        if(componentArray != null && componentArray.length > 0) {
-                            searchResultsView = componentArray[0];
-                            me.getSearchNavigationView().setActiveItem(searchResultsView);
-                        }
-                        else {
-                            searchResultsView = Ext.create('Racloop.view.SearchResultsView');
-                            me.getSearchNavigationView().push(searchResultsView);
-                        }
-                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                        comp.isDummy = data.isDummy;
-                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                    }
-                    //if(data.total.length == 0) {
-                    //    me.getSearchNavigationView().push({
-                    //        title : 'Search Results',
-                    //        xtype : 'searchResultsEmptyView'
-                    //    });
-                    //}
-                    //else {
-                    //    var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
-                    //    me.getSearchNavigationView().push(searchResultsView);
-                    //    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    //    comp.isDummy = data.isDummy;
-                    //    me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                    //}
-                    Ext.Viewport.unmask();
-                    Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-                } else {
-                    Ext.Viewport.unmask();
-                    Ext.Msg.alert("Search Failure", data.message);
+                //searchNavView.reset();
+                var searchStore = Ext.getStore('SearchStore');
+                searchStore.removeAll();
+                var jsonObj = data.data.journeys;
+                for (var i in jsonObj) {
+                    searchStore.add(jsonObj[i]);
+                };
+                if(data.total == 0) {
+                    me.getSearchNavigationView().push({
+                        xtype: "searchResultsEmptyView",
+                        title: "Search Results"
+                    });
+                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                 }
-            } else {
-                Ext.Msg.alert("Server Failure", data.message);
+                else {
+                    var searchResultsView = me.getSearchNavigationView().push({
+                        xtype: "searchResultsView",
+                        title: "Search Results"
+                    });
+                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                    comp.isDummy = data.isDummy;
+                    console.log("handleSaveJourneyTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                }
                 Ext.Viewport.unmask();
+                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+            } else {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Search Failure", data.message);
             }
         };
 
@@ -757,6 +736,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleExistingJourneyReplaceButtonTap: function(button){
         var me = this;
+        me.getSearchNavigationView().pop();
         var searchNavView = this.getSearchNavigationView();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
@@ -772,7 +752,7 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                searchNavView.reset();
+                //searchNavView.reset();
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
                 var jsonObj = data.data.journeys;
@@ -784,24 +764,27 @@ Ext.define('Racloop.controller.JourneysController', {
                         title : 'Search Results',
                         xtype : 'searchResultsEmptyView'
                     });
+                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                 }
                 else {
-                    var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
-                    me.getSearchNavigationView().push(searchResultsView);
-                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    comp.isDummy = data.isDummy;
+                    me.getSearchNavigationView().push({
+                        title : 'Search Results',
+                        xtype : 'searchResultsView'
+                    });
+                    console.log("handleExistingJourneyReplaceButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
                     me.getSaveJourneyButtonInSearchResults().setHidden(true);
                 }
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("Search Failure", data.message);
+                Ext.Msg.alert("Unable to replace", data.message);
             }
         };
         // Failure
         var failureCallback = function(response, ops) {
             Ext.Viewport.unmask();
-            Ext.Msg.alert("Search Failure", response.message);
+            Ext.Msg.alert("Network Failure", response.message);
         };
         Ext.Viewport.mask({
             xtype: 'loadmask',
@@ -817,10 +800,11 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             params: Ext.JSON.encode({
                 dateOfJourneyString: newJourney.dateOfJourneyString,
-                fromPlace: newJourney.fromPlace,
+                validStartTimeString : newJourney.validStartTimeString,
+                from: newJourney.from,
                 fromLatitude: newJourney.fromLatitude,
                 fromLongitude: newJourney.fromLongitude,
-                toPlace: newJourney.toPlace,
+                to: newJourney.to,
                 toLatitude: newJourney.toLatitude,
                 toLongitude: newJourney.toLongitude,
                 isDriver: newJourney.isDriver,
@@ -835,14 +819,13 @@ Ext.define('Racloop.controller.JourneysController', {
     },
     handleExistingJourneyKeepOriginalButtonTap: function(button){
         var me = this;
-        var searchNavView = this.getSearchNavigationView();
+        me.getSearchNavigationView().pop();
         var existingJourneyPanel = this.getExistingJourneyPanel();
         var existingJourney = existingJourneyPanel.getPreviousJourney();
         var existingJourneyId = existingJourney.id;
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                searchNavView.reset();
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
                 var jsonObj = data.data.journeys;
@@ -854,12 +837,15 @@ Ext.define('Racloop.controller.JourneysController', {
                         title : 'Search Results',
                         xtype : 'searchResultsEmptyView'
                     });
+                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                 }
                 else {
-                    var searchResultsView = Ext.ComponentManager.create({title : 'Search Results'}, 'searchResultsView');
-                    me.getSearchNavigationView().push(searchResultsView);
-                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    comp.isDummy = data.isDummy;
+                    me.getSearchNavigationView().push({
+                        title : 'Search Results',
+                        xtype : 'searchResultsView'
+                    });
+                    console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
                     me.getSaveJourneyButtonInSearchResults().setHidden(true);
                 }
                 Ext.Viewport.unmask();

@@ -12,7 +12,7 @@
                     // To properly use this you must set the following properties in your local.properties file (if this file does not exist create it in your app root)
                     // phonegap.remote.username=myname@domain.com
                     // phonegap.remote.password=mys3cr3tp@ssw0rd
-                    "remote":true,
+                    //"remote":true,
                     "platform": "android",
                     "id": "com.racloop.mobile",
                     "name": "Racloop"

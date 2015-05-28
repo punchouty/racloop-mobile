@@ -28,9 +28,6 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
 
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
-            console.log("My Status : " + myStatus);
-            console.log("My Pair id : " + myPairId);
-            console.dir(record);
             userName = record.get("name");
             if (record.get("isDriver")){
                 drivingText="Driving";

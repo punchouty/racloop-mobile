@@ -13,7 +13,6 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
 
     config: {
         items: [{
-            title: 'Search Results',
             xtype: 'panel',
             layout: 'vbox',
             items: [{
@@ -25,7 +24,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                         '<div class="colored-line"></div>' +
                         '<div class="sub-heading">Save your search so that other can find you.</div>' +
                       '</div>',
-                itemId: 'homeLabel'
+                itemId: 'emptySearchHtml'
 
             }, {
                 xtype: 'button',

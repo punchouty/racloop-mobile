@@ -28,6 +28,13 @@ Ext.define('Racloop.util.Config', {
         tabNotifications : 'Notifications',
         tabSettings : 'Settings',
         tabSos : 'SOS!',
+        zeroResultsHtml : '<div class="section-header">' +
+                            '<div class="small-text-medium uppercase colored-text">' +
+                            'No Results Found' +
+                            '</div>' +
+                            '<div class="colored-line"></div>' +
+                            '<div class="sub-heading">We got your request and We connect with you soon.</div>' +
+                            '</div>',
         //encryption for storage
         quote : 'believe you can',
         cypherJsonFormatter : {

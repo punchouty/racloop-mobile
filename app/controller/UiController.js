@@ -89,8 +89,9 @@ Ext.define('Racloop.controller.UiController', {
         }
         else if(button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
-            var activeItem = this.getSearchNavigationView().getActiveItem();
-            if(searchForm != activeItem) this.getSearchNavigationView().pop();
+            this.getSearchNavigationView().reset();
+            //var activeItem = this.getSearchNavigationView().getActiveItem();
+            //if(searchForm != activeItem) this.getSearchNavigationView().pop();
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
         }
         else if(button.getTitle() === Config.tabSettings) {
@@ -145,8 +146,9 @@ Ext.define('Racloop.controller.UiController', {
         }
         else {
             console.log("showMyJourneys: recordCount != 0 : " + recordCount);
-            journeyDataView.refresh();
+            journeyDataView.setHidden(false);
             journeyEmptyView.setHidden(true);
+            journeyDataView.refresh();
         }
 
     },
