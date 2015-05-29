@@ -27,11 +27,8 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
-            var myStatus = record.get("myStatus");
+            var myStatus = record.get("statusAsParent");
             var myPairId = record.get("myPairId");
-            //console.log("My Status : " + myStatus);
-            //console.log("My Pair id : " + myPairId);
-            //console.dir(record);
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
@@ -49,7 +46,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
                 buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>';
-                buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
+                buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {
                 //console.log("status : " + myStatus);
