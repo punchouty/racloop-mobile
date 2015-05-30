@@ -197,59 +197,63 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleTravelBuddiesButtonTap : function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var record = item.getRecord();
-        var data = record.get("relatedJourneys");
-        var relatedRequestDataView ;
-        if (data.length>0) {
-            //relatedRequestDataView = Ext.create('Ext.DataView', {
-            //    title: 'Travel Buddies',
-            //    data: data,
-            //    defaultType: 'relatedRequestViewItem',
-            //    useComponents: true
-            //    //,
-            //    //items: {
-            //    //    docked: 'top',
-            //    //    xtype: 'titlebar',
-            //    //    title: "Travel Buddies"
-            //    //}
-            //});
-            //journeyNavigationView.push(relatedRequestDataView);
-            journeyNavigationView.push({
-                title: 'Travel Buddies',
-                xtype : "dataview",
-                data: data,
-                defaultType: 'relatedRequestViewItem',
-                useComponents: true
-            });
-        }
-        else {
-            Ext.Msg.alert("No data Available", "No incoming requests against this journey");
-        }
+        var journeyId = record.get("id");
+        var numberOfCopassengers = record.get("numberOfCopassengers");
+        console.log(journeyId + " : " + numberOfCopassengers);
+
+        Ext.getStore('childJourneyStore').load({
+            params:{
+                journeyId :journeyId
+            },
+            callback: function(records, operation, success) {
+                if(records.length > 0) {
+                    journeyNavigationView.push({
+                        title: 'Travel Buddies',
+                        xtype : "dataview",
+                        defaultType: 'relatedRequestViewItem',
+                        useComponents: true,
+                        scrollable: {
+                            direction: 'vertical'
+                        },
+                        store: "childJourneyStore"
+                    });
+                }
+                else {
+                    Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+                }
+            },
+            scope: this
+        });
     },
 
     handleAcceptButtonTap : function(item) {
         console.log('AcceptButton clicked');
-        // var record = button.up().getRecord();
-        // Ext.Msg.alert("Mobile No. is :-"+record.get("mobile"));
         var record = item.getRecord();
         var journeyId = record.get("id");
-        //var journeyList = this.getJourneyList();
-        
+        var journeyPairId = record.get("myPairId");
+
+        var dataGrid = item.up().up();
+
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                //Ext.Msg.alert("Request Successful " + data.message);
-                //Ext.getStore('journeyStore').load();
-                //journeyList.pop();
-                // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Accepted</div><div class="name">'+mobile+'</div>');
-                // button.up().down('button[action="Accept"]').hide();
-                // button.up().down('button[action="Reject"]').show();
+                Ext.getStore('childJourneyStore').load({
+                    params:{
+                        journeyId :journeyId
+                    },
+                    callback: function(records, operation, success) {
+                        dataGrid.refresh();
+                        Ext.toast({message: "Request is Accepted", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    },
+                    scope: this
+                });
                 Ext.Viewport.unmask();
             } else {
-                Ext.Msg.alert("Request Failure", data.message);
+                Ext.Msg.alert("Unable to Accept", data.message);
                 Ext.Viewport.unmask();
             }
         };
-        
+
         // Failure
         var failureCallback = function(response, ops) {
             Ext.Msg.alert("Request Accept Failure", response.message);
@@ -263,43 +267,46 @@ Ext.define('Racloop.controller.WorkflowController', {
             message: 'Sending Request...'
         });
        
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_ACCEPTREQUEST,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    journeyId: journeyId
-                }),
-                //params: values, //TODO need to uncomment it
-                success: successCallback,
-                failure: failureCallback
-            });
-        
-
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_ACCEPTREQUEST,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                journeyPairId : journeyPairId
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
 
     },
 
     handleRejectButtonTap: function(item) {
-        console.log('RejectButton clicked');
+        console.log('AcceptButton clicked');
         var record = item.getRecord();
         var journeyId = record.get("id");
-        //var journeyList = this.getJourneyList();
+        var journeyPairId = record.get("myPairId");
+
+        var dataGrid = item.up().up();
+
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('Request success during launch : ' + response.responseText);
             if (data.success) {
-                //Ext.Msg.alert("Request Successful " + data.message);
-                //Ext.getStore('journeyStore').load();
-                //journeyList.pop();
-                // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Rejected</div>');
-                // button.up().down('button[action="Accept"]').show();
-                // button.up().down('button[action="Reject"]').hide();
+                Ext.getStore('childJourneyStore').load({
+                    params:{
+                        journeyId :journeyId
+                    },
+                    callback: function(records, operation, success) {
+                        dataGrid.refresh();
+                        Ext.toast({message: "Request is Rejected", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    },
+                    scope: this
+                });
                 Ext.Viewport.unmask();
             } else {
-                Ext.Msg.alert("Request Failure", data.message);
+                Ext.Msg.alert("Unable to Reject", data.message);
                 Ext.Viewport.unmask();
             }
         };
@@ -311,85 +318,94 @@ Ext.define('Racloop.controller.WorkflowController', {
 
         };
 
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        if (Racloop.util.Config.debug) {
-            successCallbackDebug();
-        } else {
-            Ext.Ajax.request({
-                url: Config.url.RACLOOP_REJECTREQUEST,
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: Ext.JSON.encode({
-                    journeyId: journeyId
-                }),
-                //params: values, //TODO need to uncomment it
-                success: successCallback,
-                failure: failureCallback
-            });
+        var yesNoHandler = function(yesNo) {
+            if(yesNo === "yes") {
+                Ext.Viewport.mask({
+                    xtype: 'loadmask',
+                    indicator: true,
+                    message: 'Cancelling Request...'
+                });
+                Ext.Ajax.request({
+                    url: Config.url.RACLOOP_REJECTREQUEST,
+                    withCredentials: true,
+                    useDefaultXhrHeader: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    params: Ext.JSON.encode({
+                        journeyPairId: journeyPairId
+                    }),
+                    success: successCallback,
+                    failure: failureCallback
+                });
+            }
         }
-
-
-
+        Ext.Msg.confirm("Confirmation", "Are you sure you want to Reject?", yesNoHandler);
     },
 
     handleCancelButtonTap: function(item) {
         console.log('CancelButton clicked');
-        // console.log("request");
         var record = item.getRecord();
         var journeyId = record.get("id");
-        //var journeyList = this.getJourneyList();
-        // Ext.Msg.alert(record.get('name'));
+        var journeyPairId = record.get("myPairId");
+
+        var dataGrid = item.up().up();
+
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
-            console.log('Request success during launch : ' + response.responseText);
             if (data.success) {
-                //Ext.Msg.alert("Request Successful " + data.message);
-                //Ext.getStore('journeyStore').load();
-                //journeyList.pop();
-                // button.up().down("#statusCmp").setHtml('<div class="name"><b>Status</b></div><div class="name">Cancelled By Requester</div>');
-                //  button.up().down('button[action="Cancel"]').hide();
+                Ext.getStore('childJourneyStore').load({
+                    params:{
+                        journeyId :journeyId
+                    },
+                    callback: function(records, operation, success) {
+                        dataGrid.refresh();
+                        Ext.toast({message: "Request Cancelled", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    },
+                    scope: this
+                });
                 Ext.Viewport.unmask();
             } else {
-                Ext.Msg.alert("Request Failure", data.message);
+                Ext.Msg.alert("Unable to Cancel", data.message);
                 Ext.Viewport.unmask();
             }
         };
-        
-        // Failure
+
         var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Request Cancellation Failure", response.message);
+            Ext.Msg.alert("Cancel request Failure", response.message);
             Ext.Viewport.unmask();
 
         };
 
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_CANCELREQUEST,
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
-                journeyId: journeyId
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
+        var yesNoHandler = function(yesNo) {
+            if(yesNo === "yes") {
+                Ext.Viewport.mask({
+                    xtype: 'loadmask',
+                    indicator: true,
+                    message: 'Cancelling Request...'
+                });
+                Ext.Ajax.request({
+                    url: Config.url.RACLOOP_CANCELREQUEST,
+                    withCredentials: true,
+                    useDefaultXhrHeader: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    params: Ext.JSON.encode({
+                        journeyPairId: journeyPairId
+                    }),
+                    success: successCallback,
+                    failure: failureCallback
+                });
+            }
+        }
+        Ext.Msg.confirm("Confirmation", "Are you sure you want to cancel your request?", yesNoHandler);
     },
 
     handleCallButtonTap : function(item) {
-
+        var record = item.getRecord();
+        var mobile = record.get("mobile");
+        console.log(mobile);
+        window.location = 'tel:'+mobile;
     }
 });

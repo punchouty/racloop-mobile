@@ -24,13 +24,17 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
         var drivingText="Need Lift";
         var cardMain = "";
         if (record != null) {
+            console.log("relatedRequestItem")
             console.dir(record);
 
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
             userName = record.get("name");
             if (record.get("isDriver")){
-                drivingText="Driving";
+                drivingText="Cab Coordinator";
+            }
+            else {
+                drivingText="Need Ride";
             }
             var date = new Date(record.get("dateOfJourney"));
             var day = Ext.Date.format(date, 'd');
@@ -41,13 +45,32 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
                 imgSrc=record.get("photoUrl");
              }
              else {
-                 imgSrc="http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128";
+                 imgSrc="http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
              }
-            var statusMarkup = '<span class="card-label card-label-blue">Active</span>';
+            var statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
             var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' +
                 '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
                 '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
                 '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+            if(myStatus === "Requested") {
+                buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>';
+            }
+            else if(myStatus === "Request Recieved") {
+                buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  '+
+                '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+            }
+            else if(myStatus === "Cancelled") {
+                buttonMarkup = '';
+                statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
+            }
+            else if(myStatus === "Accepted") {
+                buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
+                '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+            }
+            else if(myStatus === "Rejected") {
+                statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
+                buttonMarkup = '';
+            }
 
             html=
                 '<div class="card">\
@@ -65,10 +88,13 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
                             </div>\
                             <div>\
                                 <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>\
+                            </div>\
+                            <div>\
                                 <span class="card-time">  ' + statusMarkup + '</span>\
                             </div>\
                         </div>\
                     </div>\
+                    \
                     <div class="card-footer">\
                         <div class="card-footer-row">\
                             <span class="card-location-label">From :</span>\

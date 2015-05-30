@@ -21,7 +21,8 @@ Ext.define('Racloop.view.JourneyViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
-            var numberOfCopassengers = 0;
+            console.log("JourneyViewItem");
+            console.dir(record);
             var drivingText = '';
             var dateOfJourney = record.get("dateOfJourney");
             var day = Ext.Date.format(dateOfJourney, 'd');
@@ -29,23 +30,24 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
             var myStatus = record.get("statusAsParent");
             var myPairId = record.get("myPairId");
-            if(record.get("numberOfCopassengers")) {
-                numberOfCopassengers = record.get("numberOfCopassengers");
-            }
+            var numberOfCopassengers = record.get("numberOfCopassengers");
             if(record.get("isDriver")) {
-                drivingText = "I arranged car";
+                drivingText = "Cab Coordinator";
             }
             else {
                 drivingText = "I need a Ride";
             }
-            var statusMarkup = '<span class="card-label card-label-blue">' + drivingText + '</span>';
-            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>  ' +
+            var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>'
+            if(numberOfCopassengers > 0) {
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+            }
+            var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
+            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>  ' +
                 '<button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>';
-            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>  ' +
-                '<button  class="racloop-btn racloop-btn-success travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-success searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
-                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Maps</button>';
+                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>';
                 buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {

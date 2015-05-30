@@ -138,7 +138,7 @@ Ext.define('Racloop.controller.UiController', {
         var journeyDataView = this.getJourneyDataView();
         var journeyEmptyView = this.getJourneyEmptyView();
         var recordCount = Ext.getStore('journeyStore').getAllCount();
-        var itemCount = this.getJourneyNavigationView().getItems().length;
+        this.getJourneyNavigationView().reset();
         if(recordCount == 0) {
             console.log("showMyJourneys: recordCount == 0");
             journeyEmptyView.setHidden(false);

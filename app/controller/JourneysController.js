@@ -412,20 +412,6 @@ Ext.define('Racloop.controller.JourneysController', {
                                         </div>\
                                     </div>\
                                 </div>';
-                    //var componentArray = Ext.ComponentQuery.query("existingJourneyPanel");
-                    //var existingPanel = null;
-                    //if(componentArray != null && componentArray.length > 0) {
-                    //    existingPanel = componentArray[0];
-                    //    me.getSearchNavigationView().setActiveItem(existingPanel);
-                    //}
-                    //else {
-                    //    //existingPanel = Ext.create('Racloop.view.ExistingJourneyPanel');
-                    //    //me.getSearchNavigationView().push(existingPanel);
-                    //    me.getSearchNavigationView().push({
-                    //        xtype: "existingJourneyPanel",
-                    //        title: "Sign In"
-                    //    });
-                    //}
                     var existingPanel = me.getSearchNavigationView().push({
                         xtype: "existingJourneyPanel",
                         title: "Duplicate Request"
@@ -607,31 +593,42 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
+                Ext.getStore('journeyStore').load({
+                    callback: function(records, operation, success) {
+                        me.getMainTabs().setActiveItem('journeyNavigationView');
+                        Racloop.app.getController('UiController').showMyJourneys();
+                    },
+                    scope: this
+                });
                 //searchNavView.reset();
-                var searchStore = Ext.getStore('SearchStore');
-                searchStore.removeAll();
-                var jsonObj = data.data.journeys;
-                for (var i in jsonObj) {
-                    searchStore.add(jsonObj[i]);
-                };
-                if(data.total == 0) {
-                    me.getSearchNavigationView().push({
-                        xtype: "searchResultsEmptyView",
-                        title: "Search Results"
-                    });
-                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                }
-                else {
-                    var searchResultsView = me.getSearchNavigationView().push({
-                        xtype: "searchResultsView",
-                        title: "Search Results"
-                    });
-                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                    comp.isDummy = data.isDummy;
-                    console.log("handleSaveJourneyTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                }
+                //var searchStore = Ext.getStore('SearchStore');
+                //searchStore.removeAll();
+                //var jsonObj = data.data.journeys;
+                //for (var i in jsonObj) {
+                //    searchStore.add(jsonObj[i]);
+                //};
+                //if(data.total == 0) {
+                //    //var searchResultsEmptyView = me.getSearchNavigationView().push({
+                //    //    xtype: "searchResultsEmptyView",
+                //    //    title: "Search Results"
+                //    //});
+                //    //me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                //    //me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                //    //searchResultsEmptyView.getComponent("emptySearchHtml").setHtml(Config.zeroResultsHtml);
+                //    //if(data.data.hideSaveButton) {
+                //    //    searchResultsEmptyView.getComponent("saveJourneyButton").setHidden(true);
+                //    //}
+                //}
+                //else {
+                //    var searchResultsView = me.getSearchNavigationView().push({
+                //        xtype: "searchResultsView",
+                //        title: "Search Results"
+                //    });
+                //    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                //    comp.isDummy = data.isDummy;
+                //    console.log("handleSaveJourneyTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                //    me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                //}
                 Ext.Viewport.unmask();
                 Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {

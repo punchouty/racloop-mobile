@@ -59,14 +59,14 @@ Ext.define('Racloop.view.SearchNavigationView', {
                 }, {
                     xtype: 'selectfield',
                     itemId: 'driverHitcherSelectField',
-                    label: 'You will?',
+                    label: 'I am',
                     options: [{
-                        text: 'Need a Ride.',
-                        value: 'hitcher'
+                        text: 'Cab Coordinator',
+                        value: 'driver'
                     },
                     {
-                        text: 'Arrange a Car',
-                        value: 'driver'
+                        text: 'Passenger',
+                        value: 'hitcher'
                     }],
                     listeners: {
                         change: function(field, newValue) {

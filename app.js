@@ -81,6 +81,7 @@ Ext.application({
 
     stores: [
         'Journeys',
+        'ChildJourneys',
         'Searches',
         'History'
     ],

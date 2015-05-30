@@ -41,42 +41,13 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var cardControl = '';
             if (record.get("isDriver")) {
                 legend = "C";
-                legendText = "Car Owner";
+                legendText = "Coordinator";
                 buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
             }
             else {
                 legend = "P";
                 legendText = "Passenger";
                 buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
-            }
-            if (record.get("workflow") != null) {
-                if (record.get("workflow").state.toLowerCase().indexOf("new") > -1) {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-warning cancelSearchRequestButton">Cancel</button>';
-                    labelHtml = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>';
-
-                    cardControl = '<span class="card-label card-label-green">' + record.get("workflow").state + '</span>\
-                                <span class="card-control">\
-                                <button class="racloop-btn racloop-btn-warning cancelSearchRequestButton">Cancel</button>\
-                                </span>';
-                }
-                else if (record.get("workflow").state.toLowerCase().indexOf("cancelled") > -1) {
-                    buttonHtml = "";
-                    labelHtml = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-
-                    cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-                } else if (record.get("workflow").state.toLowerCase().indexOf("accepted") > -1) {
-                    buttonHtml = "";
-                    labelHtml = '<span class="card-label card-label-blue">' + record.get("workflow").state + '</span>';
-
-                    cardControl = '<span class="card-label card-label-blue">' + record.get("workflow").state + '</span>';
-                } else if (record.get("workflow").state.toLowerCase().indexOf("rejected") > -1) {
-                    buttonHtml = "";
-                    labelHtml = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-
-                    cardControl = '<span class="card-label card-button-red">' + record.get("workflow").state + '</span>';
-                }
-            } else {
-
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
             if (record.get("photoUrl") != null) {

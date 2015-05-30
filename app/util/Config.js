@@ -33,7 +33,7 @@ Ext.define('Racloop.util.Config', {
                             'No Results Found' +
                             '</div>' +
                             '<div class="colored-line"></div>' +
-                            '<div class="sub-heading">We got your request and We connect with you soon.</div>' +
+                            '<div class="sub-heading">We got your request and We will connect with you soon.</div>' +
                             '</div>',
         //encryption for storage
         quote : 'believe you can',
@@ -96,6 +96,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/app/journeyMobile/searchAgain';
@@ -129,6 +130,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/journeyMobile/searchAgain';
@@ -162,6 +164,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://' + ip + ':8080/app/userMobile/sendUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/journeyMobile/searchAgain';
