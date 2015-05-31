@@ -829,7 +829,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 for (var i in jsonObj) {
                     searchStore.add(jsonObj[i]);
                 };
-                if(data.total.length == 0) {
+                if(data.total == 0) {
                     me.getSearchNavigationView().push({
                         title : 'Search Results',
                         xtype : 'searchResultsEmptyView'
