@@ -33,6 +33,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var dateOfJourney = new Date(record.get("dateOfJourney"));
             //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
             var dateString = Ext.Date.format(dateOfJourney, 'j M, Y, g:i a');
+             var myStatus = record.get("myStatus");
             var legend = "";
             var legendText = "";
             var buttonHtml = "";
@@ -42,12 +43,44 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             if (record.get("isDriver")) {
                 legend = "C";
                 legendText = "Coordinator";
-                buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+                if(myStatus === "Requested") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Requested</</button>';
+                }
+                else if(myStatus === "Request Recieved") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Recieved</</button>';
+                }
+                else if(myStatus === "Cancelled") {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Cancelled</</button>';
+                }
+                else if(myStatus === "Accepted") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Accepted</</button>';
+                }
+                else if(myStatus === "Rejected") {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</</button>';
+                } else {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+                }
             }
             else {
                 legend = "P";
                 legendText = "Passenger";
-                buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
+                if(myStatus === "Requested") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Requested</</button>';
+                }
+                else if(myStatus === "Request Recieved") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Request Recieved</</button>';
+                }
+                else if(myStatus === "Cancelled") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Cancelled</</button>';
+                }
+                else if(myStatus === "Accepted") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
+                }
+                else if(myStatus === "Rejected") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Rejected</</button>';
+                } else {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
+                }
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
             if (record.get("photoUrl") != null) {
