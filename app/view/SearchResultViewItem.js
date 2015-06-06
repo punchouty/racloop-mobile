@@ -49,12 +49,10 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Request Recieved") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Recieved</</button>';
                 }
-                else if(myStatus === "Cancelled") {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Cancelled</</button>';
+                else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>'+ myStatus +'</</button>';
                 }
-                else if(myStatus === "Cancelled by Requester") {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Cancelled by Requester</</button>';
-                }
+               
                 else if(myStatus === "Accepted") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Accepted</</button>';
                 }
@@ -73,12 +71,10 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Request Recieved") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Request Recieved</</button>';
                 }
-                else if(myStatus === "Cancelled") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Cancelled</</button>';
+                else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> '+ myStatus +'</</button>';
                 }
-                else if(myStatus === "Cancelled by Requester") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Cancelled by Requester</</button>';
-                }
+                
                 else if(myStatus === "Accepted") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
                 }
