@@ -392,7 +392,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                         'Content-Type': 'application/json'
                     },
                     params: Ext.JSON.encode({
-                        journeyPairId: journeyPairId
+                        journeyPairId: journeyPairId,
+                        journeyId: journeyId
                     }),
                     success: successCallback,
                     failure: failureCallback

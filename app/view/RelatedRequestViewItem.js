@@ -63,6 +63,10 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
                 buttonMarkup = '';
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
             }
+            else if(myStatus === "Cancelled by Requester") {
+                buttonMarkup = '';
+                statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
+            }
             else if(myStatus === "Accepted") {
                 buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
                 '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';

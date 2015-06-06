@@ -52,6 +52,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Cancelled") {
                     buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Cancelled</</button>';
                 }
+                else if(myStatus === "Cancelled by Requester") {
+                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Cancelled by Requester</</button>';
+                }
                 else if(myStatus === "Accepted") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Accepted</</button>';
                 }
@@ -72,6 +75,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 }
                 else if(myStatus === "Cancelled") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Cancelled</</button>';
+                }
+                else if(myStatus === "Cancelled by Requester") {
+                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Cancelled by Requester</</button>';
                 }
                 else if(myStatus === "Accepted") {
                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
