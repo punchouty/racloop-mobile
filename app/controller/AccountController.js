@@ -210,9 +210,10 @@ Ext.define('Racloop.controller.AccountController', {
         var verificationCode = Ext.ComponentQuery.query('#verificationCode')[0].getValue();
         var isMobileValid = false;
         var isVerificationCodeValid = false;
-        if(mobile != null && mobile.length === 10) {
+        console.log(mobile + " : mobile.length : " + mobile.length);
+        if(mobile != null && mobile.length == 10) {
             isMobileValid = true;
-            if(verificationCode != null && verificationCode.length === 6) {
+            if(verificationCode != null && verificationCode.length == 6) {
                 isVerificationCodeValid = true;
             }
             else {
