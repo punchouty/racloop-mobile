@@ -36,55 +36,71 @@ Ext.define('Racloop.view.SearchResultViewItem', {
              var myStatus = record.get("myStatus");
             var legend = "";
             var legendText = "";
-            var buttonHtml = "";
+            var buttonMarkup = "";
             var labelHtml = "";
             var imgSrc = '';
             var cardControl = '';
+            var statusMarkup = '<span class="card-label card-label-blue"> New </span>';
+            if(status != null) {
+                statusMarkup = '<span class="card-label card-label-blue">' + myStatus + '</span>';
+            }
+            var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' +
+                '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
+                '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
+                '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
             if (record.get("isDriver")) {
                 legend = "C";
                 legendText = "Coordinator";
-                if(myStatus === "Requested") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Requested</</button>';
+                if(myStatus == null) {
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Invite</</button>';
+                }
+                else if(myStatus === "Requested") {
+                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>';
                 }
                 else if(myStatus === "Request Recieved") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request Recieved</</button>';
+                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  '+
+                    '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>'+ myStatus +'</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>'+ myStatus +'</</button>';
                 }
                
                 else if(myStatus === "Accepted") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Accepted</</button>';
+                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
+                    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
                 }
                 else if(myStatus === "Rejected") {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</</button>';
                 } else {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>'+ myStatus +'</</button>';
                 }
             }
             else {
                 legend = "P";
                 legendText = "Passenger";
-                if(myStatus === "Requested") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Requested</</button>';
+                if(myStatus == null) {
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+                }
+                else if(myStatus === "Requested") {
+                   buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Requested</</button>';
                 }
                 else if(myStatus === "Request Recieved") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Request Recieved</</button>';
+                   buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Request Recieved</</button>';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> '+ myStatus +'</</button>';
+                   buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> '+ myStatus +'</</button>';
                 }
                 
                 else if(myStatus === "Accepted") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
+                   buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
                 }
                 else if(myStatus === "Rejected") {
-                   buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Rejected</</button>';
+                   buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Rejected</</button>';
                 } else {
-                    buttonHtml = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
                 }
             }
-            cardControl = labelHtml + '<div><span class="card-control">' + buttonHtml + '</span></div>';
+            cardControl = labelHtml + '<div><span class="card-control">' + buttonMarkup + '</span></div>';
             if (record.get("photoUrl") != null) {
                 imgSrc = record.get("photoUrl");
             }
@@ -105,7 +121,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                     <h3>' + record.get("name") + '</h3>\
                                 </div>\
                                 <div>\
-                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>\
+                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + ' ' + statusMarkup + '</span>\
                                     ' + cardControl + '\
                                 </div>\
                                 <div>\
