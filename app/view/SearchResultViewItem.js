@@ -91,7 +91,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Rejected") {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>Rejected</button>';
                 } else {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>'+ myStatus +'</button>';
+                    buttonMarkup = '';
                 }
             }
             else {

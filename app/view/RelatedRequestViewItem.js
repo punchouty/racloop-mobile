@@ -71,6 +71,10 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 buttonMarkup = '';
             }
+            else {
+                statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
+                buttonMarkup = '';
+            }
 
             html=
                 '<div class="card">\
