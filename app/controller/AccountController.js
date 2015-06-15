@@ -57,7 +57,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            Ext.Msg.alert("Input Errors", errorString);
         } else {
             if(this.isTwoPasswordMatch()) {
                 // Success
@@ -123,17 +123,6 @@ Ext.define('Racloop.controller.AccountController', {
         var errorString = "";
         var errorCounted = 0;
         var totalErrors = 0;
-        var nameErrors = validationObj.getByField('name');
-        if (nameErrors != null && nameErrors.length > 0) {
-            if(errorCounted < 3) {
-                errorString += nameErrors[0].getMessage() + "<br>";
-                errorCounted = errorCounted + 1;
-            }
-            totalErrors = totalErrors + nameErrors.length;
-            var field = Ext.ComponentQuery.query('#registerScreenName');
-            field[0].addCls('error');
-        }
-
 
         var emailErrors = validationObj.getByField('email');
         if (emailErrors != null && emailErrors.length > 0) {
@@ -157,14 +146,26 @@ Ext.define('Racloop.controller.AccountController', {
             field[0].addCls('error');
         }
 
-        var repeatpasswordErrors = validationObj.getByField('repeatpassword');
-        if (repeatpasswordErrors != null && repeatpasswordErrors.length > 0) {
+        //var repeatpasswordErrors = validationObj.getByField('repeatpassword');
+        //if (repeatpasswordErrors != null && repeatpasswordErrors.length > 0) {
+        //    if(errorCounted < 3) {
+        //        errorString += repeatpasswordErrors[0].getMessage() + "<br>";
+        //        errorCounted = errorCounted + 1;
+        //    }
+        //    totalErrors = totalErrors + repeatpasswordErrors.length;
+        //    var field = Ext.ComponentQuery.query('#registerScreenRepeatPassword');
+        //    field[0].addCls('error');
+        //}
+
+
+        var nameErrors = validationObj.getByField('name');
+        if (nameErrors != null && nameErrors.length > 0) {
             if(errorCounted < 3) {
-                errorString += repeatpasswordErrors[0].getMessage() + "<br>";
+                errorString += nameErrors[0].getMessage() + "<br>";
                 errorCounted = errorCounted + 1;
             }
-            totalErrors = totalErrors + repeatpasswordErrors.length;
-            var field = Ext.ComponentQuery.query('#registerScreenRepeatPassword');
+            totalErrors = totalErrors + nameErrors.length;
+            var field = Ext.ComponentQuery.query('#registerScreenName');
             field[0].addCls('error');
         }
 
