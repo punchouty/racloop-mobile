@@ -115,16 +115,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
             tap        : 'travelBuddiesButtonTapFired',
             delegate   : 'button.travelBuddiesButton'
         });
-        //this.element.on({
-        //    scope      : this,
-        //    tap        : 'incomingButtonTapFired',
-        //    delegate   : 'button.incomingButton'
-        //});
-        //this.element.on({
-        //    scope      : this,
-        //    tap        : 'outgoingButtonTapFired',
-        //    delegate   : 'button.outgoingButton'
-        //});
         this.callParent(arguments);
 
     },

@@ -80,35 +80,37 @@ Ext.define('Racloop.util.Config', {
     },
     constructor: function() {
         if (this.config.env == 'prod') {
-            this.config.locationUpdateFrequency = 180000;this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/app/userMobile/login';
-            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/app/userMobile/logout';
-            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/app/userMobile/signup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com/app/userMobile/verifyMobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com/app/userMobile/resendSms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/app/userMobile/changePassword';
-            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/app/userMobile/editProfile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/app/userMobile/forgotPassword';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.racloop.com/app/userMobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS='http://www.racloop.com/app/userMobile/sos';
-            this.config.url.RACLOOP_TERMS='http://www.racloop.com/app/userMobile/terms';
-            this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/app/userMobile/privacy';
-            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.racloop.com/app/userMobile/getCurrentJourney';
-            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/app/userMobile/sendUserRating';
+            this.config.locationUpdateFrequency = 180000;
+            this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.racloop.com/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS='http://www.racloop.com/userMobile/sos';
+            this.config.url.RACLOOP_TERMS='http://www.racloop.com/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.racloop.com/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/userMobile/sendUserRating';
 
-            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/myJourneys';
-            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.racloop.com/app/journeyMobile/childJourneys';
-            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/app/journeyMobile/myHistory';
-            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/app/journeyMobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/app/journeyMobile/searchAgain';
-            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.racloop.com/app/journeyMobile/keepOriginalAndSearch';
-            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.racloop.com/app/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.racloop.com/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'http://www.racloop.com/journeyMobile/passengers';
+            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.racloop.com/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.racloop.com/journeyMobile/replaceAndSearch';
 
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/app/workflowMobile/saveJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/app/workflowMobile/deleteJourney';
-            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/app/workflowMobile/sendRequest';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/app/workflowMobile/acceptRequest';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/app/workflowMobile/rejectRequest';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/app/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/workflowMobile/cancelRequest';
 
 
         } else if (this.config.env == 'dev') {
@@ -131,6 +133,7 @@ Ext.define('Racloop.util.Config', {
 
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'http://localhost:8080/app/journeyMobile/passengers';
             this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/journeyMobile/searchAgain';
@@ -166,6 +169,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';
+            this.config.url.RACLOOP_PASSENGERS = 'http://' + ip + ':8080/app/journeyMobile/passengers';
             this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/journeyMobile/searchAgain';
             this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/keepOriginalAndSearch';

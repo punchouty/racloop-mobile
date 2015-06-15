@@ -47,8 +47,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 change: 'onTimePickerFieldChange'
             },
             'searchResultViewItem':{
-                confirmSearchRequestButtonTap : 'handleConfirmSearchRequestButtonTap',
-                cancelSearchRequestButtonTap : 'handleCancelSearchRequestButtonTap'
+                confirmSearchRequestButtonTap : 'handleConfirmSearchRequestButtonTap'
             },
             'historyViewItem': {
                 searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap'
@@ -663,72 +662,6 @@ Ext.define('Racloop.controller.JourneysController', {
             success: successCallback,
             failure: failureCallback
         });
-    },
-
-    handleConfirmSearchRequestButtonTap: function(item) {
-        var me = this;
-        var record = item.getRecord();
-        var recordData = record.get("matchedJourney");
-        var journeyId = record.get("id");//recordData.id;
-        var searchNavView = this.getSearchNavigationView();
-        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
-        var isDummy = searchList.isDummy;
-        var successCallback = function(response, ops) {
-            var data = Ext.decode(response.responseText);
-            if (data.success) {
-                Ext.getStore('journeyStore').load({
-                    callback: function(records, operation, success) {
-                        me.getMainTabs().setActiveItem('journeyNavigationView');
-                        Racloop.app.getController('UiController').showMyJourneys();
-                    },
-                    scope: me
-                });
-                //setTimeout(function(){
-                //    Ext.getStore('journeyStore').load({
-                //        callback: function(records, operation, success) {
-                //            me.getMainTabs().setActiveItem('journeyNavigationView');
-                //            Racloop.app.getController('UiController').showMyJourneys();
-                //        },
-                //        scope: me
-                //    });
-                //}, 500);
-                Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-            } else {
-                Ext.Msg.alert(data.message);
-                Ext.Viewport.unmask();
-            }
-        };
-        // Failure
-        var failureCallback = function(response, ops) {
-            Ext.Msg.alert(response.message);
-            Ext.Viewport.unmask();
-
-        };
-
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_REQUEST,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            params: Ext.JSON.encode({
-                matchedJourneyId: journeyId,
-                isDummy: isDummy
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
-    },
-
-    handleCancelSearchRequestButtonTap: function(item) { //TODO for testing
-
     },
 
     handleExistingJourneyReplaceButtonTap: function(button){

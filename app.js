@@ -58,6 +58,7 @@ Ext.application({
         //'SearchViewItem',
         'JourneyViewItem',
         'RelatedRequestViewItem',
+        'RelatedRequestViewReadOnlyItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
         'MapPanel',
@@ -82,6 +83,7 @@ Ext.application({
     stores: [
         'Journeys',
         'ChildJourneys',
+        'Passengers',
         'Searches',
         'History'
     ],

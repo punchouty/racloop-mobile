@@ -29,6 +29,14 @@ Ext.define('Racloop.controller.WorkflowController', {
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
                 callButtonTap: 'handleCallButtonTap'
+            },
+            'searchResultViewItem': {
+                requestButtonTap: 'handleRequestButtonTap',
+                travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
+                rejectButtonTap: 'handleRejectButtonTap',
+                acceptButtonTap: 'handleAcceptButtonTap',
+                cancelButtonTap : 'handleCancelButtonTap',
+                callButtonTap: 'handleCallButtonTap'
             }
         }
     },
@@ -223,6 +231,92 @@ Ext.define('Racloop.controller.WorkflowController', {
                 }
             },
             scope: this
+        });
+    },
+
+    travelBuddiesReadOnlyButtonTap : function(item) {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var searchNavigationView = this.getSearchNavigationView();
+        var record = item.getRecord();
+        var journeyId = record.get("id");
+        var numberOfCopassengers = record.get("numberOfCopassengers");
+        console.log(journeyId + " : " + numberOfCopassengers);
+
+        Ext.getStore('passengersStore').load({
+            params:{
+                journeyId :journeyId
+            },
+            callback: function(records, operation, success) {
+                if(records.length > 0) {
+                    searchNavigationView.push({
+                        title: 'Travel Buddies',
+                        xtype : "dataview",
+                        defaultType: 'relatedRequestViewReadOnlyItem',
+                        useComponents: true,
+                        scrollable: {
+                            direction: 'vertical'
+                        },
+                        store: "passengersStore"
+                    });
+                }
+                else {
+                    Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+                }
+            },
+            scope: this
+        });
+    },
+
+    handleRequestButtonTap: function(item) {
+        var me = this;
+        var record = item.getRecord();
+        var recordData = record.get("matchedJourney");
+        var journeyId = record.get("id");//recordData.id;
+        var searchNavView = this.getSearchNavigationView();
+        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
+        var isDummy = searchList.isDummy;
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                Ext.getStore('journeyStore').load({
+                    callback: function(records, operation, success) {
+                        me.getMainTabs().setActiveItem('journeyNavigationView');
+                        Racloop.app.getController('UiController').showMyJourneys();
+                    },
+                    scope: me
+                });
+                Ext.Viewport.unmask();
+                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+            } else {
+                Ext.Msg.alert(data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert(response.message);
+            Ext.Viewport.unmask();
+
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Sending Request...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_REQUEST,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                matchedJourneyId: journeyId,
+                isDummy: isDummy
+            }),
+            success: successCallback,
+            failure: failureCallback
         });
     },
 

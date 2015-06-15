@@ -690,6 +690,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.model.User": [],
   "Racloop.model.UserReview": [],
   "Racloop.model.VerifySms": [],
+  "Racloop.store.ChildJourneys": [],
   "Racloop.store.History": [],
   "Racloop.store.Journeys": [],
   "Racloop.store.Searches": [],
@@ -1487,6 +1488,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.model.User": [],
   "Racloop.model.UserReview": [],
   "Racloop.model.VerifySms": [],
+  "Racloop.store.ChildJourneys": [
+    "widget.childJourneyStore"
+  ],
   "Racloop.store.History": [
     "widget.historyStore"
   ],
