@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'dev',
+        env: 'prod',
         app: {
             messageText: 'Test message.'
         },
@@ -80,37 +80,37 @@ Ext.define('Racloop.util.Config', {
     },
     constructor: function() {
         if (this.config.env == 'prod') {
-            this.config.locationUpdateFrequency = 180000;
-            this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/userMobile/login';
-            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/userMobile/logout';
-            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/userMobile/signup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com/userMobile/verifyMobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com/userMobile/resendSms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/userMobile/changePassword';
-            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/userMobile/editProfile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/userMobile/forgotPassword';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.racloop.com/userMobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS='http://www.racloop.com/userMobile/sos';
-            this.config.url.RACLOOP_TERMS='http://www.racloop.com/userMobile/terms';
-            this.config.url.RACLOOP_PRIVACY='http://www.racloop.com/userMobile/privacy';
-            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.racloop.com/userMobile/getCurrentJourney';
-            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/userMobile/sendUserRating';
+            this.config.locationUpdateFrequency = 60000;
+            this.config.url.RACLOOP_LOGIN = 'https://www.cabshare.in/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'https://www.cabshare.in/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'https://www.cabshare.in/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'https://www.cabshare.in/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'https://www.cabshare.in/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'https://www.cabshare.in/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'https://www.cabshare.in/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'https://www.cabshare.in/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='https://www.cabshare.in/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS='https://www.cabshare.in/userMobile/sos';
+            this.config.url.RACLOOP_TERMS='https://www.cabshare.in/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY='https://www.cabshare.in/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'https://www.cabshare.in/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'https://www.cabshare.in/userMobile/sendUserRating';
 
-            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/journeyMobile/myJourneys';
-            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.racloop.com/journeyMobile/childJourneys';
-            this.config.url.RACLOOP_PASSENGERS = 'http://www.racloop.com/journeyMobile/passengers';
-            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/journeyMobile/myHistory';
-            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/journeyMobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/journeyMobile/searchAgain';
-            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.racloop.com/journeyMobile/keepOriginalAndSearch';
-            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.racloop.com/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_JOURNEYS = 'https://www.cabshare.in/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'https://www.cabshare.in/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'https://www.cabshare.in/journeyMobile/passengers';
+            this.config.url.RACLOOP_HISTORY = 'https://www.cabshare.in/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'https://www.cabshare.in/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'https://www.cabshare.in/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'https://www.cabshare.in/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'https://www.cabshare.in/journeyMobile/replaceAndSearch';
 
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/workflowMobile/saveJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/workflowMobile/deleteJourney';
-            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/workflowMobile/sendRequest';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/workflowMobile/acceptRequest';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/workflowMobile/rejectRequest';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'https://www.cabshare.in/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'https://www.cabshare.in/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'https://www.cabshare.in/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'https://www.cabshare.in/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'https://www.cabshare.in/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'https://www.cabshare.in/workflowMobile/cancelRequest';
 
 
         } else if (this.config.env == 'dev') {
