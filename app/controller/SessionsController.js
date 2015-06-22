@@ -366,6 +366,8 @@ Ext.define('Racloop.controller.SessionsController', {
                 Ext.getStore('journeyStore').removeAll();
                 Ext.getStore('historyStore').removeAll();
                 Ext.getStore('SearchStore').removeAll();
+                Ext.getStore('childJourneyStore').removeAll();
+                Ext.getStore('passengersStore').removeAll();
                 Ext.Viewport.unmask();
                 var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
                 Ext.Viewport.setActiveItem(mainNavigationView);
