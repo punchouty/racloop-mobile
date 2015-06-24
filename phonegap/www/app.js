@@ -68693,34 +68693,35 @@ Ext.define('Racloop.util.Config', {
     },
     constructor: function() {
         if (this.config.env == 'prod') {
-            this.config.locationUpdateFrequency = 180000;
-            this.config.url.RACLOOP_LOGIN = 'http://www.racloop.com/userMobile/login';
-            this.config.url.RACLOOP_LOGOUT = 'http://www.racloop.com/userMobile/logout';
-            this.config.url.RACLOOP_SIGNUP = 'http://www.racloop.com/userMobile/signup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.racloop.com/userMobile/verifyMobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://www.racloop.com/userMobile/resendSms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.racloop.com/userMobile/changePassword';
-            this.config.url.RACLOOP_EDIT = 'http://www.racloop.com/userMobile/editProfile';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.racloop.com/userMobile/forgotPassword';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://www.racloop.com/userMobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS = 'http://www.racloop.com/userMobile/sos';
-            this.config.url.RACLOOP_TERMS = 'http://www.racloop.com/userMobile/terms';
-            this.config.url.RACLOOP_PRIVACY = 'http://www.racloop.com/userMobile/privacy';
-            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.racloop.com/userMobile/getCurrentJourney';
-            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.racloop.com/userMobile/sendUserRating';
-            this.config.url.RACLOOP_JOURNEYS = 'http://www.racloop.com/journeyMobile/myJourneys';
-            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.racloop.com/journeyMobile/childJourneys';
-            this.config.url.RACLOOP_HISTORY = 'http://www.racloop.com/journeyMobile/myHistory';
-            this.config.url.RACLOOP_SEARCH = 'http://www.racloop.com/journeyMobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.racloop.com/journeyMobile/searchAgain';
-            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.racloop.com/journeyMobile/keepOriginalAndSearch';
-            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.racloop.com/journeyMobile/replaceAndSearch';
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.racloop.com/workflowMobile/saveJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.racloop.com/workflowMobile/deleteJourney';
-            this.config.url.RACLOOP_REQUEST = 'http://www.racloop.com/workflowMobile/sendRequest';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.racloop.com/workflowMobile/acceptRequest';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.racloop.com/workflowMobile/rejectRequest';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.racloop.com/workflowMobile/cancelRequest';
+            this.config.locationUpdateFrequency = 60000;
+            this.config.url.RACLOOP_LOGIN = 'https://www.cabshare.in/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'https://www.cabshare.in/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'https://www.cabshare.in/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'https://www.cabshare.in/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'https://www.cabshare.in/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'https://www.cabshare.in/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'https://www.cabshare.in/userMobile/editProfile';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'https://www.cabshare.in/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'https://www.cabshare.in/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS = 'https://www.cabshare.in/userMobile/sos';
+            this.config.url.RACLOOP_TERMS = 'https://www.cabshare.in/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY = 'https://www.cabshare.in/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'https://www.cabshare.in/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'https://www.cabshare.in/userMobile/sendUserRating';
+            this.config.url.RACLOOP_JOURNEYS = 'https://www.cabshare.in/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'https://www.cabshare.in/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'https://www.cabshare.in/journeyMobile/passengers';
+            this.config.url.RACLOOP_HISTORY = 'https://www.cabshare.in/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'https://www.cabshare.in/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'https://www.cabshare.in/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'https://www.cabshare.in/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'https://www.cabshare.in/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'https://www.cabshare.in/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'https://www.cabshare.in/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'https://www.cabshare.in/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'https://www.cabshare.in/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'https://www.cabshare.in/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'https://www.cabshare.in/workflowMobile/cancelRequest';
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
@@ -68739,6 +68740,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'http://localhost:8080/app/journeyMobile/passengers';
             this.config.url.RACLOOP_HISTORY = 'http://localhost:8080/app/journeyMobile/myHistory';
             this.config.url.RACLOOP_SEARCH = 'http://localhost:8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://localhost:8080/app/journeyMobile/searchAgain';
@@ -68771,6 +68773,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';
+            this.config.url.RACLOOP_PASSENGERS = 'http://' + ip + ':8080/app/journeyMobile/passengers';
             this.config.url.RACLOOP_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/search';
             this.config.url.RACLOOP_SEARCH_AGAIN = 'http://' + ip + ':8080/app/journeyMobile/searchAgain';
             this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://' + ip + ':8080/app/journeyMobile/keepOriginalAndSearch';
@@ -69608,16 +69611,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
             tap: 'travelBuddiesButtonTapFired',
             delegate: 'button.travelBuddiesButton'
         });
-        //this.element.on({
-        //    scope      : this,
-        //    tap        : 'incomingButtonTapFired',
-        //    delegate   : 'button.incomingButton'
-        //});
-        //this.element.on({
-        //    scope      : this,
-        //    tap        : 'outgoingButtonTapFired',
-        //    delegate   : 'button.outgoingButton'
-        //});
         this.callParent(arguments);
     },
     searchAgainButtonTapFired: function(e) {
@@ -69976,7 +69969,7 @@ Ext.define('Racloop.view.MainNavigationView', {
                 items: [
                     {
                         xtype: 'container',
-                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'Car Pool for All' + '</div>' + '<h2 class="dark-text"><strong>Rac</strong>loop</h2>' + '<div class="colored-line"></div>' + '<div class="sub-heading">' + 'Share your Uber, Ola or Taxi for Sure cab</br> ' + 'Or</br>' + 'Create your own Car Pool' + '</div>' + '</div>',
+                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'Search, Connect and Go' + '</div>' + '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' + '<div class="colored-line"></div>' + '<div class="sub-heading">' + 'Share Uber, Ola and Meru Rides' + '</div>' + '</div>',
                         itemId: 'homeLabel'
                     },
                     {
@@ -70551,6 +70544,8 @@ Ext.define('Racloop.controller.SessionsController', {
                     Ext.getStore('journeyStore').removeAll();
                     Ext.getStore('historyStore').removeAll();
                     Ext.getStore('SearchStore').removeAll();
+                    Ext.getStore('childJourneyStore').removeAll();
+                    Ext.getStore('passengersStore').removeAll();
                     Ext.Viewport.unmask();
                     var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
                     Ext.Viewport.setActiveItem(mainNavigationView);
@@ -71398,7 +71393,7 @@ Ext.define('Racloop.view.RegisterForm', {
             {
                 xtype: 'fieldset',
                 title: 'Sign Up',
-                instructions: 'Please provide valid mobile.',
+                instructions: 'You will receive SMS for verification after this step.',
                 //            instructions: 'By registering you are agreeing to ' +
                 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
                 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop',
@@ -71475,7 +71470,7 @@ Ext.define('Racloop.view.RegisterForm', {
                 styleHtmlContent: true,
                 html: [
                     //"Password should contain upper case, lower case, numeric value and a symbol."
-                    'By registering you are agreeing to ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> Statement of Racloop'
+                    'By registering you are agreeing to ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> statement of Racloop'
                 ].join("")
             }
         ]
@@ -71636,7 +71631,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            Ext.Msg.alert("Input Errors", errorString);
         } else {
             if (this.isTwoPasswordMatch()) {
                 // Success
@@ -71702,16 +71697,6 @@ Ext.define('Racloop.controller.AccountController', {
         var errorString = "";
         var errorCounted = 0;
         var totalErrors = 0;
-        var nameErrors = validationObj.getByField('name');
-        if (nameErrors != null && nameErrors.length > 0) {
-            if (errorCounted < 3) {
-                errorString += nameErrors[0].getMessage() + "<br>";
-                errorCounted = errorCounted + 1;
-            }
-            totalErrors = totalErrors + nameErrors.length;
-            var field = Ext.ComponentQuery.query('#registerScreenName');
-            field[0].addCls('error');
-        }
         var emailErrors = validationObj.getByField('email');
         if (emailErrors != null && emailErrors.length > 0) {
             if (errorCounted < 3) {
@@ -71732,14 +71717,24 @@ Ext.define('Racloop.controller.AccountController', {
             var field = Ext.ComponentQuery.query('#registerScreenPassword');
             field[0].addCls('error');
         }
-        var repeatpasswordErrors = validationObj.getByField('repeatpassword');
-        if (repeatpasswordErrors != null && repeatpasswordErrors.length > 0) {
+        //var repeatpasswordErrors = validationObj.getByField('repeatpassword');
+        //if (repeatpasswordErrors != null && repeatpasswordErrors.length > 0) {
+        //    if(errorCounted < 3) {
+        //        errorString += repeatpasswordErrors[0].getMessage() + "<br>";
+        //        errorCounted = errorCounted + 1;
+        //    }
+        //    totalErrors = totalErrors + repeatpasswordErrors.length;
+        //    var field = Ext.ComponentQuery.query('#registerScreenRepeatPassword');
+        //    field[0].addCls('error');
+        //}
+        var nameErrors = validationObj.getByField('name');
+        if (nameErrors != null && nameErrors.length > 0) {
             if (errorCounted < 3) {
-                errorString += repeatpasswordErrors[0].getMessage() + "<br>";
+                errorString += nameErrors[0].getMessage() + "<br>";
                 errorCounted = errorCounted + 1;
             }
-            totalErrors = totalErrors + repeatpasswordErrors.length;
-            var field = Ext.ComponentQuery.query('#registerScreenRepeatPassword');
+            totalErrors = totalErrors + nameErrors.length;
+            var field = Ext.ComponentQuery.query('#registerScreenName');
             field[0].addCls('error');
         }
         var mobileErrors = validationObj.getByField('mobile');
@@ -72006,46 +72001,64 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var labelHtml = "";
             var imgSrc = '';
             var cardControl = '';
-            var statusMarkup = '<span class="card-label card-label-blue"> New </span>';
-            if (status != null) {
-                statusMarkup = '<span class="card-label card-label-blue">' + myStatus + '</span>';
+            var statusMarkup = null;
+            var numberOfCopassengers = record.get("numberOfCopassengers");
+            var name = null;
+            if (numberOfCopassengers == 0) {
+                name = record.get("name");
+            } else if (numberOfCopassengers == 1) {
+                name = record.get("name") + ' & 1 more';
+                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
+            } else if (numberOfCopassengers == 2) {
+                name = record.get("name") + ' & 2 more';
+                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
+            } else {
+                console.error("Invalid number of coppassengers : " + numberOfCopassengers);
             }
-            var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  ' + '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+            if (myStatus != null) {
+                statusMarkup = '<span class="card-label card-label-blue">' + myStatus + '</span>';
+            } else {
+                statusMarkup = '<span class="card-label card-label-blue">New</span>';
+            }
+            //var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' +
+            //    '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
+            //    '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
+            //    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
             if (record.get("isDriver")) {
                 legend = "C";
                 legendText = "Coordinator";
                 if (myStatus == null) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Invite</</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
                 } else if (myStatus === "Requested") {
-                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';
                 } else if (myStatus === "Request Recieved") {
-                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span>Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 } else if (myStatus.lastIndexOf("Cancelled", 0) === 0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
                 } else if (myStatus === "Accepted") {
-                    buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
                 } else if (myStatus === "Rejected") {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>Rejected</button>';
                 } else {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
+                    buttonMarkup = '';
                 }
             } else {
                 legend = "P";
                 legendText = "Passenger";
                 if (myStatus == null) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Request</</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
                 } else if (myStatus === "Requested") {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Requested</</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';
                 } else if (myStatus === "Request Recieved") {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Request Recieved</</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span>Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 } else if (myStatus.lastIndexOf("Cancelled", 0) === 0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> ' + myStatus + '</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
                 } else if (myStatus === "Accepted") {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Accepted</</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
                 } else if (myStatus === "Rejected") {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Rejected</</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>Rejected</button>';
                 } else {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="askToJoinCls"></span> Invite</</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</button>';
                 }
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonMarkup + '</span></div>';
@@ -72054,7 +72067,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             } else {
                 imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
             }
-            html = '<div class="card">                        <div class="card-info">                            <div class="image">                                <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                            </div>                            <div class="card-date">                                <div class="card-day">' + legend + '</div>                                <div class="card-month">' + legendText + '</div>                            </div>                            <div class="card-main">                                <div class="card-name">                                    <h3>' + record.get("name") + '</h3>                                </div>                                <div>                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + ' ' + statusMarkup + '</span>                                    ' + cardControl + '                                </div>                                <div>                                </div>                            </div>                        </div>                        <div class="card-footer">                            <div class="card-footer-row">                                <span class="card-location-label">From :</span>                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                            </div>                            <div class="card-footer-row">                                <span class="card-location-label">To :</span>                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + '</span>                            </div>                        </div>                    </div>';
+            html = '<div class="card">                        <div class="card-info">                            <div class="image">                                <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                            </div>                            <div class="card-date">                                <div class="card-day">' + legend + '</div>                                <div class="card-month">' + legendText + '</div>                            </div>                            <div class="card-main">                                <div class="card-name">                                    <h3>' + name + '</h3>                                </div>                                <div>                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + ' ' + statusMarkup + '</span>                                    ' + cardControl + '                                </div>                                <div>                                </div>                            </div>                        </div>                        <div class="card-footer">                            <div class="card-footer-row">                                <span class="card-location-label">From :</span>                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                            </div>                            <div class="card-footer-row">                                <span class="card-location-label">To :</span>                                <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + '</span>                            </div>                        </div>                    </div>';
             me.down('#textCmp').setHtml(html);
         }
         me.callParent(arguments);
@@ -72062,32 +72075,53 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     initialize: function() {
         this.element.on({
             scope: this,
-            tap: 'confirmSearchRequestButtonTapFired',
-            delegate: 'button.confirmSearchRequestButton'
+            tap: 'confirmButtonTapFired',
+            delegate: 'button.confirmButton'
         });
         this.element.on({
             scope: this,
-            tap: 'cancelSearchRequestButtonTapFired',
-            delegate: 'button.cancelSearchRequestButton'
+            tap: 'travelBuddiesButtonTapFired',
+            delegate: 'button.travelBuddiesButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'rejectButtonTapFired',
+            delegate: 'button.rejectButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'acceptButtonTapFired',
+            delegate: 'button.acceptButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'cancelButtonTapFired',
+            delegate: 'button.cancelButton'
+        });
+        this.element.on({
+            scope: this,
+            tap: 'callButtonTapFired',
+            delegate: 'button.callButton'
         });
         this.callParent(arguments);
     },
-    confirmSearchRequestButtonTapFired: function(e) {
-        this.fireEvent('confirmSearchRequestButtonTap', this);
+    confirmButtonTapFired: function(e) {
+        this.fireEvent('requestButtonTap', this);
     },
-    cancelSearchRequestButtonTapFired: function(e) {
-        this.fireEvent('cancelSearchRequestButtonTap', this);
+    travelBuddiesButtonTapFired: function(e) {
+        this.fireEvent('travelBuddiesReadOnlyButtonTap', this);
     },
-    fireBtnEvents: function(e) {
-        var cancelButton = this.down('#CancelButton');
-        var requestButton = this.down('#RequestButton');
-        if (e.target.className.toLowerCase().indexOf("cancel") > -1) {
-            this.fireEvent('myCancelButtonTap', this);
-        }
-        // cancelButton.fireEvent('tap',cancelButton);
-        else if (e.target.className.toLowerCase().indexOf("request") > -1) {
-            this.fireEvent('myRequestButtonTap', this);
-        }
+    rejectButtonTapFired: function(e) {
+        this.fireEvent('rejectButtonTap', this);
+    },
+    acceptButtonTapFired: function(e) {
+        this.fireEvent('acceptButtonTap', this);
+    },
+    cancelButtonTapFired: function(e) {
+        this.fireEvent('cancelButtonTap', this);
+    },
+    callButtonTapFired: function(e) {
+        this.fireEvent('callButtonTap', this);
     }
 });
 
@@ -72228,8 +72262,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 change: 'onTimePickerFieldChange'
             },
             'searchResultViewItem': {
-                confirmSearchRequestButtonTap: 'handleConfirmSearchRequestButtonTap',
-                cancelSearchRequestButtonTap: 'handleCancelSearchRequestButtonTap'
+                confirmSearchRequestButtonTap: 'handleConfirmSearchRequestButtonTap'
             },
             'historyViewItem': {
                 searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap'
@@ -72761,73 +72794,6 @@ Ext.define('Racloop.controller.JourneysController', {
             failure: failureCallback
         });
     },
-    handleConfirmSearchRequestButtonTap: function(item) {
-        var me = this;
-        var record = item.getRecord();
-        var recordData = record.get("matchedJourney");
-        var journeyId = record.get("id");
-        //recordData.id;
-        var searchNavView = this.getSearchNavigationView();
-        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
-        var isDummy = searchList.isDummy;
-        var successCallback = function(response, ops) {
-                var data = Ext.decode(response.responseText);
-                if (data.success) {
-                    Ext.getStore('journeyStore').load({
-                        callback: function(records, operation, success) {
-                            me.getMainTabs().setActiveItem('journeyNavigationView');
-                            Racloop.app.getController('UiController').showMyJourneys();
-                        },
-                        scope: me
-                    });
-                    //setTimeout(function(){
-                    //    Ext.getStore('journeyStore').load({
-                    //        callback: function(records, operation, success) {
-                    //            me.getMainTabs().setActiveItem('journeyNavigationView');
-                    //            Racloop.app.getController('UiController').showMyJourneys();
-                    //        },
-                    //        scope: me
-                    //    });
-                    //}, 500);
-                    Ext.Viewport.unmask();
-                    Ext.toast({
-                        message: data.message,
-                        timeout: Config.toastTimeout,
-                        animation: true,
-                        cls: 'toastClass'
-                    });
-                } else {
-                    Ext.Msg.alert(data.message);
-                    Ext.Viewport.unmask();
-                }
-            };
-        // Failure
-        var failureCallback = function(response, ops) {
-                Ext.Msg.alert(response.message);
-                Ext.Viewport.unmask();
-            };
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Sending Request...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_REQUEST,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            params: Ext.JSON.encode({
-                matchedJourneyId: journeyId,
-                isDummy: isDummy
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
-    },
-    handleCancelSearchRequestButtonTap: function(item) {},
-    //TODO for testing
     handleExistingJourneyReplaceButtonTap: function(button) {
         var me = this;
         me.getSearchNavigationView().pop();
@@ -73050,6 +73016,14 @@ Ext.define('Racloop.controller.WorkflowController', {
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap: 'handleCancelButtonTap',
                 callButtonTap: 'handleCallButtonTap'
+            },
+            'searchResultViewItem': {
+                requestButtonTap: 'handleRequestButtonTap',
+                travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
+                rejectButtonTap: 'handleRejectButtonTap',
+                acceptButtonTap: 'handleAcceptButtonTap',
+                cancelButtonTap: 'handleCancelButtonTap',
+                callButtonTap: 'handleCallButtonTap'
             }
         }
     },
@@ -73233,6 +73207,92 @@ Ext.define('Racloop.controller.WorkflowController', {
             scope: this
         });
     },
+    travelBuddiesReadOnlyButtonTap: function(item) {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var searchNavigationView = this.getSearchNavigationView();
+        var record = item.getRecord();
+        var journeyId = record.get("id");
+        var numberOfCopassengers = record.get("numberOfCopassengers");
+        console.log(journeyId + " : " + numberOfCopassengers);
+        Ext.getStore('passengersStore').load({
+            params: {
+                journeyId: journeyId
+            },
+            callback: function(records, operation, success) {
+                if (records.length > 0) {
+                    searchNavigationView.push({
+                        title: 'Travel Buddies',
+                        xtype: "dataview",
+                        defaultType: 'relatedRequestViewReadOnlyItem',
+                        useComponents: true,
+                        scrollable: {
+                            direction: 'vertical'
+                        },
+                        store: "passengersStore"
+                    });
+                } else {
+                    Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+                }
+            },
+            scope: this
+        });
+    },
+    handleRequestButtonTap: function(item) {
+        var me = this;
+        var record = item.getRecord();
+        var recordData = record.get("matchedJourney");
+        var journeyId = record.get("id");
+        //recordData.id;
+        var searchNavView = this.getSearchNavigationView();
+        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
+        var isDummy = searchList.isDummy;
+        var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    Ext.getStore('journeyStore').load({
+                        callback: function(records, operation, success) {
+                            me.getMainTabs().setActiveItem('journeyNavigationView');
+                            Racloop.app.getController('UiController').showMyJourneys();
+                        },
+                        scope: me
+                    });
+                    Ext.Viewport.unmask();
+                    Ext.toast({
+                        message: data.message,
+                        timeout: Config.toastTimeout,
+                        animation: true,
+                        cls: 'toastClass'
+                    });
+                } else {
+                    Ext.Msg.alert(data.message);
+                    Ext.Viewport.unmask();
+                }
+            };
+        // Failure
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert(response.message);
+                Ext.Viewport.unmask();
+            };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Sending Request...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_REQUEST,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                matchedJourneyId: journeyId,
+                isDummy: isDummy
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
     handleAcceptButtonTap: function(item) {
         console.log('AcceptButton clicked');
         var record = item.getRecord();
@@ -73244,7 +73304,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 if (data.success) {
                     Ext.getStore('childJourneyStore').load({
                         params: {
-                            journeyId: journeyId
+                            journeyId: data.data
                         },
                         callback: function(records, operation, success) {
                             dataGrid.refresh();
@@ -73298,7 +73358,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 if (data.success) {
                     Ext.getStore('childJourneyStore').load({
                         params: {
-                            journeyId: journeyId
+                            journeyId: data.data
                         },
                         callback: function(records, operation, success) {
                             dataGrid.refresh();
@@ -73357,7 +73417,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 if (data.success) {
                     Ext.getStore('childJourneyStore').load({
                         params: {
-                            journeyId: journeyId
+                            journeyId: data.data
                         },
                         callback: function(records, operation, success) {
                             dataGrid.refresh();
@@ -74080,6 +74140,32 @@ Ext.define('Racloop.store.ChildJourneys', {
     }
 });
 
+Ext.define('Racloop.store.Passengers', {
+    extend: Ext.data.Store,
+    xtype: 'passengersStore',
+    config: {
+        model: 'Racloop.model.Journey',
+        storeId: 'passengersStore',
+        autoLoad: false,
+        proxy: {
+            type: 'ajax',
+            url: Config.url.RACLOOP_PASSENGERS,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            noCache: true,
+            useDefaultXhrHeader: false,
+            reader: {
+                type: "json",
+                rootProperty: "data",
+                totalProperty: 'total',
+                successProperty: 'success'
+            }
+        }
+    }
+});
+
 Ext.define('Racloop.view.PrivacyPanel', {
     extend: Ext.Panel,
     alias: 'widget.privacyPanel',
@@ -74331,6 +74417,9 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             } else if (myStatus === "Rejected") {
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span> ' + ' <span class="card-label card-label-red">' + myStatus + '</span>';
                 buttonMarkup = '';
+            } else {
+                statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span> ' + ' <span class="card-label card-label-blue">' + myStatus + '</span>';
+                buttonMarkup = '';
             }
             html = '<div class="card">                    <div class="card-info">                        <div class="image">                            <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                        </div>                        <div class="card-date">                            <div class="card-day">' + day + '</div>                            <div class="card-month">' + month + '</div>                        </div>                        <div class="card-main">                            <div class="card-name">                                <h3>' + record.get("name") + '</h3>                            </div>                            <div>                                <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>                            </div>                            <div>                                <span class="card-time">  ' + statusMarkup + '</span>                            </div>                        </div>                    </div>                                        <div class="card-footer">                        <div class="card-footer-row">                            <span class="card-location-label">From :</span>                            <span class="card-location"> &nbsp;<span class="fromCls"> </span> ' + record.get("from") + '</span>                        </div>                        <div class="card-footer-row">                            <span class="card-location-label">To :</span>                            <span class="card-location"> &nbsp;<span class="toCls"> </span> ' + record.get("to") + '</span>                        </div>                        <div>                            <span class="card-control">                                ' + buttonMarkup + '                            </span>                        </div>                    </div>                </div>';
             me.down('#textCmp').setHtml(html);
@@ -74371,6 +74460,60 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
     },
     callButtonTapFired: function(e) {
         this.fireEvent('callButtonTap', this);
+    }
+});
+
+Ext.define('Racloop.view.RelatedRequestViewReadOnlyItem', {
+    extend: Ext.dataview.component.DataItem,
+    alias: 'widget.relatedRequestViewReadOnlyItem',
+    xtype: 'relatedRequestViewReadOnlyItem',
+    config: {
+        padding: 10,
+        layout: {
+            type: 'hbox'
+        },
+        items: [
+            {
+                xtype: 'component',
+                flex: 1,
+                html: 'Name',
+                itemId: 'textCmp'
+            }
+        ]
+    },
+    updateRecord: function(record) {
+        // Provide an implementation to update this container's child items
+        var me = this;
+        var userName = "";
+        var imgSrc = "";
+        var html = "";
+        var drivingText = "Need Lift";
+        var cardMain = "";
+        if (record != null) {
+            var myStatus = record.get("myStatus");
+            var myPairId = record.get("myPairId");
+            userName = record.get("name");
+            if (record.get("isDriver")) {
+                drivingText = "Cab Coordinator";
+            } else {
+                drivingText = "Need Ride";
+            }
+            var date = new Date(record.get("dateOfJourney"));
+            var day = Ext.Date.format(date, 'd');
+            var month = Ext.Date.format(date, 'F');
+            var time = Ext.Date.format(date, 'g:i A');
+            var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
+            if (record.get("otherUser") != null) {
+                imgSrc = record.get("photoUrl");
+            } else {
+                imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
+            }
+            var statusMarkup = '';
+            var buttonMarkup = '';
+            html = '<div class="card">                    <div class="card-info">                        <div class="image">                            <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>                        </div>                        <div class="card-date">                            <div class="card-day">' + day + '</div>                            <div class="card-month">' + month + '</div>                        </div>                        <div class="card-main">                            <div class="card-name">                                <h3>' + record.get("name") + '</h3>                            </div>                            <div>                                <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>                            </div>                            <div>                                <span class="card-time">  ' + statusMarkup + '</span>                            </div>                        </div>                    </div>                                        <div class="card-footer">                        <div class="card-footer-row">                            <span class="card-location-label">From :</span>                            <span class="card-location"> &nbsp;<span class="fromCls"> </span> ' + record.get("from") + '</span>                        </div>                        <div class="card-footer-row">                            <span class="card-location-label">To :</span>                            <span class="card-location"> &nbsp;<span class="toCls"> </span> ' + record.get("to") + '</span>                        </div>                        <div>                            <span class="card-control">                                ' + buttonMarkup + '                            </span>                        </div>                    </div>                </div>';
+            me.down('#textCmp').setHtml(html);
+        }
+        me.callParent(arguments);
     }
 });
 
@@ -74544,6 +74687,7 @@ Ext.application({
         //'SearchViewItem',
         'JourneyViewItem',
         'RelatedRequestViewItem',
+        'RelatedRequestViewReadOnlyItem',
         'RequestJourneyPanel',
         'ExistingJourneyPanel',
         'MapPanel',
@@ -74566,6 +74710,7 @@ Ext.application({
     stores: [
         'Journeys',
         'ChildJourneys',
+        'Passengers',
         'Searches',
         'History'
     ],

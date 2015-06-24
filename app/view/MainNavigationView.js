@@ -26,7 +26,7 @@ Ext.define('Racloop.view.MainNavigationView', {
                         '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
                         '<div class="colored-line"></div>' +
                         '<div class="sub-heading">' +
-                            'Share Your Cab and Auto Ride' +
+                            'Share Uber, Ola and Meru Rides' +
                         '</div>' +
                       '</div>',
                 itemId: 'homeLabel'

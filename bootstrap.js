@@ -693,6 +693,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.store.ChildJourneys": [],
   "Racloop.store.History": [],
   "Racloop.store.Journeys": [],
+  "Racloop.store.Passengers": [],
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [
     "Common"
@@ -724,6 +725,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.PrivacyPanel": [],
   "Racloop.view.RegisterForm": [],
   "Racloop.view.RelatedRequestViewItem": [],
+  "Racloop.view.RelatedRequestViewReadOnlyItem": [],
   "Racloop.view.RequestJourneyPanel": [],
   "Racloop.view.SearchNavigationView": [],
   "Racloop.view.SearchResultViewItem": [],
@@ -1497,6 +1499,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.store.Journeys": [
     "widget.journeyStore"
   ],
+  "Racloop.store.Passengers": [
+    "widget.passengersStore"
+  ],
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [],
   "Racloop.util.Config": [],
@@ -1563,6 +1568,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.RelatedRequestViewItem": [
     "widget.relatedRequestViewItem"
+  ],
+  "Racloop.view.RelatedRequestViewReadOnlyItem": [
+    "widget.relatedRequestViewReadOnlyItem"
   ],
   "Racloop.view.RequestJourneyPanel": [
     "widget.requestJourneyPanel"

@@ -108,8 +108,9 @@ Ext.application({
 
     launch: function() {
         console.log('launching application......');
+        this.initSslCertificates();
         document.addEventListener('deviceready', function () {
-            StatusBar.hide();
+            //StatusBar.hide();
             if (Ext.os.is.iOS && Ext.os.version.major >= 7) {
             //    document.body.style.marginTop = "20px";
             //    Ext.Viewport.setHeight(Ext.Viewport.getWindowHeight() - 20);
@@ -119,9 +120,35 @@ Ext.application({
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }
         // Destroy the #appLoadingIndicator element
+        this.initSslCertificates();
         this.cleanup();
         this.fixOverflowChangedIssue();
         if(Ext.fly('appLoadingIndicator')) Ext.fly('appLoadingIndicator').destroy();
+    },
+
+    initSslCertificates: function() {
+        var server = "https://www.cabshare.in";
+        var fingerprint = "05 29 02 1C F2 BE 6F 3D 33 F2 6C 43 39 D1 89 87 ED 04 FA 5F";
+        window.plugins.sslCertificateChecker.check(
+            successCallback,
+            errorCallback,
+            server,
+            fingerprint);
+
+        function successCallback(message) {
+            console.log("Success init ssl");
+            // Message is always: CONNECTION_SECURE.
+            // Now do something with the trusted server.
+        }
+
+        function errorCallback(message) {
+            alert(message);
+            if (message == "CONNECTION_NOT_SECURE") {
+                console.error("Error init ssl - man in middle attack");
+            } else if (message.indexOf("CONNECTION_FAILED") >- 1) {
+                console.error("Connection failed");
+            }
+        }
     },
 
     onUpdated: function() {

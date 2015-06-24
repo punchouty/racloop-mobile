@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.domain.mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Racloop</name>
+<widget id="com.racloop.mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>CabShare</name>
     <description>
-        Share cab and Auto drives safely. Carpool finder mobile app.
+        Platform to Share Cab and Auto.
     </description>
-    <author email="support@racloop.com" href="http://www.racloop.com">
-        Racloop Team
+    <author email="admin@cabshare.in" href="https://www.cabshare.in">
+        CabShare Team
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
