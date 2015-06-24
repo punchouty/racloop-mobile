@@ -333,7 +333,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             if (data.success) {
                 Ext.getStore('childJourneyStore').load({
                     params:{
-                        journeyId :journeyId
+                        journeyId :data.data
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
@@ -390,7 +390,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             if (data.success) {
                 Ext.getStore('childJourneyStore').load({
                     params:{
-                        journeyId :journeyId
+                        journeyId :data.data
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
@@ -450,7 +450,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             if (data.success) {
                 Ext.getStore('childJourneyStore').load({
                     params:{
-                        journeyId :journeyId
+                        journeyId :data.data
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
