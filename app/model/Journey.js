@@ -51,6 +51,9 @@ Ext.define('Racloop.model.Journey', {
             name: 'isDriver',
             type: 'boolean'
         }, {
+            name: 'isTaxi',
+            type: 'boolean'
+        }, {
             name: 'validStartTimeString',
             type: 'string'
         }, {

@@ -67,9 +67,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             //    '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
             //    '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
             //    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
-            if (record.get("isDriver")) {
-                legend = "C";
-                legendText = "Coordinator";
+            if (record.get("isTaxi")) {
+                legend = "T";
+                legendText = "Taxi";
                 if(myStatus == null) {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
                 }
@@ -95,8 +95,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 }
             }
             else {
-                legend = "P";
-                legendText = "Passenger";
+                legend = "A";
+                legendText = "Auto Rickshaw";
                 if(myStatus == null) {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
                 }

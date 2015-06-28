@@ -58,24 +58,24 @@ Ext.define('Racloop.view.SearchNavigationView', {
 //                    defaultTime : Racloop.util.Common.getDefaultTime()
                 }, {
                     xtype: 'selectfield',
-                    itemId: 'driverHitcherSelectField',
-                    label: 'I am',
+                    itemId: 'autoTaxiSelectField',
+                    label: 'I need',
                     options: [{
-                        text: 'Cab Coordinator',
-                        value: 'driver'
+                        text: 'Auto Rickshaw',
+                        value: 'auto'
                     },
                     {
-                        text: 'Passenger',
-                        value: 'hitcher'
+                        text: 'Taxi',
+                        value: 'taxi'
                     }],
                     listeners: {
                         change: function(field, newValue) {
-                            if (newValue == "hitcher") {
-                                var isDriver = field.up().down('field[name=isDriver]');
-                                isDriver.setValue(false);
-                            } else if (newValue == "driver") {
-                                var isDriver = field.up().down('field[name=isDriver]');
-                                isDriver.setValue(true);
+                            if (newValue == "auto") {
+                                var isTaxi = field.up().down('field[name=isTaxi]');
+                                isTaxi.setValue(false);
+                            } else if (newValue == "taxi") {
+                                var isTaxi = field.up().down('field[name=isTaxi]');
+                                isTaxi.setValue(true);
                             }
                         }
                     }
@@ -109,6 +109,10 @@ Ext.define('Racloop.view.SearchNavigationView', {
                     xtype: 'hiddenfield',
                     name: 'isDriver',
                     value: true
+                }, {
+                    xtype: 'hiddenfield',
+                    name: 'isTaxi',
+                    value: false
                 }
 
                 ]

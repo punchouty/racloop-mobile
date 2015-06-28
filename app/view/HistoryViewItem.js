@@ -21,6 +21,8 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
+            console.log("HistoryViewItem");
+            console.dir(record);
             var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
@@ -33,11 +35,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if(record.get("isDriver")) {
-                drivingText = "Car Owner";
+            if(record.get("isTaxi")) {
+                drivingText = "Taxi";
             }
             else {
-                drivingText = "Passenger";
+                drivingText = "Auto Rickshaw";
             }
 
             var html='<div class="card">\

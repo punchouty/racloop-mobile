@@ -31,11 +31,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var myStatus = record.get("statusAsParent");
             var myPairId = record.get("myPairId");
             var numberOfCopassengers = record.get("numberOfCopassengers");
-            if(record.get("isDriver")) {
-                drivingText = "Cab Coordinator";
+            if(record.get("isTaxi")) {
+                drivingText = "Taxi";
             }
             else {
-                drivingText = "I need a Ride";
+                drivingText = "Auto Rickshaw";
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>'
             if(numberOfCopassengers > 0) {

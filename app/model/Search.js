@@ -42,6 +42,9 @@ Ext.define('Racloop.model.Search', {
         }, {
             name: 'isDriver',
             type: 'boolean'
+        }, {
+            name: 'isTaxi',
+            type: 'boolean'
         }
 
         ],

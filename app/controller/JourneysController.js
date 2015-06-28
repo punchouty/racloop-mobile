@@ -323,7 +323,14 @@ Ext.define('Racloop.controller.JourneysController', {
             var errorString = this.validateSearchForm(validationObj);
             Ext.Msg.alert("Oops, Input Errors", errorString);
         } else {
-            this.executeSearch(values);
+            var isTaxi = values.isTaxi;
+            var tripDistance = values.tripDistance;
+            if(isTaxi === 'false' && tripDistance > 75) {
+                Ext.Msg.alert("Use Taxi", "We don't allow journeys more that 75 KM by Auto Rickshaw. Please use Taxi as transport mode");
+            }
+            else {
+                this.executeSearch(values);
+            }
         }
     },
 
@@ -337,8 +344,8 @@ Ext.define('Racloop.controller.JourneysController', {
                     var newJourney = data.data.currentJourney;
                     var existingJourney = data.data.existingJourney;
 
-                    var newIsDriver = newJourney.isDriver? "Driver": "Passenger";
-                    var existingIsDriver = existingJourney.isDriver? "Driver": "Passenger";
+                    var newIsDriver = newJourney.isTaxi ? "Taxi": "Auto Rickshaw";
+                    var existingIsDriver = existingJourney.isTaxi? "Taxi": "Auto Rickshaw";
                     var newDate = new Date(newJourney.dateOfJourney);
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
@@ -488,6 +495,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 toLatitude: journey.toLatitude,
                 toLongitude: journey.toLongitude,
                 isDriver: journey.isDriver,
+                isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
                 tripUnit: journey.tripUnit
             }),
@@ -569,12 +577,12 @@ Ext.define('Racloop.controller.JourneysController', {
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
         Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
 
-        var isDriver = record.get("isDriver");
-        if(isDriver) {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+        var isTaxi = record.get("isTaxi");
+        if(isTaxi) {
+            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('taxi');
         }
         else {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('auto');
         }
         var searchForm = this.getSearchForm();
         var activeItem = this.getSearchNavigationView().getActiveItem();
@@ -738,6 +746,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 toLatitude: newJourney.toLatitude,
                 toLongitude: newJourney.toLongitude,
                 isDriver: newJourney.isDriver,
+                isTaxi: newJourney.isTaxi,
                 tripDistance: newJourney.tripDistance,
                 tripUnit: newJourney.tripUnit,
                 searchWithNewJourney: 'newJourney',
