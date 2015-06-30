@@ -69216,6 +69216,10 @@ Ext.define('Racloop.model.Journey', {
                 type: 'boolean'
             },
             {
+                name: 'isTaxi',
+                type: 'boolean'
+            },
+            {
                 name: 'validStartTimeString',
                 type: 'string'
             },
@@ -69453,26 +69457,26 @@ Ext.define('Racloop.view.SearchNavigationView', {
                             //                    defaultTime : Racloop.util.Common.getDefaultTime()
                             {
                                 xtype: 'selectfield',
-                                itemId: 'driverHitcherSelectField',
-                                label: 'I am',
+                                itemId: 'autoTaxiSelectField',
+                                label: 'I need',
                                 options: [
                                     {
-                                        text: 'Cab Coordinator',
-                                        value: 'driver'
+                                        text: 'Auto Rickshaw',
+                                        value: 'auto'
                                     },
                                     {
-                                        text: 'Passenger',
-                                        value: 'hitcher'
+                                        text: 'Taxi',
+                                        value: 'taxi'
                                     }
                                 ],
                                 listeners: {
                                     change: function(field, newValue) {
-                                        if (newValue == "hitcher") {
-                                            var isDriver = field.up().down('field[name=isDriver]');
-                                            isDriver.setValue(false);
-                                        } else if (newValue == "driver") {
-                                            var isDriver = field.up().down('field[name=isDriver]');
-                                            isDriver.setValue(true);
+                                        if (newValue == "auto") {
+                                            var isTaxi = field.up().down('field[name=isTaxi]');
+                                            isTaxi.setValue(false);
+                                        } else if (newValue == "taxi") {
+                                            var isTaxi = field.up().down('field[name=isTaxi]');
+                                            isTaxi.setValue(true);
                                         }
                                     }
                                 }
@@ -69514,6 +69518,11 @@ Ext.define('Racloop.view.SearchNavigationView', {
                                 xtype: 'hiddenfield',
                                 name: 'isDriver',
                                 value: true
+                            },
+                            {
+                                xtype: 'hiddenfield',
+                                name: 'isTaxi',
+                                value: false
                             }
                         ]
                     },
@@ -69565,10 +69574,10 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var myStatus = record.get("statusAsParent");
             var myPairId = record.get("myPairId");
             var numberOfCopassengers = record.get("numberOfCopassengers");
-            if (record.get("isDriver")) {
-                drivingText = "Cab Coordinator";
+            if (record.get("isTaxi")) {
+                drivingText = "Taxi";
             } else {
-                drivingText = "I need a Ride";
+                drivingText = "Auto Rickshaw";
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>';
             if (numberOfCopassengers > 0) {
@@ -69701,6 +69710,8 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;
         if (record != null) {
+            console.log("HistoryViewItem");
+            console.dir(record);
             var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
@@ -69713,10 +69724,10 @@ Ext.define('Racloop.view.HistoryViewItem', {
             if (record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if (record.get("isDriver")) {
-                drivingText = "Car Owner";
+            if (record.get("isTaxi")) {
+                drivingText = "Taxi";
             } else {
-                drivingText = "Passenger";
+                drivingText = "Auto Rickshaw";
             }
             var html = '<div class="card">            <div class="card-info">                <div class="card-date">                    <div class="card-day">' + day + '</div>                    <div class="card-month">' + month + '</div>                </div>                <div class="card-main">                    <div>                        <span class="card-time"> <span class="timeCls"></span>  ' + time + '</span>                        <div>                            <span class="card-control">                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>                            </span>                        </div>                    </div>                    <div>                        <span class="card-label card-label-blue">' + drivingText + '</span>                    </div>                </div>            </div>            <div class="card-footer">                <div class="card-footer-row">                    <span class="card-location-label">From : </span>                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>' + record.get("from") + '</span>                </div>                <div class="card-footer-row">                    <span class="card-location-label">To : </span>                    <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + ' </span>                </div>            </div>        </div>';
             me.down('#textCmp').setHtml(html);
@@ -72024,9 +72035,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             //    '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
             //    '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
             //    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
-            if (record.get("isDriver")) {
-                legend = "C";
-                legendText = "Coordinator";
+            if (record.get("isTaxi")) {
+                legend = "T";
+                legendText = "Taxi";
                 if (myStatus == null) {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
                 } else if (myStatus === "Requested") {
@@ -72043,8 +72054,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     buttonMarkup = '';
                 }
             } else {
-                legend = "P";
-                legendText = "Passenger";
+                legend = "A";
+                legendText = "Auto Rickshaw";
                 if (myStatus == null) {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
                 } else if (myStatus === "Requested") {
@@ -72533,7 +72544,13 @@ Ext.define('Racloop.controller.JourneysController', {
             var errorString = this.validateSearchForm(validationObj);
             Ext.Msg.alert("Oops, Input Errors", errorString);
         } else {
-            this.executeSearch(values);
+            var isTaxi = values.isTaxi;
+            var tripDistance = values.tripDistance;
+            if (isTaxi === 'false' && tripDistance > 75) {
+                Ext.Msg.alert("Use Taxi", "We don't allow journeys more that 75 KM by Auto Rickshaw. Please use Taxi as transport mode");
+            } else {
+                this.executeSearch(values);
+            }
         }
     },
     executeSearch: function(journey) {
@@ -72545,8 +72562,8 @@ Ext.define('Racloop.controller.JourneysController', {
                         // If user is searching similar journey
                         var newJourney = data.data.currentJourney;
                         var existingJourney = data.data.existingJourney;
-                        var newIsDriver = newJourney.isDriver ? "Driver" : "Passenger";
-                        var existingIsDriver = existingJourney.isDriver ? "Driver" : "Passenger";
+                        var newIsDriver = newJourney.isTaxi ? "Taxi" : "Auto Rickshaw";
+                        var existingIsDriver = existingJourney.isTaxi ? "Taxi" : "Auto Rickshaw";
                         var newDate = new Date(newJourney.dateOfJourney);
                         var newDay = Ext.Date.format(newDate, 'd');
                         var newMonth = Ext.Date.format(newDate, 'F');
@@ -72628,6 +72645,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 toLatitude: journey.toLatitude,
                 toLongitude: journey.toLongitude,
                 isDriver: journey.isDriver,
+                isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
                 tripUnit: journey.tripUnit
             }),
@@ -72698,11 +72716,11 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
         Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
-        var isDriver = record.get("isDriver");
-        if (isDriver) {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+        var isTaxi = record.get("isTaxi");
+        if (isTaxi) {
+            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('taxi');
         } else {
-            Ext.ComponentQuery.query('#searchForm #driverHitcherSelectField')[0].setValue('driver');
+            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('auto');
         }
         var searchForm = this.getSearchForm();
         var activeItem = this.getSearchNavigationView().getActiveItem();
@@ -72866,6 +72884,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 toLatitude: newJourney.toLatitude,
                 toLongitude: newJourney.toLongitude,
                 isDriver: newJourney.isDriver,
+                isTaxi: newJourney.isTaxi,
                 tripDistance: newJourney.tripDistance,
                 tripUnit: newJourney.tripUnit,
                 searchWithNewJourney: 'newJourney',
@@ -73015,7 +73034,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap: 'handleCancelButtonTap',
-                callButtonTap: 'handleCallButtonTap'
+                callButtonTap: 'handleCallButtonTap',
+                bookButtonTap: 'handleBookButtonTap'
             },
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
@@ -73470,6 +73490,18 @@ Ext.define('Racloop.controller.WorkflowController', {
         var mobile = record.get("mobile");
         console.log(mobile);
         window.location = 'tel:' + mobile;
+    },
+    handleBookButtonTap: function(item) {
+        var random = Math.floor((Math.random() * 10) + 1);
+        var url = "https://www.olacabs.com/";
+        if (random < 4) {
+            url = "https://www.olacabs.com/";
+        } else if (random > 7) {
+            url = "https://www.uber.com/";
+        } else if (random == 3) {
+            url = "http://www.taxiforsure.com/";
+        }
+        window.open(url, '_system', 'location=yes');
     }
 });
 
@@ -74388,10 +74420,10 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
             userName = record.get("name");
-            if (record.get("isDriver")) {
-                drivingText = "Cab Coordinator";
+            if (record.get("isTaxi")) {
+                drivingText = "Taxi";
             } else {
-                drivingText = "Need Ride";
+                drivingText = "Auto Rickshaw";
             }
             var date = new Date(record.get("dateOfJourney"));
             var day = Ext.Date.format(date, 'd');
@@ -74413,7 +74445,7 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
                 buttonMarkup = '';
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span> ' + ' <span class="card-label card-label-red">' + myStatus + '</span>';
             } else if (myStatus === "Accepted") {
-                buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button> ' + '<button  class="racloop-btn racloop-btn-warning bookButton"><span class="bulbCls"></span> Cab Help </button>';
             } else if (myStatus === "Rejected") {
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span> ' + ' <span class="card-label card-label-red">' + myStatus + '</span>';
                 buttonMarkup = '';
@@ -74447,6 +74479,11 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             tap: 'callButtonTapFired',
             delegate: 'button.callButton'
         });
+        this.element.on({
+            scope: this,
+            tap: 'bookButtonTapFired',
+            delegate: 'button.bookButton'
+        });
         this.callParent(arguments);
     },
     rejectButtonTapFired: function(e) {
@@ -74460,6 +74497,9 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
     },
     callButtonTapFired: function(e) {
         this.fireEvent('callButtonTap', this);
+    },
+    bookButtonTapFired: function(e) {
+        this.fireEvent('bookButtonTap', this);
     }
 });
 
@@ -74493,10 +74533,10 @@ Ext.define('Racloop.view.RelatedRequestViewReadOnlyItem', {
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
             userName = record.get("name");
-            if (record.get("isDriver")) {
-                drivingText = "Cab Coordinator";
+            if (record.get("isTaxi")) {
+                drivingText = "Taxi";
             } else {
-                drivingText = "Need Ride";
+                drivingText = "Auto Rickshaw";
             }
             var date = new Date(record.get("dateOfJourney"));
             var day = Ext.Date.format(date, 'd');
@@ -74750,13 +74790,12 @@ Ext.application({
         }
         
     },
-    initSslCertificates: function() {
-        cordovaHTTP.enableSSLPinning(true, function() {
-            console.log('success!');
-        }, function() {
-            console.log('error :(');
-        });
-    },
+    initSslCertificates: function() {},
+    //cordovaHTTP.enableSSLPinning(true, function() {
+    //    console.log('success!');
+    //}, function() {
+    //    console.log('error :(');
+    //});
     onUpdated: function() {
         Ext.Msg.confirm("Application Update", "This application has just successfully been updated to the latest version. Reload now?", function(buttonId) {
             if (buttonId === 'yes') {

@@ -65,7 +65,8 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             }
             else if(myStatus === "Accepted") {
                 buttonMarkup = '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
-                '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button> '+
+                '<button  class="racloop-btn racloop-btn-warning bookButton"><span class="bulbCls"></span> Cab Help </button>';
             }
             else if(myStatus === "Rejected") {
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-red">' + myStatus +'</span>';
@@ -135,11 +136,16 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             tap        : 'cancelButtonTapFired',
             delegate   : 'button.cancelButton'
         });
-          this.element.on({
+        this.element.on({
              scope      : this,
              tap        : 'callButtonTapFired',
              delegate   : 'button.callButton'
          });
+        this.element.on({
+            scope      : this,
+            tap        : 'bookButtonTapFired',
+            delegate   : 'button.bookButton'
+        });
         this.callParent(arguments);
 
     },
@@ -154,5 +160,8 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
     },
     callButtonTapFired: function(e) {
         this.fireEvent('callButtonTap', this);
+    },
+    bookButtonTapFired: function(e) {
+        this.fireEvent('bookButtonTap', this);
     }
 });

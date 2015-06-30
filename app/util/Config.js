@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'dev',
+        env: 'prod',
         app: {
             messageText: 'Test message.'
         },

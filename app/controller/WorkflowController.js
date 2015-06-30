@@ -28,7 +28,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
-                callButtonTap: 'handleCallButtonTap'
+                callButtonTap: 'handleCallButtonTap',
+                bookButtonTap: 'handleBookButtonTap'
             },
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
@@ -502,5 +503,21 @@ Ext.define('Racloop.controller.WorkflowController', {
         var mobile = record.get("mobile");
         console.log(mobile);
         window.location = 'tel:'+mobile;
+    },
+
+    handleBookButtonTap : function(item) {
+        var random = Math.floor((Math.random() * 10) + 1);
+        var url = "https://www.olacabs.com/";
+        if(random < 4) {
+            url = "https://www.olacabs.com/";
+        }
+        else if(random > 7) {
+            url = "https://www.uber.com/";
+        }
+        else if(random == 3) {
+            url = "http://www.taxiforsure.com/";
+        }
+
+        window.open(url, '_system', 'location=yes');
     }
 });

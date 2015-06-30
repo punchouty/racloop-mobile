@@ -90,7 +90,6 @@ $tabs-dark: $blue;
 @include icon('bell', '\e032', 'racloop-icons');
 @include icon('eye', '\e09a', 'racloop-icons');
 @include icon('journeys', '\e071', 'racloop-icons');
-
 // List iconss
 .profileCls:before {
     font-family: "racloop-icons";
@@ -250,6 +249,10 @@ $tabs-dark: $blue;
 .eyeCls:before {
   font-family: "racloop-icons";
   content: "\e09a";
+}
+.bulbCls:before {
+  font-family: "racloop-icons";
+  content: "\e0a2";
 }
 //@include sencha-toolbar-ui('light', darken($black,10%), 'recessed');
 
@@ -1024,6 +1027,53 @@ fieldset[disabled] .racloop-btn-danger.active {
 }
 .racloop-btn-danger .badge {
   color: #d9534f;
+  background-color: #fff;
+}
+.racloop-btn-book {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  background-color: #fdc95a;
+  border-color: #f7b731;
+}
+.racloop-btn-book:hover,
+.racloop-btn-book:focus,
+.racloop-btn-book.focus,
+.racloop-btn-book:active,
+.racloop-btn-book.active,
+.open > .dropdown-toggle.racloop-btn-book {
+  color: #fff;
+  background-color: #fdc95a;
+  border-color: #f7b731;
+}
+.racloop-btn-book:active,
+.racloop-btn-book.active,
+.open > .dropdown-toggle.racloop-btn-book {
+  background-image: none;
+}
+.racloop-btn-book.disabled,
+.racloop-btn-book[disabled],
+fieldset[disabled] .racloop-btn-book,
+.racloop-btn-book.disabled:hover,
+.racloop-btn-book[disabled]:hover,
+fieldset[disabled] .racloop-btn-book:hover,
+.racloop-btn-book.disabled:focus,
+.racloop-btn-book[disabled]:focus,
+fieldset[disabled] .racloop-btn-book:focus,
+.racloop-btn-book.disabled.focus,
+.racloop-btn-book[disabled].focus,
+fieldset[disabled] .racloop-btn-book.focus,
+.racloop-btn-book.disabled:active,
+.racloop-btn-book[disabled]:active,
+fieldset[disabled] .racloop-btn-book:active,
+.racloop-btn-book.disabled.active,
+.racloop-btn-book[disabled].active,
+fieldset[disabled] .racloop-btn-book.active {
+  background-color: #fdc95a;
+  border-color: #f7b731;
+}
+.racloop-btn-book .badge {
+  color: #f7b731;
   background-color: #fff;
 }
 .racloop-btn-link {

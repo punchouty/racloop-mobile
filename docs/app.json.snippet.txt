@@ -1,0 +1,21 @@
+    "builds": {
+        "web": {"default": true},
+        "native": {
+            "packager": "phonegap",
+            "phonegap" : {
+                "config": {
+                    "platform": "android ios wp8",
+                    "remote":true,
+                    "id": "com.racloop.mobile",
+                    "name": "CabShare",
+                    "applicationName" : "CabShare",
+                    "applicationId" : "com.racloop.mobile",
+                    "bundleSeedId" : "FFUH83A68B",
+                    "configuration" : "Debug",
+                    "deviceType" : "iPhone",
+                    "certificatePath" : "/Users/rpunch/Documents/cabshare/app-security/ios/ios_development_p12.p12",
+                    "provisionFile" : "/Users/rpunch/Documents/cabshare/app-security/ios/rajan_iphone_cabshare.mobileprovision"
+                }
+            }
+        }
+    },
