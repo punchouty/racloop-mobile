@@ -8,12 +8,12 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
         items: [{
             xtype: 'fieldset',
             title: 'Forgot Password',
-            instructions: "Email used during Sign Up",
+            instructions: "Password will be sent to your registered mobile via SMS",
 
             items: [{
                 name: 'email',
                 xtype: 'emailfield',
-                label: 'Email*',
+                label: 'User Id*',
                 placeHolder: 'user@example.com',
                 //labelWidth: '40%',
                 itemId: 'forgotPasswordTextField'
@@ -21,7 +21,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
         }, {
             xtype: 'button',
             itemId: 'forgotPasswordButton',
-            text: 'Send SMS',
+            text: 'Retrieve Password',
             iconCls: 'emailCls',
             iconMask: true,
             iconAlign: 'left',
