@@ -75,7 +75,7 @@ Ext.define('Racloop.model.User', {
             type: 'format',
             field: 'mobile',
             matcher: /^[7-9][0-9]{9}$/,
-            message: "Mobile should be like 98XXXXXXXX"
+            message: "Invalid Mobile Number"
         }, {
             type: 'inclusion',
             field: 'gender',

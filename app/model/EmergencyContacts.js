@@ -16,13 +16,13 @@ Ext.define('Racloop.model.EmergencyContacts', {
             type: 'format',
             field: 'contactOne',
             matcher: /^[7-9][0-9]{9}$/,
-            message: "Mobile for contact one should be like 98XXXXXXXX"
+            message: "Invalid Mobile Number"
         },
         {
             type: 'format',
             field: 'contactTwo',
             matcher: /^[7-9][0-9]{9}$/,
-            message: "Mobile for contact two should be like 98XXXXXXXX"
+            message: "Invalid Mobile Number"
         }
         ]
     }
