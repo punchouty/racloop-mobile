@@ -430,7 +430,10 @@ Ext.define('Racloop.controller.JourneysController', {
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
                     var jsonObj = data.data.journeys;
+                    var disableMoreRequests = data.data.disableMoreRequests;
                     for (var i in jsonObj) {
+                        if(disableMoreRequests) jsonObj[i].disableRequest = true;
+                        else jsonObj[i].disableRequest = false;
                         searchStore.add(jsonObj[i]);
                     };
                     if(data.total == 0) {
@@ -456,6 +459,9 @@ Ext.define('Racloop.controller.JourneysController', {
                         }
                         else {
                             me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                        }
+                        if(disableMoreRequests) {
+                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }
                     }
                 }
@@ -607,35 +613,6 @@ Ext.define('Racloop.controller.JourneysController', {
                     },
                     scope: this
                 });
-                //searchNavView.reset();
-                //var searchStore = Ext.getStore('SearchStore');
-                //searchStore.removeAll();
-                //var jsonObj = data.data.journeys;
-                //for (var i in jsonObj) {
-                //    searchStore.add(jsonObj[i]);
-                //};
-                //if(data.total == 0) {
-                //    //var searchResultsEmptyView = me.getSearchNavigationView().push({
-                //    //    xtype: "searchResultsEmptyView",
-                //    //    title: "Search Results"
-                //    //});
-                //    //me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                //    //me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                //    //searchResultsEmptyView.getComponent("emptySearchHtml").setHtml(Config.zeroResultsHtml);
-                //    //if(data.data.hideSaveButton) {
-                //    //    searchResultsEmptyView.getComponent("saveJourneyButton").setHidden(true);
-                //    //}
-                //}
-                //else {
-                //    var searchResultsView = me.getSearchNavigationView().push({
-                //        xtype: "searchResultsView",
-                //        title: "Search Results"
-                //    });
-                //    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                //    comp.isDummy = data.isDummy;
-                //    console.log("handleSaveJourneyTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                //    me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                //}
                 Ext.Viewport.unmask();
                 Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
@@ -694,7 +671,10 @@ Ext.define('Racloop.controller.JourneysController', {
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
                 var jsonObj = data.data.journeys;
+                var disableMoreRequests = data.data.disableMoreRequests;
                 for (var i in jsonObj) {
+                    if(disableMoreRequests) jsonObj[i].disableRequest = true;
+                    else jsonObj[i].disableRequest = false;
                     searchStore.add(jsonObj[i]);
                 };
                 if(data.total == 0) {
@@ -712,6 +692,9 @@ Ext.define('Racloop.controller.JourneysController', {
                     });
                     console.log("handleExistingJourneyReplaceButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
                     me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    if(disableMoreRequests) {
+                        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    }
                 }
                 Ext.Viewport.unmask();
             } else {
@@ -768,7 +751,10 @@ Ext.define('Racloop.controller.JourneysController', {
                 var searchStore = Ext.getStore('SearchStore');
                 searchStore.removeAll();
                 var jsonObj = data.data.journeys;
+                var disableMoreRequests = data.data.disableMoreRequests;
                 for (var i in jsonObj) {
+                    if(disableMoreRequests) jsonObj[i].disableRequest = true;
+                    else jsonObj[i].disableRequest = false;
                     searchStore.add(jsonObj[i]);
                 };
                 if(data.total == 0) {
@@ -786,6 +772,9 @@ Ext.define('Racloop.controller.JourneysController', {
                     });
                     console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
                     me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    if(disableMoreRequests) {
+                        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    }
                 }
                 Ext.Viewport.unmask();
             } else {

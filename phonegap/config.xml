@@ -25,7 +25,7 @@
     <preference name="android-installLocation" value="auto" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="BackupWebStorage" value="none" />
-    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="SplashScreenDelay" value="7000" />
     <gap:plugin name="org.apache.cordova.console" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.dialogs" />
@@ -77,6 +77,13 @@
     <gap:splash src="res/screen/ios/splashScreen-iPhone5@2x.png" gap:platform="ios" width="640" height="1136"/>
     <gap:splash src="res/screen/ios/splashScreen-iPhone6@2x.png" gap:platform="ios" width="750" height="1334"/>
     <gap:splash src="res/screen/ios/splashScreen-iPhone6Plus@3x.png" gap:platform="ios" width="1242" height="2208"/>
+
+    <gap:splash src="res/screen/android/ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
+    <gap:splash src="res/screen/android/mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
+    <gap:splash src="res/screen/android/hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
+    <gap:splash src="res/screen/android/xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
+    <gap:splash src="res/screen/android/xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi" />
+    <gap:splash src="res/screen/android/xxxhdpi.png" gap:platform="android" gap:qualifier="xxxhdpi" />
 
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/notification" />

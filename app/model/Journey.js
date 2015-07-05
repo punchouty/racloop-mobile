@@ -80,6 +80,9 @@ Ext.define('Racloop.model.Journey', {
         },{
             name: 'numberOfCopassengers',
             type: 'integer'
+        },{
+            name: 'disableRequest',
+            type: 'boolean'
         }
         ],
         validations: [{

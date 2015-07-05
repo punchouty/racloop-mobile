@@ -29,6 +29,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         var html = '';
         var drivingText = '';
         if (record != null) {
+            var disableRequest = record.get("disableRequest");
             //recordData = record.get("data");
             var dateOfJourney = new Date(record.get("dateOfJourney"));
             //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
@@ -71,7 +72,13 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 legend = "T";
                 legendText = "Taxi";
                 if(myStatus == null) {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
+                    if(disableRequest) {
+                        buttonMarkup = "";
+                    }
+                    else {
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
+                    }
+
                 }
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';
@@ -98,7 +105,12 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 legend = "A";
                 legendText = "Auto Rickshaw";
                 if(myStatus == null) {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
+                    if (disableRequest) {
+                        buttonMarkup = "";
+                    }
+                    else {
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
+                    }
                 }
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';

@@ -492,65 +492,128 @@ Ext.define('Racloop.controller.SessionsController', {
     },
     onSaveFeedbackTap: function(button, e, eOpts){
         console.log("onSaveFeedbackTap");
-        var me = this;        
+        var me = this;
+        var mainTabs = this.getMainTabs();
         var user = Ext.create("Racloop.model.UserReview", {});
         var reviewForm = button.up('ratingView'); // review form
         var values = reviewForm.getValues(); // Form values  
+        var currentDateString = Ext.Date.format(new Date(),'c');
         console.log(values);
 
-            var successCallback = function(response, ops) {
-                var data = Ext.decode(response.responseText);
-                if (data.success) {
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var currentJourney = data.currentJourney;
+                if(currentJourney) {
+                    LoginHelper.setCurrentJourney(currentJourney);
+                    Racloop.app.getController('MapController').showCurrentJourney();
+                    //Racloop.app.getController('MapController').watchCurrentLocation();
+                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                     Ext.Viewport.unmask();
-                    Ext.toast({message: "Successfull", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
-                    me.getCurrentJourney();
-                } else {
-                    Ext.Msg.alert("Failure", data.message);
-                    Ext.Viewport.unmask();
+                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
-              };
+                else {
+                    LoginHelper.removeCurrentJourney();
+                    mainTabs.setActiveItem('searchNavigationView');
+                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+                }
 
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+          };
 
-            var failureCallback = function(response, ops) {
-                    Ext.Msg.alert("Failure", response.message);
-                    Ext.Viewport.unmask();
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Failure", response.message);
+                Ext.Viewport.unmask();
 
-            };
-            
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
 
-            Ext.Viewport.mask({
-                xtype: 'loadmask',
-                indicator: true,
-                message: 'Logging in...'
-            }); 
-
-              Ext.Ajax.request({
-                url: Config.url.RACLOOP_SEND_USER_RATING,
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                withCredentials: true,
-                useDefaultXhrHeader: false,
-                params: Ext.JSON.encode({
-                    journeyId: values.journeyId,
-                    pairId1: values.pairId1,
-                    pairId2: values.pairId2,
-                    comment1: values.comment1,
-                    comment2: values.comment2,
-                    punchuality1: values.punctuality1,
-                    punchuality2: values.punctuality2,
-                    overall1: values.overall1,
-                    overall2: values.overall2
-                }),
-                success: successCallback,
-                failure: failureCallback
-            });
+          Ext.Ajax.request({
+            url: Config.url.RACLOOP_SEND_USER_RATING,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                journeyId: values.journeyId,
+                pairId1: values.pairId1,
+                pairId2: values.pairId2,
+                comment1: values.comment1,
+                comment2: values.comment2,
+                punchuality1: values.punctuality1,
+                punchuality2: values.punctuality2,
+                overall1: values.overall1,
+                overall2: values.overall2,
+                currentDateString : currentDateString
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
 
     },
     onCancelFeedbackTap: function(button, e, eOpts){
         console.log("onCancelFeedbackTap");
-        this.getCurrentJourney();
+        var me = this;
+        var mainTabs = this.getMainTabs();
+        var currentDateString = Ext.Date.format(new Date(),'c');
+
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var currentJourney = data.currentJourney;
+                if(currentJourney) {
+                    LoginHelper.setCurrentJourney(currentJourney);
+                    Racloop.app.getController('MapController').showCurrentJourney();
+                    //Racloop.app.getController('MapController').watchCurrentLocation();
+                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                    Ext.Viewport.unmask();
+                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                }
+                else {
+                    LoginHelper.removeCurrentJourney();
+                    mainTabs.setActiveItem('searchNavigationView');
+                    Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+                }
+
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Failure", response.message);
+            Ext.Viewport.unmask();
+
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_CANCEL_USER_RATING,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                currentDateString : currentDateString
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
     },
     getCurrentJourney: function(){
         var mainNavigationView = this.getMainNavigationView(); // Main view

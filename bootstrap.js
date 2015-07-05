@@ -666,6 +666,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.picker.Time": [
     "Ext.TimePicker"
   ],
+  "Ext.ux.touch.Rating": [],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [],
   "Ext.viewport.Ios": [],
@@ -1465,6 +1466,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.ux.picker.Time": [
     "widget.timepicker"
+  ],
+  "Ext.ux.touch.Rating": [
+    "widget.rating"
   ],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [

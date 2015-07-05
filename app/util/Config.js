@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'prod',
+        env: 'dev',
         app: {
             messageText: 'Test message.'
         },
@@ -95,6 +95,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_PRIVACY='http://www.cabshare.in/userMobile/privacy';
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.cabshare.in/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.cabshare.in/userMobile/sendUserRating';
+            this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://www.cabshare.in/userMobile/cancelUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://www.cabshare.in/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.cabshare.in/journeyMobile/childJourneys';
@@ -130,6 +131,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_PRIVACY='http://localhost:8080/app/userMobile/privacy';
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://localhost:8080/app/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
+            this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://localhost:8080/app/userMobile/cancelUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
@@ -165,6 +167,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_PRIVACY='http://' + ip + ':8080/app/userMobile/privacy';
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://' + ip + ':8080/app/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://' + ip + ':8080/app/userMobile/sendUserRating';
+            this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://' + ip + ':8080/app/userMobile/cancelUserRating';
 
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';

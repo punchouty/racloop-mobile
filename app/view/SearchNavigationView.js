@@ -59,15 +59,17 @@ Ext.define('Racloop.view.SearchNavigationView', {
                 }, {
                     xtype: 'selectfield',
                     itemId: 'autoTaxiSelectField',
-                    label: 'I need',
-                    options: [{
-                        text: 'Auto Rickshaw',
-                        value: 'auto'
-                    },
-                    {
-                        text: 'Taxi',
-                        value: 'taxi'
-                    }],
+                    label: 'Auto/Taxi',
+                    options: [
+                        {
+                            text: 'Taxi',
+                            value: 'taxi'
+                        },
+                        {
+                            text: 'Auto Rickshaw',
+                            value: 'auto'
+                        }
+                    ],
                     listeners: {
                         change: function(field, newValue) {
                             if (newValue == "auto") {
@@ -112,7 +114,7 @@ Ext.define('Racloop.view.SearchNavigationView', {
                 }, {
                     xtype: 'hiddenfield',
                     name: 'isTaxi',
-                    value: false
+                    value: true
                 }
 
                 ]

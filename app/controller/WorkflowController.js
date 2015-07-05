@@ -60,7 +60,10 @@ Ext.define('Racloop.controller.WorkflowController', {
                     var searchStore = Ext.getStore('SearchStore');
                     searchStore.removeAll();
                     var jsonObj = data.data.journeys;
+                    var disableMoreRequests = data.data.disableMoreRequests;
                     for (var i in jsonObj) {
+                        if(disableMoreRequests) jsonObj[i].disableRequest = true;
+                        else jsonObj[i].disableRequest = false;
                         searchStore.add(jsonObj[i]);
                     };
                     //journeyNavigationView.push({
@@ -94,6 +97,9 @@ Ext.define('Racloop.controller.WorkflowController', {
                         var comp = searchResultsView.getComponent('searchResultsDataViewInner');
                         comp.isDummy = data.isDummy;
                         me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                        if(disableMoreRequests) {
+                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        }
                     }
                 }
                 else {
