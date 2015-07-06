@@ -57,7 +57,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Input Errors", errorString);
+            Ext.Msg.alert("Oops", errorString);
         } else {
             if(this.isTwoPasswordMatch()) {
                 // Success
@@ -218,12 +218,12 @@ Ext.define('Racloop.controller.AccountController', {
                 isVerificationCodeValid = true;
             }
             else {
-                Ext.Msg.alert("Verification Error", "Invalid Verification Code.");
+                Ext.Msg.alert("Oops", "Invalid Verification Code.");
                 return;
             }
         }
         else {
-            Ext.Msg.alert("Verification Error", "Invalid Mobile number. Use format 98XXXXXXXX");
+            Ext.Msg.alert("Oops", "Invalid Mobile number.");
             return;
         }
         if(isMobileValid && isVerificationCodeValid) {
@@ -245,7 +245,7 @@ Ext.define('Racloop.controller.AccountController', {
                 }
                 else {
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert("Verification Error", data.message);
+                    Ext.Msg.alert("Oops", data.message);
                 }
             };
             var failureCallback = function(response, ops) {
@@ -301,7 +301,7 @@ Ext.define('Racloop.controller.AccountController', {
             });
         }
         else {
-            Ext.Msg.alert("Oops", "Invalid mobile number. Use format 98XXXXXXXX");
+            Ext.Msg.alert("Oops", "Invalid mobile number");
         }
     },
 
