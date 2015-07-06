@@ -35,7 +35,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
         }, {
             xtype: 'button',
             itemId: 'resendSms',
-            text: 'Resend Sms',
+            text: 'Resend SMS',
             iconCls: 'emailCls',
             iconMask: true,
             iconAlign: 'left',
