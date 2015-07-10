@@ -20,7 +20,7 @@ Ext.define('Racloop.view.JourneyRatingView', {
             {
                 docked: 'top',
                 xtype: 'titlebar',
-                title : "FeedBack"
+                title : "Feedback"
             },{
                 xtype: 'container',
                 itemId: 'ratingViewPanel',
@@ -44,14 +44,14 @@ Ext.define('Racloop.view.JourneyRatingView', {
                 itemId: 'saveFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Save FeedBack',
+                text: 'Save Feedback',
                 ui: 'action'
             },{
                 xtype: 'button',
                 itemId: 'cancelFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Cancel FeedBack',
+                text: 'Cancel Feedback',
                 ui: 'decline'
             }]
     }
