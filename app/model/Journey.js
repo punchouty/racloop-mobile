@@ -59,6 +59,9 @@ Ext.define('Racloop.model.Journey', {
         }, {
             name: 'tripDistance',
             type: 'number'
+        },{
+            name: 'tripTimeInSeconds',
+            type: 'number'
         }, {
             name: 'tripUnit',
             type: 'string'

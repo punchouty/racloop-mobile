@@ -105,6 +105,9 @@ Ext.define('Racloop.view.SearchNavigationView', {
                     name: 'tripDistance'
                 }, {
                     xtype: 'hiddenfield',
+                    name: 'tripTimeInSeconds'
+                }, {
+                    xtype: 'hiddenfield',
                     name: 'tripUnit',
                     value: "KM"
                 }, {

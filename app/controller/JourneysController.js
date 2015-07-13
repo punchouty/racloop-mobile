@@ -246,10 +246,12 @@ Ext.define('Racloop.controller.JourneysController', {
             directionsService.route(request, function(results, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     var total = 0;
+                    var tripTimeInSeconds = 0;
                     var myroute = results.routes[0];
                     var numberOfLegs = 0;
                     for ( var i = 0; i < myroute.legs.length; i++) {
                         total += myroute.legs[i].distance.value;
+                        tripTimeInSeconds += myroute.legs[i].duration.value;
                         var start_location = myroute.legs[i].start_location
                         var end_location = myroute.legs[i].end_location
                         var start_address = myroute.legs[i].start_address
@@ -269,6 +271,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     total = total / 1000
                     searchForm.down('field[name=tripUnit]').setValue('KM');
                     searchForm.down('field[name=tripDistance]').setValue(total + '');
+                    searchForm.down('field[name=tripTimeInSeconds]').setValue(tripTimeInSeconds + '');
                     console.log("Total Distance : " + total + " KM");
                 }
             });
@@ -503,6 +506,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 isDriver: journey.isDriver,
                 isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
+                tripTimeInSeconds: journey.tripTimeInSeconds,
                 tripUnit: journey.tripUnit
             }),
             success: successCallback,
@@ -582,6 +586,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
         Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
+        Ext.ComponentQuery.query('#searchForm field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
 
         var isTaxi = record.get("isTaxi");
         if(isTaxi) {
@@ -731,6 +736,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 isDriver: newJourney.isDriver,
                 isTaxi: newJourney.isTaxi,
                 tripDistance: newJourney.tripDistance,
+                tripTimeInSeconds: newJourney.tripTimeInSeconds,
                 tripUnit: newJourney.tripUnit,
                 searchWithNewJourney: 'newJourney',
                 existingJourneyId: existingJourneyId
