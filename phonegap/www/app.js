@@ -69339,7 +69339,7 @@ Ext.define('Racloop.model.User', {
                 type: 'format',
                 field: 'mobile',
                 matcher: /^[7-9][0-9]{9}$/,
-                message: "Mobile should be like 98XXXXXXXX"
+                message: "Invalid Mobile Number"
             },
             {
                 type: 'inclusion',
@@ -71119,7 +71119,7 @@ Ext.define('Racloop.view.ChangePasswordForm', {
             {
                 xtype: 'fieldset',
                 title: 'Change Password',
-                instructions: 'Password should contain upper case, lower case, numeric value and a symbol.',
+                instructions: 'Password should contain minimum 5 characters.',
                 items: [
                     {
                         name: 'currentPassword',
@@ -71176,13 +71176,13 @@ Ext.define('Racloop.model.EmergencyContacts', {
                 type: 'format',
                 field: 'contactOne',
                 matcher: /^[7-9][0-9]{9}$/,
-                message: "Mobile for contact one should be like 98XXXXXXXX"
+                message: "Invalid Mobile Number"
             },
             {
                 type: 'format',
                 field: 'contactTwo',
                 matcher: /^[7-9][0-9]{9}$/,
-                message: "Mobile for contact two should be like 98XXXXXXXX"
+                message: "Invalid Mobile Number"
             }
         ]
     }
@@ -71736,7 +71736,7 @@ Ext.define('Racloop.view.RegisterForm', {
                         name: 'mobile',
                         xtype: 'textfield',
                         label: 'Mobile*',
-                        placeHolder: '98XXXXXXXX',
+                        placeHolder: 'Mobile Number',
                         itemId: 'registerScreenMobile'
                     },
                     {
@@ -71791,12 +71791,12 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
             {
                 xtype: 'fieldset',
                 title: 'Forgot Password',
-                instructions: "Email used during Sign Up",
+                instructions: "Password will be sent to your registered email",
                 items: [
                     {
                         name: 'email',
                         xtype: 'emailfield',
-                        label: 'Email*',
+                        label: 'User Id*',
                         placeHolder: 'user@example.com',
                         //labelWidth: '40%',
                         itemId: 'forgotPasswordTextField'
@@ -71806,7 +71806,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
             {
                 xtype: 'button',
                 itemId: 'forgotPasswordButton',
-                text: 'Send SMS',
+                text: 'Retrieve Password',
                 iconCls: 'emailCls',
                 iconMask: true,
                 iconAlign: 'left',
@@ -71858,7 +71858,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
             {
                 xtype: 'button',
                 itemId: 'resendSms',
-                text: 'Resend Sms',
+                text: 'Resend SMS',
                 iconCls: 'emailCls',
                 iconMask: true,
                 iconAlign: 'left',
@@ -71936,7 +71936,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Input Errors", errorString);
+            Ext.Msg.alert("Oops", errorString);
         } else {
             if (this.isTwoPasswordMatch()) {
                 // Success
@@ -72087,11 +72087,11 @@ Ext.define('Racloop.controller.AccountController', {
             if (verificationCode != null && verificationCode.length == 6) {
                 isVerificationCodeValid = true;
             } else {
-                Ext.Msg.alert("Verification Error", "Invalid Verification Code.");
+                Ext.Msg.alert("Oops", "Invalid Verification Code.");
                 return;
             }
         } else {
-            Ext.Msg.alert("Verification Error", "Invalid Mobile number. Use format 98XXXXXXXX");
+            Ext.Msg.alert("Oops", "Invalid Mobile number.");
             return;
         }
         if (isMobileValid && isVerificationCodeValid) {
@@ -72117,7 +72117,7 @@ Ext.define('Racloop.controller.AccountController', {
                         });
                     } else {
                         Ext.Viewport.unmask();
-                        Ext.Msg.alert("Verification Error", data.message);
+                        Ext.Msg.alert("Oops", data.message);
                     }
                 };
             var failureCallback = function(response, ops) {
@@ -72174,7 +72174,7 @@ Ext.define('Racloop.controller.AccountController', {
                 failure: failureCallback
             });
         } else {
-            Ext.Msg.alert("Oops", "Invalid mobile number. Use format 98XXXXXXXX");
+            Ext.Msg.alert("Oops", "Invalid mobile number");
         }
     },
     forgotPassword: function(button, e, eOpts) {
@@ -72337,18 +72337,18 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     if (disableRequest) {
                         buttonMarkup = "";
                     } else {
-                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span>Invite</button>';
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button>';
                     }
                 } else if (myStatus === "Requested") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
                 } else if (myStatus === "Request Recieved") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span>Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 } else if (myStatus.lastIndexOf("Cancelled", 0) === 0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger disabled"><span class="requestRideCls"></span> ' + myStatus + '</</button>';
                 } else if (myStatus === "Accepted") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
                 } else if (myStatus === "Rejected") {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>Rejected</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
                 } else {
                     buttonMarkup = '';
                 }
@@ -72362,17 +72362,17 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
                     }
                 } else if (myStatus === "Requested") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
                 } else if (myStatus === "Request Recieved") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span>Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject</button>  ' + '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 } else if (myStatus.lastIndexOf("Cancelled", 0) === 0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger confirmSearchRequestButton disabled"><span class="requestRideCls"></span> ' + myStatus + '</</button>';
                 } else if (myStatus === "Accepted") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span>Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>  ' + '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
                 } else if (myStatus === "Rejected") {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span>Rejected</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
                 } else {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span>' + myStatus + '</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span> ' + myStatus + '</button>';
                 }
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonMarkup + '</span></div>';
@@ -73329,7 +73329,7 @@ Ext.define('Racloop.model.EditProfile', {
                 type: 'format',
                 field: 'mobile',
                 matcher: /^[7-9][0-9]{9}$/,
-                message: "Mobile should be like 98XXXXXXXX"
+                message: "Invalid Mobile Number"
             }
         ]
     }
@@ -74978,7 +74978,7 @@ Ext.define('Racloop.view.JourneyRatingView', {
             {
                 docked: 'top',
                 xtype: 'titlebar',
-                title: "FeedBack"
+                title: "Feedback"
             },
             {
                 xtype: 'container',
@@ -75006,7 +75006,7 @@ Ext.define('Racloop.view.JourneyRatingView', {
                 itemId: 'saveFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Save FeedBack',
+                text: 'Save Feedback',
                 ui: 'action'
             },
             {
@@ -75014,7 +75014,7 @@ Ext.define('Racloop.view.JourneyRatingView', {
                 itemId: 'cancelFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Cancel FeedBack',
+                text: 'Cancel Feedback',
                 ui: 'decline'
             }
         ]

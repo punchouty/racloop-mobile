@@ -14,7 +14,7 @@
  * 	</code></pre>
  * 	
  */
-Ext.namespace('Ext.ux.touch');
+//Ext.namespace('Ext.ux.touch');
 
 Ext.define('Ext.ux.touch.Rating', {
     extend: 'Ext.field.Field',
