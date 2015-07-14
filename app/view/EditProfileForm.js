@@ -45,8 +45,7 @@ Ext.define('Racloop.view.EditProfileForm', {
                 xtype: 'radiofield',
                 label: 'Male',
                 value: 'male',
-                hidden: true,
-                checked: true,
+                //checked: true,
                 labelWidth: '40%',
                 itemId: 'editScreenMale'
             }, {
@@ -54,7 +53,6 @@ Ext.define('Racloop.view.EditProfileForm', {
                 xtype: 'radiofield',
                 label: 'Female',
                 value: 'female',
-                hidden: true,
                 labelWidth: '40%',
                 itemId: 'editScreenFemale'
             }
@@ -73,6 +71,16 @@ Ext.define('Racloop.view.EditProfileForm', {
     initialize: function() {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
+        console.log("user.isMale : " + user.isMale);
         this.setValues(user);
+        var isMale = this.down('field[name=gender]');
+        if(user.isMale) {
+            this.down('field[itemId=editScreenFemale]').uncheck();
+            this.down('field[itemId=editScreenMale]').check();
+        }
+        else {
+            this.down('field[itemId=editScreenFemale]').check();
+            this.down('field[itemId=editScreenMale]').uncheck();
+        }
     }
 });

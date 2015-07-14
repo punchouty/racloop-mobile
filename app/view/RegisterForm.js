@@ -58,7 +58,6 @@ Ext.define('Racloop.view.RegisterForm', {
                 name: 'gender',
                 value: 'male',
                 label: 'Male',
-                hidden: true,
                 checked: true,
                 itemId: 'registerScreenMale'
             }, {
@@ -66,7 +65,6 @@ Ext.define('Racloop.view.RegisterForm', {
                 name: 'gender',
                 value: 'female',
                 label: 'Female',
-                hidden: true,
                 itemId: 'registerScreenFemale'
             }]
         }, {

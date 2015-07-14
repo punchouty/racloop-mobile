@@ -20,10 +20,13 @@ Ext.define('Racloop.view.MainNavigationView', {
             items: [{
                 xtype: 'container',
                 html: '<div class="section-header">' +
-                        '<img src="resources/icons/logo-mono.png"/>' +
+                        '<div class="small-text-medium uppercase colored-text">' +
+                        'Search, Connect and Go' +
+                        '</div>' +
+                        '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
                         '<div class="colored-line"></div>' +
                         '<div class="sub-heading">' +
-                            'Search, Connect and Go' +
+                            'Share Taxi and Auto Rides Conveniently.' +
                         '</div>' +
                       '</div>',
                 itemId: 'homeLabel'

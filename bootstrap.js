@@ -532,17 +532,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -681,6 +670,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.controller.SettingsController": [],
   "Racloop.controller.UiController": [],
   "Racloop.controller.WorkflowController": [],
+  "Racloop.form.SearchForm": [],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],
   "Racloop.model.EmergencyContacts": [],
@@ -714,6 +704,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.HistoryNavigationView": [],
   "Racloop.view.HistoryView": [],
   "Racloop.view.HistoryViewItem": [],
+  "Racloop.view.JourneyDetailsPanel": [],
   "Racloop.view.JourneyNavigationView": [],
   "Racloop.view.JourneyRatingView": [],
   "Racloop.view.JourneyViewItem": [],
@@ -723,6 +714,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.MapPanel": [],
   "Racloop.view.MyJourneyView": [],
   "Racloop.view.OfflineView": [],
+  "Racloop.view.Preferences": [],
   "Racloop.view.PrivacyPanel": [],
   "Racloop.view.RegisterForm": [],
   "Racloop.view.RelatedRequestViewItem": [],
@@ -1317,17 +1309,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -1484,6 +1465,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.controller.SettingsController": [],
   "Racloop.controller.UiController": [],
   "Racloop.controller.WorkflowController": [],
+  "Racloop.form.SearchForm": [
+    "widget.searchForm"
+  ],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],
   "Racloop.model.EmergencyContacts": [],
@@ -1537,6 +1521,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.view.HistoryViewItem": [
     "widget.historyViewItem"
   ],
+  "Racloop.view.JourneyDetailsPanel": [
+    "widget.journeyDetailsPanel"
+  ],
   "Racloop.view.JourneyNavigationView": [
     "widget.journeyNavigationView"
   ],
@@ -1563,6 +1550,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.OfflineView": [
     "widget.offlineView"
+  ],
+  "Racloop.view.Preferences": [
+    "widget.preferences"
   ],
   "Racloop.view.PrivacyPanel": [
     "widget.privacyPanel"

@@ -16,6 +16,7 @@ Ext.define('Racloop.util.Config', {
         //Setting menu
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
+        settingPreferences : 'Preferences',
         settingNameEmergencyContacts : 'Emergency Contacts',
         settingNameDataPrivacy : 'Data Privacy',
         settingNameTerms : 'Terms and Conditions',
@@ -88,6 +89,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://www.cabshare.in/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.cabshare.in/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://www.cabshare.in/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://www.cabshare.in/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.cabshare.in/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.cabshare.in/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://www.cabshare.in/userMobile/sos';
@@ -97,6 +99,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.cabshare.in/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://www.cabshare.in/userMobile/cancelUserRating';
 
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://www.cabshare.in/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://www.cabshare.in/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.cabshare.in/journeyMobile/childJourneys';
             this.config.url.RACLOOP_PASSENGERS = 'http://www.cabshare.in/journeyMobile/passengers';
@@ -124,6 +127,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://localhost:8080/app/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://localhost:8080/app/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://localhost:8080/app/userMobile/sos';
@@ -133,6 +137,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://localhost:8080/app/userMobile/cancelUserRating';
 
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://localhost:8080/app/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_PASSENGERS = 'http://localhost:8080/app/journeyMobile/passengers';
@@ -160,6 +165,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://' + ip + ':8080/app/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://' + ip + ':8080/app/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://' + ip + ':8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://' + ip + ':8080/app/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://' + ip + ':8080/app/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS='http://' + ip + ':8080/app/userMobile/sos';
@@ -169,6 +175,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://' + ip + ':8080/app/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://' + ip + ':8080/app/userMobile/cancelUserRating';
 
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://' + ip + ':8080/app/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';

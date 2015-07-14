@@ -97,7 +97,12 @@ $tabs-dark: $blue;
     //font-size: 1.5em;
     padding: 10px;
 }
-
+.preferencesCls:before {
+  font-family: "racloop-icons";
+  content: "\e0b9";
+  //font-size: 1.5em;
+  padding: 10px;
+}
 .passwordCls:before {
   font-family: "racloop-icons";
   content: "\e0f7";
@@ -241,6 +246,10 @@ $tabs-dark: $blue;
 .requestRideCls:before {
   font-family: "racloop-icons";
   content: "\e081";
+}
+.rideDetailsCls:before {
+  font-family: "racloop-icons";
+  content: "\e0ba";
 }
 .askToJoinCls:before {
   font-family: "racloop-icons";
@@ -1143,7 +1152,15 @@ input[type="button"].racloop-btn-block {
   width: 100%;
 }
 
-%clearfix {
+$bg-body: #f9f9f9;
+$primary-color: $blue;
+$secondary-color: $blue;
+$base-font-color: #726f77;
+
+// Timeline
+$timeline-color: $primary-color;
+
+.racloop-clearfix {
   &:after, &:before {
     content: '';
     display: block;
@@ -1157,10 +1174,10 @@ input[type="button"].racloop-btn-block {
     #{$prefix}#{$prop}: $val;
   }
 }
-$timeline-color: $base-color;
+
 #timeline {
   width: 90%;
-  margin: 30px auto;
+  margin: 5px auto;
   position: relative;
   @include prefix(transition, all .4s ease);
 
@@ -1182,9 +1199,9 @@ $timeline-color: $base-color;
   }
 
   .timeline-item {
-    margin-bottom: 50px;
+    margin-bottom: 5px;
     position: relative;
-    @extend %clearfix;
+    @extend .racloop-clearfix;
 
     .timeline-icon {
       background: $timeline-color;
@@ -1198,6 +1215,12 @@ $timeline-color: $base-color;
       @include prefix(border-radius, 50%);
 
       img {
+        position: relative;
+        top: 14px;
+        left: 14px;
+      }
+
+      span {
         position: relative;
         top: 14px;
         left: 14px;
@@ -1243,6 +1266,34 @@ $timeline-color: $base-color;
           border-left: 0;
           border-right: 7px solid $timeline-color;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #timeline {
+    margin: 30px;
+    padding: 0;
+    &:before {
+      left: 0;
+    }
+
+    .timeline-item {
+      .timeline-content {
+        width: 90%;
+        float: right;
+
+        &:before, &.right:before {
+          left: 10%;
+          margin-left: -6px;
+          border-left: 0;
+          border-right: 7px solid $timeline-color;
+        }
+      }
+
+      .timeline-icon {
+        left: 0;
       }
     }
   }

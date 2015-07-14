@@ -76,7 +76,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         buttonMarkup = "";
                     }
                     else {
-                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button>';
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button> ' +
+                        ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Details</button>';
                     }
 
                 }
@@ -109,7 +110,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         buttonMarkup = "";
                     }
                     else {
-                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>' +
+                        ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Details</button>';
                     }
                 }
                 else if(myStatus === "Requested") {
@@ -189,6 +191,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         });
         this.element.on({
             scope      : this,
+            tap        : 'detailsButtonTapFired',
+            delegate   : 'button.detailsButton'
+        });
+        this.element.on({
+            scope      : this,
             tap        : 'rejectButtonTapFired',
             delegate   : 'button.rejectButton'
         });
@@ -216,6 +223,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     },
     travelBuddiesButtonTapFired: function(e) {
         this.fireEvent('travelBuddiesReadOnlyButtonTap', this);
+    },
+    detailsButtonTapFired: function(e) {
+        this.fireEvent('detailsButtonTap', this);
     },
     rejectButtonTapFired: function(e) {
         this.fireEvent('rejectButtonTap', this);

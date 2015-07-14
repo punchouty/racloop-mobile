@@ -34,6 +34,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
                 travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
+                detailsButtonTap: 'detailsButtonTap',
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
@@ -238,6 +239,50 @@ Ext.define('Racloop.controller.WorkflowController', {
                 }
             },
             scope: this
+        });
+    },
+
+    detailsButtonTap : function(item) {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var searchNavigationView = this.getSearchNavigationView();
+        var record = item.getRecord();
+        var journeyId = record.get("id");
+        searchNavigationView.push({
+            itemId: 'journeyDetailsPanel',
+            xtype: "journeyDetailsPanel",
+            title: "Ride Details",
+            scrollable : true
+        });
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var JourneyDetailsText = Ext.ComponentQuery.query('#JourneyDetailsText')[0];
+                JourneyDetailsText.setHtml(data.message);
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Msg.alert("Network Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Network Failure", response.message);
+            Ext.Viewport.unmask();
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Details...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_JOURNEY_DETAILS + "?" + Ext.urlEncode({
+                journeyId : journeyId
+            }),
+            method: 'GET',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            success: successCallback,
+            failure: failureCallback
         });
     },
 
