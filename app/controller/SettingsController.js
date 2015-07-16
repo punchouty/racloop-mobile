@@ -6,13 +6,14 @@ Ext.define('Racloop.controller.SettingsController', {
         'Racloop.util.LoginHelper',
         'Racloop.view.ChangePasswordForm',
         'Racloop.model.EmergencyContacts',
+        'Racloop.model.Preferences',
         'Racloop.model.ChangePassword'
     ],
 
     config: {
         refs: {
             mainTabs: 'mainTabs',
-            settingNavigationView: '#settingNavigationView',
+            settingNavigationView: 'settingNavigationView',
 
             editProfileForm : 'editProfileForm',
             updateProfileButton: 'editProfileForm #updateProfileButton',
@@ -21,7 +22,10 @@ Ext.define('Racloop.controller.SettingsController', {
             changePasswordButton: 'changePasswordForm #changePasswordButton',
 
             emergencyContactForm: 'emergencyContactForm',
-            emergencyContactButton: 'emergencyContactForm #saveEmergencyContactsButton'
+            emergencyContactButton: 'emergencyContactForm #saveEmergencyContactsButton',
+
+            preferencesForm: 'preferencesForm',
+            savePreferencesButton: 'preferencesForm #savePreferencesButton'
         },
 
         control: {
@@ -36,6 +40,9 @@ Ext.define('Racloop.controller.SettingsController', {
             },
             emergencyContactButton : {
                 tap: 'saveEmergencyContacts'
+            },
+            savePreferencesButton : {
+                tap: 'savePreferences'
             }
         }
     },
@@ -417,6 +424,78 @@ Ext.define('Racloop.controller.SettingsController', {
                 failure: failureCallback
             });
         }
+    },
+
+    savePreferences : function(button, e, eOpts) {
+        var savePreferences = Ext.create("Racloop.model.Preferences", {});
+        var form = button.up('formpanel'), // Login form
+            values = form.getValues(), // Form values
+            preferencesForm = this.getPreferencesForm();
+        preferencesForm.updateRecord(savePreferences);
+
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                var user = LoginHelper.getUser();
+                user.emergencyContactOne = values.contactOne;
+                user.emergencyContactTwo = values.contactTwo;
+                user.travelModePreference = values.travelModePreference;
+                user.paymentPreference = values.paymentPreference;
+                user.cabServicePreference = values.cabServicePreference;
+                LoginHelper.setUser(user);
+                Ext.Msg.alert("Success", data.message);
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Failure", response.message);
+            Ext.Viewport.unmask();
+
+        };
+        var validationObj = savePreferences.validate();
+        var errorstring = "";
+        if (!validationObj.isValid()) {
+            var contactOneErrors = validationObj.getByField('contactOne');
+            for (var i = 0; i < contactOneErrors.length; i++) {
+                errorstring += contactOneErrors[i].getMessage() + "<br />";
+            }
+            var contactTwoErrors = validationObj.getByField('contactTwo');
+            for (var i = 0; i < contactTwoErrors.length; i++) {
+                errorstring += contactTwoErrors[i].getMessage() + "<br />";
+            }
+            Ext.Msg.alert("Oops", errorstring);
+        }
+        else {
+        
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Saving user preferences...'
+            });
+            Ext.Ajax.request({
+                url: Racloop.util.Config.url.RACLOOP_SAVE_PREFERENCES,
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: Ext.JSON.encode({
+                    contactOne: values.contactOne,
+                    contactTwo: values.contactTwo,
+                    travelModePreference: values.travelModePreference,
+                    paymentPreference: values.paymentPreference,
+                    cabServicePreference:values.cabServicePreference
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
+        }
+        
     }
 
 });

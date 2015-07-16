@@ -2,7 +2,7 @@
 Ext.define('Racloop.view.Preferences', {
     extend: 'Ext.form.Panel',
     alias: 'widget.preferences',
-    xtype: 'preferences',
+    xtype: 'preferencesForm',
 
     requires: [
         'Ext.form.FieldSet',
@@ -31,24 +31,25 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'travelModePreferenceField',
                 label: 'Travel Mode',
+                value:'Taxi',
                 options: [
                     {
                         text: 'Taxi',
-                        value: 'taxi'
+                        value: 'Taxi'
                     },
                     {
-                        text: 'Auto Rickshaw',
-                        value: 'auto'
+                        text: 'Auto',
+                        value: 'Auto'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "auto") {
+                        if (newValue == "Auto") {
                             var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('auto');
-                        } else if (newValue == "taxi") {
+                            travelModePreference.setValue('Auto');
+                        } else if (newValue == "Taxi") {
                             var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('taxi');
+                            travelModePreference.setValue('Taxi');
                         }
                     }
                 }
@@ -57,31 +58,32 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'paymentPreferenceSelectField',
                 label: 'Payment',
+                value:'Cash',
                 options: [
                     {
                         text: 'Cash',
-                        value: 'cash'
+                        value: 'Cash'
                     },
                     {
-                        text: 'Pay TM',
-                        value: 'payTm'
+                        text: 'PayTM',
+                        value: 'PayTM'
                     },
                     {
-                        text: 'Other Mobile Wallet',
-                        value: 'other'
+                        text: 'Other mobile wallets',
+                        value: 'Other mobile wallets'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "cash") {
+                        if (newValue == "Cash") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("cash");
-                        } else if (newValue == "payTm") {
+                            paymentPreference.setValue("Cash");
+                        } else if (newValue == "PayTM") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("payTm");
-                        } else if (newValue == "other") {
+                            paymentPreference.setValue("PayTM");
+                        } else if (newValue == "Other mobile wallets") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("other");
+                            paymentPreference.setValue("Other mobile wallets");
                         }
                     }
                 }
@@ -90,52 +92,53 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'cabServicePreferenceSelectField',
                 label: 'Cab Company',
+                value:'Uber',
                 options: [
                     {
-                        text: 'Ola Cabs',
-                        value: 'ola'
+                        text: 'Ola',
+                        value: 'Ola'
                     },
                     {
                         text: 'Uber',
-                        value: 'uber'
+                        value: 'Uber'
                     },
                     {
                         text: 'Meru Cabs',
-                        value: 'meru'
+                        value: 'Meru Cabs'
                     },
                     {
                         text: 'Mega Cabs',
-                        value: 'mega'
+                        value: 'Mega Cabs'
                     },
                     {
                         text: 'Easy Cabs',
-                        value: 'easy'
+                        value: 'Easy Cabs'
                     },
                     {
                         text: 'Others',
-                        value: 'others'
+                        value: 'Others'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "uber") {
+                        if (newValue == "Uber") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("uber");
-                        } else if (newValue == "ola") {
+                            cabServicePreference.setValue("Uber");
+                        } else if (newValue == "Ola") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("ola");
-                        } else if (newValue == "others") {
+                            cabServicePreference.setValue("Ola");
+                        } else if (newValue == "Others") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("others");
-                        } else if (newValue == "meru") {
+                            cabServicePreference.setValue("Others");
+                        } else if (newValue == "Meru Cabs") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("meru");
-                        } else if (newValue == "mega") {
+                            cabServicePreference.setValue("Meru Cabs");
+                        } else if (newValue == "Mega Cabs") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("mega");
-                        } else if (newValue == "easy") {
+                            cabServicePreference.setValue("Mega Cabs");
+                        } else if (newValue == "Easy Cabs") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("easy");
+                            cabServicePreference.setValue("Easy Cabs");
                         }
                     }
                 }
@@ -155,7 +158,7 @@ Ext.define('Racloop.view.Preferences', {
             } ]
         }, {
             xtype: 'button',
-            itemId: 'saveProfileButton',
+            itemId: 'savePreferencesButton',
             action: 'action',
             text: 'Save',
             ui: 'action',
@@ -164,5 +167,15 @@ Ext.define('Racloop.view.Preferences', {
         }
 
         ]
+    },
+    initialize: function() {
+        this.callParent(arguments);
+        var user = LoginHelper.getUser();
+        this.setValues(user);
+        this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
+        this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
+        this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
+        this.down('field[itemId=paymentPreferenceSelectField]').setValue(user.paymentPreference);
+        this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
     }
 });
