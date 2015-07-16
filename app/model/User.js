@@ -30,6 +30,15 @@ Ext.define('Racloop.model.User', {
         }, {
             name: 'emergencyContactTwo',
             type: 'string'
+        }, {
+            name: 'travelModePreference',
+            type: 'string'
+        }, {
+            name: 'paymentPreference',
+            type: 'string'
+        }, {
+            name: 'cabServicePreference',
+            type: 'string'
         }
 
         ],
