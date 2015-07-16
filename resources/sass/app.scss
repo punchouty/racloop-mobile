@@ -1156,10 +1156,8 @@ $bg-body: #f9f9f9;
 $primary-color: $blue;
 $secondary-color: $blue;
 $base-font-color: #726f77;
-
-// Timeline
-$timeline-color: $primary-color;
-
+$timeline-color : $blue;
+// Mixins and Placeholders
 .racloop-clearfix {
   &:after, &:before {
     content: '';
@@ -1175,9 +1173,10 @@ $timeline-color: $primary-color;
   }
 }
 
+// Timeline
 #timeline {
   width: 90%;
-  margin: 5px auto;
+  margin: 30px auto;
   position: relative;
   @include prefix(transition, all .4s ease);
 
@@ -1199,7 +1198,7 @@ $timeline-color: $primary-color;
   }
 
   .timeline-item {
-    margin-bottom: 5px;
+    margin-bottom: 50px;
     position: relative;
     @extend .racloop-clearfix;
 
@@ -1219,28 +1218,27 @@ $timeline-color: $primary-color;
         top: 14px;
         left: 14px;
       }
-
-      span {
-        position: relative;
-        top: 14px;
-        left: 14px;
-      }
     }
-
     .timeline-content {
       width: 45%;
       background: #fff;
-      padding: 20px;
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-bottom: 2px;
+      padding-left: 20px;
       @include prefix(box-shadow, 0 3px 0 rgba(0,0,0,0.1));
       @include prefix(border-radius, 5px);
       @include prefix(transition, all .3s ease);
 
       h2 {
-        padding: 15px;
+        font-size: 1.2em;
+        padding-top: 2px;
+        padding-right: 2px;
+        padding-bottom: 2px;
+        padding-left: 8px;
         background: $timeline-color;
         color: #fff;
         margin: -20px -20px 0 -20px;
-        font-weight: 500;
         @include prefix(border-radius, 3px 3px 0 0);
       }
 
@@ -1297,4 +1295,23 @@ $timeline-color: $primary-color;
       }
     }
   }
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border : 0;
+}
+th, td {
+  text-align: left;
+}
+
+.ctable {
+  table-layout:fixed;
+}
+
+.ctable tr:nth-child(odd){
+  background: #b8d1f3;
+}
+.ctable tr:nth-child(even){
+  background: #dae5f4;
 }

@@ -250,7 +250,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         searchNavigationView.push({
             itemId: 'journeyDetailsPanel',
             xtype: "journeyDetailsPanel",
-            title: "Ride Details",
+            title: "Suggested Route",
             scrollable : true
         });
         var successCallback = function(response, ops) {
