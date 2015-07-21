@@ -19,7 +19,9 @@ Ext.define('Racloop.controller.SessionsController', {
             loginButton: 'loginForm #loginButton',
             ratingView: 'ratingView',
             saveFeedBackButton: 'ratingView #saveFeedBack',
-            cancelFeedBackButton: 'ratingView #cancelFeedBack'
+            cancelFeedBackButton: 'ratingView #cancelFeedBack',
+            searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
+            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks'
         },
 
         control: {
@@ -95,6 +97,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                     if(LoginHelper.getLoginCounter() >= 3) {
                                         LoginHelper.resetLoginCounter();
                                         mainTabs.setActiveItem('settingNavigationView');
+                                        me.getHomeLinks().hide();
+                                        me.getSearchHeading().hide();
                                         settingNavigationView.push({
                                             title: Config.settingNameEmergencyContacts,
                                             xtype: 'emergencyContactForm',
@@ -104,6 +108,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                     }
                                     else {
                                         mainTabs.setActiveItem('searchNavigationView');
+                                        me.getHomeLinks().hide();
+                                        me.getSearchHeading().hide();
                                         Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                                    mainTabs.setActiveItem('mapPanel');
     //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -122,6 +128,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                     }
                                     else {
                                         mainTabs.setActiveItem('searchNavigationView');
+                                        me.getHomeLinks().hide();
+                                        me.getSearchHeading().hide();
                                         Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                                    mainTabs.setActiveItem('mapPanel');
     //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -131,6 +139,8 @@ Ext.define('Racloop.controller.SessionsController', {
                             }
                             else {
                                 mainTabs.setActiveItem('searchNavigationView');
+                                me.getHomeLinks().hide();
+                                me.getSearchHeading().hide();
                                 Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                            mainTabs.setActiveItem('mapPanel');
     //                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -178,6 +188,7 @@ Ext.define('Racloop.controller.SessionsController', {
             LoginHelper.removeEmail();
             Ext.Viewport.unmask();
             Ext.Viewport.setActiveItem(mainNavigationView);
+            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(true);
         }
     },
 
@@ -243,6 +254,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                 }
                                 else {
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    me.getHomeLinks().hide();
+                                    me.getSearchHeading().hide();
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -261,6 +274,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                 }
                                 else {
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    me.getHomeLinks().hide();
+                                    me.getSearchHeading().hide();
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -271,6 +286,8 @@ Ext.define('Racloop.controller.SessionsController', {
                         else {
                             console.log('login success emergency contact : false');
                             mainTabs.setActiveItem('searchNavigationView');
+                            me.getHomeLinks().hide();
+                            me.getSearchHeading().hide();
                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
     //                        mainTabs.setActiveItem('mapPanel');
     //                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();

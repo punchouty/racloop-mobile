@@ -22,8 +22,8 @@ Ext.define('Racloop.view.SearchNavigationView', {
         // layout: 'card',
         items: [{
             xtype: 'searchForm',
-            itemId: 'searchForm',
-            title: 'Search'//,
+            itemId: 'searchFormInTabs',
+            title: 'Search Rides'//,
 //            items: [{
 //                xtype: 'fieldset',
 //                title: 'Search Journeys',
