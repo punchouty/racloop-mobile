@@ -69,6 +69,7 @@ Ext.define('Racloop.controller.AccountController', {
                     var data = Ext.decode(response.responseText);
                     if (data.success) {
                         LoginHelper.setEmail(values.email);
+                        LoginHelper.setUser(data.data);
 //                        mainNavigationView.pop();
                         mainNavigationView.push({
                             itemId: 'verifySmsForm',
@@ -234,18 +235,10 @@ Ext.define('Racloop.controller.AccountController', {
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    var mainNavigationView = me.getMainNavigationView(); // Main view
-                    var homePanel = me.getHomePanel();
-                    var loginForm = me.getLoginForm();
-                    mainNavigationView.reset();
-                    mainNavigationView.push({
-                        itemId: 'loginForm',
-                        xtype: "loginForm",
-                        title: "Sign In"
-                    });
-
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    var sessionController = Racloop.app.getController('SessionsController') ;
+                    sessionController.autoLogin();
+                    
                 }
                 else {
                     Ext.Viewport.unmask();

@@ -844,6 +844,7 @@ Ext.define('Racloop.controller.SessionsController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     LoginHelper.setEmail(values.email);
+                    LoginHelper.setUser(data.data);
 //                        mainNavigationView.pop();
                     mainNavigationView.push({
                         itemId: 'verifySmsForm',
