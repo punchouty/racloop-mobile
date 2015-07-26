@@ -38,7 +38,7 @@ Ext.define('Racloop.view.RelatedRequestViewReadOnlyItem', {
             var month = Ext.Date.format(date, 'F');
             var time = Ext.Date.format(date, 'g:i A');
             var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
-            if(record.get("otherUser")!=null){
+            if(record.get("photoUrl")!=null){
                 imgSrc=record.get("photoUrl");
              }
              else {
