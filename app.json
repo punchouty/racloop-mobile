@@ -66,6 +66,9 @@
             "path": "resources/third-party/aes.js"
         },
         {
+            "path": "resources/js/facebookConnectPlugin.js"
+        },
+        {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
         },

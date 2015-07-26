@@ -19,7 +19,9 @@ Ext.define('Racloop.controller.SessionsController', {
             loginButton: 'loginForm #loginButton',
             ratingView: 'ratingView',
             saveFeedBackButton: 'ratingView #saveFeedBack',
-            cancelFeedBackButton: 'ratingView #cancelFeedBack'
+            cancelFeedBackButton: 'ratingView #cancelFeedBack',
+            fbLoginButton: 'loginForm #facebookLoginButton',
+            saveMobileButton: 'mobileCaptureForm #saveMobileButton'
         },
 
         control: {
@@ -31,6 +33,12 @@ Ext.define('Racloop.controller.SessionsController', {
             },
             cancelFeedBackButton: {
                 tap: 'onCancelFeedbackTap'
+            },
+            fbLoginButton: {
+                 tap: 'onFBLogInButtonTap'
+            },
+            saveMobileButton : {
+                tap : 'saveMobileButtonTap'
             }
         }
     },
@@ -324,6 +332,12 @@ Ext.define('Racloop.controller.SessionsController', {
         }
 
 
+    },
+
+    onFBLogInButtonTap: function(){ 
+        var me = this;
+        loginView = me.getSettingNavigationView();
+        Racloop.util.FBConnect.authenticate(me);
     },
 
     handleLoginFormValidation: function(validationObj) {
@@ -620,109 +634,244 @@ Ext.define('Racloop.controller.SessionsController', {
         var settingNavigationView = this.getSettingNavigationView();
         var me = this;
         var currentDateString = Ext.Date.format(new Date(),'c');
-         var successCallback = function(response, ops) {
-                var data = Ext.decode(response.responseText);
-                console.log(data);
-                if (data.success) {
-                        var currentJourney = data.currentJourney
-                        var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
-                        Ext.Viewport.setActiveItem(mainTabs);
-                        mainTabs.show();
-                        Ext.Viewport.unmask();
-                        if(currentJourney) {
-                            console.log("SessionController - autoLogin - currentJourney exists");
-                            mainTabs.setActiveItem('mapPanel');
-                            LoginHelper.setCurrentJourney(currentJourney);
-                            Racloop.app.getController('MapController').showCurrentJourney();
-                            //Racloop.app.getController('MapController').watchCurrentLocation();
-                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                        }
-                        else {
-                            console.log("SessionController - autoLogin - currentJourney does not exists");
-                            LoginHelper.removeCurrentJourney();
-                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                            console.log('login success data.currentJourney : false');
-                            if(!LoginHelper.isEmergencyContactDefined(data.data)) {
-                                LoginHelper.incrementLoginCounter();
-                                if(LoginHelper.isFemale(data.data)) {
-                                    if(LoginHelper.getLoginCounter() >= 3) {
-                                        LoginHelper.resetLoginCounter();
-                                        mainTabs.setActiveItem('settingNavigationView');
-                                        settingNavigationView.push({
-                                            title: Config.settingNameEmergencyContacts,
-                                            xtype: 'emergencyContactForm',
-                                            itemId: 'emergencyContactForm'
-                                        });
-                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                                    }
-                                    else {
-                                        mainTabs.setActiveItem('searchNavigationView');
-                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-    //                                    mainTabs.setActiveItem('mapPanel');
-    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                                    }
-                                }
-                                else {
-                                    if(LoginHelper.getLoginCounter() >= 3) {
-                                        LoginHelper.resetLoginCounter();
-                                        mainTabs.setActiveItem('settingNavigationView');
-                                        settingNavigationView.push({
-                                            title: Config.settingNameEmergencyContacts,
-                                            xtype: 'emergencyContactForm',
-                                            itemId: 'emergencyContactForm'
-                                        });
-                                        Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
-                                    }
-                                    else {
-                                        mainTabs.setActiveItem('searchNavigationView');
-                                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-    //                                    mainTabs.setActiveItem('mapPanel');
-    //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                                    }
-                                }
-
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            console.log(data);
+            if (data.success) {
+                var currentJourney = data.currentJourney;
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                mainTabs.show();
+                Ext.Viewport.unmask();
+                if(currentJourney) {
+                    console.log("SessionController - autoLogin - currentJourney exists");
+                    mainTabs.setActiveItem('mapPanel');
+                    LoginHelper.setCurrentJourney(currentJourney);
+                    Racloop.app.getController('MapController').showCurrentJourney();
+                    //Racloop.app.getController('MapController').watchCurrentLocation();
+                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                }
+                else {
+                    console.log("SessionController - autoLogin - currentJourney does not exists");
+                    LoginHelper.removeCurrentJourney();
+                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                    console.log('login success data.currentJourney : false');
+                    if(!LoginHelper.isEmergencyContactDefined(data.data)) {
+                        LoginHelper.incrementLoginCounter();
+                        if(LoginHelper.isFemale(data.data)) {
+                            if(LoginHelper.getLoginCounter() >= 3) {
+                                LoginHelper.resetLoginCounter();
+                                mainTabs.setActiveItem('settingNavigationView');
+                                settingNavigationView.push({
+                                    title: Config.settingNameEmergencyContacts,
+                                    xtype: 'emergencyContactForm',
+                                    itemId: 'emergencyContactForm'
+                                });
+                                Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                             }
                             else {
                                 mainTabs.setActiveItem('searchNavigationView');
                                 Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
-    //                            mainTabs.setActiveItem('mapPanel');
-    //                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+//                                    mainTabs.setActiveItem('mapPanel');
+//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                             }
-
                         }
-                    }else {
+                        else {
+                            if(LoginHelper.getLoginCounter() >= 3) {
+                                LoginHelper.resetLoginCounter();
+                                mainTabs.setActiveItem('settingNavigationView');
+                                settingNavigationView.push({
+                                    title: Config.settingNameEmergencyContacts,
+                                    xtype: 'emergencyContactForm',
+                                    itemId: 'emergencyContactForm'
+                                });
+                                Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
+                            }
+                            else {
+                                mainTabs.setActiveItem('searchNavigationView');
+                                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+//                                    mainTabs.setActiveItem('mapPanel');
+//                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                            }
+                        }
+
+                    }
+                    else {
+                        mainTabs.setActiveItem('searchNavigationView');
+                        Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+//                            mainTabs.setActiveItem('mapPanel');
+//                            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+                    }
+
+                }
+
+            }
+            else {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert('Error', data.message);
+                Ext.Viewport.setActiveItem(mainNavigationView);
+             }
+        };
+
+        var failureCallback = function(response, ops) {
+            //LoginHelper.removeUser();
+            Ext.Viewport.unmask();
+            Ext.Viewport.setActiveItem(mainNavigationView);
+            Ext.Msg.alert("Network Error", response.code);
+
+        };         
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        }); 
+
+          Ext.Ajax.request({
+            url: Config.url.RACLOOP_GET_CURRENT_JOURNEY,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                currentDateString : currentDateString
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+
+    loginAsFacebook : function(facebookId, email, name, gender) {
+        var me = this;
+        var mainNavigationView = this.getMainNavigationView();
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                 Ext.Viewport.unmask();
+                if(data.data) {
+                    LoginHelper.setUser(data.data);
+                    //LoginHelper.setEmail(values.email);
+                    me.autoLogin();
+                }
+                else  {
+                    var mobileCaptureForm = mainNavigationView.push({
+                        title: "Mobile",
+                        xtype: 'mobileCaptureForm',
+                        itemId: 'mobileCaptureForm'
+                    });
+                    mobileCaptureForm.down("field[name=facebookId]").setValue(facebookId);
+                    mobileCaptureForm.down("field[name=email]").setValue(email);
+                    //mobileCaptureForm.down("field[name=accessToken]").setValue(accessToken);
+                    mobileCaptureForm.down("field[name=name]").setValue(name);
+                    mobileCaptureForm.down("field[name=gender]").setValue(gender);
+                }
+               
+            } 
+            else {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Unable to login", data.message);
+            }
+        };
+
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert("Server Failure", response.message);
+            Ext.Viewport.unmask();
+
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_LOGIN_AS_FACEBOOK,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                email: email,
+                facebookId : facebookId,
+                name:name,
+                gender:gender
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+
+    saveMobileButtonTap : function(button, e, eOpts) {
+        var user = Ext.create("Racloop.model.User", {});
+        var registerForm = button.up('formpanel'); // Register form
+        var values = registerForm.getValues(); // Form values
+
+        //TODO Need to be removed
+        //Ext.ComponentQuery.query('#registerScreenRepeatPassword')[0].setValue(values.password);
+        //Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+        registerForm.updateRecord(user);
+
+        //var validationObj = user.validate();
+        if (false) {
+            var errorString = this.handleRegisterationFormValidation(validationObj);
+            Ext.Msg.alert("Oops", errorString);
+        } else {
+            // Success
+            var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    LoginHelper.setEmail(values.email);
+//                        mainNavigationView.pop();
+                    mainNavigationView.push({
+                        itemId: 'verifySmsForm',
+                        xtype: "verifySmsForm",
+                        title: "Verify Mobile"
+                    });
+                    Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert('Error', data.message);
-                    Ext.Viewport.setActiveItem(mainNavigationView);
+                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                } else {
+                    Ext.Msg.alert("Failure", data.message);
+                    Ext.Viewport.unmask();
                 }
             };
 
+            // Failure
             var failureCallback = function(response, ops) {
-                //LoginHelper.removeUser();
+                Ext.Msg.alert("Failure", response.message);
                 Ext.Viewport.unmask();
-                Ext.Viewport.setActiveItem(mainNavigationView);
-                Ext.Msg.alert("Network Error", response.code);
 
-            };         
+            };
+
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Logging in...'
-            }); 
-
-              Ext.Ajax.request({
-                url: Config.url.RACLOOP_GET_CURRENT_JOURNEY,
-                method: 'post',
+                message: 'Signing up...'
+            });
+            Ext.Ajax.request({
+                url: Config.url.RACLOOP_SIGNUP,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                withCredentials: true,
-                useDefaultXhrHeader: false,
                 params: Ext.JSON.encode({
-                    currentDateString : currentDateString
+                    email: values.email,
+                    password: values.password,
+                    passwordConfirm: values.password,
+                    fullName: values.name,
+                    mobile: values.mobile,
+                    gender: values.gender,
+                    facebookId:values.facebookId
                 }),
                 success: successCallback,
                 failure: failureCallback
             });
+            
+            
+        }
     }
 });

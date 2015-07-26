@@ -115,7 +115,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.cabshare.in/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://www.cabshare.in/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://www.cabshare.in/workflowMobile/cancelRequest';
-
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://www.cabshare.in/userMobile/loginFromFacebook';
+            
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
@@ -153,6 +154,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://localhost:8080/app/userMobile/loginFromFacebook';
 
         } else {
             var ip = "127.0.0.1";//"192.168.1.3";
@@ -191,6 +193,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://' + ip + ':8080/app/userMobile/loginFromFacebook';
         }
         return this.config;
     }

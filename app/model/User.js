@@ -39,6 +39,9 @@ Ext.define('Racloop.model.User', {
         }, {
             name: 'cabServicePreference',
             type: 'string'
+        }, {
+            name: 'facebookId',
+            type: 'string'
         }
 
         ],
