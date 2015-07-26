@@ -21,7 +21,7 @@ Ext.define('Racloop.controller.SessionsController', {
             saveFeedBackButton: 'ratingView #saveFeedBack',
             cancelFeedBackButton: 'ratingView #cancelFeedBack',
             fbLoginButton: 'loginForm #facebookLoginButton',
-            saveMobileButton: 'mobileCaptureForm #saveMobileButton'
+            saveMobileButton: 'mobileCaptureForm #saveMobileButton',
             searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
             homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks'
 
