@@ -23,7 +23,8 @@ Ext.define('Racloop.controller.AccountController', {
             registerButton : 'registerForm #registerButton',
             verifyMobileButton: 'verifySmsForm #verifyMobile',
             resendSmsButton : 'verifySmsForm #resendSms',
-            forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton'
+            forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton',
+            facebookSignInButton : 'registerForm #facebookSignInButton',
         },
 
         control: {
@@ -38,6 +39,9 @@ Ext.define('Racloop.controller.AccountController', {
             },
             forgotPasswordButton : {
                 tap: 'forgotPassword'
+            },
+            facebookSignInButton : {
+                tap: 'onFBSignInButtonTap'
             }
         }
     },
@@ -375,5 +379,11 @@ Ext.define('Racloop.controller.AccountController', {
 
     resetErrorForgetPasswordFields: function() {
         Ext.ComponentQuery.query('#forgotPasswordTextField')[0].removeCls('error');
+    },
+
+    onFBSignInButtonTap: function(){ 
+        var me = this;
+        var sessionController = Racloop.app.getController('SessionsController') ;
+        Racloop.util.FBConnect.authenticate(sessionController);
     }
 });
