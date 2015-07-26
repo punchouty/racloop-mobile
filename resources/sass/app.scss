@@ -275,9 +275,9 @@ $tabs-dark: $blue;
   color: white;
 }
 .journeyItem {
-  padding: 0.35em;
-  border-top: solid 1px #ccc;
-  border-bottom: 1px solid #aeaeae;
+  padding: 0.1em;
+  //border-top: solid 1px #ccc;
+  //border-bottom: 1px solid #aeaeae;
 }
 
 .strong {
@@ -435,8 +435,8 @@ strong,
 }
 
 .section-header {
-  margin-top: 45px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -542,13 +542,17 @@ strong,
 .card {
     //background:#FFF;
     //border:0.1em solid #AAA;
-    padding:0.1em;
-    margin:0.2em;
+    //padding:0.1em;
+    margin:5px;
     overflow:hidden;
-    border-radius: 0.4em;
+    //border-radius: 0.4em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    border-radius: .7em;
+    padding: 5px;
 }
 .card-info {
     -webkit-box-sizing: border-box;

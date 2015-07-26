@@ -21,8 +21,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
-            console.log("JourneyViewItem");
-            console.dir(record);
             var drivingText = '';
             var dateOfJourney = record.get("dateOfJourney");
             var day = Ext.Date.format(dateOfJourney, 'd');

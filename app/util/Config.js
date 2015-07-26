@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'dev',
+        env: 'prod',
         app: {
             messageText: 'Test message.'
         },
@@ -24,7 +24,7 @@ Ext.define('Racloop.util.Config', {
         //Tabs
         tabHome : 'Home',
         tabSearch : 'Search',
-        tabMyJourneys : 'My Journeys',
+        tabMyJourneys : 'My Rides',
         tabHistory : 'History',
         tabNotifications : 'Notifications',
         tabSettings : 'Settings',

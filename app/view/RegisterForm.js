@@ -86,7 +86,7 @@ Ext.define('Racloop.view.RegisterForm', {
                     //"Password should contain upper case, lower case, numeric value and a symbol."
                         'By registering you are agreeing to ' +
                         '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
-                        '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> statement of Racloop'
+                        '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> statement of CabShare'
                 ].join("")
             } ]
     }

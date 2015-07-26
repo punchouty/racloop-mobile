@@ -13,13 +13,24 @@ Ext.define('Racloop.controller.JourneysController', {
     config: {
         refs: {
             mainTabs: 'mainTabs',
+
             searchNavigationView : 'searchNavigationView',
-            searchForm : 'searchNavigationView #searchForm',
-            searchButton : 'searchNavigationView #searchButton',
+            searchFormInTab : 'searchNavigationView #searchFormInTabs',
+            searchButtonInTab : 'searchNavigationView #searchFormInTabs #searchButton',
+            datePickerInTab : 'searchNavigationView #searchFormInTabs datepickerfield[itemId=searchScreenDate]',
+            timePickerInTab : 'searchNavigationView #searchFormInTabs timepickerfield[itemId=searchScreenTime]',
+            //loginButtonInSearchResults : 'searchNavigationView #loginButtonInSearchResults',
+
+            mainNavigationView: 'mainNavigationView',
+            searchFormInMainView : 'mainNavigationView #searchFormInMain',
+            searchButtonInMainView : 'mainNavigationView #searchFormInMain #searchButton',
+            datePickerInMainView : 'mainNavigationView #searchFormInMain datepickerfield[itemId=searchScreenDate]',
+            timePickerInMainView : 'mainNavigationView #searchFormInMain timepickerfield[itemId=searchScreenTime]',
 
             saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
             emptySearchResultsHtml : 'searchResultsEmptyView #emptySearchHtml',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
+            loginButtonInSearchResults : 'searchResultsView #loginButtonInSearchResults',
             searchResultsView : 'searchResultsView',
 
             existingJourneyPanel : 'existingJourneyPanel',
@@ -28,11 +39,20 @@ Ext.define('Racloop.controller.JourneysController', {
             existingJourneyKeepOriginalButton : 'existingJourneyPanel #existingJourneyKeepOriginalButton'
         },
         control: {
+            //'searchForm': {
+            //    initialize : 'initialiseUi'
+            //},
             'searchNavigationView': {
-                initialize : 'initialiseUi'
+                initialize : 'initSearchControlsInMainTabs'
             },
-            searchButton: {
-                tap : 'searchButtonTap'
+            'mainNavigationView': {
+                initialize : 'initSearchControlsInMainView'
+            },
+            searchButtonInTab: {
+                tap : 'searchButtonInTabTap'
+            },
+            searchButtonInMainView: {
+                tap : 'searchButtonInMainViewTap'
             },
             saveJourneyButtonInEmptyResults : {
                 tap : 'handleSaveJourneyTap'
@@ -40,10 +60,16 @@ Ext.define('Racloop.controller.JourneysController', {
             saveJourneyButtonInSearchResults : {
                 tap : 'handleSaveJourneyTap'
             },
-            "datepickerfield[itemId=searchScreenDate]": {
+            "datePickerInTab": {
                 change: 'onDatePickerFieldChange'
             },
-            "timepickerfield[itemId=searchScreenTime]": {
+            "timePickerInTab": {
+                change: 'onTimePickerFieldChange'
+            },
+            "datePickerInMainView": {
+                change: 'onDatePickerFieldChange'
+            },
+            "timePickerInMainView": {
                 change: 'onTimePickerFieldChange'
             },
             'searchResultViewItem':{
@@ -57,14 +83,29 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             'existingJourneyKeepOriginalButton' : {
                 tap: 'handleExistingJourneyKeepOriginalButtonTap'
+            },
+            'loginButtonInSearchResults' : {
+                tap : 'loginButtonInSearchResultsTap'
             }
         }
     },
 
-    initialiseUi : function() {
+    initSearchControlsInMainTabs : function() {
+        console.log("initSearchControlsInMainTabs");
+        var searchForm = this.getSearchFormInTab();
+        this.initialiseUi(searchForm);
+    },
+
+    initSearchControlsInMainView : function() {
+        console.log("initSearchControlsInMainView");
+        var searchForm = this.getSearchFormInMainView();
+        this.initialiseUi(searchForm);
+    },
+
+    initialiseUi : function(searchForm) {
         var me = this;
-        var searchForm = this.getSearchForm();
-        var root = searchForm.element.dom;
+        //var searchForm = this.getSearchForm();
+        //var root = searchForm.element.dom;
 
         var actionSheetFrom = Ext.create('Ext.ActionSheet', {
             top: '0',
@@ -92,7 +133,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 }
             }]
         });
-        this.actionSheetFrom = actionSheetFrom;
+        //this.actionSheetFrom = actionSheetFrom;
 
         var actionSheetTo = Ext.create('Ext.ActionSheet', {
             top: '0',
@@ -120,7 +161,7 @@ Ext.define('Racloop.controller.JourneysController', {
             }]
 
         });
-        this.actionSheetTo = actionSheetTo;
+        //this.actionSheetTo = actionSheetTo;
 
         var fromField = searchForm.down('#searchScreenFrom');
         fromField.element.on({
@@ -146,20 +187,22 @@ Ext.define('Racloop.controller.JourneysController', {
                 actionSheetTo.show();
             }
         });
+        this.initGoogleElements(searchForm, actionSheetFrom, actionSheetTo);
+        this.initTime(searchForm);
     },
 
     launch : function() {
 
     },
 
-    initGoogleElements : function() { // Called from MapController initApp method
+    initGoogleElements : function(searchForm, actionSheetFrom, actionSheetTo) {
         console.log("Journey Controller initGoogleElements starts");
         var me = this;
-        var searchForm = this.getSearchForm();
-        console.log("this.getSearchForm() : " + this.getSearchForm());
+        //var searchForm = this.getSearchForm();
+        //console.log("this.getSearchForm() : " + this.getSearchForm());
         var root = searchForm.element.dom;
-        var actionFromRoot = this.actionSheetFrom.element.dom;
-        var actionToRoot = this.actionSheetTo.element.dom;
+        var actionFromRoot = actionSheetFrom.element.dom;
+        var actionToRoot = actionSheetTo.element.dom;
 
         var fromInput = actionFromRoot.querySelectorAll('input[name=from]')[0];
         var toInput = actionToRoot.querySelectorAll('input[name=to]')[0];
@@ -178,8 +221,8 @@ Ext.define('Racloop.controller.JourneysController', {
             searchForm.down('field[name=fromLongitude]').setValue(longFrom);
             latTo = searchForm.down('field[name=toLatitude]').getValue();
             longTo = searchForm.down('field[name=toLongitude]').getValue();
-            me.calculateDistance(latFrom, longFrom, latTo, longTo);
-            me.actionSheetFrom.hide();
+            me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
+            actionSheetFrom.hide();
         });
 
         google.maps.event.addListener(autocompleteTo, 'place_changed', function () {
@@ -192,10 +235,12 @@ Ext.define('Racloop.controller.JourneysController', {
             searchForm.down('field[name=toLongitude]').setValue(longTo);
             latFrom = searchForm.down('field[name=fromLatitude]').getValue();
             longFrom = searchForm.down('field[name=fromLongitude]').getValue();
-            me.calculateDistance(latFrom, longFrom, latTo, longTo);
-            me.actionSheetTo.hide();
+            me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
+            actionSheetTo.hide();
         });
+    },
 
+    initTime : function(searchForm) {
         var now = new Date();
         var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7; //in days
@@ -234,8 +279,8 @@ Ext.define('Racloop.controller.JourneysController', {
         console.log("Journey Controller initGoogleElements ends");
     },
 
-    calculateDistance : function(latFrom, longFrom, latTo, longTo) {
-        var searchForm = this.getSearchForm();
+    calculateDistance : function(searchForm, latFrom, longFrom, latTo, longTo) {
+        //var searchForm = this.getSearchForm();
         var directionsService = Racloop.app.getController('MapController').directionsService
         if (latFrom != null && longFrom != null & latTo != null && longTo != null) {
             var request = {
@@ -284,14 +329,15 @@ Ext.define('Racloop.controller.JourneysController', {
     },
 
     onDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        this.setDateTime();
+        var searchForm = field.up('searchForm');
+        this.setDateTime(searchForm);
     },
     onTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        //selectedTime=field.getFormattedValue('g:i A');
-        this.setDateTime();
+        var searchForm = field.up('searchForm');
+        this.setDateTime(searchForm);
     },
-    setDateTime: function() {
-        var searchForm = this.getSearchForm();
+    setDateTime: function(searchForm) {
+        //var searchForm = this.getSearchForm();
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
 
@@ -314,16 +360,27 @@ Ext.define('Racloop.controller.JourneysController', {
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
 
-    searchButtonTap: function(button, e, eOpts) {
+    searchButtonInTabTap : function(button, e, eOpts) {
+        this.searchButtonTap(false, button, e, eOpts );
+    },
+
+    searchButtonInMainViewTap : function(button, e, eOpts) {
+        this.searchButtonTap(true, button, e, eOpts );
+    },
+
+    searchButtonTap: function(isFirstScreen, button, e, eOpts) {
+        console.log("searchButtonTap searchButtonTap")
         var me = this;
-        this.resetErrorFields();
-        var searchForm = this.getSearchForm();
+        var searchForm = button.up('searchForm');
+        console.log('searchForm : ' + searchForm)
+        this.resetErrorFields(isFirstScreen);
+        //var searchForm = this.getSearchForm();
         var journeyModel = Ext.create('Racloop.model.Journey', {});
         var values = searchForm.getValues(); // Form values
         searchForm.updateRecord(journeyModel);
         var validationObj = journeyModel.validate();
         if (!validationObj.isValid()) {
-            var errorString = this.validateSearchForm(validationObj);
+            var errorString = this.validateSearchForm(isFirstScreen, validationObj);
             Ext.Msg.alert("Oops, Input Errors", errorString);
         } else {
             var isTaxi = values.isTaxi;
@@ -332,12 +389,12 @@ Ext.define('Racloop.controller.JourneysController', {
                 Ext.Msg.alert("Use Taxi", "We don't allow journeys more that 75 KM by Auto Rickshaw. Please use Taxi as transport mode");
             }
             else {
-                this.executeSearch(values);
+                this.executeSearch(values, isFirstScreen);
             }
         }
     },
 
-    executeSearch : function(journey) {
+    executeSearch : function(journey, isFirstScreen) {
         var me = this;
 
         var successCallback = function(response, ops) {
@@ -437,35 +494,93 @@ Ext.define('Racloop.controller.JourneysController', {
                     for (var i in jsonObj) {
                         if(disableMoreRequests) jsonObj[i].disableRequest = true;
                         else jsonObj[i].disableRequest = false;
+                        if(isFirstScreen) {
+                            jsonObj[i].hideButtons = true;
+                        }
                         searchStore.add(jsonObj[i]);
                     };
                     if(data.total == 0) {
-                        me.getSearchNavigationView().push({
-                            xtype: "searchResultsEmptyView",
-                            title: "Search Results"
-                        });
+                        var searchResultsView = null
+                        if(isFirstScreen) {
+                            searchResultsView = me.getMainNavigationView().push({
+                                xtype: "searchResultsEmptyView",
+                                title: "Search Results"
+                            });
+                        }
+                        else {
+                            searchResultsView = me.getSearchNavigationView().push({
+                                xtype: "searchResultsEmptyView",
+                                title: "Search Results"
+                            });
+                        }
                         if(data.data.hideSaveButton) {
                             me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
                             me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                         }
                     }
                     else {
-                        var searchResultsView = me.getSearchNavigationView().push({
-                            xtype: "searchResultsView",
-                            title: "Search Results"
+                        //var searchResultsView = me.getSearchNavigationView().push({
+                        //    xtype: "searchResultsView",
+                        //    title: "Search Results"
+                        //});
+                        //var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        //comp.isDummy = data.isDummy;
+                        //console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                        //if(data.data.hideSaveButton) {
+                        //    //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                        //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                        //}
+                        //else {
+                        //    //me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                        //    searchResultsView.down('#saveJourneyButton').setHidden(false);
+                        //}
+                        //console.log("isFirstScreen : " + isFirstScreen + " searchResultsView.down('#loginButtonInSearchResults') : " + searchResultsView.down('#loginButtonInSearchResults'))
+                        //if(isFirstScreen === false) {
+                        //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                        //}
+                        //else {
+                        //    searchResultsView.down('#loginButtonInSearchResults').setHidden(false);
+                        //}
+                        //if(disableMoreRequests) {
+                        //    Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        //}
+                        var task = Ext.create('Ext.util.DelayedTask', function(){
+                            var searchResultsView = null
+                            if(isFirstScreen) {
+                                searchResultsView = me.getMainNavigationView().push({
+                                    xtype: "searchResultsView",
+                                    title: "Search Results"
+                                });
+                            }
+                            else {
+                                searchResultsView = me.getSearchNavigationView().push({
+                                    xtype: "searchResultsView",
+                                    title: "Search Results"
+                                });
+                            }
+                            var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                            comp.isDummy = data.isDummy;
+                            console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                            if(data.data.hideSaveButton || isFirstScreen) {
+                                //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                                searchResultsView.down('#saveJourneyButton').setHidden(true);
+                            }
+                            else {
+                                //me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                                searchResultsView.down('#saveJourneyButton').setHidden(false);
+                            }
+                            console.log("isFirstScreen : " + isFirstScreen + " searchResultsView.down('#loginButtonInSearchResults') : " + searchResultsView.down('#loginButtonInSearchResults'))
+                            if(isFirstScreen) {
+                                searchResultsView.down('#loginButtonInSearchResults').setHidden(false);
+                            }
+                            else {
+                                searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                            }
+                            if(disableMoreRequests) {
+                                Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                            }
                         });
-                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                        comp.isDummy = data.isDummy;
-                        console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                        if(data.data.hideSaveButton) {
-                            me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                        }
-                        else {
-                            me.getSaveJourneyButtonInSearchResults().setHidden(false);
-                        }
-                        if(disableMoreRequests) {
-                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
-                        }
+                        task.delay(300);
                     }
                 }
                 Ext.Viewport.unmask();
@@ -514,7 +629,7 @@ Ext.define('Racloop.controller.JourneysController', {
         });
     },
 
-    validateSearchForm: function(validationObj) {
+    validateSearchForm: function(isFirstScreen, validationObj) {
         var errorstring = "";
         var formPlaceError = false;
         var fromPlaceErrors = validationObj.getByField('from');
@@ -530,7 +645,8 @@ Ext.define('Racloop.controller.JourneysController', {
             formPlaceError = true;
         }
         if(formPlaceError) {
-            Ext.ComponentQuery.query('#searchForm  #searchScreenFrom')[0].addCls('error');
+            if(isFirstScreen) Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenFrom')[0].addCls('error');
+            else Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenFrom')[0].addCls('error');
             errorstring += "Invalid Location : From* field<br />";
         }
 
@@ -548,7 +664,8 @@ Ext.define('Racloop.controller.JourneysController', {
             toPlaceError = true;
         }
         if(toPlaceError) {
-            Ext.ComponentQuery.query('#searchForm  #searchScreenTo')[0].addCls('error');
+            if(isFirstScreen) Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTo')[0].addCls('error');
+            else Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTo')[0].addCls('error');
             errorstring += "Invalid Location :  To* field<br />";
         }
 
@@ -558,17 +675,31 @@ Ext.define('Racloop.controller.JourneysController', {
             for (var i = 0; i < journeyErrors.length; i++) {
                 errorstring += journeyErrors[i].getMessage() + "<br />";
             }
-            Ext.ComponentQuery.query('#searchForm  #searchScreenDate')[0].addCls('error');
-            Ext.ComponentQuery.query('#searchForm  #searchScreenTime')[0].addCls('error');
+            if(isFirstScreen) {
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTime')[0].addCls('error');
+            }
+            else {
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTime')[0].addCls('error');
+            }
         }
         return errorstring;
     },
 
-    resetErrorFields: function() {
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenDate')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenTime')[0].removeCls('error');
+    resetErrorFields: function(isFirstScreen) {
+        if(isFirstScreen) {
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTime')[0].removeCls('error');
+        }
+        else {
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTime')[0].removeCls('error');
+        }
     },
 
     resetFields: function() {
@@ -577,28 +708,29 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSearchAgainHistoryButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].setValue(record.get("from"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].setValue(record.get("to"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
 
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
-        Ext.ComponentQuery.query('#searchForm field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripDistance]')[0].setValue(distance);
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
 
         var isTaxi = record.get("isTaxi");
         if(isTaxi) {
-            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('taxi');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('taxi');
         }
         else {
-            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('auto');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('auto');
         }
-        var searchForm = this.getSearchForm();
+        var searchForm = this.getSearchFormInTab();
         var activeItem = this.getSearchNavigationView().getActiveItem();
         if(searchForm != activeItem) this.getSearchNavigationView().pop();
         this.getMainTabs().setActiveItem('searchNavigationView');
+        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
         //this.searchJourneys();
 
     },
@@ -682,25 +814,47 @@ Ext.define('Racloop.controller.JourneysController', {
                     else jsonObj[i].disableRequest = false;
                     searchStore.add(jsonObj[i]);
                 };
-                if(data.total == 0) {
-                    me.getSearchNavigationView().push({
-                        title : 'Search Results',
-                        xtype : 'searchResultsEmptyView'
-                    });
-                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                }
-                else {
-                    me.getSearchNavigationView().push({
-                        title : 'Search Results',
-                        xtype : 'searchResultsView'
-                    });
-                    console.log("handleExistingJourneyReplaceButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                    if(disableMoreRequests) {
-                        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                var task = Ext.create('Ext.util.DelayedTask', function(){
+                    if(data.total == 0) {
+                        me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsEmptyView'
+                        });
+                        me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                        me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                     }
-                }
+                    else {
+                        var searchResultsView = me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsView'
+                        });
+                        me.getLoginButtonInSearchResults().setHidden(true);
+                        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
+                        if(disableMoreRequests) {
+                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        }
+                    }
+                });
+                task.delay(300);
+                //if(data.total == 0) {
+                //    me.getSearchNavigationView().push({
+                //        title : 'Search Results',
+                //        xtype : 'searchResultsEmptyView'
+                //    });
+                //    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                //    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                //}
+                //else {
+                //    var searchResultsView = me.getSearchNavigationView().push({
+                //        title : 'Search Results',
+                //        xtype : 'searchResultsView'
+                //    });
+                //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                //    if(disableMoreRequests) {
+                //        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                //    }
+                //}
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
@@ -763,25 +917,50 @@ Ext.define('Racloop.controller.JourneysController', {
                     else jsonObj[i].disableRequest = false;
                     searchStore.add(jsonObj[i]);
                 };
-                if(data.total == 0) {
-                    me.getSearchNavigationView().push({
-                        title : 'Search Results',
-                        xtype : 'searchResultsEmptyView'
-                    });
-                    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                }
-                else {
-                    me.getSearchNavigationView().push({
-                        title : 'Search Results',
-                        xtype : 'searchResultsView'
-                    });
-                    console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                    me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                    if(disableMoreRequests) {
-                        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                var task = Ext.create('Ext.util.DelayedTask', function(){
+                    if(data.total == 0) {
+                        me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsEmptyView'
+                        });
+                        me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                        me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                     }
-                }
+                    else {
+                        var searchResultsView = me.getSearchNavigationView().push({
+                            title : 'Search Results',
+                            xtype : 'searchResultsView'
+                        });
+                        //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                        me.getLoginButtonInSearchResults().setHidden(true);
+                        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
+                        if(disableMoreRequests) {
+                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        }
+                    }
+                });
+                task.delay(300);
+                //if(data.total == 0) {
+                //    me.getSearchNavigationView().push({
+                //        title : 'Search Results',
+                //        xtype : 'searchResultsEmptyView'
+                //    });
+                //    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                //    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                //}
+                //else {
+                //    var searchResultsView = me.getSearchNavigationView().push({
+                //        title : 'Search Results',
+                //        xtype : 'searchResultsView'
+                //    });
+                //    console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                //    //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                //    if(disableMoreRequests) {
+                //        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                //    }
+                //}
                 Ext.Viewport.unmask();
             } else {
                 Ext.Viewport.unmask();
@@ -812,5 +991,10 @@ Ext.define('Racloop.controller.JourneysController', {
             success: successCallback,
             failure: failureCallback
         });
+    },
+
+    loginButtonInSearchResultsTap : function() {
+        Racloop.app.getController('UiController').showLogin();
     }
+
 });

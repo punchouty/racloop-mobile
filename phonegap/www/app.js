@@ -68864,6 +68864,7 @@ Ext.define('Racloop.util.Config', {
         //Setting menu
         settingNameProfile: 'Profile',
         settingNameChangePassword: 'Change Password',
+        settingPreferences: 'Preferences',
         settingNameEmergencyContacts: 'Emergency Contacts',
         settingNameDataPrivacy: 'Data Privacy',
         settingNameTerms: 'Terms and Conditions',
@@ -68871,7 +68872,7 @@ Ext.define('Racloop.util.Config', {
         //Tabs
         tabHome: 'Home',
         tabSearch: 'Search',
-        tabMyJourneys: 'My Journeys',
+        tabMyJourneys: 'My Rides',
         tabHistory: 'History',
         tabNotifications: 'Notifications',
         tabSettings: 'Settings',
@@ -68924,6 +68925,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://www.cabshare.in/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.cabshare.in/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://www.cabshare.in/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://www.cabshare.in/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.cabshare.in/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://www.cabshare.in/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS = 'http://www.cabshare.in/userMobile/sos';
@@ -68932,6 +68934,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.cabshare.in/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.cabshare.in/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://www.cabshare.in/userMobile/cancelUserRating';
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://www.cabshare.in/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://www.cabshare.in/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.cabshare.in/journeyMobile/childJourneys';
             this.config.url.RACLOOP_PASSENGERS = 'http://www.cabshare.in/journeyMobile/passengers';
@@ -68955,6 +68958,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://localhost:8080/app/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://localhost:8080/app/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://localhost:8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://localhost:8080/app/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://localhost:8080/app/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://localhost:8080/app/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS = 'http://localhost:8080/app/userMobile/sos';
@@ -68963,6 +68967,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://localhost:8080/app/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://localhost:8080/app/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://localhost:8080/app/userMobile/cancelUserRating';
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://localhost:8080/app/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://localhost:8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://localhost:8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_PASSENGERS = 'http://localhost:8080/app/journeyMobile/passengers';
@@ -68988,6 +68993,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RESENDSMS = 'http://' + ip + ':8080/app/userMobile/resendSms';
             this.config.url.RACLOOP_CHANGEPASSWORD = 'http://' + ip + ':8080/app/userMobile/changePassword';
             this.config.url.RACLOOP_EDIT = 'http://' + ip + ':8080/app/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://' + ip + ':8080/app/userMobile/savePreferences';
             this.config.url.RACLOOP_FORGOTPASSWORD = 'http://' + ip + ':8080/app/userMobile/forgotPassword';
             this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS = 'http://' + ip + ':8080/app/userMobile/saveEmergencyContacts';
             this.config.url.RACLOOP_SOS = 'http://' + ip + ':8080/app/userMobile/sos';
@@ -68996,6 +69002,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://' + ip + ':8080/app/userMobile/getCurrentJourney';
             this.config.url.RACLOOP_SEND_USER_RATING = 'http://' + ip + ':8080/app/userMobile/sendUserRating';
             this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://' + ip + ':8080/app/userMobile/cancelUserRating';
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://' + ip + ':8080/app/journeyMobile/journeyDetails';
             this.config.url.RACLOOP_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/myJourneys';
             this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://' + ip + ':8080/app/journeyMobile/childJourneys';
             this.config.url.RACLOOP_HISTORY = 'http://' + ip + ':8080/app/journeyMobile/myHistory';
@@ -69288,6 +69295,18 @@ Ext.define('Racloop.model.User', {
             {
                 name: 'emergencyContactTwo',
                 type: 'string'
+            },
+            {
+                name: 'travelModePreference',
+                type: 'string'
+            },
+            {
+                name: 'paymentPreference',
+                type: 'string'
+            },
+            {
+                name: 'cabServicePreference',
+                type: 'string'
             }
         ],
         validations: [
@@ -69454,6 +69473,10 @@ Ext.define('Racloop.model.Journey', {
                 type: 'number'
             },
             {
+                name: 'tripTimeInSeconds',
+                type: 'number'
+            },
+            {
                 name: 'tripUnit',
                 type: 'string'
             },
@@ -69483,6 +69506,10 @@ Ext.define('Racloop.model.Journey', {
             },
             {
                 name: 'disableRequest',
+                type: 'boolean'
+            },
+            {
+                name: 'hideButtons',
                 type: 'boolean'
             }
         ],
@@ -69633,140 +69660,199 @@ Ext.define('Racloop.store.Journeys', {
     }
 });
 
+Ext.define('Racloop.form.SearchForm', {
+    extend: Ext.form.Panel,
+    alias: 'widget.searchForm',
+    xtype: 'searchForm',
+    config: {
+        items: [
+            {
+                xtype: 'container',
+                html: '<div class="section-header">' + //'<div class="small-text-medium uppercase colored-text">' +
+                //'Search, Connect and Go' +
+                //'</div>' +
+                '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' + //'<div class="colored-line"></div>' +
+                '<div class="sub-heading">' + 'Share Taxi and Auto Rides Conveniently.' + '</div>' + '</div>',
+                itemId: 'searchHeading'
+            },
+            {
+                xtype: 'fieldset',
+                title: 'Your Plan',
+                instructions: "Split Your Travel Cost.",
+                items: [
+                    {
+                        name: 'from',
+                        xtype: 'searchfield',
+                        label: 'From*',
+                        itemId: 'searchScreenFrom'
+                    },
+                    {
+                        name: 'to',
+                        xtype: 'searchfield',
+                        label: 'To*',
+                        itemId: 'searchScreenTo'
+                    },
+                    {
+                        name: 'date',
+                        xtype: 'datepickerfield',
+                        label: 'Date*',
+                        picker: {
+                            yearFrom: new Date().getFullYear(),
+                            yearTo: new Date(new Date().getTime() + 7 * 24 * 60 * 60000).getFullYear()
+                        },
+                        // 7 days from now
+                        itemId: 'searchScreenDate'
+                    },
+                    {
+                        name: 'time',
+                        xtype: 'timepickerfield',
+                        label: 'Time*',
+                        itemId: 'searchScreenTime',
+                        picker: {
+                            minuteIncrement: 15
+                        }
+                    },
+                    {
+                        xtype: 'selectfield',
+                        itemId: 'autoTaxiSelectField',
+                        label: 'Auto/Taxi',
+                        options: [
+                            {
+                                text: 'Taxi',
+                                value: 'taxi'
+                            },
+                            {
+                                text: 'Auto Rickshaw',
+                                value: 'auto'
+                            }
+                        ],
+                        listeners: {
+                            change: function(field, newValue) {
+                                if (newValue == "auto") {
+                                    var isTaxi = field.up().down('field[name=isTaxi]');
+                                    isTaxi.setValue(false);
+                                } else if (newValue == "taxi") {
+                                    var isTaxi = field.up().down('field[name=isTaxi]');
+                                    isTaxi.setValue(true);
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'dateOfJourneyString'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'fromLatitude'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'fromLongitude'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'toLatitude'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'toLongitude'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'validStartTimeString'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'tripDistance'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'tripTimeInSeconds'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'tripUnit',
+                        value: "KM"
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'isDriver',
+                        value: true
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'isTaxi',
+                        value: true
+                    }
+                ]
+            },
+            {
+                xtype: 'button',
+                itemId: 'searchButton',
+                text: 'Search',
+                action: 'search',
+                iconCls: 'searchCls',
+                iconMask: true,
+                margin: 10,
+                ui: 'action'
+            },
+            {
+                //    xtype: 'container',
+                //    html: '<div class="section-header">' +
+                //            '<div class="small-text-medium uppercase colored-text">' +
+                //            'Or' +
+                //            '</div>' +
+                //            //'<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
+                //            //'<div class="colored-line"></div>' +
+                //            //'<div class="sub-heading">' +
+                //            //    'Share Taxi and Auto Rides Conveniently.' +
+                //            //'</div>' +
+                //          '</div>',
+                //    itemId: 'homeLabel'
+                //
+                //},{
+                //    xtype: 'button',
+                //    itemId: 'showLoginButton',
+                //    iconCls: 'lockCls',
+                //    iconMask: true,
+                //    iconAlign: 'left',
+                //    ui: 'action',
+                //    text: 'Sign In',
+                //    margin: 10
+                //}, {
+                xtype: 'container',
+                html: '<div class="links">' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' + 'Sign In' + '</a> &nbsp;&nbsp;' + ' <a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' + 'New User?' + '</a>' + '</div>',
+                itemId: 'homeLinks',
+                margin: '20 10 10 10'
+            }
+        ]
+    }
+});
+
 Ext.define('Racloop.view.SearchNavigationView', {
     extend: Ext.navigation.View,
     //extend: 'Ext.form.Panel',
     alias: 'widget.searchNavigationView',
     xtype: 'searchNavigationView',
+    //'Ext.TitleBar',
+    //'Ext.form.FieldSet',
+    //'Ext.field.Password',
+    //'Ext.field.Search',
+    //'Ext.field.DatePicker',
+    //'Ext.ux.field.TimePicker',
+    //'Ext.field.Hidden',
+    //'Ext.ActionSheet',
+    //'Racloop.store.Journeys',
+    //'Ext.DataView',
+    //'Racloop.util.Common'
     config: {
         // layout: 'card',
         items: [
             {
-                xtype: 'formpanel',
-                itemId: 'searchForm',
-                title: 'Search',
-                items: [
-                    {
-                        xtype: 'fieldset',
-                        title: 'Search Journeys',
-                        instructions: "Search where other people are going.",
-                        items: [
-                            {
-                                name: 'from',
-                                xtype: 'searchfield',
-                                label: 'From*',
-                                itemId: 'searchScreenFrom'
-                            },
-                            {
-                                name: 'to',
-                                xtype: 'searchfield',
-                                label: 'To*',
-                                itemId: 'searchScreenTo'
-                            },
-                            {
-                                name: 'date',
-                                xtype: 'datepickerfield',
-                                label: 'Date*',
-                                picker: {
-                                    yearFrom: new Date().getFullYear(),
-                                    yearTo: new Date(new Date().getTime() + 7 * 24 * 60 * 60000).getFullYear()
-                                },
-                                // 7 days from now
-                                itemId: 'searchScreenDate'
-                            },
-                            {
-                                name: 'time',
-                                xtype: 'timepickerfield',
-                                label: 'Time*',
-                                itemId: 'searchScreenTime',
-                                picker: {
-                                    minuteIncrement: 15
-                                }
-                            },
-                            //                    ,
-                            //                    defaultTime : Racloop.util.Common.getDefaultTime()
-                            {
-                                xtype: 'selectfield',
-                                itemId: 'autoTaxiSelectField',
-                                label: 'Auto/Taxi',
-                                options: [
-                                    {
-                                        text: 'Taxi',
-                                        value: 'taxi'
-                                    },
-                                    {
-                                        text: 'Auto Rickshaw',
-                                        value: 'auto'
-                                    }
-                                ],
-                                listeners: {
-                                    change: function(field, newValue) {
-                                        if (newValue == "auto") {
-                                            var isTaxi = field.up().down('field[name=isTaxi]');
-                                            isTaxi.setValue(false);
-                                        } else if (newValue == "taxi") {
-                                            var isTaxi = field.up().down('field[name=isTaxi]');
-                                            isTaxi.setValue(true);
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'dateOfJourneyString'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'fromLatitude'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'fromLongitude'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'toLatitude'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'toLongitude'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'validStartTimeString'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'tripDistance'
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'tripUnit',
-                                value: "KM"
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'isDriver',
-                                value: true
-                            },
-                            {
-                                xtype: 'hiddenfield',
-                                name: 'isTaxi',
-                                value: true
-                            }
-                        ]
-                    },
-                    {
-                        xtype: 'button',
-                        itemId: 'searchButton',
-                        text: 'Search',
-                        action: 'search',
-                        iconCls: 'searchCls',
-                        iconMask: true,
-                        margin: 10,
-                        ui: 'action'
-                    }
-                ]
+                xtype: 'searchForm',
+                itemId: 'searchFormInTabs',
+                title: 'Search Rides'
             }
         ]
     }
@@ -69794,8 +69880,6 @@ Ext.define('Racloop.view.JourneyViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;
         if (record != null) {
-            console.log("JourneyViewItem");
-            console.dir(record);
             var drivingText = '';
             var dateOfJourney = record.get("dateOfJourney");
             var day = Ext.Date.format(dateOfJourney, 'd');
@@ -70078,16 +70162,17 @@ Ext.define('Racloop.view.SettingNavigationView', {
                         itemId: 'editProfileForm'
                     },
                     {
+                        title: Config.settingPreferences,
+                        navView: 'preferences',
+                        iconCls: 'preferencesCls',
+                        itemId: 'preferences'
+                    },
+                    //{ title: Config.settingNameEmergencyContacts, navView: 'emergencyContactForm',iconCls: 'emergencyCls', itemId: 'emergencyContactForm'},
+                    {
                         title: Config.settingNameChangePassword,
                         navView: 'changePasswordForm',
                         iconCls: 'passwordCls',
                         itemId: 'changePasswordForm'
-                    },
-                    {
-                        title: Config.settingNameEmergencyContacts,
-                        navView: 'emergencyContactForm',
-                        iconCls: 'emergencyCls',
-                        itemId: 'emergencyContactForm'
                     },
                     {
                         title: Config.settingNameDataPrivacy,
@@ -70203,33 +70288,9 @@ Ext.define('Racloop.view.MainNavigationView', {
     config: {
         items: [
             {
-                title: 'Welcome',
-                xtype: 'panel',
-                itemId: 'homePanel',
-                layout: 'vbox',
-                items: [
-                    {
-                        xtype: 'container',
-                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'Search, Connect and Go' + '</div>' + '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' + '<div class="colored-line"></div>' + '<div class="sub-heading">' + 'Share Uber, Ola and Meru Rides' + '</div>' + '</div>',
-                        itemId: 'homeLabel'
-                    },
-                    {
-                        xtype: 'button',
-                        itemId: 'showLoginButton',
-                        //                iconCls: 'lockCls',
-                        //                iconMask: true,
-                        //                iconAlign: 'right',
-                        ui: 'action',
-                        text: 'Sign In',
-                        margin: 10
-                    },
-                    {
-                        xtype: 'container',
-                        html: '<div class="links">' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' + 'New User?' + '</a>' + '</div>',
-                        itemId: 'homeLinks',
-                        margin: '20 10 10 10'
-                    }
-                ]
+                xtype: 'searchForm',
+                itemId: 'searchFormInMain',
+                title: 'Welcome'
             }
         ]
     }
@@ -70249,7 +70310,9 @@ Ext.define('Racloop.controller.UiController', {
             historyDataView: 'historyView #historyDataView',
             historyEmptyView: 'historyNavigationView #historyEmptyView',
             searchNavigationView: 'searchNavigationView',
-            searchForm: 'searchNavigationView #searchForm',
+            searchForm: 'searchNavigationView #searchFormInTabs',
+            searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
+            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks',
             settingNavigationView: 'settingNavigationView',
             settingListView: 'settingNavigationView #settingListView',
             tabs: 'mainTabs > tabbar > tab'
@@ -70303,6 +70366,7 @@ Ext.define('Racloop.controller.UiController', {
         } else if (button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
             this.getSearchNavigationView().reset();
+            this.hideLoginLinksFromSearchForm();
             //var activeItem = this.getSearchNavigationView().getActiveItem();
             //if(searchForm != activeItem) this.getSearchNavigationView().pop();
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
@@ -70328,6 +70392,10 @@ Ext.define('Racloop.controller.UiController', {
     },
     //Racloop.app.getController('MapController').startWatchingJourney();
     //Ext.Msg.alert("Tab Clicked", button.getTitle());
+    hideLoginLinksFromSearchForm: function() {
+        this.getHomeLinks().hide();
+        this.getSearchHeading().hide();
+    },
     showAndLoadAfterDelay: function() {
         var me = this;
         var showMyJourneysFunction = me.showMyJourneys();
@@ -70379,16 +70447,35 @@ Ext.define('Racloop.controller.UiController', {
     showLogin: function(button, e, eOpts) {
         var mainNavigationView = this.getMainNavigationView();
         // Main view
+        //mainNavigationView.reset();
+        console.log("mainNavigationView.getItems().length : " + mainNavigationView.getItems().length);
         // Navigate to login
-        mainNavigationView.push({
-            itemId: 'loginForm',
-            xtype: "loginForm",
-            title: "Sign In"
-        });
-        console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
-        if (!LoginHelper.getEmail()) {
-            var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
-            emailField.setValue(LoginHelper.getEmail());
+        if (mainNavigationView.getItems().length == 3) {
+            mainNavigationView.pop();
+            var task = Ext.create('Ext.util.DelayedTask', function() {
+                    mainNavigationView.push({
+                        itemId: 'loginForm',
+                        xtype: "loginForm",
+                        title: "Sign In"
+                    });
+                    console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+                    if (!LoginHelper.getEmail()) {
+                        var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                        emailField.setValue(LoginHelper.getEmail());
+                    }
+                });
+            task.delay(400);
+        } else {
+            mainNavigationView.push({
+                itemId: 'loginForm',
+                xtype: "loginForm",
+                title: "Sign In"
+            });
+            console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+            if (!LoginHelper.getEmail()) {
+                var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                emailField.setValue(LoginHelper.getEmail());
+            }
         }
     },
     showRegister: function() {
@@ -70463,7 +70550,9 @@ Ext.define('Racloop.controller.SessionsController', {
             loginButton: 'loginForm #loginButton',
             ratingView: 'ratingView',
             saveFeedBackButton: 'ratingView #saveFeedBack',
-            cancelFeedBackButton: 'ratingView #cancelFeedBack'
+            cancelFeedBackButton: 'ratingView #cancelFeedBack',
+            searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
+            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks'
         },
         control: {
             loginButton: {
@@ -70537,6 +70626,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                         if (LoginHelper.getLoginCounter() >= 3) {
                                             LoginHelper.resetLoginCounter();
                                             mainTabs.setActiveItem('settingNavigationView');
+                                            me.getHomeLinks().hide();
+                                            me.getSearchHeading().hide();
                                             settingNavigationView.push({
                                                 title: Config.settingNameEmergencyContacts,
                                                 xtype: 'emergencyContactForm',
@@ -70545,6 +70636,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                             Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                         } else {
                                             mainTabs.setActiveItem('searchNavigationView');
+                                            me.getHomeLinks().hide();
+                                            me.getSearchHeading().hide();
                                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                                         }
                                     } else //                                    mainTabs.setActiveItem('mapPanel');
@@ -70561,6 +70654,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                             Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                         } else {
                                             mainTabs.setActiveItem('searchNavigationView');
+                                            me.getHomeLinks().hide();
+                                            me.getSearchHeading().hide();
                                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                                         }
                                     }
@@ -70568,6 +70663,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                 //                                    Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                                 {
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    me.getHomeLinks().hide();
+                                    me.getSearchHeading().hide();
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                                 }
                             }
@@ -70610,6 +70707,7 @@ Ext.define('Racloop.controller.SessionsController', {
             LoginHelper.removeEmail();
             Ext.Viewport.unmask();
             Ext.Viewport.setActiveItem(mainNavigationView);
+            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(true);
         }
     },
     login: function(button, e, eOpts) {
@@ -70674,6 +70772,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                         Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                     } else {
                                         mainTabs.setActiveItem('searchNavigationView');
+                                        me.getHomeLinks().hide();
+                                        me.getSearchHeading().hide();
                                         Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                                     }
                                 } else //                                mainTabs.setActiveItem('mapPanel');
@@ -70690,6 +70790,8 @@ Ext.define('Racloop.controller.SessionsController', {
                                         Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                     } else {
                                         mainTabs.setActiveItem('searchNavigationView');
+                                        me.getHomeLinks().hide();
+                                        me.getSearchHeading().hide();
                                         Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                                     }
                                 }
@@ -70698,6 +70800,8 @@ Ext.define('Racloop.controller.SessionsController', {
                             {
                                 console.log('login success emergency contact : false');
                                 mainTabs.setActiveItem('searchNavigationView');
+                                me.getHomeLinks().hide();
+                                me.getSearchHeading().hide();
                                 Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                             }
                         }
@@ -71188,6 +71292,48 @@ Ext.define('Racloop.model.EmergencyContacts', {
     }
 });
 
+Ext.define('Racloop.model.Preferences', {
+    extend: Ext.data.Model,
+    config: {
+        fields: [
+            {
+                name: 'contactOne',
+                type: 'string'
+            },
+            {
+                name: 'contactTwo',
+                type: 'string'
+            },
+            {
+                name: 'travelModePreference',
+                type: 'string'
+            },
+            {
+                name: 'paymentPreference',
+                type: 'string'
+            },
+            {
+                name: 'cabServicePreference',
+                type: 'string'
+            }
+        ],
+        validations: [
+            {
+                type: 'format',
+                field: 'contactOne',
+                matcher: /^[7-9][0-9]{9}$/,
+                message: "Invalid Mobile Number"
+            },
+            {
+                type: 'format',
+                field: 'contactTwo',
+                matcher: /^[7-9][0-9]{9}$/,
+                message: "Invalid Mobile Number"
+            }
+        ]
+    }
+});
+
 Ext.define('Racloop.model.ChangePassword', {
     extend: Ext.data.Model,
     config: {
@@ -71232,13 +71378,15 @@ Ext.define('Racloop.controller.SettingsController', {
     config: {
         refs: {
             mainTabs: 'mainTabs',
-            settingNavigationView: '#settingNavigationView',
+            settingNavigationView: 'settingNavigationView',
             editProfileForm: 'editProfileForm',
             updateProfileButton: 'editProfileForm #updateProfileButton',
             passwordForm: 'changePasswordForm',
             changePasswordButton: 'changePasswordForm #changePasswordButton',
             emergencyContactForm: 'emergencyContactForm',
-            emergencyContactButton: 'emergencyContactForm #saveEmergencyContactsButton'
+            emergencyContactButton: 'emergencyContactForm #saveEmergencyContactsButton',
+            preferencesForm: 'preferencesForm',
+            savePreferencesButton: 'preferencesForm #savePreferencesButton'
         },
         control: {
             'settingNavigationView #settingListView': {
@@ -71252,6 +71400,9 @@ Ext.define('Racloop.controller.SettingsController', {
             },
             emergencyContactButton: {
                 tap: 'saveEmergencyContacts'
+            },
+            savePreferencesButton: {
+                tap: 'savePreferences'
             }
         }
     },
@@ -71620,6 +71771,74 @@ Ext.define('Racloop.controller.SettingsController', {
                 failure: failureCallback
             });
         }
+    },
+    savePreferences: function(button, e, eOpts) {
+        var savePreferences = Ext.create("Racloop.model.Preferences", {});
+        var form = button.up('formpanel'),
+            // Login form
+            values = form.getValues(),
+            // Form values
+            preferencesForm = this.getPreferencesForm();
+        preferencesForm.updateRecord(savePreferences);
+        var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    var user = LoginHelper.getUser();
+                    user.emergencyContactOne = values.contactOne;
+                    user.emergencyContactTwo = values.contactTwo;
+                    user.travelModePreference = values.travelModePreference;
+                    user.paymentPreference = values.paymentPreference;
+                    user.cabServicePreference = values.cabServicePreference;
+                    LoginHelper.setUser(user);
+                    Ext.Msg.alert("Success", data.message);
+                    Ext.Viewport.unmask();
+                } else {
+                    Ext.Msg.alert("Failure", data.message);
+                    Ext.Viewport.unmask();
+                }
+            };
+        // Failure
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Failure", response.message);
+                Ext.Viewport.unmask();
+            };
+        var validationObj = savePreferences.validate();
+        var errorstring = "";
+        if (!validationObj.isValid()) {
+            var contactOneErrors = validationObj.getByField('contactOne');
+            for (var i = 0; i < contactOneErrors.length; i++) {
+                errorstring += contactOneErrors[i].getMessage() + "<br />";
+            }
+            var contactTwoErrors = validationObj.getByField('contactTwo');
+            for (var i = 0; i < contactTwoErrors.length; i++) {
+                errorstring += contactTwoErrors[i].getMessage() + "<br />";
+            }
+            Ext.Msg.alert("Oops", errorstring);
+        } else {
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Saving user preferences...'
+            });
+            Ext.Ajax.request({
+                url: Racloop.util.Config.url.RACLOOP_SAVE_PREFERENCES,
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: Ext.JSON.encode({
+                    contactOne: values.contactOne,
+                    contactTwo: values.contactTwo,
+                    travelModePreference: values.travelModePreference,
+                    paymentPreference: values.paymentPreference,
+                    cabServicePreference: values.cabServicePreference
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
+        }
     }
 });
 
@@ -71744,7 +71963,6 @@ Ext.define('Racloop.view.RegisterForm', {
                         name: 'gender',
                         value: 'male',
                         label: 'Male',
-                        hidden: true,
                         checked: true,
                         itemId: 'registerScreenMale'
                     },
@@ -71753,7 +71971,6 @@ Ext.define('Racloop.view.RegisterForm', {
                         name: 'gender',
                         value: 'female',
                         label: 'Female',
-                        hidden: true,
                         itemId: 'registerScreenFemale'
                     }
                 ]
@@ -71775,7 +71992,7 @@ Ext.define('Racloop.view.RegisterForm', {
                 styleHtmlContent: true,
                 html: [
                     //"Password should contain upper case, lower case, numeric value and a symbol."
-                    'By registering you are agreeing to ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> statement of Racloop'
+                    'By registering you are agreeing to ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' + '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showPrivacy(); return false;">Privacy</a> statement of CabShare'
                 ].join("")
             }
         ]
@@ -72337,7 +72554,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     if (disableRequest) {
                         buttonMarkup = "";
                     } else {
-                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button>';
+                        if (record.get("hideButtons")) {
+                            buttonMarkup = "";
+                        } else {
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button> ' + ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+                        }
                     }
                 } else if (myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
@@ -72359,7 +72580,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     if (disableRequest) {
                         buttonMarkup = "";
                     } else {
-                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</</button>';
+                        if (record.get("hideButtons")) {
+                            buttonMarkup = "";
+                        } else {
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</button> ' + ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+                        }
                     }
                 } else if (myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
@@ -72399,6 +72624,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
         });
         this.element.on({
             scope: this,
+            tap: 'detailsButtonTapFired',
+            delegate: 'button.detailsButton'
+        });
+        this.element.on({
+            scope: this,
             tap: 'rejectButtonTapFired',
             delegate: 'button.rejectButton'
         });
@@ -72424,6 +72654,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     },
     travelBuddiesButtonTapFired: function(e) {
         this.fireEvent('travelBuddiesReadOnlyButtonTap', this);
+    },
+    detailsButtonTapFired: function(e) {
+        this.fireEvent('detailsButtonTap', this);
     },
     rejectButtonTapFired: function(e) {
         this.fireEvent('rejectButtonTap', this);
@@ -72545,11 +72778,20 @@ Ext.define('Racloop.controller.JourneysController', {
         refs: {
             mainTabs: 'mainTabs',
             searchNavigationView: 'searchNavigationView',
-            searchForm: 'searchNavigationView #searchForm',
-            searchButton: 'searchNavigationView #searchButton',
+            searchFormInTab: 'searchNavigationView #searchFormInTabs',
+            searchButtonInTab: 'searchNavigationView #searchFormInTabs #searchButton',
+            datePickerInTab: 'searchNavigationView #searchFormInTabs datepickerfield[itemId=searchScreenDate]',
+            timePickerInTab: 'searchNavigationView #searchFormInTabs timepickerfield[itemId=searchScreenTime]',
+            //loginButtonInSearchResults : 'searchNavigationView #loginButtonInSearchResults',
+            mainNavigationView: 'mainNavigationView',
+            searchFormInMainView: 'mainNavigationView #searchFormInMain',
+            searchButtonInMainView: 'mainNavigationView #searchFormInMain #searchButton',
+            datePickerInMainView: 'mainNavigationView #searchFormInMain datepickerfield[itemId=searchScreenDate]',
+            timePickerInMainView: 'mainNavigationView #searchFormInMain timepickerfield[itemId=searchScreenTime]',
             saveJourneyButtonInEmptyResults: 'searchResultsEmptyView #saveJourneyButton',
             emptySearchResultsHtml: 'searchResultsEmptyView #emptySearchHtml',
             saveJourneyButtonInSearchResults: 'searchResultsView #saveJourneyButton',
+            loginButtonInSearchResults: 'searchResultsView #loginButtonInSearchResults',
             searchResultsView: 'searchResultsView',
             existingJourneyPanel: 'existingJourneyPanel',
             existingJourneyInfoHtmlContainer: 'existingJourneyPanel #existingJourneyInfo',
@@ -72557,11 +72799,20 @@ Ext.define('Racloop.controller.JourneysController', {
             existingJourneyKeepOriginalButton: 'existingJourneyPanel #existingJourneyKeepOriginalButton'
         },
         control: {
+            //'searchForm': {
+            //    initialize : 'initialiseUi'
+            //},
             'searchNavigationView': {
-                initialize: 'initialiseUi'
+                initialize: 'initSearchControlsInMainTabs'
             },
-            searchButton: {
-                tap: 'searchButtonTap'
+            'mainNavigationView': {
+                initialize: 'initSearchControlsInMainView'
+            },
+            searchButtonInTab: {
+                tap: 'searchButtonInTabTap'
+            },
+            searchButtonInMainView: {
+                tap: 'searchButtonInMainViewTap'
             },
             saveJourneyButtonInEmptyResults: {
                 tap: 'handleSaveJourneyTap'
@@ -72569,10 +72820,16 @@ Ext.define('Racloop.controller.JourneysController', {
             saveJourneyButtonInSearchResults: {
                 tap: 'handleSaveJourneyTap'
             },
-            "datepickerfield[itemId=searchScreenDate]": {
+            "datePickerInTab": {
                 change: 'onDatePickerFieldChange'
             },
-            "timepickerfield[itemId=searchScreenTime]": {
+            "timePickerInTab": {
+                change: 'onTimePickerFieldChange'
+            },
+            "datePickerInMainView": {
+                change: 'onDatePickerFieldChange'
+            },
+            "timePickerInMainView": {
                 change: 'onTimePickerFieldChange'
             },
             'searchResultViewItem': {
@@ -72586,13 +72843,26 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             'existingJourneyKeepOriginalButton': {
                 tap: 'handleExistingJourneyKeepOriginalButtonTap'
+            },
+            'loginButtonInSearchResults': {
+                tap: 'loginButtonInSearchResultsTap'
             }
         }
     },
-    initialiseUi: function() {
+    initSearchControlsInMainTabs: function() {
+        console.log("initSearchControlsInMainTabs");
+        var searchForm = this.getSearchFormInTab();
+        this.initialiseUi(searchForm);
+    },
+    initSearchControlsInMainView: function() {
+        console.log("initSearchControlsInMainView");
+        var searchForm = this.getSearchFormInMainView();
+        this.initialiseUi(searchForm);
+    },
+    initialiseUi: function(searchForm) {
         var me = this;
-        var searchForm = this.getSearchForm();
-        var root = searchForm.element.dom;
+        //var searchForm = this.getSearchForm();
+        //var root = searchForm.element.dom;
         var actionSheetFrom = Ext.create('Ext.ActionSheet', {
                 top: '0',
                 showAnimation: {
@@ -72623,7 +72893,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     }
                 ]
             });
-        this.actionSheetFrom = actionSheetFrom;
+        //this.actionSheetFrom = actionSheetFrom;
         var actionSheetTo = Ext.create('Ext.ActionSheet', {
                 top: '0',
                 showAnimation: {
@@ -72654,7 +72924,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     }
                 ]
             });
-        this.actionSheetTo = actionSheetTo;
+        //this.actionSheetTo = actionSheetTo;
         var fromField = searchForm.down('#searchScreenFrom');
         fromField.element.on({
             tap: function(e) {
@@ -72679,17 +72949,18 @@ Ext.define('Racloop.controller.JourneysController', {
                 actionSheetTo.show();
             }
         });
+        this.initGoogleElements(searchForm, actionSheetFrom, actionSheetTo);
+        this.initTime(searchForm);
     },
     launch: function() {},
-    initGoogleElements: function() {
-        // Called from MapController initApp method
+    initGoogleElements: function(searchForm, actionSheetFrom, actionSheetTo) {
         console.log("Journey Controller initGoogleElements starts");
         var me = this;
-        var searchForm = this.getSearchForm();
-        console.log("this.getSearchForm() : " + this.getSearchForm());
+        //var searchForm = this.getSearchForm();
+        //console.log("this.getSearchForm() : " + this.getSearchForm());
         var root = searchForm.element.dom;
-        var actionFromRoot = this.actionSheetFrom.element.dom;
-        var actionToRoot = this.actionSheetTo.element.dom;
+        var actionFromRoot = actionSheetFrom.element.dom;
+        var actionToRoot = actionSheetTo.element.dom;
         var fromInput = actionFromRoot.querySelectorAll('input[name=from]')[0];
         var toInput = actionToRoot.querySelectorAll('input[name=to]')[0];
         var latFrom, longFrom, latTo, longTo;
@@ -72705,8 +72976,8 @@ Ext.define('Racloop.controller.JourneysController', {
             searchForm.down('field[name=fromLongitude]').setValue(longFrom);
             latTo = searchForm.down('field[name=toLatitude]').getValue();
             longTo = searchForm.down('field[name=toLongitude]').getValue();
-            me.calculateDistance(latFrom, longFrom, latTo, longTo);
-            me.actionSheetFrom.hide();
+            me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
+            actionSheetFrom.hide();
         });
         google.maps.event.addListener(autocompleteTo, 'place_changed', function() {
             var place = autocompleteTo.getPlace();
@@ -72718,9 +72989,11 @@ Ext.define('Racloop.controller.JourneysController', {
             searchForm.down('field[name=toLongitude]').setValue(longTo);
             latFrom = searchForm.down('field[name=fromLatitude]').getValue();
             longFrom = searchForm.down('field[name=fromLongitude]').getValue();
-            me.calculateDistance(latFrom, longFrom, latTo, longTo);
-            me.actionSheetTo.hide();
+            me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
+            actionSheetTo.hide();
         });
+    },
+    initTime: function(searchForm) {
         var now = new Date();
         var reserveTime = 25;
         //in minutes. Increment of 15 min will make ride reserve time 30 min
@@ -72759,8 +73032,8 @@ Ext.define('Racloop.controller.JourneysController', {
         }
         console.log("Journey Controller initGoogleElements ends");
     },
-    calculateDistance: function(latFrom, longFrom, latTo, longTo) {
-        var searchForm = this.getSearchForm();
+    calculateDistance: function(searchForm, latFrom, longFrom, latTo, longTo) {
+        //var searchForm = this.getSearchForm();
         var directionsService = Racloop.app.getController('MapController').directionsService;
         if (latFrom != null && longFrom != null & latTo != null && longTo != null) {
             var request = {
@@ -72771,10 +73044,12 @@ Ext.define('Racloop.controller.JourneysController', {
             directionsService.route(request, function(results, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     var total = 0;
+                    var tripTimeInSeconds = 0;
                     var myroute = results.routes[0];
                     var numberOfLegs = 0;
                     for (var i = 0; i < myroute.legs.length; i++) {
                         total += myroute.legs[i].distance.value;
+                        tripTimeInSeconds += myroute.legs[i].duration.value;
                         var start_location = myroute.legs[i].start_location;
                         var end_location = myroute.legs[i].end_location;
                         var start_address = myroute.legs[i].start_address;
@@ -72793,6 +73068,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     total = total / 1000;
                     searchForm.down('field[name=tripUnit]').setValue('KM');
                     searchForm.down('field[name=tripDistance]').setValue(total + '');
+                    searchForm.down('field[name=tripTimeInSeconds]').setValue(tripTimeInSeconds + '');
                     console.log("Total Distance : " + total + " KM");
                 }
             });
@@ -72804,14 +73080,15 @@ Ext.define('Racloop.controller.JourneysController', {
         return -1;
     },
     onDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        this.setDateTime();
+        var searchForm = field.up('searchForm');
+        this.setDateTime(searchForm);
     },
     onTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        //selectedTime=field.getFormattedValue('g:i A');
-        this.setDateTime();
+        var searchForm = field.up('searchForm');
+        this.setDateTime(searchForm);
     },
-    setDateTime: function() {
-        var searchForm = this.getSearchForm();
+    setDateTime: function(searchForm) {
+        //var searchForm = this.getSearchForm();
         var selectedDate = searchForm.down('field[name=date]').getValue();
         var selectedTime = searchForm.down('field[name=time]').getValue();
         if (selectedDate != null && selectedTime != null) {
@@ -72834,17 +73111,26 @@ Ext.define('Racloop.controller.JourneysController', {
         var validStartTimeString = Ext.Date.format(validStartTime, 'c');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
-    searchButtonTap: function(button, e, eOpts) {
+    searchButtonInTabTap: function(button, e, eOpts) {
+        this.searchButtonTap(false, button, e, eOpts);
+    },
+    searchButtonInMainViewTap: function(button, e, eOpts) {
+        this.searchButtonTap(true, button, e, eOpts);
+    },
+    searchButtonTap: function(isFirstScreen, button, e, eOpts) {
+        console.log("searchButtonTap searchButtonTap");
         var me = this;
-        this.resetErrorFields();
-        var searchForm = this.getSearchForm();
+        var searchForm = button.up('searchForm');
+        console.log('searchForm : ' + searchForm);
+        this.resetErrorFields(isFirstScreen);
+        //var searchForm = this.getSearchForm();
         var journeyModel = Ext.create('Racloop.model.Journey', {});
         var values = searchForm.getValues();
         // Form values
         searchForm.updateRecord(journeyModel);
         var validationObj = journeyModel.validate();
         if (!validationObj.isValid()) {
-            var errorString = this.validateSearchForm(validationObj);
+            var errorString = this.validateSearchForm(isFirstScreen, validationObj);
             Ext.Msg.alert("Oops, Input Errors", errorString);
         } else {
             var isTaxi = values.isTaxi;
@@ -72852,11 +73138,11 @@ Ext.define('Racloop.controller.JourneysController', {
             if (isTaxi === 'false' && tripDistance > 75) {
                 Ext.Msg.alert("Use Taxi", "We don't allow journeys more that 75 KM by Auto Rickshaw. Please use Taxi as transport mode");
             } else {
-                this.executeSearch(values);
+                this.executeSearch(values, isFirstScreen);
             }
         }
     },
-    executeSearch: function(journey) {
+    executeSearch: function(journey, isFirstScreen) {
         var me = this;
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
@@ -72896,39 +73182,94 @@ Ext.define('Racloop.controller.JourneysController', {
                                 jsonObj[i].disableRequest = false;
                             }
                             
+                            if (isFirstScreen) {
+                                jsonObj[i].hideButtons = true;
+                            }
                             searchStore.add(jsonObj[i]);
                         }
                         ;
                         if (data.total == 0) {
-                            me.getSearchNavigationView().push({
-                                xtype: "searchResultsEmptyView",
-                                title: "Search Results"
-                            });
+                            var searchResultsView = null;
+                            if (isFirstScreen) {
+                                searchResultsView = me.getMainNavigationView().push({
+                                    xtype: "searchResultsEmptyView",
+                                    title: "Search Results"
+                                });
+                            } else {
+                                searchResultsView = me.getSearchNavigationView().push({
+                                    xtype: "searchResultsEmptyView",
+                                    title: "Search Results"
+                                });
+                            }
                             if (data.data.hideSaveButton) {
                                 me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
                                 me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                             }
                         } else {
-                            var searchResultsView = me.getSearchNavigationView().push({
-                                    xtype: "searchResultsView",
-                                    title: "Search Results"
+                            //var searchResultsView = me.getSearchNavigationView().push({
+                            //    xtype: "searchResultsView",
+                            //    title: "Search Results"
+                            //});
+                            //var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                            //comp.isDummy = data.isDummy;
+                            //console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                            //if(data.data.hideSaveButton) {
+                            //    //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                            //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                            //}
+                            //else {
+                            //    //me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                            //    searchResultsView.down('#saveJourneyButton').setHidden(false);
+                            //}
+                            //console.log("isFirstScreen : " + isFirstScreen + " searchResultsView.down('#loginButtonInSearchResults') : " + searchResultsView.down('#loginButtonInSearchResults'))
+                            //if(isFirstScreen === false) {
+                            //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                            //}
+                            //else {
+                            //    searchResultsView.down('#loginButtonInSearchResults').setHidden(false);
+                            //}
+                            //if(disableMoreRequests) {
+                            //    Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                            //}
+                            var task = Ext.create('Ext.util.DelayedTask', function() {
+                                    var searchResultsView = null;
+                                    if (isFirstScreen) {
+                                        searchResultsView = me.getMainNavigationView().push({
+                                            xtype: "searchResultsView",
+                                            title: "Search Results"
+                                        });
+                                    } else {
+                                        searchResultsView = me.getSearchNavigationView().push({
+                                            xtype: "searchResultsView",
+                                            title: "Search Results"
+                                        });
+                                    }
+                                    var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                                    comp.isDummy = data.isDummy;
+                                    console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                                    if (data.data.hideSaveButton || isFirstScreen) {
+                                        //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                                        searchResultsView.down('#saveJourneyButton').setHidden(true);
+                                    } else {
+                                        //me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                                        searchResultsView.down('#saveJourneyButton').setHidden(false);
+                                    }
+                                    console.log("isFirstScreen : " + isFirstScreen + " searchResultsView.down('#loginButtonInSearchResults') : " + searchResultsView.down('#loginButtonInSearchResults'));
+                                    if (isFirstScreen) {
+                                        searchResultsView.down('#loginButtonInSearchResults').setHidden(false);
+                                    } else {
+                                        searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                                    }
+                                    if (disableMoreRequests) {
+                                        Ext.toast({
+                                            message: "You cannot send more than two invites for same journey",
+                                            timeout: Racloop.util.Config.toastTimeout,
+                                            animation: true,
+                                            cls: 'toastClass'
+                                        });
+                                    }
                                 });
-                            var comp = searchResultsView.getComponent('searchResultsDataViewInner');
-                            comp.isDummy = data.isDummy;
-                            console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                            if (data.data.hideSaveButton) {
-                                me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                            } else {
-                                me.getSaveJourneyButtonInSearchResults().setHidden(false);
-                            }
-                            if (disableMoreRequests) {
-                                Ext.toast({
-                                    message: "You cannot send more than two invites for same journey",
-                                    timeout: Racloop.util.Config.toastTimeout,
-                                    animation: true,
-                                    cls: 'toastClass'
-                                });
-                            }
+                            task.delay(300);
                         }
                     }
                     Ext.Viewport.unmask();
@@ -72966,13 +73307,14 @@ Ext.define('Racloop.controller.JourneysController', {
                 isDriver: journey.isDriver,
                 isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
+                tripTimeInSeconds: journey.tripTimeInSeconds,
                 tripUnit: journey.tripUnit
             }),
             success: successCallback,
             failure: failureCallback
         });
     },
-    validateSearchForm: function(validationObj) {
+    validateSearchForm: function(isFirstScreen, validationObj) {
         var errorstring = "";
         var formPlaceError = false;
         var fromPlaceErrors = validationObj.getByField('from');
@@ -72988,7 +73330,13 @@ Ext.define('Racloop.controller.JourneysController', {
             formPlaceError = true;
         }
         if (formPlaceError) {
-            Ext.ComponentQuery.query('#searchForm  #searchScreenFrom')[0].addCls('error');
+            if (isFirstScreen)  {
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenFrom')[0].addCls('error');
+            }
+            else  {
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenFrom')[0].addCls('error');
+            }
+            
             errorstring += "Invalid Location : From* field<br />";
         }
         var toPlaceErrors = validationObj.getByField('to');
@@ -73005,7 +73353,13 @@ Ext.define('Racloop.controller.JourneysController', {
             toPlaceError = true;
         }
         if (toPlaceError) {
-            Ext.ComponentQuery.query('#searchForm  #searchScreenTo')[0].addCls('error');
+            if (isFirstScreen)  {
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTo')[0].addCls('error');
+            }
+            else  {
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTo')[0].addCls('error');
+            }
+            
             errorstring += "Invalid Location :  To* field<br />";
         }
         var journeyErrors = validationObj.getByField('journeyDate');
@@ -73013,41 +73367,55 @@ Ext.define('Racloop.controller.JourneysController', {
             for (var i = 0; i < journeyErrors.length; i++) {
                 errorstring += journeyErrors[i].getMessage() + "<br />";
             }
-            Ext.ComponentQuery.query('#searchForm  #searchScreenDate')[0].addCls('error');
-            Ext.ComponentQuery.query('#searchForm  #searchScreenTime')[0].addCls('error');
+            if (isFirstScreen) {
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTime')[0].addCls('error');
+            } else {
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTime')[0].addCls('error');
+            }
         }
         return errorstring;
     },
-    resetErrorFields: function() {
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenDate')[0].removeCls('error');
-        Ext.ComponentQuery.query('#searchForm #searchScreenTime')[0].removeCls('error');
+    resetErrorFields: function(isFirstScreen) {
+        if (isFirstScreen) {
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTime')[0].removeCls('error');
+        } else {
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTime')[0].removeCls('error');
+        }
     },
     resetFields: function() {},
     handleSearchAgainHistoryButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('#searchForm #searchScreenFrom')[0].setValue(record.get("from"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('#searchForm #searchScreenTo')[0].setValue(record.get("to"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].setValue(record.get("from"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].setValue(record.get("to"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
         var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
-        Ext.ComponentQuery.query('#searchForm field[name=tripDistance]')[0].setValue(distance);
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripDistance]')[0].setValue(distance);
+        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
         var isTaxi = record.get("isTaxi");
         if (isTaxi) {
-            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('taxi');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('taxi');
         } else {
-            Ext.ComponentQuery.query('#searchForm #autoTaxiSelectField')[0].setValue('auto');
+            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('auto');
         }
-        var searchForm = this.getSearchForm();
+        var searchForm = this.getSearchFormInTab();
         var activeItem = this.getSearchNavigationView().getActiveItem();
         if (searchForm != activeItem)  {
             this.getSearchNavigationView().pop();
         }
         
         this.getMainTabs().setActiveItem('searchNavigationView');
+        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
     },
     //this.searchJourneys();
     handleSaveJourneyTap: function() {
@@ -73134,29 +73502,51 @@ Ext.define('Racloop.controller.JourneysController', {
                         searchStore.add(jsonObj[i]);
                     }
                     ;
-                    if (data.total == 0) {
-                        me.getSearchNavigationView().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsEmptyView'
+                    var task = Ext.create('Ext.util.DelayedTask', function() {
+                            if (data.total == 0) {
+                                me.getSearchNavigationView().push({
+                                    title: 'Search Results',
+                                    xtype: 'searchResultsEmptyView'
+                                });
+                                me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                                me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                            } else {
+                                var searchResultsView = me.getSearchNavigationView().push({
+                                        title: 'Search Results',
+                                        xtype: 'searchResultsView'
+                                    });
+                                me.getLoginButtonInSearchResults().setHidden(true);
+                                Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
+                                if (disableMoreRequests) {
+                                    Ext.toast({
+                                        message: "You cannot send more than two invites for same journey",
+                                        timeout: Racloop.util.Config.toastTimeout,
+                                        animation: true,
+                                        cls: 'toastClass'
+                                    });
+                                }
+                            }
                         });
-                        me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                        me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                    } else {
-                        me.getSearchNavigationView().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsView'
-                        });
-                        console.log("handleExistingJourneyReplaceButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                        if (disableMoreRequests) {
-                            Ext.toast({
-                                message: "You cannot send more than two invites for same journey",
-                                timeout: Racloop.util.Config.toastTimeout,
-                                animation: true,
-                                cls: 'toastClass'
-                            });
-                        }
-                    }
+                    task.delay(300);
+                    //if(data.total == 0) {
+                    //    me.getSearchNavigationView().push({
+                    //        title : 'Search Results',
+                    //        xtype : 'searchResultsEmptyView'
+                    //    });
+                    //    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                    //    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                    //}
+                    //else {
+                    //    var searchResultsView = me.getSearchNavigationView().push({
+                    //        title : 'Search Results',
+                    //        xtype : 'searchResultsView'
+                    //    });
+                    //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                    //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                    //    if(disableMoreRequests) {
+                    //        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    //    }
+                    //}
                     Ext.Viewport.unmask();
                 } else {
                     Ext.Viewport.unmask();
@@ -73192,6 +73582,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 isDriver: newJourney.isDriver,
                 isTaxi: newJourney.isTaxi,
                 tripDistance: newJourney.tripDistance,
+                tripTimeInSeconds: newJourney.tripTimeInSeconds,
                 tripUnit: newJourney.tripUnit,
                 searchWithNewJourney: 'newJourney',
                 existingJourneyId: existingJourneyId
@@ -73224,29 +73615,54 @@ Ext.define('Racloop.controller.JourneysController', {
                         searchStore.add(jsonObj[i]);
                     }
                     ;
-                    if (data.total == 0) {
-                        me.getSearchNavigationView().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsEmptyView'
+                    var task = Ext.create('Ext.util.DelayedTask', function() {
+                            if (data.total == 0) {
+                                me.getSearchNavigationView().push({
+                                    title: 'Search Results',
+                                    xtype: 'searchResultsEmptyView'
+                                });
+                                me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                                me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                            } else {
+                                var searchResultsView = me.getSearchNavigationView().push({
+                                        title: 'Search Results',
+                                        xtype: 'searchResultsView'
+                                    });
+                                //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                                me.getLoginButtonInSearchResults().setHidden(true);
+                                Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
+                                if (disableMoreRequests) {
+                                    Ext.toast({
+                                        message: "You cannot send more than two invites for same journey",
+                                        timeout: Racloop.util.Config.toastTimeout,
+                                        animation: true,
+                                        cls: 'toastClass'
+                                    });
+                                }
+                            }
                         });
-                        me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
-                        me.getSaveJourneyButtonInEmptyResults().setHidden(true);
-                    } else {
-                        me.getSearchNavigationView().push({
-                            title: 'Search Results',
-                            xtype: 'searchResultsView'
-                        });
-                        console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
-                        me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                        if (disableMoreRequests) {
-                            Ext.toast({
-                                message: "You cannot send more than two invites for same journey",
-                                timeout: Racloop.util.Config.toastTimeout,
-                                animation: true,
-                                cls: 'toastClass'
-                            });
-                        }
-                    }
+                    task.delay(300);
+                    //if(data.total == 0) {
+                    //    me.getSearchNavigationView().push({
+                    //        title : 'Search Results',
+                    //        xtype : 'searchResultsEmptyView'
+                    //    });
+                    //    me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtml);
+                    //    me.getSaveJourneyButtonInEmptyResults().setHidden(true);
+                    //}
+                    //else {
+                    //    var searchResultsView = me.getSearchNavigationView().push({
+                    //        title : 'Search Results',
+                    //        xtype : 'searchResultsView'
+                    //    });
+                    //    console.log("handleExistingJourneyKeepOriginalButtonTap : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                    //    //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                    //    searchResultsView.down('#saveJourneyButton').setHidden(true);
+                    //    searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                    //    if(disableMoreRequests) {
+                    //        Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    //    }
+                    //}
                     Ext.Viewport.unmask();
                 } else {
                     Ext.Viewport.unmask();
@@ -73277,6 +73693,9 @@ Ext.define('Racloop.controller.JourneysController', {
             success: successCallback,
             failure: failureCallback
         });
+    },
+    loginButtonInSearchResultsTap: function() {
+        Racloop.app.getController('UiController').showLogin();
     }
 });
 
@@ -73362,6 +73781,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
                 travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
+                detailsButtonTap: 'detailsButtonTap',
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap: 'handleCancelButtonTap',
@@ -73423,7 +73843,10 @@ Ext.define('Racloop.controller.WorkflowController', {
                             }
                             var comp = searchResultsView.getComponent('searchResultsDataViewInner');
                             comp.isDummy = data.isDummy;
-                            me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                            searchResultsView.down('#saveJourneyButton').setHidden(true);
+                            searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                            Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
+                            //me.getSaveJourneyButtonInSearchResults().setHidden(true);
                             if (disableMoreRequests) {
                                 Ext.toast({
                                     message: "You cannot send more than two invites for same journey",
@@ -73563,6 +73986,49 @@ Ext.define('Racloop.controller.WorkflowController', {
                 }
             },
             scope: this
+        });
+    },
+    detailsButtonTap: function(item) {
+        var journeyNavigationView = this.getJourneyNavigationView();
+        var searchNavigationView = this.getSearchNavigationView();
+        var record = item.getRecord();
+        var journeyId = record.get("id");
+        searchNavigationView.push({
+            itemId: 'journeyDetailsPanel',
+            xtype: "journeyDetailsPanel",
+            title: "Suggested Route",
+            scrollable: true
+        });
+        var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    var JourneyDetailsText = Ext.ComponentQuery.query('#JourneyDetailsText')[0];
+                    JourneyDetailsText.setHtml(data.message);
+                    Ext.Viewport.unmask();
+                } else {
+                    Ext.Msg.alert("Network Failure", data.message);
+                    Ext.Viewport.unmask();
+                }
+            };
+        // Failure
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Network Failure", response.message);
+                Ext.Viewport.unmask();
+            };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Getting Details...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_JOURNEY_DETAILS + "?" + Ext.urlEncode({
+                journeyId: journeyId
+            }),
+            method: 'GET',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            success: successCallback,
+            failure: failureCallback
         });
     },
     travelBuddiesReadOnlyButtonTap: function(item) {
@@ -73918,7 +74384,7 @@ Ext.define('Racloop.controller.MapController', {
                     Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
                     Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
                     me.initGoogleElements();
-                    Racloop.app.getController('JourneysController').initGoogleElements();
+                    //Racloop.app.getController('JourneysController').initGoogleElements();
                     Racloop.app.getController('SessionsController').autoLogin();
                     console.log("Starting sencha touch application init ends");
                     me.setMapLoadingCompleted(true);
@@ -74164,44 +74630,13 @@ Ext.define('Racloop.controller.MapController', {
         });
     },
     /* */
-    updateFromFieldWithCurrentLocation: function() {
+    updateFromFieldWithCurrentLocation: function(isFirstScreen) {
         console.log("MapController - updateFromFieldWithCurrentLocation - STARTS");
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
             message: 'Getting Location'
         });
-        /*
-        var geolocationSuccess = function(position) {
-            console.log("MapController - updateFromFieldWithCurrentLocation - Ext.device.Geolocation.getCurrentPosition - success");
-            if(this.geocoder == null) this.geocoder = new google.maps.Geocoder();
-            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            this.geocoder.geocode({'latLng': latlng}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results.length > 0) {
-                        Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
-                        Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                        Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
-                        console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
-                        console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng())
-                    } else {
-                        console.log("No results found");
-                    }
-                    Ext.Viewport.unmask();
-                } else {
-                    Ext.Viewport.unmask();
-                    console.log("Geocoder failed due to: " + status);
-                }
-            });
-        };
-        var geolocationError = function() {
-            console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
-            Ext.Viewport.unmask();
-            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
-        };
-        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, geolocationOptions);
-        /* */
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy: true,
             timeout: 3000,
@@ -74217,9 +74652,15 @@ Ext.define('Racloop.controller.MapController', {
                 }, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=from]')[0].setValue(results[0].formatted_address);
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            if (isFirstScreen) {
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            } else {
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            }
                             console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
                             console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng());
                         } else {
@@ -74536,6 +74977,21 @@ Ext.define('Racloop.store.Passengers', {
     }
 });
 
+Ext.define('Racloop.view.JourneyDetailsPanel', {
+    extend: Ext.Panel,
+    alias: 'widget.journeyDetailsPanel',
+    config: {
+        itemId: 'JourneyDetailsPanel',
+        items: [
+            {
+                xtype: 'panel',
+                styleHtmlContent: true,
+                itemId: 'JourneyDetailsText'
+            }
+        ]
+    }
+});
+
 Ext.define('Racloop.view.PrivacyPanel', {
     extend: Ext.Panel,
     alias: 'widget.privacyPanel',
@@ -74585,7 +75041,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                 items: [
                     {
                         xtype: 'panel',
-                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'No Results Found' + '</div>' + '<div class="colored-line"></div>' + '<div class="sub-heading">Save your request so that other can find you.</div>' + '</div>',
+                        html: '<div class="section-header">' + '<div class="small-text-medium uppercase colored-text">' + 'No Results Found' + '</div>' + '<div class="colored-line"></div>' + '<div class="sub-heading">Sorry, :( ... but you can let other people find you.</div>' + '</div>',
                         itemId: 'emptySearchHtml'
                     },
                     {
@@ -74593,8 +75049,8 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                         itemId: 'saveJourneyButton',
                         iconCls: 'acceptCls',
                         iconMask: true,
-                        ui: 'action',
-                        text: 'Save Request',
+                        ui: 'confirm',
+                        text: 'Let Other Find Me',
                         margin: 10
                     }
                 ]
@@ -74615,15 +75071,28 @@ Ext.define('Racloop.view.SearchResultsView', {
             {
                 xtype: 'button',
                 itemId: 'saveJourneyButton',
-                text: 'Save Request',
+                text: 'Let Other Find Me',
                 iconCls: 'acceptCls',
                 iconMask: true,
                 iconAlign: 'left',
                 ui: 'confirm',
                 hidden: true,
-                margin: 10
+                margin: 25
             },
-            //padding: 8
+            //,
+            //padding: 10
+            {
+                xtype: 'button',
+                itemId: 'loginButtonInSearchResults',
+                text: 'Login Required',
+                iconCls: 'lockCls',
+                iconMask: true,
+                iconAlign: 'left',
+                ui: 'confirm',
+                //hidden: true,
+                margin: 10,
+                padding: 10
+            },
             {
                 xtype: 'dataview',
                 isDummy: false,
@@ -74634,6 +75103,187 @@ Ext.define('Racloop.view.SearchResultsView', {
                 store: 'SearchStore'
             }
         ]
+    }
+});
+
+Ext.define('Racloop.view.Preferences', {
+    extend: Ext.form.Panel,
+    alias: 'widget.preferences',
+    xtype: 'preferencesForm',
+    config: {
+        items: [
+            {
+                xtype: 'fieldset',
+                title: 'Preferences',
+                instructions: "Preferences to customize your experience",
+                items: [
+                    {
+                        name: 'contactOne',
+                        xtype: 'numberfield',
+                        label: 'Contact 1',
+                        placeHolder: 'Emergency Mobile',
+                        itemId: 'emergencyContactOne'
+                    },
+                    {
+                        name: 'contactTwo',
+                        xtype: 'numberfield',
+                        label: 'Contact 2',
+                        placeHolder: 'Emergency Mobile',
+                        itemId: 'emergencyContactTwo'
+                    },
+                    {
+                        xtype: 'selectfield',
+                        itemId: 'travelModePreferenceField',
+                        label: 'Travel Mode',
+                        value: 'Taxi',
+                        options: [
+                            {
+                                text: 'Taxi',
+                                value: 'Taxi'
+                            },
+                            {
+                                text: 'Auto',
+                                value: 'Auto'
+                            }
+                        ],
+                        listeners: {
+                            change: function(field, newValue) {
+                                if (newValue == "Auto") {
+                                    var travelModePreference = field.up().down('field[name=travelModePreference]');
+                                    travelModePreference.setValue('Auto');
+                                } else if (newValue == "Taxi") {
+                                    var travelModePreference = field.up().down('field[name=travelModePreference]');
+                                    travelModePreference.setValue('Taxi');
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'selectfield',
+                        itemId: 'paymentPreferenceSelectField',
+                        label: 'Payment',
+                        value: 'Cash',
+                        options: [
+                            {
+                                text: 'Cash',
+                                value: 'Cash'
+                            },
+                            {
+                                text: 'PayTM',
+                                value: 'PayTM'
+                            },
+                            {
+                                text: 'Other mobile wallets',
+                                value: 'Other mobile wallets'
+                            }
+                        ],
+                        listeners: {
+                            change: function(field, newValue) {
+                                if (newValue == "Cash") {
+                                    var paymentPreference = field.up().down('field[name=paymentPreference]');
+                                    paymentPreference.setValue("Cash");
+                                } else if (newValue == "PayTM") {
+                                    var paymentPreference = field.up().down('field[name=paymentPreference]');
+                                    paymentPreference.setValue("PayTM");
+                                } else if (newValue == "Other mobile wallets") {
+                                    var paymentPreference = field.up().down('field[name=paymentPreference]');
+                                    paymentPreference.setValue("Other mobile wallets");
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'selectfield',
+                        itemId: 'cabServicePreferenceSelectField',
+                        label: 'Cab Company',
+                        value: 'Uber',
+                        options: [
+                            {
+                                text: 'Ola',
+                                value: 'Ola'
+                            },
+                            {
+                                text: 'Uber',
+                                value: 'Uber'
+                            },
+                            {
+                                text: 'Meru Cabs',
+                                value: 'Meru Cabs'
+                            },
+                            {
+                                text: 'Mega Cabs',
+                                value: 'Mega Cabs'
+                            },
+                            {
+                                text: 'Easy Cabs',
+                                value: 'Easy Cabs'
+                            },
+                            {
+                                text: 'Others',
+                                value: 'Others'
+                            }
+                        ],
+                        listeners: {
+                            change: function(field, newValue) {
+                                if (newValue == "Uber") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Uber");
+                                } else if (newValue == "Ola") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Ola");
+                                } else if (newValue == "Others") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Others");
+                                } else if (newValue == "Meru Cabs") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Meru Cabs");
+                                } else if (newValue == "Mega Cabs") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Mega Cabs");
+                                } else if (newValue == "Easy Cabs") {
+                                    var cabServicePreference = field.up().down('field[name=cabServicePreference]');
+                                    cabServicePreference.setValue("Easy Cabs");
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'travelModePreference',
+                        value: 'taxi'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'paymentPreference',
+                        value: 'cash'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'cabServicePreference',
+                        value: 'ola'
+                    }
+                ]
+            },
+            {
+                xtype: 'button',
+                itemId: 'savePreferencesButton',
+                action: 'action',
+                text: 'Save',
+                ui: 'action',
+                margin: 20,
+                padding: 8
+            }
+        ]
+    },
+    initialize: function() {
+        this.callParent(arguments);
+        var user = LoginHelper.getUser();
+        this.setValues(user);
+        this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
+        this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
+        this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
+        this.down('field[itemId=paymentPreferenceSelectField]').setValue(user.paymentPreference);
+        this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
     }
 });
 
@@ -74692,8 +75342,7 @@ Ext.define('Racloop.view.EditProfileForm', {
                         xtype: 'radiofield',
                         label: 'Male',
                         value: 'male',
-                        hidden: true,
-                        checked: true,
+                        //checked: true,
                         labelWidth: '40%',
                         itemId: 'editScreenMale'
                     },
@@ -74702,7 +75351,6 @@ Ext.define('Racloop.view.EditProfileForm', {
                         xtype: 'radiofield',
                         label: 'Female',
                         value: 'female',
-                        hidden: true,
                         labelWidth: '40%',
                         itemId: 'editScreenFemale'
                     }
@@ -74722,7 +75370,16 @@ Ext.define('Racloop.view.EditProfileForm', {
     initialize: function() {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
+        console.log("user.isMale : " + user.isMale);
         this.setValues(user);
+        var isMale = this.down('field[name=gender]');
+        if (user.isMale) {
+            this.down('field[itemId=editScreenFemale]').uncheck();
+            this.down('field[itemId=editScreenMale]').check();
+        } else {
+            this.down('field[itemId=editScreenFemale]').check();
+            this.down('field[itemId=editScreenMale]').uncheck();
+        }
     }
 });
 
@@ -75047,7 +75704,7 @@ Ext.application({
         'MainNavigationView',
         'LoginForm',
         'RegisterForm',
-        //'FaqPanel',
+        'JourneyDetailsPanel',
         'SettingNavigationView',
         'MainTabs',
         'PrivacyPanel',
@@ -75055,7 +75712,7 @@ Ext.application({
         'SearchResultsDataView',
         'SearchResultsEmptyView',
         'SearchResultsView',
-        //'SettingsMenu',
+        'Preferences',
         'TermsPanel',
         'JourneyNavigationView',
         'HistoryNavigationView',

@@ -22,7 +22,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                         'No Results Found' +
                         '</div>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading">Save your request so that other can find you.</div>' +
+                        '<div class="sub-heading">Sorry, :( ... but you can let other people find you.</div>' +
                       '</div>',
                 itemId: 'emptySearchHtml'
 
@@ -31,8 +31,8 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                 itemId: 'saveJourneyButton',
                 iconCls: 'acceptCls',
                 iconMask: true,
-                ui: 'action',
-                text: 'Save Request',
+                ui: 'confirm',
+                text: 'Let People Find Me',
                 margin: 10
             }]
         }]

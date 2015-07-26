@@ -17,14 +17,26 @@ Ext.define('Racloop.view.SearchResultsView', {
             {
             xtype: 'button',
             itemId: 'saveJourneyButton',
-            text: 'Save Request',
+            text: 'Let People Find Me',
             iconCls: 'acceptCls',
             iconMask: true,
             iconAlign: 'left',
             ui: 'confirm',
             hidden: true,
-            margin: 10
-            //padding: 8
+            margin: 25//,
+            //padding: 10
+        },
+        {
+            xtype: 'button',
+            itemId: 'loginButtonInSearchResults',
+            text: 'Login Required',
+            iconCls: 'lockCls',
+            iconMask: true,
+            iconAlign: 'left',
+            ui: 'confirm',
+            //hidden: true,
+            margin: 10,
+            padding: 10
         },
         {
             xtype : 'dataview',

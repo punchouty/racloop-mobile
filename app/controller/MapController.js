@@ -94,7 +94,7 @@ Ext.define('Racloop.controller.MapController', {
                     Ext.Viewport.add(Ext.create('Racloop.view.MainTabs'));
                     Ext.Viewport.add(Ext.create('Racloop.view.MainNavigationView'));
                     me.initGoogleElements();
-                    Racloop.app.getController('JourneysController').initGoogleElements();
+                    //Racloop.app.getController('JourneysController').initGoogleElements();
                     Racloop.app.getController('SessionsController').autoLogin();
                     console.log("Starting sencha touch application init ends");
                     me.setMapLoadingCompleted(true);
@@ -351,44 +351,14 @@ Ext.define('Racloop.controller.MapController', {
         /* */
     },
 
-    updateFromFieldWithCurrentLocation: function(){
+    updateFromFieldWithCurrentLocation: function(isFirstScreen){
         console.log("MapController - updateFromFieldWithCurrentLocation - STARTS");
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
             message: 'Getting Location'
         });
-        /*
-        var geolocationSuccess = function(position) {
-            console.log("MapController - updateFromFieldWithCurrentLocation - Ext.device.Geolocation.getCurrentPosition - success");
-            if(this.geocoder == null) this.geocoder = new google.maps.Geocoder();
-            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            this.geocoder.geocode({'latLng': latlng}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results.length > 0) {
-                        Ext.ComponentQuery.query('textfield[name=fromPlace]')[0].setValue(results[0].formatted_address);
-                        Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                        Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
-                        console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
-                        console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng())
-                    } else {
-                        console.log("No results found");
-                    }
-                    Ext.Viewport.unmask();
-                } else {
-                    Ext.Viewport.unmask();
-                    console.log("Geocoder failed due to: " + status);
-                }
-            });
-        };
-        var geolocationError = function() {
-            console.log('Error : updateFromFieldWithCurrentLocation : ' + error.code + " : " + error.message);
-            Ext.Viewport.unmask();
-            Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
-        };
-        var geolocationOptions = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, geolocationOptions);
-        /* */
+
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy : true,
             timeout : 3000,
@@ -399,9 +369,16 @@ Ext.define('Racloop.controller.MapController', {
                 this.geocoder.geocode({'latLng': latlng}, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results.length > 0) {
-                            Ext.ComponentQuery.query('textfield[name=from]')[0].setValue(results[0].formatted_address);
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                            Ext.ComponentQuery.query('hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            if(isFirstScreen) {
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            }
+                            else {
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                            }
                             console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
                             console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng())
                         } else {

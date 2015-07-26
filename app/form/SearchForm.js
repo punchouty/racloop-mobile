@@ -18,10 +18,25 @@ Ext.define('Racloop.form.SearchForm', {
     ],
 
     config: {
-        items: [{
+        items: [
+            {
+                xtype: 'container',
+                html:   '<div class="section-header">' +
+                //'<div class="small-text-medium uppercase colored-text">' +
+                //'Search, Connect and Go' +
+                //'</div>' +
+                '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
+                    //'<div class="colored-line"></div>' +
+                    '<div class="sub-heading">' +
+                        'Share Taxi and Auto Rides Conveniently.' +
+                    '</div>' +
+                '</div>',
+                itemId: 'searchHeading'
+            },
+            {
             xtype: 'fieldset',
-            title: 'Search Journeys',
-            instructions: "Search where other people are going.",
+            title: 'Your Plan',
+            instructions: "Split Your Travel Cost.",
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
@@ -124,7 +139,43 @@ Ext.define('Racloop.form.SearchForm', {
             iconMask: true,
             margin: 10,
             ui: 'action'
-        }
+        }, {
+            //    xtype: 'container',
+            //    html: '<div class="section-header">' +
+            //            '<div class="small-text-medium uppercase colored-text">' +
+            //            'Or' +
+            //            '</div>' +
+            //            //'<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
+            //            //'<div class="colored-line"></div>' +
+            //            //'<div class="sub-heading">' +
+            //            //    'Share Taxi and Auto Rides Conveniently.' +
+            //            //'</div>' +
+            //          '</div>',
+            //    itemId: 'homeLabel'
+            //
+            //},{
+            //    xtype: 'button',
+            //    itemId: 'showLoginButton',
+            //    iconCls: 'lockCls',
+            //    iconMask: true,
+            //    iconAlign: 'left',
+            //    ui: 'action',
+            //    text: 'Sign In',
+            //    margin: 10
+            //}, {
+                xtype: 'container',
+                html:   '<div class="links">' +
+                            '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
+                            'Sign In' +
+                            '</a> &nbsp;&nbsp;' +
+                            ' <a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
+                            'New User?' +
+                            '</a>' +
+                        '</div>',
+                itemId: 'homeLinks',
+                margin: '20 10 10 10'
+
+            }
 
         ]
     }

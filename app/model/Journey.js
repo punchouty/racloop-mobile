@@ -86,6 +86,9 @@ Ext.define('Racloop.model.Journey', {
         },{
             name: 'disableRequest',
             type: 'boolean'
+        },{
+            name: 'hideButtons',
+            type: 'boolean'
         }
         ],
         validations: [{

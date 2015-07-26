@@ -24,7 +24,9 @@ Ext.define('Racloop.controller.UiController', {
             historyEmptyView : 'historyNavigationView #historyEmptyView',
 
             searchNavigationView: 'searchNavigationView',
-            searchForm: 'searchNavigationView #searchForm',
+            searchForm: 'searchNavigationView #searchFormInTabs',
+            searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
+            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks',
 
             settingNavigationView : 'settingNavigationView',
             settingListView : 'settingNavigationView #settingListView',
@@ -90,6 +92,7 @@ Ext.define('Racloop.controller.UiController', {
         else if(button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
             this.getSearchNavigationView().reset();
+            this.hideLoginLinksFromSearchForm();
             //var activeItem = this.getSearchNavigationView().getActiveItem();
             //if(searchForm != activeItem) this.getSearchNavigationView().pop();
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
@@ -114,6 +117,11 @@ Ext.define('Racloop.controller.UiController', {
             //Racloop.app.getController('MapController').startWatchingJourney();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
+    },
+
+    hideLoginLinksFromSearchForm : function() {
+        this.getHomeLinks().hide();
+        this.getSearchHeading().hide();
     },
 
     showAndLoadAfterDelay: function() {
@@ -173,19 +181,37 @@ Ext.define('Racloop.controller.UiController', {
 
     showLogin: function(button, e, eOpts) {
         var mainNavigationView = this.getMainNavigationView(); // Main view
-
+        //mainNavigationView.reset();
+        console.log("mainNavigationView.getItems().length : " + mainNavigationView.getItems().length)
         // Navigate to login
-        mainNavigationView.push({
-            itemId: 'loginForm',
-            xtype: "loginForm",
-            title: "Sign In"
-        });
-        console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
-        if(!LoginHelper.getEmail()) {
-            var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
-            emailField.setValue(LoginHelper.getEmail());
+        if(mainNavigationView.getItems().length == 3) {
+            mainNavigationView.pop();
+            var task = Ext.create('Ext.util.DelayedTask', function(){
+                mainNavigationView.push({
+                    itemId: 'loginForm',
+                    xtype: "loginForm",
+                    title: "Sign In"
+                });
+                console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+                if(!LoginHelper.getEmail()) {
+                    var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                    emailField.setValue(LoginHelper.getEmail());
+                }
+            });
+            task.delay(400);
         }
-
+        else {
+            mainNavigationView.push({
+                itemId: 'loginForm',
+                xtype: "loginForm",
+                title: "Sign In"
+            });
+            console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+            if(!LoginHelper.getEmail()) {
+                var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                emailField.setValue(LoginHelper.getEmail());
+            }
+        }
     },
 
     showRegister: function() { //called from href link directly
