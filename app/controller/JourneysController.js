@@ -715,7 +715,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
 
-        var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
+        var distance = this.calculateDistance(this.getSearchFormInTab(), record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripDistance]')[0].setValue(distance);
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
 

@@ -22,7 +22,9 @@ Ext.define('Racloop.controller.WorkflowController', {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
                 viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
-                travelBuddiesButtonTap : 'handleTravelBuddiesButtonTap'
+                travelBuddiesButtonTap : 'handleTravelBuddiesButtonTap',
+                detailsButtonTap : 'handleDetailsInMyJourneyButtonTap',
+                chatButtonTap : 'handleChatButtonTap'
             },
             'relatedRequestViewItem': {
                 rejectButtonTap: 'handleRejectButtonTap',
@@ -34,7 +36,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
                 travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
-                detailsButtonTap: 'detailsButtonTap',
+                detailsButtonTap: 'handleDetailsInSearchButtonTap',
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
@@ -245,21 +247,48 @@ Ext.define('Racloop.controller.WorkflowController', {
         });
     },
 
-    detailsButtonTap : function(item) {
+    handleDetailsInMyJourneyButtonTap : function(item) {
+        this.detailsButtonTap(item, true);
+    },
+
+    handleDetailsInSearchButtonTap : function(item) {
+        this.detailsButtonTap(item, false);
+    },
+
+    detailsButtonTap : function(item, isMyJourney) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var searchNavigationView = this.getSearchNavigationView();
+        var comp = searchNavigationView.down('#searchResultsDataViewInner');
+        var isDummy = comp.isDummy;
         var record = item.getRecord();
         var journeyId = record.get("id");
-        searchNavigationView.push({
-            itemId: 'journeyDetailsPanel',
-            xtype: "journeyDetailsPanel",
-            title: "Suggested Route",
-            scrollable : true
-        });
+        var journeyDetailsPanel = null;
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                var JourneyDetailsText = Ext.ComponentQuery.query('#JourneyDetailsText')[0];
+                if(isMyJourney) {
+                    journeyDetailsPanel = journeyNavigationView.push({
+                        itemId: 'journeyDetailsPanel',
+                        xtype: "journeyDetailsPanel",
+                        title: "Suggested Route",
+                        scrollable : true
+                    });
+                }
+                else {
+                    journeyDetailsPanel = searchNavigationView.down('#journeyDetailsPanel');
+                    if(journeyDetailsPanel == null) {
+                        journeyDetailsPanel = searchNavigationView.push({
+                            itemId: 'journeyDetailsPanel',
+                            xtype: "journeyDetailsPanel",
+                            title: "Suggested Route",
+                            scrollable : true
+                        });
+                    }
+                    else {
+                        searchNavigationView.setActiveItem(journeyDetailsPanel);
+                    }
+                }
+                var JourneyDetailsText = journeyDetailsPanel.down('#JourneyDetailsText');
                 JourneyDetailsText.setHtml(data.message);
                 Ext.Viewport.unmask();
             } else {
@@ -279,7 +308,9 @@ Ext.define('Racloop.controller.WorkflowController', {
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_JOURNEY_DETAILS + "?" + Ext.urlEncode({
-                journeyId : journeyId
+                journeyId : journeyId,
+                isMyJourney : isMyJourney,
+                isDummy : isDummy
             }),
             method: 'GET',
             withCredentials: true,
@@ -573,5 +604,9 @@ Ext.define('Racloop.controller.WorkflowController', {
         }
 
         window.open(url, '_system', 'location=yes');
+    },
+
+    handleChatButtonTap : function(item) {
+        Ext.Msg.alert("Chat", "still not implemented");
     }
 });

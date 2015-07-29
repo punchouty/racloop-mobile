@@ -19,7 +19,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
 
     updateRecord: function(record) {
         // Provide an implementation to update this container's child items
-        var me = this;            
+        var me = this;
         if (record != null) {
             var drivingText = '';
             var dateOfJourney = record.get("dateOfJourney");
@@ -37,12 +37,14 @@ Ext.define('Racloop.view.JourneyViewItem', {
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>'
             if(numberOfCopassengers > 0) {
-                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button> ' +
+                '<button  class="racloop-btn racloop-btn-warning chatButton"><span class="chatCls"></span> Chat</button>';
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
             var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>  ' +
-                '<button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>';
-            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-success searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
+                ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>  ' +
+                '<button  class="racloop-btn racloop-btn-success searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
                 buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>';
@@ -113,6 +115,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             tap        : 'travelBuddiesButtonTapFired',
             delegate   : 'button.travelBuddiesButton'
         });
+        this.element.on({
+            scope      : this,
+            tap        : 'detailsButtonTapFired',
+            delegate   : 'button.detailsButton'
+        });
         this.callParent(arguments);
 
     },
@@ -125,13 +132,13 @@ Ext.define('Racloop.view.JourneyViewItem', {
     deleteJourneyButtonTapFired: function(e) {
         this.fireEvent('deleteJourneyButtonTap',this);
     },
-    //incomingButtonTapFired: function(e) {
-    //    this.fireEvent('incomingButtonTap',this);
-    //},
-    //outgoingButtonTapFired: function(e) {
-    //    this.fireEvent('outgoingButtonTap',this);
-    //},
     travelBuddiesButtonTapFired : function(e) {
         this.fireEvent('travelBuddiesButtonTap',this);
+    },
+    detailsButtonTapFired : function(e) {
+        this.fireEvent('detailsButtonTap',this);
+    },
+    chatButtonTapFired : function(e) {
+        this.fireEvent('chatButtonTap',this);
     }
 });

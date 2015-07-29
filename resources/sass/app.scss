@@ -263,6 +263,10 @@ $tabs-dark: $blue;
   font-family: "racloop-icons";
   content: "\e0a2";
 }
+.chatCls:before {
+  font-family: "racloop-icons";
+  content: "\e118";
+}
 //@include sencha-toolbar-ui('light', darken($black,10%), 'recessed');
 
 .error .x-component-outer{
