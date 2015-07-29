@@ -69895,11 +69895,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>';
             if (numberOfCopassengers > 0) {
-                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button> ' + '<button  class="racloop-btn racloop-btn-warning chatButton"><span class="chatCls"></span> Chat</button>';
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
-            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>  ' + '<button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>';
-            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-success searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
+            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>  ' + ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger deleteJourneyButton"><span class="deleteCls"></span> Delete</button>  ' + '<button  class="racloop-btn racloop-btn-success searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
             if (myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
                 buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>';
@@ -69934,6 +69934,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             tap: 'travelBuddiesButtonTapFired',
             delegate: 'button.travelBuddiesButton'
         });
+        this.element.on({
+            scope: this,
+            tap: 'detailsButtonTapFired',
+            delegate: 'button.detailsButton'
+        });
         this.callParent(arguments);
     },
     searchAgainButtonTapFired: function(e) {
@@ -69945,14 +69950,14 @@ Ext.define('Racloop.view.JourneyViewItem', {
     deleteJourneyButtonTapFired: function(e) {
         this.fireEvent('deleteJourneyButtonTap', this);
     },
-    //incomingButtonTapFired: function(e) {
-    //    this.fireEvent('incomingButtonTap',this);
-    //},
-    //outgoingButtonTapFired: function(e) {
-    //    this.fireEvent('outgoingButtonTap',this);
-    //},
     travelBuddiesButtonTapFired: function(e) {
         this.fireEvent('travelBuddiesButtonTap', this);
+    },
+    detailsButtonTapFired: function(e) {
+        this.fireEvent('detailsButtonTap', this);
+    },
+    chatButtonTapFired: function(e) {
+        this.fireEvent('chatButtonTap', this);
     }
 });
 
@@ -73399,7 +73404,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].setValue(record.get("to"));
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
-        var distance = this.calculateDistance(record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
+        var distance = this.calculateDistance(this.getSearchFormInTab(), record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripDistance]')[0].setValue(distance);
         Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
         var isTaxi = record.get("isTaxi");
@@ -73769,7 +73774,9 @@ Ext.define('Racloop.controller.WorkflowController', {
                 searchAgainButtonTap: 'handleSearchAgainButtonTap',
                 deleteJourneyButtonTap: 'handleDeleteJourneyButtonTap',
                 viewJourneyOnMapButtonTap: 'handleViewJourneyOnMapButtonTap',
-                travelBuddiesButtonTap: 'handleTravelBuddiesButtonTap'
+                travelBuddiesButtonTap: 'handleTravelBuddiesButtonTap',
+                detailsButtonTap: 'handleDetailsInMyJourneyButtonTap',
+                chatButtonTap: 'handleChatButtonTap'
             },
             'relatedRequestViewItem': {
                 rejectButtonTap: 'handleRejectButtonTap',
@@ -73781,7 +73788,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             'searchResultViewItem': {
                 requestButtonTap: 'handleRequestButtonTap',
                 travelBuddiesReadOnlyButtonTap: 'travelBuddiesReadOnlyButtonTap',
-                detailsButtonTap: 'detailsButtonTap',
+                detailsButtonTap: 'handleDetailsInSearchButtonTap',
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap: 'handleCancelButtonTap',
@@ -73988,21 +73995,44 @@ Ext.define('Racloop.controller.WorkflowController', {
             scope: this
         });
     },
-    detailsButtonTap: function(item) {
+    handleDetailsInMyJourneyButtonTap: function(item) {
+        this.detailsButtonTap(item, true);
+    },
+    handleDetailsInSearchButtonTap: function(item) {
+        this.detailsButtonTap(item, false);
+    },
+    detailsButtonTap: function(item, isMyJourney) {
         var journeyNavigationView = this.getJourneyNavigationView();
         var searchNavigationView = this.getSearchNavigationView();
+        var comp = searchNavigationView.down('#searchResultsDataViewInner');
+        var isDummy = comp.isDummy;
         var record = item.getRecord();
         var journeyId = record.get("id");
-        searchNavigationView.push({
-            itemId: 'journeyDetailsPanel',
-            xtype: "journeyDetailsPanel",
-            title: "Suggested Route",
-            scrollable: true
-        });
+        var journeyDetailsPanel = null;
         var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    var JourneyDetailsText = Ext.ComponentQuery.query('#JourneyDetailsText')[0];
+                    if (isMyJourney) {
+                        journeyDetailsPanel = journeyNavigationView.push({
+                            itemId: 'journeyDetailsPanel',
+                            xtype: "journeyDetailsPanel",
+                            title: "Suggested Route",
+                            scrollable: true
+                        });
+                    } else {
+                        journeyDetailsPanel = searchNavigationView.down('#journeyDetailsPanel');
+                        if (journeyDetailsPanel == null) {
+                            journeyDetailsPanel = searchNavigationView.push({
+                                itemId: 'journeyDetailsPanel',
+                                xtype: "journeyDetailsPanel",
+                                title: "Suggested Route",
+                                scrollable: true
+                            });
+                        } else {
+                            searchNavigationView.setActiveItem(journeyDetailsPanel);
+                        }
+                    }
+                    var JourneyDetailsText = journeyDetailsPanel.down('#JourneyDetailsText');
                     JourneyDetailsText.setHtml(data.message);
                     Ext.Viewport.unmask();
                 } else {
@@ -74022,7 +74052,9 @@ Ext.define('Racloop.controller.WorkflowController', {
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_JOURNEY_DETAILS + "?" + Ext.urlEncode({
-                journeyId: journeyId
+                journeyId: journeyId,
+                isMyJourney: isMyJourney,
+                isDummy: isDummy
             }),
             method: 'GET',
             withCredentials: true,
@@ -74306,6 +74338,9 @@ Ext.define('Racloop.controller.WorkflowController', {
             url = "http://www.taxiforsure.com/";
         }
         window.open(url, '_system', 'location=yes');
+    },
+    handleChatButtonTap: function(item) {
+        Ext.Msg.alert("Chat", "still not implemented");
     }
 });
 
@@ -75050,7 +75085,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                         iconCls: 'acceptCls',
                         iconMask: true,
                         ui: 'confirm',
-                        text: 'Let Other Find Me',
+                        text: 'Let People Find Me',
                         margin: 10
                     }
                 ]
@@ -75071,7 +75106,7 @@ Ext.define('Racloop.view.SearchResultsView', {
             {
                 xtype: 'button',
                 itemId: 'saveJourneyButton',
-                text: 'Let Other Find Me',
+                text: 'Let People Find Me',
                 iconCls: 'acceptCls',
                 iconMask: true,
                 iconAlign: 'left',

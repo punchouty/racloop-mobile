@@ -6,9 +6,9 @@
 # Build and Release Folders
 archive/
 build/
-phonegap/platforms/
-phonegap/plugins/
-
+#phonegap/platforms/
+#phonegap/plugins/
+phonegap/
 # sass cache folder
 # resources/css/app.css
 resources/sass/.sass-cache/
