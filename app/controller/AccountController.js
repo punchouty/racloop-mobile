@@ -23,7 +23,8 @@ Ext.define('Racloop.controller.AccountController', {
             registerButton : 'registerForm #registerButton',
             verifyMobileButton: 'verifySmsForm #verifyMobile',
             resendSmsButton : 'verifySmsForm #resendSms',
-            forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton'
+            forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton',
+            facebookSignInButton : 'registerForm #facebookSignInButton',
         },
 
         control: {
@@ -38,6 +39,9 @@ Ext.define('Racloop.controller.AccountController', {
             },
             forgotPasswordButton : {
                 tap: 'forgotPassword'
+            },
+            facebookSignInButton : {
+                tap: 'onFBSignInButtonTap'
             }
         }
     },
@@ -65,6 +69,7 @@ Ext.define('Racloop.controller.AccountController', {
                     var data = Ext.decode(response.responseText);
                     if (data.success) {
                         LoginHelper.setEmail(values.email);
+                        LoginHelper.setUser(data.data);
 //                        mainNavigationView.pop();
                         mainNavigationView.push({
                             itemId: 'verifySmsForm',
@@ -230,18 +235,10 @@ Ext.define('Racloop.controller.AccountController', {
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
-                    var mainNavigationView = me.getMainNavigationView(); // Main view
-                    var homePanel = me.getHomePanel();
-                    var loginForm = me.getLoginForm();
-                    mainNavigationView.reset();
-                    mainNavigationView.push({
-                        itemId: 'loginForm',
-                        xtype: "loginForm",
-                        title: "Sign In"
-                    });
-
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    var sessionController = Racloop.app.getController('SessionsController') ;
+                    sessionController.autoLogin();
+                    
                 }
                 else {
                     Ext.Viewport.unmask();
@@ -375,5 +372,11 @@ Ext.define('Racloop.controller.AccountController', {
 
     resetErrorForgetPasswordFields: function() {
         Ext.ComponentQuery.query('#forgotPasswordTextField')[0].removeCls('error');
+    },
+
+    onFBSignInButtonTap: function(){ 
+        var me = this;
+        var sessionController = Racloop.app.getController('SessionsController') ;
+        Racloop.util.FBConnect.authenticate(sessionController);
     }
 });

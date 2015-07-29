@@ -26,7 +26,9 @@ Ext.application({
         'Racloop.view.OfflineView',
         'Racloop.util.Config',
         'Racloop.util.Common',
-        'Racloop.util.LoginHelper'
+        'Racloop.util.LoginHelper',
+        'Racloop.util.Utility',
+        'Racloop.util.FBConnect'
     ],
 
     models: [
@@ -67,7 +69,8 @@ Ext.application({
         'SosView',
         'JourneyRatingView',
         'MyJourneyView',
-        'HistoryView'
+        'HistoryView',
+        'MobileCaptureForm'
     ],
 
     controllers: [
@@ -108,6 +111,9 @@ Ext.application({
 
     launch: function() {
         console.log('launching application......');
+        if(!(Ext.os.is.Android || Ext.os.is.iOS)){ 
+            facebookConnectPlugin.browserInit('417141881785415','v2.3');
+        }
         this.initSslCertificates();
         document.addEventListener('deviceready', function () {
             StatusBar.hide();
