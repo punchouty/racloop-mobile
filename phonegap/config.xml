@@ -35,9 +35,14 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
     <gap:plugin name="org.apache.cordova.statusbar" />
-     <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.8.0">
-        <param name="APP_ID" value="393926260773644" />
-        <param name="APP_NAME" value="Racloop" />
+    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
+        <!-- Comment one of below -->
+        <!-- Production -->
+        <param name="APP_ID" value="827335057382382" />
+        <param name="APP_NAME" value="CabShare" />
+        <!-- Local
+        <param name="APP_ID" value="827652170684004" />
+        <param name="APP_NAME" value="CabShareLocal" /> -->
     </gap:plugin>
 
     <icon src="icon.png" />

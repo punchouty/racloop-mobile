@@ -8,9 +8,10 @@ archive/
 build/
 #phonegap/platforms/
 #phonegap/plugins/
-phonegap/
+#phonegap/www/
 # sass cache folder
 # resources/css/app.css
+phonegap/
 resources/sass/.sass-cache/
 
 .idea

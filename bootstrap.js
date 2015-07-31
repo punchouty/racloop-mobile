@@ -704,9 +704,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.util.Config": [
     "Config"
   ],
+  "Racloop.util.FBConnect": [],
   "Racloop.util.LoginHelper": [
     "LoginHelper"
   ],
+  "Racloop.util.Utility": [],
   "Racloop.view.ChangePasswordForm": [],
   "Racloop.view.EditProfileForm": [],
   "Racloop.view.EmergencyContactForm": [],
@@ -724,6 +726,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.MainNavigationView": [],
   "Racloop.view.MainTabs": [],
   "Racloop.view.MapPanel": [],
+  "Racloop.view.MobileCaptureForm": [],
   "Racloop.view.MyJourneyView": [],
   "Racloop.view.OfflineView": [],
   "Racloop.view.Preferences": [],
@@ -1517,7 +1520,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [],
   "Racloop.util.Config": [],
+  "Racloop.util.FBConnect": [],
   "Racloop.util.LoginHelper": [],
+  "Racloop.util.Utility": [],
   "Racloop.view.ChangePasswordForm": [
     "widget.changePasswordForm"
   ],
@@ -1568,6 +1573,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.MapPanel": [
     "widget.mapPanel"
+  ],
+  "Racloop.view.MobileCaptureForm": [
+    "widget.mobileCaptureForm"
   ],
   "Racloop.view.MyJourneyView": [
     "widget.myJourneyView"

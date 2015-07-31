@@ -68918,6 +68918,7 @@ Ext.define('Racloop.util.Config', {
     constructor: function() {
         if (this.config.env == 'prod') {
             this.config.locationUpdateFrequency = 60000;
+            this.facebookId = '827335057382382';
             this.config.url.RACLOOP_LOGIN = 'http://www.cabshare.in/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://www.cabshare.in/userMobile/logout';
             this.config.url.RACLOOP_SIGNUP = 'http://www.cabshare.in/userMobile/signup';
@@ -68949,8 +68950,10 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.cabshare.in/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://www.cabshare.in/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://www.cabshare.in/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://www.cabshare.in/userMobile/loginFromFacebook';
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
+            this.facebookId = '493971007435835';
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/userMobile/logout';
             this.config.url.RACLOOP_SIGNUP = 'http://localhost:8080/app/userMobile/signup';
@@ -68982,10 +68985,12 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://localhost:8080/app/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://localhost:8080/app/userMobile/loginFromFacebook';
         } else {
-            var ip = "127.0.0.1";
-            //"192.168.1.3";
+            var ip = "192.168.1.4";
+            //"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
+            this.facebookId = '827652170684004';
             this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/userMobile/logout';
             this.config.url.RACLOOP_SIGNUP = 'http://' + ip + ':8080/app/userMobile/signup';
@@ -69017,6 +69022,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_ACCEPTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/acceptRequest';
             this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://' + ip + ':8080/app/userMobile/loginFromFacebook';
         }
         return this.config;
     }
@@ -69256,6 +69262,137 @@ Ext.define('Racloop.util.LoginHelper', {
     }
 });
 
+Ext.define('Racloop.util.Utility', {
+    singleton: true,
+    // This function helps us to control transitions between pages
+    showActiveItem: function(parentPanel, childPanel, direction, activeItem) {
+        if (parentPanel && childPanel) {
+            parentPanel.animateActiveItem(childPanel, {
+                type: 'slide',
+                direction: direction,
+                listeners: {
+                    animationend: function() {
+                        if (activeItem) {
+                            //Having unused components lying around the place can slow
+                            //down our application. If an activeItem is supplies to this
+                            //function we destroy it after the animation has finished.
+                            activeItem.destroy();
+                        }
+                    }
+                }
+            });
+        }
+        if (!Ext.Viewport.getMenus().left.isHidden()) {
+            Ext.Viewport.hideMenu('left');
+        }
+        return this;
+    }
+});
+
+Ext.define('Racloop.util.FBConnect', {
+    singleton: true,
+    //Authenticates a user with Facebook and queries the
+    //Facebook API
+    authenticate: function(sessionsController) {
+        var me = this;
+        //Check if the user is alreadya authenticated with Facebook
+        facebookConnectPlugin.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                //They are, so let's query the FB API for their
+                //id and email
+                var uid = response.authResponse.userID;
+                var accessToken = response.authResponse.accessToken;
+                facebookConnectPlugin.api('/me?fields=id,email,name,gender', [], function(response) {
+                    var fbid = response.id,
+                        email = response.email,
+                        name = response.name,
+                        gender = response.gender;
+                    //Attempt to create account, if it already exists log them in instead
+                    me.createAccount(fbid, email, name, gender, sessionsController);
+                }, function(response) {});
+            } else {
+                //They are not authenticated so lets log them in with Facebook
+                //This will trigger a switch into the Facebook login screen
+                facebookConnectPlugin.login([
+                    "email"
+                ], function(response) {
+                    if (response.authResponse) {
+                        //They are now authenticated, proceed with the query
+                        facebookConnectPlugin.api('/me?fields=id,email,name,gender', [], function(response) {
+                            var fbid = response.id,
+                                email = response.email;
+                            name = response.name , gender = response.gender;
+                            //Trigger account creation or login if already exists in database
+                            me.createAccount(fbid, email, name, gender, sessionsController);
+                        }, function(response) {});
+                    } else {
+                        //The login failed so show an error message
+                        loginController.signInFailure("Could not log into Faceobok");
+                    }
+                }, function(response) {});
+            }
+        }, function(response) {});
+    },
+    //Creates a new account, or if it already exists attempts
+    //to log the user in with Facebook
+    createAccount: function(fbid, email, name, gender, sessionsController) {
+        var me = this;
+        sessionsController.loginAsFacebook(fbid, email, name, gender);
+    },
+    //Logs a user in with the supplied fbid (instead of a password) and email address
+    login: function(fbid, email, loginController) {
+        var me = this;
+        //This is kind of like what we did before when we saved the user and invoked the proxy
+        //But this Ajax request is triggered manually by us, and we can supply whatever parameters
+        //we want, do some stuff on the server with it, and return data to our application
+        Ext.Ajax.request({
+            url: 'http://www.joshmorony.com/demos/SenchaLogin/api/users.php?action=login',
+            method: 'post',
+            params: {
+                email: email,
+                fbid: fbid
+            },
+            //If a successful response was returned we run this function
+            success: function(response) {
+                //Grab the JSON response
+                var loginResponse = Ext.JSON.decode(response.responseText);
+                if (loginResponse.success) {
+                    //Extract the information from the JSON response
+                    var localUsersStore = Ext.getStore('LocalUsers');
+                    var session = loginResponse.details[0].session;
+                    var userId = loginResponse.details[0].id;
+                    var email = loginResponse.details[0].email;
+                    //Set the userId as a global so we can reference it later
+                    SenchaLogin.globals.userId = userId;
+                    if (localUsersStore.getCount() > 0) {
+                        //A local user already exists so update their email and
+                        //session key
+                        var currentUser = localUsersStore.getAt(0);
+                        currentUser.set('email', email);
+                        currentUser.set('session', session);
+                        localUsersStore.sync();
+                    } else {
+                        //This is the first log in so create a new local user
+                        var newLocalUser = Ext.create('SenchaLogin.model.LocalUser', {
+                                email: email,
+                                session: session
+                            });
+                        localUsersStore.add(newLocalUser);
+                        localUsersStore.sync();
+                    }
+                    console.log(loginResponse);
+                    loginController.signInSuccess();
+                } else {
+                    console.log(loginResponse);
+                    //Failed to sign in error message
+                    loginController.signInFailure(loginResponse.error);
+                }
+            },
+            failure: function(response) {}
+        });
+    }
+});
+
 Ext.define('Racloop.model.User', {
     extend: Ext.data.Model,
     config: {
@@ -69306,6 +69443,10 @@ Ext.define('Racloop.model.User', {
             },
             {
                 name: 'cabServicePreference',
+                type: 'string'
+            },
+            {
+                name: 'facebookId',
                 type: 'string'
             }
         ],
@@ -70556,6 +70697,8 @@ Ext.define('Racloop.controller.SessionsController', {
             ratingView: 'ratingView',
             saveFeedBackButton: 'ratingView #saveFeedBack',
             cancelFeedBackButton: 'ratingView #cancelFeedBack',
+            fbLoginButton: 'loginForm #facebookLoginButton',
+            saveMobileButton: 'mobileCaptureForm #saveMobileButton',
             searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
             homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks'
         },
@@ -70568,6 +70711,12 @@ Ext.define('Racloop.controller.SessionsController', {
             },
             cancelFeedBackButton: {
                 tap: 'onCancelFeedbackTap'
+            },
+            fbLoginButton: {
+                tap: 'onFBLogInButtonTap'
+            },
+            saveMobileButton: {
+                tap: 'saveMobileButtonTap'
             }
         }
     },
@@ -70855,6 +71004,11 @@ Ext.define('Racloop.controller.SessionsController', {
                 failure: failureCallback
             });
         }
+    },
+    onFBLogInButtonTap: function() {
+        var me = this;
+        //loginView = me.getSettingNavigationView();
+        Racloop.util.FBConnect.authenticate(me);
     },
     handleLoginFormValidation: function(validationObj) {
         var errorstring = "";
@@ -71217,6 +71371,133 @@ Ext.define('Racloop.controller.SessionsController', {
             success: successCallback,
             failure: failureCallback
         });
+    },
+    loginAsFacebook: function(facebookId, email, name, gender) {
+        var me = this;
+        var mainNavigationView = this.getMainNavigationView();
+        var successCallback = function(response, ops) {
+                var data = Ext.decode(response.responseText);
+                if (data.success) {
+                    Ext.Viewport.unmask();
+                    if (data.data) {
+                        LoginHelper.setUser(data.data);
+                        //LoginHelper.setEmail(values.email);
+                        me.autoLogin();
+                    } else {
+                        var mobileCaptureForm = mainNavigationView.push({
+                                title: "Mobile",
+                                xtype: 'mobileCaptureForm',
+                                itemId: 'mobileCaptureForm'
+                            });
+                        mobileCaptureForm.down("field[name=facebookId]").setValue(facebookId);
+                        mobileCaptureForm.down("field[name=email]").setValue(email);
+                        //mobileCaptureForm.down("field[name=accessToken]").setValue(accessToken);
+                        mobileCaptureForm.down("field[name=name]").setValue(name);
+                        mobileCaptureForm.down("field[name=gender]").setValue(gender);
+                    }
+                } else {
+                    Ext.Viewport.unmask();
+                    Ext.Msg.alert("Unable to login", data.message);
+                }
+            };
+        // Failure
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Server Failure", response.message);
+                Ext.Viewport.unmask();
+            };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+        Ext.Ajax.request({
+            url: Racloop.util.Config.url.RACLOOP_LOGIN_AS_FACEBOOK,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                email: email,
+                facebookId: facebookId,
+                name: name,
+                gender: gender
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+    saveMobileButtonTap: function(button, e, eOpts) {
+        var user = Ext.create("Racloop.model.User", {});
+        var registerForm = button.up('formpanel');
+        // Register form
+        var values = registerForm.getValues();
+        // Form values
+        //TODO Need to be removed
+        //Ext.ComponentQuery.query('#registerScreenRepeatPassword')[0].setValue(values.password);
+        //Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
+        var mainNavigationView = this.getMainNavigationView();
+        // Main view
+        registerForm.updateRecord(user);
+        //var validationObj = user.validate();
+        if (false) {
+            var errorString = this.handleRegisterationFormValidation(validationObj);
+            Ext.Msg.alert("Oops", errorString);
+        } else {
+            // Success
+            var successCallback = function(response, ops) {
+                    var data = Ext.decode(response.responseText);
+                    if (data.success) {
+                        LoginHelper.setEmail(values.email);
+                        LoginHelper.setUser(data.data);
+                        //                        mainNavigationView.pop();
+                        mainNavigationView.push({
+                            itemId: 'verifySmsForm',
+                            xtype: "verifySmsForm",
+                            title: "Verify Mobile"
+                        });
+                        Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
+                        Ext.Viewport.unmask();
+                        Ext.toast({
+                            message: data.message,
+                            timeout: Racloop.util.Config.toastTimeout,
+                            animation: true,
+                            cls: 'toastClass'
+                        });
+                    } else {
+                        Ext.Msg.alert("Failure", data.message);
+                        Ext.Viewport.unmask();
+                    }
+                };
+            // Failure
+            var failureCallback = function(response, ops) {
+                    Ext.Msg.alert("Failure", response.message);
+                    Ext.Viewport.unmask();
+                };
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Signing up...'
+            });
+            Ext.Ajax.request({
+                url: Config.url.RACLOOP_SIGNUP,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: Ext.JSON.encode({
+                    email: values.email,
+                    password: values.password,
+                    passwordConfirm: values.password,
+                    fullName: values.name,
+                    mobile: values.mobile,
+                    gender: values.gender,
+                    facebookId: values.facebookId
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
+        }
     }
 });
 
@@ -71893,7 +72174,7 @@ Ext.define('Racloop.view.LoginForm', {
             },
             {
                 xtype: 'button',
-                hidden: true,
+                hidden: false,
                 itemId: 'facebookLoginButton',
                 margin: 20,
                 padding: 8,
@@ -71991,6 +72272,17 @@ Ext.define('Racloop.view.RegisterForm', {
                 padding: 8,
                 ui: 'action',
                 text: 'Sign Up'
+            },
+            {
+                xtype: 'button',
+                itemId: 'facebookSignInButton',
+                margin: 20,
+                padding: 8,
+                text: 'Sign up using Facebook',
+                iconCls: 'facebookCls',
+                iconMask: true,
+                iconAlign: 'left',
+                ui: 'action'
             },
             {
                 xtype: 'panel',
@@ -72125,7 +72417,8 @@ Ext.define('Racloop.controller.AccountController', {
             registerButton: 'registerForm #registerButton',
             verifyMobileButton: 'verifySmsForm #verifyMobile',
             resendSmsButton: 'verifySmsForm #resendSms',
-            forgotPasswordButton: 'forgotPasswordForm #forgotPasswordButton'
+            forgotPasswordButton: 'forgotPasswordForm #forgotPasswordButton',
+            facebookSignInButton: 'registerForm #facebookSignInButton'
         },
         control: {
             registerButton: {
@@ -72139,6 +72432,9 @@ Ext.define('Racloop.controller.AccountController', {
             },
             forgotPasswordButton: {
                 tap: 'forgotPassword'
+            },
+            facebookSignInButton: {
+                tap: 'onFBSignInButtonTap'
             }
         }
     },
@@ -72166,6 +72462,7 @@ Ext.define('Racloop.controller.AccountController', {
                         var data = Ext.decode(response.responseText);
                         if (data.success) {
                             LoginHelper.setEmail(values.email);
+                            LoginHelper.setUser(data.data);
                             //                        mainNavigationView.pop();
                             mainNavigationView.push({
                                 itemId: 'verifySmsForm',
@@ -72320,23 +72617,9 @@ Ext.define('Racloop.controller.AccountController', {
             var successCallback = function(response, ops) {
                     var data = Ext.decode(response.responseText);
                     if (data.success) {
-                        var mainNavigationView = me.getMainNavigationView();
-                        // Main view
-                        var homePanel = me.getHomePanel();
-                        var loginForm = me.getLoginForm();
-                        mainNavigationView.reset();
-                        mainNavigationView.push({
-                            itemId: 'loginForm',
-                            xtype: "loginForm",
-                            title: "Sign In"
-                        });
                         Ext.Viewport.unmask();
-                        Ext.toast({
-                            message: data.message,
-                            timeout: Config.toastTimeout,
-                            animation: true,
-                            cls: 'toastClass'
-                        });
+                        var sessionController = Racloop.app.getController('SessionsController');
+                        sessionController.autoLogin();
                     } else {
                         Ext.Viewport.unmask();
                         Ext.Msg.alert("Oops", data.message);
@@ -72472,6 +72755,11 @@ Ext.define('Racloop.controller.AccountController', {
     },
     resetErrorForgetPasswordFields: function() {
         Ext.ComponentQuery.query('#forgotPasswordTextField')[0].removeCls('error');
+    },
+    onFBSignInButtonTap: function() {
+        var me = this;
+        var sessionController = Racloop.app.getController('SessionsController');
+        Racloop.util.FBConnect.authenticate(sessionController);
     }
 });
 
@@ -75460,7 +75748,7 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             var month = Ext.Date.format(date, 'F');
             var time = Ext.Date.format(date, 'g:i A');
             var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
-            if (record.get("otherUser") != null) {
+            if (record.get("photoUrl") != null) {
                 imgSrc = record.get("photoUrl");
             } else {
                 imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
@@ -75573,7 +75861,7 @@ Ext.define('Racloop.view.RelatedRequestViewReadOnlyItem', {
             var month = Ext.Date.format(date, 'F');
             var time = Ext.Date.format(date, 'g:i A');
             var dateString = Ext.Date.format(date, 'j M, Y, g:i a');
-            if (record.get("otherUser") != null) {
+            if (record.get("photoUrl") != null) {
                 imgSrc = record.get("photoUrl");
             } else {
                 imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
@@ -75713,6 +76001,59 @@ Ext.define('Racloop.view.JourneyRatingView', {
     }
 });
 
+Ext.define('Racloop.view.MobileCaptureForm', {
+    extend: Ext.form.Panel,
+    alias: 'widget.mobileCaptureForm',
+    xtype: 'mobileCaptureForm',
+    config: {
+        items: [
+            {
+                xtype: 'fieldset',
+                title: 'Contact Details',
+                instructions: "This number will be verified using SMS",
+                items: [
+                    {
+                        name: 'mobile',
+                        xtype: 'numberfield',
+                        label: 'Contact 1',
+                        placeHolder: '10 digit mobile number',
+                        itemId: 'mobileNumber'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'facebookId'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'email'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'accessToken'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'name'
+                    },
+                    {
+                        xtype: 'hiddenfield',
+                        name: 'gender'
+                    }
+                ]
+            },
+            {
+                xtype: 'button',
+                itemId: 'saveMobileButton',
+                action: 'action',
+                text: 'Save',
+                ui: 'action',
+                margin: 20,
+                padding: 8
+            }
+        ]
+    }
+});
+
 /*
     This file is generated and updated by Sencha Cmd. You can edit this file as
     needed for your application, but these edits will have to be merged by
@@ -75766,7 +76107,8 @@ Ext.application({
         'SosView',
         'JourneyRatingView',
         'MyJourneyView',
-        'HistoryView'
+        'HistoryView',
+        'MobileCaptureForm'
     ],
     controllers: [
         'UiController',
@@ -75784,23 +76126,25 @@ Ext.application({
         'Searches',
         'History'
     ],
-    icon: {
-        '57': 'resources/icons/Icon.png',
-        '72': 'resources/icons/Icon~ipad.png',
-        '114': 'resources/icons/Icon@2x.png',
-        '144': 'resources/icons/Icon~ipad@2x.png'
-    },
+    icon: {},
+    //'57': 'resources/icons/Icon.png',
+    //'72': 'resources/icons/Icon~ipad.png',
+    //'114': 'resources/icons/Icon@2x.png',
+    //'144': 'resources/icons/Icon~ipad@2x.png'
     isIconPrecomposed: true,
-    startupImage: {
-        '320x460': 'resources/startup/320x460.jpg',
-        '640x920': 'resources/startup/640x920.png',
-        '768x1004': 'resources/startup/768x1004.png',
-        '748x1024': 'resources/startup/748x1024.png',
-        '1536x2008': 'resources/startup/1536x2008.png',
-        '1496x2048': 'resources/startup/1496x2048.png'
-    },
+    startupImage: {},
+    //'320x460': 'resources/startup/320x460.jpg',
+    //'640x920': 'resources/startup/640x920.png',
+    //'768x1004': 'resources/startup/768x1004.png',
+    //'748x1024': 'resources/startup/748x1024.png',
+    //'1536x2008': 'resources/startup/1536x2008.png',
+    //'1496x2048': 'resources/startup/1496x2048.png'
     launch: function() {
         console.log('launching application......');
+        if (!(Ext.os.is.Android || Ext.os.is.iOS)) {
+            console.log("this is browser");
+            facebookConnectPlugin.browserInit(Racloop.util.Config.facebookId, 'v2.3');
+        }
         this.initSslCertificates();
         document.addEventListener('deviceready', function() {
             StatusBar.hide();

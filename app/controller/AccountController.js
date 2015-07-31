@@ -24,7 +24,7 @@ Ext.define('Racloop.controller.AccountController', {
             verifyMobileButton: 'verifySmsForm #verifyMobile',
             resendSmsButton : 'verifySmsForm #resendSms',
             forgotPasswordButton : 'forgotPasswordForm #forgotPasswordButton',
-            facebookSignInButton : 'registerForm #facebookSignInButton',
+            facebookSignInButton : 'registerForm #facebookSignInButton'
         },
 
         control: {

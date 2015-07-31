@@ -354,7 +354,7 @@ Ext.define('Racloop.controller.SessionsController', {
 
     onFBLogInButtonTap: function(){ 
         var me = this;
-        loginView = me.getSettingNavigationView();
+        //loginView = me.getSettingNavigationView();
         Racloop.util.FBConnect.authenticate(me);
     },
 

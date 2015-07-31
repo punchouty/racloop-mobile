@@ -82,6 +82,7 @@ Ext.define('Racloop.util.Config', {
     constructor: function() {
         if (this.config.env == 'prod') {
             this.config.locationUpdateFrequency = 60000;
+            this.facebookId = '827335057382382';
             this.config.url.RACLOOP_LOGIN = 'http://www.cabshare.in/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://www.cabshare.in/userMobile/logout';
             this.config.url.RACLOOP_SIGNUP = 'http://www.cabshare.in/userMobile/signup';
@@ -120,6 +121,7 @@ Ext.define('Racloop.util.Config', {
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
+            this.facebookId = '493971007435835';
 
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/userMobile/logout';
@@ -157,8 +159,9 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://localhost:8080/app/userMobile/loginFromFacebook';
 
         } else {
-            var ip = "127.0.0.1";//"192.168.1.3";
+            var ip = "192.168.1.4";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
+            this.facebookId = '827652170684004';
 
             this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/userMobile/logout';
