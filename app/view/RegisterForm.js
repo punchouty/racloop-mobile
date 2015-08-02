@@ -54,6 +54,12 @@ Ext.define('Racloop.view.RegisterForm', {
                 placeHolder: 'Mobile Number',
                 itemId: 'registerScreenMobile'
             }, {
+                name: 'referalCode',
+                xtype: 'textfield',
+                label: 'Referal Code',
+                placeHolder: 'Referal Code',
+                itemId: 'registerScreenReferalCode'
+            }, {
                 xtype: 'radiofield',
                 name: 'gender',
                 value: 'male',

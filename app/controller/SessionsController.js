@@ -884,7 +884,8 @@ Ext.define('Racloop.controller.SessionsController', {
                     fullName: values.name,
                     mobile: values.mobile,
                     gender: values.gender,
-                    facebookId:values.facebookId
+                    facebookId:values.facebookId,
+                    referalCode:values.referalCode
                 }),
                 success: successCallback,
                 failure: failureCallback

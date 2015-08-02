@@ -18,9 +18,15 @@ Ext.define('Racloop.view.MobileCaptureForm', {
             items: [{
                 name: 'mobile',
                 xtype: 'numberfield',
-                label: 'Contact 1',
+                label: 'Mobile Number',
                 placeHolder: '10 digit mobile number',
                 itemId: 'mobileNumber'
+            }, {
+                name: 'referalCode',
+                xtype: 'textfield',
+                label: 'Referal Code',
+                placeHolder: 'Referal Code',
+                itemId: 'referalCode'
             }, {
                 xtype: 'hiddenfield',
                 name: 'facebookId'
