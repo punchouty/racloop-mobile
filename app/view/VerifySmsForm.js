@@ -26,6 +26,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
         }, {
             xtype: 'button',
             itemId: 'verifyMobile',
+            id: 'verifySmsFormVerifyMobileButton',
             text: 'Verify Mobile',
             iconCls: 'mobileCls',
             iconMask: true,
@@ -35,6 +36,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
         }, {
             xtype: 'button',
             itemId: 'resendSms',
+            id: 'verifySmsFormResendSMSButton',
             text: 'Resend SMS',
             iconCls: 'emailCls',
             iconMask: true,

@@ -76,6 +76,7 @@ Ext.define('Racloop.view.RegisterForm', {
         }, {
             xtype: 'button',
             itemId: 'registerButton',
+            id: 'registerFormRegisterButton',
             action: 'register',
             iconCls: 'registerCls',
             iconMask: true,
