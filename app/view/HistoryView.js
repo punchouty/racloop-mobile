@@ -7,7 +7,11 @@ Ext.define('Racloop.view.HistoryView', {
         'Ext.layout.VBox',
         'Racloop.view.HistoryViewItem',
         'Racloop.util.Config',
-        'Ext.DataView'
+        'Ext.DataView',
+        'Ext.TitleBar',
+        'Ext.field.Text',
+        'Ext.Button',
+        'Ext.form.FieldSet',
     ],
     //layout: {
     //    type: 'vbox'
@@ -15,7 +19,7 @@ Ext.define('Racloop.view.HistoryView', {
 
     config : {
         layout: 'vbox',
-        items: [
+        items: [            
             {
                 itemId: 'historyEmptyView',
                 xtype: 'panel',

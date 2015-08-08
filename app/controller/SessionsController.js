@@ -564,7 +564,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Saving...'
         });
 
           Ext.Ajax.request({

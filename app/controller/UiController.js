@@ -82,6 +82,7 @@ Ext.define('Racloop.controller.UiController', {
             });
         }
         else if(button.getTitle() === Config.tabHistory) {
+            this.getHistoryNavigationView().reset();
             Ext.getStore('historyStore').load({
                 callback: function(records, operation, success) {
                     me.showHistory();

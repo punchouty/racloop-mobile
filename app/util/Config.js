@@ -17,6 +17,7 @@ Ext.define('Racloop.util.Config', {
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
         settingPreferences : 'Preferences',
+        settingRecurringSearches: 'Recurring Searches',
         settingNameEmergencyContacts : 'Emergency Contacts',
         settingNameDataPrivacy : 'Data Privacy',
         settingNameTerms : 'Terms and Conditions',
@@ -157,7 +158,9 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REJECTREQUEST = 'http://localhost:8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://localhost:8080/app/workflowMobile/cancelRequest';
             this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://localhost:8080/app/userMobile/loginFromFacebook';
-
+            this.config.url.RACLOOP_MAKE_RECURRING = 'http://localhost:8080/app/preference/makeRecurring';
+            this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/recurringJourney';
+            this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/deleteRecurringJourney';
         } else {
             var ip = "192.168.1.4";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;

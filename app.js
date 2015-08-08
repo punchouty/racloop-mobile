@@ -35,7 +35,8 @@ Ext.application({
         'User',
         'LoginCredential',
         'Journey',
-        'UserReview'
+        'UserReview',
+        'RecurringSearch'
     ],
 
     views: [
@@ -70,7 +71,10 @@ Ext.application({
         'JourneyRatingView',
         'MyJourneyView',
         'HistoryView',
-        'MobileCaptureForm'
+        'MobileCaptureForm',
+        'RecurringSearchScreen',
+        'RecurringView',
+        'RecurringViewItem'
     ],
 
     controllers: [
@@ -88,7 +92,8 @@ Ext.application({
         'ChildJourneys',
         'Passengers',
         'Searches',
-        'History'
+        'History',
+        'Recurring'
     ],
 
     icon: {

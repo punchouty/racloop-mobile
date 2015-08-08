@@ -1,8 +1,8 @@
 
-Ext.define('Racloop.view.HistoryViewItem', {
+Ext.define('Racloop.view.RecurringViewItem', {
     extend: 'Ext.dataview.component.DataItem',
-    alias: 'widget.historyViewItem',
-    xtype : 'historyViewItem',
+    alias: 'widget.recurringViewItem',
+    xtype : 'recurringViewItem',
 
     config: {
         cls : 'journeyItem',
@@ -21,48 +21,42 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
-            console.log("HistoryViewItem");
+            console.log("recurringViewItem");
             console.dir(record);
             var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
-            var drivingText = '';
-            var recurringButton = '';
+            // var drivingText = '';
             var dateOfJourney = record.get("dateOfJourney");
             //var dateOfJourney = Ext.Date.add(dateUnadjusted, Ext.Date.MINUTE, dateUnadjusted.getTimezoneOffset());
-            var day = Ext.Date.format(dateOfJourney, 'd');
-            var month = Ext.Date.format(dateOfJourney, 'F');
+            // var day = Ext.Date.format(dateOfJourney, 'd');
+            // var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
-            if(record.get("numberOfCopassengers")) {
-                numberOfCopassengers = record.get("numberOfCopassengers");
+           
+            var recurringDays = record.get("recurringDays");
+            var days = []; 
+            var weekday=new Array(7);
+            weekday[1]="Monday";
+            weekday[2]="Tuesday";
+            weekday[3]="Wednesday";
+            weekday[4]="Thursday";
+            weekday[5]="Friday";
+            weekday[6]="Saturday";
+           
+            for(var key in record.get("recurringDays")){
+                days.push(weekday[recurringDays[key]]);
             }
-            if(record.get("isTaxi")) {
-                drivingText = "Taxi";
-            }
-            else {
-                drivingText = "Auto Rickshaw";
-            }
-            if(!record.get('isRecurring')) {
-                recurringButton = ' <button  class="racloop-btn racloop-btn-success makeRecurringButton"><span class="rideDetailsCls"></span> Make Recurring</button>'
-            }
-
+            
             var html='<div class="card">\
             <div class="card-info">\
-                <div class="card-date">\
-                    <div class="card-day">'+day+'</div>\
-                    <div class="card-month">'+month+'</div>\
-                </div>\
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
                         <div>\
                             <span class="card-control">\
-                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>'+recurringButton+'\
+                                <button  class="racloop-btn racloop-btn-danger deleteRecurringButton"><span class="deleteCls"></span> Delete</button>\
                             </span>\
                         </div>\
-                    </div>\
-                    <div>\
-                        <span class="card-label card-label-blue">'+drivingText+'</span>\
                     </div>\
                 </div>\
             </div>\
@@ -76,6 +70,9 @@ Ext.define('Racloop.view.HistoryViewItem', {
                     <span class="card-location-label">To : </span>\
                     <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("to")+' </span>\
                 </div>\
+                <div class="card-footer-row">\
+                    <span class="card-location"> Recurring days : &nbsp;'+days.join(", ")+' </span>\
+                </div>\
             </div>\
         </div>';
         me.down('#textCmp').setHtml(html);
@@ -88,21 +85,13 @@ Ext.define('Racloop.view.HistoryViewItem', {
     initialize: function () {
         this.element.on({
             scope      : this,
-            tap        : 'searchAgainHistoryButtonTapFired',
-            delegate   : 'button.searchAgainHistoryButton'
-        });
-        this.element.on({
-            scope      : this,
-            tap        : 'makeRecurringButtonTapFired',
-            delegate   : 'button.makeRecurringButton'
+            tap        : 'deleteRecurringButtonTapFired',
+            delegate   : 'button.deleteRecurringButton'
         });
         this.callParent(arguments);
 
     },
-    searchAgainHistoryButtonTapFired: function(e) {
-        this.fireEvent('searchAgainHistoryButtonTap',this);
-    },
-    makeRecurringButtonTapFired: function(e) {
-        this.fireEvent('makeRecurringButtonTap',this);
+    deleteRecurringButtonTapFired: function(e) {
+        this.fireEvent('deleteRecurringButtonTap',this);
     }
 });

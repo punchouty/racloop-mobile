@@ -7,8 +7,10 @@ Ext.define('Racloop.controller.JourneysController', {
         'Racloop.view.SearchResultViewItem',
         'Racloop.view.RequestJourneyPanel',
         'Racloop.view.ExistingJourneyPanel',
+        'Racloop.view.RecurringSearchScreen',
         'Racloop.util.Common',
-        'Racloop.util.Config'
+        'Racloop.util.Config',
+        'Racloop.util.LoginHelper'        
     ],
     config: {
         refs: {
@@ -36,7 +38,13 @@ Ext.define('Racloop.controller.JourneysController', {
             existingJourneyPanel : 'existingJourneyPanel',
             existingJourneyInfoHtmlContainer : 'existingJourneyPanel #existingJourneyInfo',
             existingJourneyReplaceButton : 'existingJourneyPanel #existingJourneyReplaceButton',
-            existingJourneyKeepOriginalButton : 'existingJourneyPanel #existingJourneyKeepOriginalButton'
+            existingJourneyKeepOriginalButton : 'existingJourneyPanel #existingJourneyKeepOriginalButton',
+
+            recurringSearchScreen: 'recurringSearchScreen',
+            saveRecurringButton: 'recurringSearchScreen #saveRecurringButton',
+            cancelRecurringButton: 'recurringSearchScreen #cancelRecurringButton',
+
+            historyNavigationView: 'historyNavigationView'
         },
         control: {
             //'searchForm': {
@@ -76,7 +84,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 confirmSearchRequestButtonTap : 'handleConfirmSearchRequestButtonTap'
             },
             'historyViewItem': {
-                searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap'
+                searchAgainHistoryButtonTap: 'handleSearchAgainHistoryButtonTap',
+                makeRecurringButtonTap: 'onMakeRecurringScreenTap'
             },
             'existingJourneyReplaceButton' : {
                 tap: 'handleExistingJourneyReplaceButtonTap'
@@ -86,7 +95,16 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             'loginButtonInSearchResults' : {
                 tap : 'loginButtonInSearchResultsTap'
-            }
+            },
+            saveRecurringButton: {
+                tap: 'onSaveRecurringButtonTap'
+            },
+            cancelRecurringButton: {
+                tap: 'onCancelRecurringButtonTap'
+            },
+            'recurringViewItem': {
+                deleteRecurringButtonTap: 'handleDeleteRecurringButtonTap'
+            },
         }
     },
 
@@ -743,15 +761,17 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                Ext.getStore('journeyStore').load({
-                    callback: function(records, operation, success) {
-                        me.getMainTabs().setActiveItem('journeyNavigationView');
-                        Racloop.app.getController('UiController').showMyJourneys();
-                    },
-                    scope: this
-                });
                 Ext.Viewport.unmask();
-                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                // Ext.getStore('journeyStore').load({
+                //     callback: function(records, operation, success) {
+                //         me.getMainTabs().setActiveItem('journeyNavigationView');
+                //         Racloop.app.getController('UiController').showMyJourneys();
+                //     },
+                //     scope: this
+                // });                
+                // Ext.Viewport.unmask();
+                // Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                me.promptShowRecurringSearchDialog(data.currentJourney, data.isEligibleForRecurring);
             } else {
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("Search Failure", data.message);
@@ -995,6 +1015,294 @@ Ext.define('Racloop.controller.JourneysController', {
 
     loginButtonInSearchResultsTap : function() {
         Racloop.app.getController('UiController').showLogin();
+    }, 
+    promptShowRecurringSearchDialog: function(journey, showDialog) {
+        var me = this;
+        console.log(!LoginHelper.getDialogOption() && showDialog);
+        if(!LoginHelper.getDialogOption() && showDialog){
+         // Ext.Msg.show({
+         //      title   : 'Make it Recurring',
+         //      msg     : null,
+         //      items: [
+         //         {
+         //            xtype: 'panel',                    
+         //            items: [
+         //              {
+         //                xtype: 'checkboxfield',
+         //                name : 'enableDialog',
+         //                label: 'Dont Show this Dialog',
+         //                value: true,
+         //                checked: Boolean(LoginHelper.getDialogOption()),
+         //                labelWidth: "80%",
+         //                style: "height: 50px;",
+         //                listeners: {
+         //                check: function() {
+         //                     LoginHelper.removeDialogOption();
+         //                },
+         //                uncheck: function() {
+         //                    LoginHelper.setDialogOption(Boolean(this.getValue()));
+         //                } 
+         //              }
+         //            }]
+         //        }],
+         //      width: '50%',
+         //      buttons : [{
+         //        itemId : 'yes',
+         //        text   : 'YES',
+         //        ui     : 'action'
+         //      },{
+         //        itemId : 'no',
+         //        text   : 'NO'
+         //      }],
+         //      prompt  : { maxlength : 180, autocapitalize : false },
+         //      fn      : function(text,btn) {
+         //        // do some stuff
+         //        if(text === 'yes') {
+         //            me.displayRecurringScreen(button);
+         //        } else {
+         //            me.handleSaveJourneyTap();
+         //        }
+         //      }
+            // });
+
+        var msg = Ext.create('Ext.MessageBox').show({
+            title:    'Make Recurring', 
+            msg:      null,
+            html:     '<p style="color: #fff;">Dont Show this  box again...  <input  type="checkbox" id="disableDialogCheckBox" /></p>',
+            buttons:  Ext.MessageBox.OKCANCEL,
+            fn: function(btn) {
+                if( btn == 'ok') {
+                    me.displayRecurringScreen(journey);
+                } else {
+                    me.onJourneySaved();
+                }               
+
+                if (document.getElementById('disableDialogCheckBox').checked){
+                    LoginHelper.setDialogOption(true);
+                } else {
+                    LoginHelper.setDialogOption(false);
+                }
+            }
+        });
+        } else {
+            me.onJourneySaved();
+        }
+
+
+    },
+    displayRecurringScreen: function(journey) {
+        var me =this,   
+        // recurringSearchForm = Ext.ComponentQuery.query('recurringSearchForm')[0];
+           recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
+            itemId: "recurringSearchForm",
+            title: "Recurring Search"
+        });
+           console.log(journey);
+       
+        var time = Ext.Date.format(new Date(journey.dateOfJourney), 'g:i A');        
+        var journeyHtml = '\
+                    <div class="card">\
+                        <div class="card-info">\
+                            <div class="card-main">\
+                                <div>\
+                                    <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                                </div>\
+                            </div>\
+                        </div>\
+            \
+                        <div class="card-footer">\
+                            <div class="card-footer-row">\
+                                <span class="card-location-label">From : </span>\
+                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+journey.from+'</span>\
+                            </div>\
+                            <div class="card-footer-row">\
+                                <span class="card-location-label">To : </span>\
+                                <span class="card-location"> &nbsp;<span class="toCls"> </span>'+journey.to+' </span>\
+                            </div>\
+                        </div>\
+                    </div>';
+
+          recurringSearchScreen.down("#recurringInfoContainer").setHtml(journeyHtml);
+          recurringSearchScreen.down("hiddenfield[name='journeyId']").setValue(journey.id);
+       
+           me.getSearchNavigationView().push(recurringSearchScreen);         
+           // button.up('navigationview').push(recurringSearchScreen);           
+       
+    },
+    onMakeRecurringScreenTap: function(item) {
+        var me =this,   
+        // recurringSearchForm = Ext.ComponentQuery.query('recurringSearchForm')[0];
+        recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
+            itemId: "recurringSearchForm",
+            title: "Recurring Search"
+        });
+        var journey = item.getRecord();
+        console.log(journey);
+        var time = Ext.Date.format(journey.get('dateOfJourney'), 'g:i A');        
+        var journeyHtml = '\
+                    <div class="card">\
+                        <div class="card-info">\
+                            <div class="card-main">\
+                                <div>\
+                                    <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                                </div>\
+                            </div>\
+                        </div>\
+            \
+                        <div class="card-footer">\
+                            <div class="card-footer-row">\
+                                <span class="card-location-label">From : </span>\
+                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+journey.get("from")+'</span>\
+                            </div>\
+                            <div class="card-footer-row">\
+                                <span class="card-location-label">To : </span>\
+                                <span class="card-location"> &nbsp;<span class="toCls"> </span>'+journey.get("to")+' </span>\
+                            </div>\
+                        </div>\
+                    </div>';
+
+          recurringSearchScreen.down("#recurringInfoContainer").setHtml(journeyHtml);
+          recurringSearchScreen.down("hiddenfield[name='journeyId']").setValue(journey.get("id"));
+        
+           item.up('navigationview').push(recurringSearchScreen);           
+       
+    },
+    onJourneySaved: function(){
+        var me = this;
+        Ext.getStore('journeyStore').load({
+            callback: function(records, operation, success) {
+                me.getMainTabs().setActiveItem('journeyNavigationView');
+                Racloop.app.getController('UiController').showMyJourneys();
+            },
+            scope: this
+        });                
+        
+        Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+    },
+    onSaveRecurringButtonTap: function(button, e, eOpts) {
+        var recurringForm = button.up('formpanel'),
+            values = recurringForm.getValues(),
+            me = this;
+        var recurringSearch = Ext.create("Racloop.model.RecurringSearch", {});
+        
+        var recurring = [];
+        for(var key in values) {
+            if (values.hasOwnProperty(key) && values[key] && key != 'journeyId') {
+                recurring.push(values[key]);  
+            }  
+        }
+        console.log(recurring);
+        console.log(button.up('navigationview').config.title );
+
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                 //on success 
+                button.up('navigationview').pop();
+                if(button.up('navigationview').config.title === Config.tabSearch) {
+                    me.onJourneySaved();
+                }else if(button.up('navigationview').config.title === Config.tabHistory) {
+                    // some action
+                }
+                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                Ext.Viewport.unmask();
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+            }
+          };
+
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Failure", response.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Saving...'
+        });
+
+          Ext.Ajax.request({
+            url: Config.url.RACLOOP_MAKE_RECURRING,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                'journeyId': values.journeyId,
+                'recurring': recurring
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+    onCancelRecurringButtonTap: function(button, e, eOpts) {
+        console.log("cancelRecurringButton");
+        var me = this;
+        button.up('navigationview').pop();
+         if(button.up('navigationview').config.title === Config.tabSearch) {             
+            me.onJourneySaved();
+         }else if(button.up('navigationview').config.title === Config.tabHistory) {
+                // some action
+            }
+    },
+    handleDeleteRecurringButtonTap: function(item) {
+       var record = item.getRecord(),
+           journeyId = record.get('id');
+       console.log(record.get('id'));
+       var recurringStore = Ext.getStore('recurringStore');
+        // Some AJax call 
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                 //on success 
+                  recurringStore.remove(record);    
+                  Ext.Viewport.unmask();
+                 Ext.toast({message: "Successfully Deleted Recurring Journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});      
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+            }
+          };
+
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Failure", response.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Deleting...'
+        });
+
+          Ext.Ajax.request({
+            url: Config.url.RACLOOP_DELETE_RECURRING_JOURNEY,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                journeyId: journeyId
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+
     }
+ 
 
 });
