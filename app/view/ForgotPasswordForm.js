@@ -15,12 +15,14 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
                 xtype: 'emailfield',
                 label: 'User Id*',
                 placeHolder: 'user@example.com',
+                id : 'forgotPasswordFormEmail',
                 //labelWidth: '40%',
                 itemId: 'forgotPasswordTextField'
             }]
         }, {
             xtype: 'button',
             itemId: 'forgotPasswordButton',
+            id: 'forgotPasswordFormRetrievePasswordButton',
             text: 'Retrieve Password',
             iconCls: 'emailCls',
             iconMask: true,

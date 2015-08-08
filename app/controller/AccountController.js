@@ -213,8 +213,10 @@ Ext.define('Racloop.controller.AccountController', {
 
     verifyMobile: function(button, e, eOpts) {
         var me = this;
-        var mobile = Ext.ComponentQuery.query('#mobileForVerification')[0].getValue();
-        var verificationCode = Ext.ComponentQuery.query('#verificationCode')[0].getValue();
+        var verifyMobileForm = button.up('formpanel'); // Verify Mobile form
+        var values = verifyMobileForm.getValues(); // Form values
+        var mobile = values.mobile;
+        var verificationCode = values.verificationCode;
         var isMobileValid = false;
         var isVerificationCodeValid = false;
         console.log(mobile + " : mobile.length : " + mobile.length);
@@ -269,7 +271,9 @@ Ext.define('Racloop.controller.AccountController', {
     },
 
     resendSms: function(button, e, eOpts) {
-        var mobile = Ext.ComponentQuery.query('#mobileForVerification')[0].getValue();
+        var verifyMobileForm = button.up('formpanel'); // Verify Mobile form
+        var values = verifyMobileForm.getValues(); // Form values
+        var mobile = values.mobile;
         if(mobile != null && mobile.length === 10) {
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);

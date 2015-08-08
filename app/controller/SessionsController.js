@@ -197,7 +197,8 @@ Ext.define('Racloop.controller.SessionsController', {
             LoginHelper.removeEmail();
             Ext.Viewport.unmask();
             Ext.Viewport.setActiveItem(mainNavigationView);
-            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(true);
+            //Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(true);
+            Racloop.app.getController('SessionsController').logout();
         }
     },
 

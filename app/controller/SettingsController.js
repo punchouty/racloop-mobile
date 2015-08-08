@@ -100,7 +100,6 @@ Ext.define('Racloop.controller.SettingsController', {
             var data = Ext.decode(response.responseText);
             console.log('EditProfile success during launch : ' + response.responseText);
             if (data.success) {
-                Ext.Msg.alert("Success", data.message)
                 var userdata = LoginHelper.getUser();
                 LoginHelper.removeUser();
                 console.log(data);
@@ -109,7 +108,17 @@ Ext.define('Racloop.controller.SettingsController', {
                 userdata.mobile = values.mobile;
                 userdata.gender = values.gender;
                 LoginHelper.setUser(userdata);
-                Ext.Viewport.unmask();
+                if(data.data) {
+                    Ext.Msg.alert("Success", data.message)
+                    Ext.Viewport.unmask();
+                }
+                else {
+                    Ext.Msg.alert("Success", data.message)
+                    console.log("Profile edit with no return data. Phone number is changed");
+                    Racloop.app.getController('SessionsController').logout();
+                    Ext.Viewport.unmask();                    
+                }
+                
             } else {
                 Ext.Msg.alert("Failure", data.message);
                 Ext.Viewport.unmask();

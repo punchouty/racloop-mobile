@@ -2,7 +2,7 @@
 Ext.define('Racloop.view.LoginForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.loginForm',
-    xtype: 'loginForm',
+    xtype: 'loginForm', // Use First in ID
 
     requires: [
         'Ext.TitleBar',
@@ -42,6 +42,7 @@ Ext.define('Racloop.view.LoginForm', {
         }, {
             xtype: 'button',
             itemId: 'loginButton',
+            id: 'loginFormLoginButton', // Insert Id 
             margin: 20,
             padding: 8,
             text: 'Login',
@@ -63,10 +64,10 @@ Ext.define('Racloop.view.LoginForm', {
         }, {
             xtype: 'container',
             html: '<div class="links">' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
+                '<a href="#" id="loginFormForgetPasswordLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
                 'Forgot Password' +
                 '</a> &nbsp; &nbsp;' +
-                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showVerifyMobile(); return false;">' +
+                '<a href="#" id="loginFormVerifyMobileLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showVerifyMobile(); return false;">' +
                 'Verify Mobile' +
                 '</a> ' +
                 '</div>',
