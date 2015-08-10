@@ -1236,8 +1236,8 @@ Ext.define('Racloop.controller.JourneysController', {
             withCredentials: true,
             useDefaultXhrHeader: false,
             params: Ext.JSON.encode({
-                'journeyId': values.journeyId,
-                'recurring': recurring
+                journeyId: values.journeyId,
+                recurring: recurring
             }),
             success: successCallback,
             failure: failureCallback

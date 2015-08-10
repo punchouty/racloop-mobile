@@ -264,6 +264,7 @@ Ext.define('Racloop.controller.MapController', {
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
                 me.marker.setPosition(latlng);
+
                 Ext.Viewport.unmask();
             },
             failure: function() {
@@ -300,7 +301,6 @@ Ext.define('Racloop.controller.MapController', {
             indicator: true,
             message: 'Getting Location..'
         });
-
         /*
         var geolocationSuccess = function(position) {
             console.log("MapController - updateCurrentLocationOnMap - success");
@@ -340,6 +340,7 @@ Ext.define('Racloop.controller.MapController', {
                 gMap.setOptions(mapOptions);
                 me.marker.setMap(gMap);
                 me.marker.setPosition(latlng);
+                me.setNearbyLocationsOnMap(latlng);
                 Ext.Viewport.unmask();
             },
             failure: function() {
@@ -642,5 +643,73 @@ Ext.define('Racloop.controller.MapController', {
             success: successCallback,
             failure: failureCallback
         });
+    },
+    setNearbyLocationsOnMap: function(latlng) {
+        var me = this;
+         var coloredMarkers = [
+             "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+             "http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
+             "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
+             "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+             "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        ];
+        var marker = null;
+
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                 //on success 
+                 for(var i=0; i < data.total; i++) { 
+                    var index = index < 5? index : 0;  
+                    marker = new google.maps.Marker({
+                        icon: coloredMarkers[index],
+                        title: "Nearby Location"
+                    });                                                      
+                    me.setMarkersOnMap(data.data[i].lat, data.data[i].lon, marker);
+                    index++;
+                 }
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+            }
+          };
+
+        var failureCallback = function(response, ops) {
+                Ext.Msg.alert("Failure", response.message);
+                // on failure
+
+                Ext.Viewport.unmask();
+
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Please Wait...'
+        });
+
+          Ext.Ajax.request({
+            url: Config.url.RACLOOP_NEARBY_LOCATIONS,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                latitude: latlng.lat(),
+                longitude: latlng.lng()
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+    setMarkersOnMap: function(latitude, longitude, marker) {
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        var mapPanel = this.getMapPanel();
+        var gMap = mapPanel.down('map').getMap(); 
+        marker.setMap(gMap);
+        marker.setPosition(latlng);
     }
 });

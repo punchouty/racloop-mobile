@@ -161,6 +161,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_MAKE_RECURRING = 'http://localhost:8080/app/preference/makeRecurring';
             this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/recurringJourney';
             this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/deleteRecurringJourney';
+            this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://localhost:8080/app/journeyMobile/nearByPoints';
         } else {
             var ip = "192.168.1.4";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;

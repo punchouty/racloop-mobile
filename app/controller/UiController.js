@@ -114,7 +114,7 @@ Ext.define('Racloop.controller.UiController', {
             else {
                 console.log('currentJourney not found');
             }
-            Racloop.app.getController('MapController').updateCurrentLocationOnMap();
+            // Racloop.app.getController('MapController').updateCurrentLocationOnMap();
             //Racloop.app.getController('MapController').startWatchingJourney();
         }
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
