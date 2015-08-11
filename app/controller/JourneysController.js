@@ -104,7 +104,7 @@ Ext.define('Racloop.controller.JourneysController', {
             },
             'recurringViewItem': {
                 deleteRecurringButtonTap: 'handleDeleteRecurringButtonTap'
-            },
+            }
         }
     },
 
