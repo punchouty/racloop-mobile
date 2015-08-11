@@ -135,7 +135,12 @@ Ext.define('Racloop.view.SearchNavigationView', {
 //            }
 //
 //            ]
-        }]
+        }],
+        navigationBar: {
+            backButton: {
+                id: 'searchNavigationViewBack'
+            }
+        }
     }
 
 });

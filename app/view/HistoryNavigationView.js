@@ -13,6 +13,11 @@ Ext.define('Racloop.view.HistoryNavigationView', {
         items: [{
             title: Config.tabHistory,
             xtype: 'historyView'
-        }]
+        }],
+        navigationBar: {
+            backButton: {
+                id: 'historyNavigationViewBack'
+            }
+        }
     }
 });

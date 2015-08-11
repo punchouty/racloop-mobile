@@ -17,7 +17,7 @@ Ext.define('Racloop.view.MainNavigationView', {
             xtype: 'searchForm',
             itemId: 'searchFormInMain',
             title: 'Welcome'
-        }]
+        }],
 //        items: [{
 //            title: 'Welcome',
 //            xtype: 'panel',
@@ -58,6 +58,11 @@ Ext.define('Racloop.view.MainNavigationView', {
 //
 //            }]
 //        }]
+            navigationBar: {
+                backButton: {
+                    id: 'mainNavigationViewBack'
+                }
+            }
     }
 
 });

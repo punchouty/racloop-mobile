@@ -11,6 +11,11 @@ Ext.define('Racloop.view.JourneyNavigationView', {
         items: [{
             title : Config.tabMyJourneys,
             xtype : 'myJourneyView'
-        }]
+        }],
+        navigationBar: {
+            backButton: {
+                id: 'journeyNavigationViewBack'
+            }
+        }
     }
 });

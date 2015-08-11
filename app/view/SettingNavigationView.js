@@ -26,7 +26,12 @@ Ext.define('Racloop.view.SettingNavigationView', {
                 { title: Config.settingNameTerms ,navView: 'termsPanel',iconCls: 'termsCls', itemId: 'termsPanel'},
                 { title: Config.settingNameLogout, iconCls: 'logoutCls'}
             ]
-        }]
+        }],        
+        navigationBar: {
+            backButton: {
+                id: 'settingNavigationViewBack'
+            }
+        }
     }
 
 });
