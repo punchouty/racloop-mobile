@@ -12,6 +12,7 @@ build/
 # sass cache folder
 # resources/css/app.css
 phonegap/
+cordova/
 resources/sass/.sass-cache/
 
 .idea
