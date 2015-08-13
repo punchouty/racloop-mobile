@@ -28,8 +28,9 @@ Ext.define('Racloop.view.MainTabs', {
         items: [
             {
                 title: Config.tabHome,
-                iconCls: 'home',
+                iconCls: 'home mainTabsmapPanel',
                 xtype: 'mapPanel'
+                
 //                styleHtmlContent: true,
 //
 //                html: [
@@ -38,22 +39,23 @@ Ext.define('Racloop.view.MainTabs', {
             },
             {
                 title: Config.tabSearch,
-                iconCls: 'magnifier',
+                iconCls: 'magnifier mainTabssearchNavigationView',
                 xtype: 'searchNavigationView'
+                
             },
             {
                 title: Config.tabMyJourneys,
-                iconCls: 'journeys',
+                iconCls: 'journeys mainTabsjourneyNavigationView',
                 xtype: 'journeyNavigationView'
             },
             {
                 title: Config.tabHistory,
-                iconCls: 'time',
+                iconCls: 'time mainTabsHistory',
                 xtype: 'historyNavigationView'
             },
             { //IMPORTANT IT IS HIDDEN
                 title: Config.tabNotifications,
-                iconCls: 'browser',
+                iconCls: 'browser mainTabsNotifications',
                 badgeText: '3',
                 hidden : true,
                 styleHtmlContent: true,
@@ -72,7 +74,7 @@ Ext.define('Racloop.view.MainTabs', {
             {
                 xtype: 'settingNavigationView',
                 title: Config.tabSettings,
-                iconCls: 'settings'
+                iconCls: 'settings mainTabsSettings'
             },
             {
                 title: Config.tabSos,

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.racloop.mobile" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>CabShare</name>
+    <description>
+        Platform to Share Cab and Auto.
+    </description>
+    <author email="admin@cabshare.in" href="https://www.cabshare.in">
+        CabShare Team
+    </author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="universal" />
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="true" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="10" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashScreenDelay" value="7000" />
+
+    <plugin name="cordova-plugin-whitelist" version="1" />
+    <plugin name="org.apache.cordova.console" />
+    <plugin name="org.apache.cordova.device" />
+    <plugin name="cordova-plugin-sim" />
+    <plugin name="android-referrer-plugin" />
+    <plugin name="AppPreferences" />
+    <plugin name="org.apache.cordova.dialogs" />
+    <plugin name="org.apache.cordova.geolocation" />
+    <plugin name="org.apache.cordova.inappbrowser" />
+    <plugin name="org.apache.cordova.network-information" />
+    <plugin name="org.apache.cordova.splashscreen" />
+    <plugin name="org.apache.cordova.vibration" />
+    <plugin name="org.apache.cordova.statusbar" />
+    <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
+        <!-- Comment one of below -->
+        <!-- Production -->
+        <param name="APP_ID" value="827335057382382" />
+        <param name="APP_NAME" value="CabShare" />
+        <!-- Local
+        <param name="APP_ID" value="827652170684004" />
+        <param name="APP_NAME" value="CabShareLocal" /> -->
+    </plugin>
+
+    <feature name="http://api.phonegap.com/1.0/network" />
+    <feature name="http://api.phonegap.com/1.0/notification" />
+    <feature name="http://api.phonegap.com/1.0/geolocation" />
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+
+    <icon src="icon.png" />
+    <splash src="splash.png" />
+
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

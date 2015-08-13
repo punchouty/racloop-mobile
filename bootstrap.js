@@ -532,17 +532,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -689,6 +678,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.model.Journey": [],
   "Racloop.model.LoginCredential": [],
   "Racloop.model.Preferences": [],
+  "Racloop.model.RecurringSearch": [],
   "Racloop.model.Search": [],
   "Racloop.model.User": [],
   "Racloop.model.UserReview": [],
@@ -697,6 +687,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.store.History": [],
   "Racloop.store.Journeys": [],
   "Racloop.store.Passengers": [],
+  "Racloop.store.Recurring": [],
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [
     "Common"
@@ -731,6 +722,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.view.OfflineView": [],
   "Racloop.view.Preferences": [],
   "Racloop.view.PrivacyPanel": [],
+  "Racloop.view.RecurringSearchScreen": [],
+  "Racloop.view.RecurringView": [],
+  "Racloop.view.RecurringViewItem": [],
   "Racloop.view.RegisterForm": [],
   "Racloop.view.RelatedRequestViewItem": [],
   "Racloop.view.RelatedRequestViewReadOnlyItem": [],
@@ -1324,17 +1318,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -1501,6 +1484,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.model.Journey": [],
   "Racloop.model.LoginCredential": [],
   "Racloop.model.Preferences": [],
+  "Racloop.model.RecurringSearch": [],
   "Racloop.model.Search": [],
   "Racloop.model.User": [],
   "Racloop.model.UserReview": [],
@@ -1516,6 +1500,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.store.Passengers": [
     "widget.passengersStore"
+  ],
+  "Racloop.store.Recurring": [
+    "widget.recurringStore"
   ],
   "Racloop.store.Searches": [],
   "Racloop.util.Common": [],
@@ -1589,6 +1576,15 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Racloop.view.PrivacyPanel": [
     "widget.privacyPanel"
+  ],
+  "Racloop.view.RecurringSearchScreen": [
+    "widget.recurringSearchScreen"
+  ],
+  "Racloop.view.RecurringView": [
+    "widget.recurringView"
+  ],
+  "Racloop.view.RecurringViewItem": [
+    "widget.recurringViewItem"
   ],
   "Racloop.view.RegisterForm": [
     "widget.registerForm"

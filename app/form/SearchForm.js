@@ -40,6 +40,7 @@ Ext.define('Racloop.form.SearchForm', {
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
+                id: 'searchFormFrom',
                 label: 'From*',
                 itemId: 'searchScreenFrom'
             }, {
@@ -138,6 +139,7 @@ Ext.define('Racloop.form.SearchForm', {
             iconCls: 'searchCls',
             iconMask: true,
             margin: 10,
+            id: 'searchFormSearchButton',
             ui: 'action'
         }, {
             //    xtype: 'container',
@@ -165,10 +167,10 @@ Ext.define('Racloop.form.SearchForm', {
             //}, {
                 xtype: 'container',
                 html:   '<div class="links">' +
-                            '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
+                            '<a href="#" id="searchFormSignInLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
                             'Sign In' +
                             '</a> &nbsp;&nbsp;' +
-                            ' <a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
+                            ' <a href="#" id="searchFormRegisterLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
                             'New User?' +
                             '</a>' +
                         '</div>',

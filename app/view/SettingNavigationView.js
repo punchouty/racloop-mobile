@@ -17,14 +17,14 @@ Ext.define('Racloop.view.SettingNavigationView', {
          itemTpl: '<span class="{iconCls}"></span><span class="settingItem">{title}</span>',
             data: [
                 //look at setting controller for tap implementation
-                { title: Config.settingNameProfile, navView: 'editProfileForm', iconCls: 'profileCls', itemId: 'editProfileForm' },
-                { title: Config.settingPreferences, navView: 'preferences', iconCls: 'preferencesCls', itemId: 'preferences' },
+                { title: Config.settingNameProfile, navView: 'editProfileForm', iconCls: 'profileCls settingNavigationViewEditProfile', itemId: 'editProfileForm' },
+                { title: Config.settingPreferences, navView: 'preferences', iconCls: 'preferencesCls settingNavigationViewPreferences', itemId: 'preferences' },
                 //{ title: Config.settingNameEmergencyContacts, navView: 'emergencyContactForm',iconCls: 'emergencyCls', itemId: 'emergencyContactForm'},
-                { title: Config.settingRecurringSearches, navView: 'recurringView',iconCls: 'emergencyCls', itemId: 'recurringSearches'},
-                { title: Config.settingNameChangePassword, navView: 'changePasswordForm',iconCls: 'passwordCls', itemId: 'changePasswordForm'},
-                { title: Config.settingNameDataPrivacy ,navView: 'privacyPanel',iconCls: 'privacyCls', itemId: 'privacyPanel'},
-                { title: Config.settingNameTerms ,navView: 'termsPanel',iconCls: 'termsCls', itemId: 'termsPanel'},
-                { title: Config.settingNameLogout, iconCls: 'logoutCls'}
+                { title: Config.settingRecurringSearches, navView: 'recurringView',iconCls: 'emergencyCls settingNavigationViewRecurringView', itemId: 'recurringSearches'},
+                { title: Config.settingNameChangePassword, navView: 'changePasswordForm',iconCls: 'passwordCls settingNavigationViewChangePasswordForm', itemId: 'changePasswordForm'},
+                { title: Config.settingNameDataPrivacy ,navView: 'privacyPanel',iconCls: 'privacyCls settingNavigationViewPrivacyPanel', itemId: 'privacyPanel'},
+                { title: Config.settingNameTerms ,navView: 'termsPanel',iconCls: 'termsCls settingNavigationViewTermsPanel', itemId: 'termsPanel'},
+                { title: Config.settingNameLogout, iconCls: 'logoutCls settingNavigationViewLogout'}
             ]
         }],        
         navigationBar: {

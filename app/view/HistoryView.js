@@ -11,7 +11,7 @@ Ext.define('Racloop.view.HistoryView', {
         'Ext.TitleBar',
         'Ext.field.Text',
         'Ext.Button',
-        'Ext.form.FieldSet',
+        'Ext.form.FieldSet'
     ],
     //layout: {
     //    type: 'vbox'
