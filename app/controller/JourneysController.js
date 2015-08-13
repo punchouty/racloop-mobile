@@ -54,7 +54,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 initialize : 'initSearchControlsInMainTabs'
             },
             'mainNavigationView': {
-                initialize : 'initSearchControlsInMainView'
+                // initialize : 'initSearchControlsInMainView'
             },
             searchButtonInTab: {
                 tap : 'searchButtonInTabTap'
