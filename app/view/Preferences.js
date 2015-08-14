@@ -159,6 +159,7 @@ Ext.define('Racloop.view.Preferences', {
         }, {
             xtype: 'button',
             itemId: 'savePreferencesButton',
+            id: 'preferencesFormSaveButton',
             action: 'action',
             text: 'Save',
             ui: 'action',

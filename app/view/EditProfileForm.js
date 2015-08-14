@@ -68,6 +68,7 @@ Ext.define('Racloop.view.EditProfileForm', {
         }, {
             xtype: 'button',
             itemId: 'updateProfileButton',
+            id: 'editProfileFormButton',
             text: 'Update Profile',
             action: 'edit',
             ui: 'action',
