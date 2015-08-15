@@ -26,14 +26,14 @@ Ext.define('Racloop.view.RecurringSearchScreen', {
             },            
             {
             xtype: 'fieldset',
-            title: 'Recurring Search Screen',
-            instructions: "Split Your Travel Cost.",
+            title: 'Make search recurring',
+            instructions: "Make your search recurring",
             items: [{
                 xtype: 'checkboxfield',
                 name : 'monday',
                 label: 'Monday',
-                value: '1',
-                checked: true
+                value: '1'
+                
             },
             {
                 xtype: 'checkboxfield',
@@ -64,6 +64,12 @@ Ext.define('Racloop.view.RecurringSearchScreen', {
                 name : 'saturday',
                 label: 'Saturday',
                 value: '6'
+            },
+            {
+                xtype: 'checkboxfield',
+                name : 'sunday',
+                label: 'Sunday',
+                value: '7'
             },
             {
                 xtype: 'hiddenfield',

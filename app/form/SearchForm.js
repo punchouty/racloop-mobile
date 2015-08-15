@@ -40,7 +40,7 @@ Ext.define('Racloop.form.SearchForm', {
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
-                id: 'searchFormFrom',
+                //id: 'searchFormFrom',
                 label: 'From*',
                 itemId: 'searchScreenFrom'
             }, {
@@ -139,7 +139,7 @@ Ext.define('Racloop.form.SearchForm', {
             iconCls: 'searchCls',
             iconMask: true,
             margin: 10,
-            id: 'searchFormSearchButton',
+            //id: 'searchFormSearchButton',
             ui: 'action'
         }, {
             //    xtype: 'container',

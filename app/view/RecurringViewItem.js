@@ -33,7 +33,7 @@ Ext.define('Racloop.view.RecurringViewItem', {
             // var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
            
-            var recurringDays = record.get("recurringDays");
+            var recurringDays = record.get("journeyRecurrence");
             var days = []; 
             var weekday=new Array(7);
             weekday[1]="Monday";
@@ -43,7 +43,7 @@ Ext.define('Racloop.view.RecurringViewItem', {
             weekday[5]="Friday";
             weekday[6]="Saturday";
            
-            for(var key in record.get("recurringDays")){
+            for(var key in record.get("journeyRecurrence")){
                 days.push(weekday[recurringDays[key]]);
             }
             

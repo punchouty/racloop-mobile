@@ -118,6 +118,10 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REJECTREQUEST = 'http://www.cabshare.in/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://www.cabshare.in/workflowMobile/cancelRequest';
             this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://www.cabshare.in/userMobile/loginFromFacebook';
+            this.config.url.RACLOOP_MAKE_RECURRING = 'http://www.cabshare.in/preference/makeRecurring';
+            this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://www.cabshare.in/preference/recurringJourney';
+            this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://www.cabshare.in/preference/deleteRecurringJourney';
+            this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://www.cabshare.in/journeyMobile/nearByPoints';
             
 
         } else if (this.config.env == 'dev') {
@@ -201,6 +205,10 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REJECTREQUEST = 'http://' + ip + ':8080/app/workflowMobile/rejectRequest';
             this.config.url.RACLOOP_CANCELREQUEST = 'http://' + ip + ':8080/app/workflowMobile/cancelRequest';
             this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://' + ip + ':8080/app/userMobile/loginFromFacebook';
+            this.config.url.RACLOOP_MAKE_RECURRING = 'http://' + ip + ':8080/app/preference/makeRecurring';
+            this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://' + ip + ':8080/app/preference/recurringJourney';
+            this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://' + ip + ':8080/app/preference/deleteRecurringJourney';
+            this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://' + ip + ':8080/app/journeyMobile/nearByPoints';
         }
         return this.config;
     }

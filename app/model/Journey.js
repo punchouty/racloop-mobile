@@ -90,7 +90,7 @@ Ext.define('Racloop.model.Journey', {
             name: 'hideButtons',
             type: 'boolean'
         },{
-            name: 'recurringDays',
+            name: 'journeyRecurrence',
             type: 'auto'
         },{
             name: 'isRecurring',
