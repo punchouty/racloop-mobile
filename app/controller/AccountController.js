@@ -109,7 +109,12 @@ Ext.define('Racloop.controller.AccountController', {
                         fullName: values.name,
                         mobile: values.mobile,
                         gender: values.gender,
-                        referalCode:values.referalCode
+                        referalCode:values.referalCode,
+                        cordova : device.cordova,
+                        model : device.model,
+                        platform : device.platform,
+                        uuid : device.uuid,
+                        version : device.version
                     }),
                     success: successCallback,
                     failure: failureCallback

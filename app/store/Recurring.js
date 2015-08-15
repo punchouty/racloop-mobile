@@ -7,7 +7,7 @@ Ext.define('Racloop.store.Recurring', { //Ext.getStore('journeyStore').load()
     config: {
         model: 'Racloop.model.Journey',
         storeId: 'recurringStore',
-        autoLoad: true,
+        //autoLoad: true,
         proxy: {
             type: 'ajax',
             url: Config.url.RACLOOP_RECURRING_JOURNEY + "?" + Ext.urlEncode({

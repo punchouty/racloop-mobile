@@ -357,7 +357,7 @@ Ext.define('Racloop.controller.MapController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Location'
+            message: 'Fetching Location'
         });
 
         Ext.device.Geolocation.getCurrentPosition({
@@ -371,14 +371,14 @@ Ext.define('Racloop.controller.MapController', {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results.length > 0) {
                             if(isFirstScreen) {
-                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain textfield[name=from]')[0].setValue(results[0].formatted_address);
-                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                                Ext.ComponentQuery.query('searchFormMain textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('searchFormMain hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('searchFormMain hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
                             }
                             else {
-                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs textfield[name=from]')[0].setValue(results[0].formatted_address);
-                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
-                                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
+                                Ext.ComponentQuery.query('searchFormTab textfield[name=from]')[0].setValue(results[0].formatted_address);
+                                Ext.ComponentQuery.query('searchFormTab hiddenfield[name=fromLatitude]')[0].setValue(results[0].geometry.location.lat());
+                                Ext.ComponentQuery.query('searchFormTab hiddenfield[name=fromLongitude]')[0].setValue(results[0].geometry.location.lng());
                             }
                             console.log("results[0].geometry.location.lat() : " + results[0].geometry.location.lat());
                             console.log("results[0].geometry.location.lng() : " + results[0].geometry.location.lng())

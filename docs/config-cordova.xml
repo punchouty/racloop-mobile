@@ -28,12 +28,13 @@
     <preference name="SplashScreenDelay" value="7000" />
 
     <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="org.apache.cordova.console" />
+    <!-- <plugin name="org.apache.cordova.console" /> -->
     <plugin name="org.apache.cordova.device" />
-    <plugin name="cordova-plugin-sim" />
     <plugin name="android-referrer-plugin" />
-    <plugin name="AppPreferences" />
-    <plugin name="org.apache.cordova.dialogs" />
+    <plugin name="cordova-plugin-app-preferences" />
+    <!--  <plugin name="AppPreferences" />
+    <plugin name="cordova-plugin-sim" />
+    <plugin name="org.apache.cordova.dialogs" /> -->
     <plugin name="org.apache.cordova.geolocation" />
     <plugin name="org.apache.cordova.inappbrowser" />
     <plugin name="org.apache.cordova.network-information" />
@@ -42,12 +43,13 @@
     <plugin name="org.apache.cordova.statusbar" />
     <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <!-- Comment one of below -->
-        <!-- Production -->
+        <!-- Production
         <param name="APP_ID" value="827335057382382" />
         <param name="APP_NAME" value="CabShare" />
-        <!-- Local
+        -->
+        <!-- Local -->
         <param name="APP_ID" value="827652170684004" />
-        <param name="APP_NAME" value="CabShareLocal" /> -->
+        <param name="APP_NAME" value="CabShareLocal" />
     </plugin>
 
     <feature name="http://api.phonegap.com/1.0/network" />

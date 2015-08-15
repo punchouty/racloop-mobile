@@ -17,17 +17,16 @@ Ext.define('Racloop.controller.JourneysController', {
             mainTabs: 'mainTabs',
 
             searchNavigationView : 'searchNavigationView',
-            searchFormInTab : 'searchNavigationView #searchFormInTabs',
-            searchButtonInTab : 'searchNavigationView #searchFormInTabs #searchButton',
-            datePickerInTab : 'searchNavigationView #searchFormInTabs datepickerfield[itemId=searchScreenDate]',
-            timePickerInTab : 'searchNavigationView #searchFormInTabs timepickerfield[itemId=searchScreenTime]',
-            //loginButtonInSearchResults : 'searchNavigationView #loginButtonInSearchResults',
+            searchFormInTab : 'searchFormTab',
+            searchButtonInTab : 'searchFormTab #searchButton',
+            datePickerInTab : 'searchFormTab datepickerfield[itemId=searchScreenDate]',
+            timePickerInTab : 'searchFormTab timepickerfield[itemId=searchScreenTime]',
 
             mainNavigationView: 'mainNavigationView',
-            searchFormInMainView : 'mainNavigationView #searchFormInMain',
-            searchButtonInMainView : 'mainNavigationView #searchFormInMain #searchButton',
-            datePickerInMainView : 'mainNavigationView #searchFormInMain datepickerfield[itemId=searchScreenDate]',
-            timePickerInMainView : 'mainNavigationView #searchFormInMain timepickerfield[itemId=searchScreenTime]',
+            searchFormInMainView : 'searchFormMain',
+            searchButtonInMainView : 'searchFormMain #searchButton',
+            datePickerInMainView : 'searchFormMain datepickerfield[itemId=searchScreenDate]',
+            timePickerInMainView : 'searchFormMain timepickerfield[itemId=searchScreenTime]',
 
             saveJourneyButtonInEmptyResults : 'searchResultsEmptyView #saveJourneyButton',
             emptySearchResultsHtml : 'searchResultsEmptyView #emptySearchHtml',
@@ -54,7 +53,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 initialize : 'initSearchControlsInMainTabs'
             },
             'mainNavigationView': {
-                // initialize : 'initSearchControlsInMainView'
+                initialize : 'initSearchControlsInMainView'
             },
             searchButtonInTab: {
                 tap : 'searchButtonInTabTap'
@@ -69,16 +68,16 @@ Ext.define('Racloop.controller.JourneysController', {
                 tap : 'handleSaveJourneyTap'
             },
             "datePickerInTab": {
-                change: 'onDatePickerFieldChange'
+                change: 'onTabDatePickerFieldChange'
             },
             "timePickerInTab": {
-                change: 'onTimePickerFieldChange'
+                change: 'onTabTimePickerFieldChange'
             },
             "datePickerInMainView": {
-                change: 'onDatePickerFieldChange'
+                change: 'onMainDatePickerFieldChange'
             },
             "timePickerInMainView": {
-                change: 'onTimePickerFieldChange'
+                change: 'onMainTimePickerFieldChange'
             },
             'searchResultViewItem':{
                 confirmSearchRequestButtonTap : 'handleConfirmSearchRequestButtonTap'
@@ -137,7 +136,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 items: [{
                     name: 'from',
                     xtype: 'searchfield',
-                    label: 'From *',
+                    //label: 'From *',
+                    placeHolder: ' From Place',
                     itemId: 'actionScreenFrom'
 
                 }]
@@ -165,7 +165,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 items: [{
                     name: 'to',
                     xtype: 'searchfield',
-                    label: 'To *',
+                    //label: 'To *',
+                    placeHolder: ' To Place',
                     itemId: 'actionScreenTo'
                 }]
             }, {
@@ -346,12 +347,21 @@ Ext.define('Racloop.controller.JourneysController', {
         return -1;
     },
 
-    onDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        var searchForm = field.up('searchForm');
+    onTabDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
+        var searchForm = this.getSearchFormInTab();
         this.setDateTime(searchForm);
     },
-    onTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
-        var searchForm = field.up('searchForm');
+    onTabTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
+        var searchForm = this.getSearchFormInTab();
+        this.setDateTime(searchForm);
+    },
+
+    onMainDatePickerFieldChange: function(field, newDate, oldDate, eOpts) {
+        var searchForm = this.getSearchFormInMainView();
+        this.setDateTime(searchForm);
+    },
+    onMainTimePickerFieldChange: function(field, newDate, oldDate, eOpts) {
+        var searchForm = this.getSearchFormInMainView();
         this.setDateTime(searchForm);
     },
     setDateTime: function(searchForm) {
@@ -389,7 +399,13 @@ Ext.define('Racloop.controller.JourneysController', {
     searchButtonTap: function(isFirstScreen, button, e, eOpts) {
         console.log("searchButtonTap searchButtonTap")
         var me = this;
-        var searchForm = button.up('searchForm');
+        var searchForm = null;
+        if(isFirstScreen) {
+            searchForm = this.getSearchFormInMainView();
+        }
+        else {
+            searchForm = this.getSearchFormInTab();
+        }
         console.log('searchForm : ' + searchForm)
         this.resetErrorFields(isFirstScreen);
         //var searchForm = this.getSearchForm();
@@ -663,8 +679,8 @@ Ext.define('Racloop.controller.JourneysController', {
             formPlaceError = true;
         }
         if(formPlaceError) {
-            if(isFirstScreen) Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenFrom')[0].addCls('error');
-            else Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenFrom')[0].addCls('error');
+            if(isFirstScreen) Ext.ComponentQuery.query('searchFormMain  #searchScreenFrom')[0].addCls('error');
+            else Ext.ComponentQuery.query('searchFormTab  #searchScreenFrom')[0].addCls('error');
             errorstring += "Invalid Location : From* field<br />";
         }
 
@@ -682,8 +698,8 @@ Ext.define('Racloop.controller.JourneysController', {
             toPlaceError = true;
         }
         if(toPlaceError) {
-            if(isFirstScreen) Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTo')[0].addCls('error');
-            else Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTo')[0].addCls('error');
+            if(isFirstScreen) Ext.ComponentQuery.query('searchFormMain  #searchScreenTo')[0].addCls('error');
+            else Ext.ComponentQuery.query('searchFormTab  #searchScreenTo')[0].addCls('error');
             errorstring += "Invalid Location :  To* field<br />";
         }
 
@@ -694,12 +710,12 @@ Ext.define('Racloop.controller.JourneysController', {
                 errorstring += journeyErrors[i].getMessage() + "<br />";
             }
             if(isFirstScreen) {
-                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenDate')[0].addCls('error');
-                Ext.ComponentQuery.query('mainNavigationView #searchFormInMain  #searchScreenTime')[0].addCls('error');
+                Ext.ComponentQuery.query('searchFormMain  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('searchFormMain  #searchScreenTime')[0].addCls('error');
             }
             else {
-                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenDate')[0].addCls('error');
-                Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs  #searchScreenTime')[0].addCls('error');
+                Ext.ComponentQuery.query('searchFormTab  #searchScreenDate')[0].addCls('error');
+                Ext.ComponentQuery.query('searchFormTab  #searchScreenTime')[0].addCls('error');
             }
         }
         return errorstring;
@@ -707,16 +723,16 @@ Ext.define('Racloop.controller.JourneysController', {
 
     resetErrorFields: function(isFirstScreen) {
         if(isFirstScreen) {
-            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenFrom')[0].removeCls('error');
-            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTo')[0].removeCls('error');
-            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenDate')[0].removeCls('error');
-            Ext.ComponentQuery.query('mainNavigationView #searchFormInMain #searchScreenTime')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormMain #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormMain #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormMain #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormMain #searchScreenTime')[0].removeCls('error');
         }
         else {
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].removeCls('error');
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].removeCls('error');
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenDate')[0].removeCls('error');
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTime')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormTab #searchScreenFrom')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormTab #searchScreenTo')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormTab #searchScreenDate')[0].removeCls('error');
+            Ext.ComponentQuery.query('searchFormTab #searchScreenTime')[0].removeCls('error');
         }
     },
 
@@ -726,23 +742,23 @@ Ext.define('Racloop.controller.JourneysController', {
 
     handleSearchAgainHistoryButtonTap: function(item) {
         var record = item.getRecord();
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenFrom')[0].setValue(record.get("from"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #searchScreenTo')[0].setValue(record.get("to"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
+        Ext.ComponentQuery.query('searchFormTab #searchScreenFrom')[0].setValue(record.get("from"));
+        Ext.ComponentQuery.query('searchFormTab field[name=fromLatitude]')[0].setValue(record.get("fromLatitude"));
+        Ext.ComponentQuery.query('searchFormTab field[name=fromLongitude]')[0].setValue(record.get("fromLongitude"));
+        Ext.ComponentQuery.query('searchFormTab #searchScreenTo')[0].setValue(record.get("to"));
+        Ext.ComponentQuery.query('searchFormTab field[name=toLatitude]')[0].setValue(record.get("toLatitude"));
+        Ext.ComponentQuery.query('searchFormTab field[name=toLongitude]')[0].setValue(record.get("toLongitude"));
 
         var distance = this.calculateDistance(this.getSearchFormInTab(), record.get("fromLatitude"), record.get("fromLongitude"), record.get("toLatitude"), record.get("toLongitude"));
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripDistance]')[0].setValue(distance);
-        Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
+        Ext.ComponentQuery.query('searchFormTab field[name=tripDistance]')[0].setValue(distance);
+        Ext.ComponentQuery.query('searchFormTab field[name=tripTimeInSeconds]')[0].setValue(record.get("tripTimeInSeconds"));
 
         var isTaxi = record.get("isTaxi");
         if(isTaxi) {
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('taxi');
+            Ext.ComponentQuery.query('searchFormTab #autoTaxiSelectField')[0].setValue('taxi');
         }
         else {
-            Ext.ComponentQuery.query('searchNavigationView #searchFormInTabs #autoTaxiSelectField')[0].setValue('auto');
+            Ext.ComponentQuery.query('searchFormTab #autoTaxiSelectField')[0].setValue('auto');
         }
         var searchForm = this.getSearchFormInTab();
         var activeItem = this.getSearchNavigationView().getActiveItem();

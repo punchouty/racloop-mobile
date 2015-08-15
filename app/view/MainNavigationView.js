@@ -9,14 +9,14 @@ Ext.define('Racloop.view.MainNavigationView', {
         'Ext.Button',
         'Ext.Label',
         'Ext.layout.HBox',
-        'Racloop.form.SearchForm'
+        'Racloop.form.SearchFormMain'
     ],
 
     config: {
         items: [{
-            xtype: 'searchForm',
-            itemId: 'searchFormInMain',
-            title: 'Welcome'
+            xtype: 'searchFormMain',
+            itemId: 'searchFormMain',
+            title: 'CabShare'
         }],
 //        items: [{
 //            title: 'Welcome',
