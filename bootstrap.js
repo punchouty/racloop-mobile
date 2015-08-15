@@ -670,7 +670,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Racloop.controller.SettingsController": [],
   "Racloop.controller.UiController": [],
   "Racloop.controller.WorkflowController": [],
-  "Racloop.form.SearchForm": [],
+  "Racloop.form.SearchFormMain": [],
+  "Racloop.form.SearchFormTab": [],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],
   "Racloop.model.EmergencyContacts": [],
@@ -1474,8 +1475,11 @@ Ext.ClassManager.addNameAliasMappings({
   "Racloop.controller.SettingsController": [],
   "Racloop.controller.UiController": [],
   "Racloop.controller.WorkflowController": [],
-  "Racloop.form.SearchForm": [
-    "widget.searchForm"
+  "Racloop.form.SearchFormMain": [
+    "widget.searchFormMain"
+  ],
+  "Racloop.form.SearchFormTab": [
+    "widget.searchFormTab"
   ],
   "Racloop.model.ChangePassword": [],
   "Racloop.model.EditProfile": [],

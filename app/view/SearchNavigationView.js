@@ -5,7 +5,7 @@ Ext.define('Racloop.view.SearchNavigationView', {
     alias: 'widget.searchNavigationView',
     xtype: 'searchNavigationView',
     requires: [
-        'Racloop.form.SearchForm'
+        'Racloop.form.SearchFormTab'
         //'Ext.TitleBar',
         //'Ext.form.FieldSet',
         //'Ext.field.Password',
@@ -21,8 +21,8 @@ Ext.define('Racloop.view.SearchNavigationView', {
     config: {
         // layout: 'card',
         items: [{
-            xtype: 'searchForm',
-            itemId: 'searchFormInTabs',
+            xtype: 'searchFormTab',
+            itemId: 'searchFormTab',
             title: 'Search Rides'//,
 //            items: [{
 //                xtype: 'fieldset',

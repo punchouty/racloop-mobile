@@ -1,7 +1,7 @@
-Ext.define('Racloop.form.SearchForm', {
+Ext.define('Racloop.form.SearchFormTab', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.searchForm',
-    xtype: 'searchForm',
+    alias: 'widget.searchFormTab',
+    xtype: 'searchFormTab',
 
     requires: [
         'Ext.TitleBar',
@@ -40,12 +40,13 @@ Ext.define('Racloop.form.SearchForm', {
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
-                id: 'searchFormFrom',
+                id: 'searchFormTabFrom',
                 label: 'From*',
                 itemId: 'searchScreenFrom'
             }, {
                 name: 'to',
                 xtype: 'searchfield',
+                id: 'searchFormTabTo',
                 label: 'To*',
                 itemId: 'searchScreenTo'
             }, {
@@ -139,7 +140,7 @@ Ext.define('Racloop.form.SearchForm', {
             iconCls: 'searchCls',
             iconMask: true,
             margin: 10,
-            id: 'searchFormSearchButton',
+            id: 'searchFormTabSearchButton',
             ui: 'action'
         }, {
             //    xtype: 'container',

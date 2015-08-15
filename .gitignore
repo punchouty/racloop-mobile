@@ -13,6 +13,7 @@ build/
 # resources/css/app.css
 phonegap/
 cordova/
+anrdoid/
 resources/sass/.sass-cache/
 
 .idea

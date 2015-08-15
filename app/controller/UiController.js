@@ -24,9 +24,7 @@ Ext.define('Racloop.controller.UiController', {
             historyEmptyView : 'historyNavigationView #historyEmptyView',
 
             searchNavigationView: 'searchNavigationView',
-            searchForm: 'searchNavigationView #searchFormInTabs',
-            searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
-            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks',
+            searchForm: 'searchFormTab',
 
             settingNavigationView : 'settingNavigationView',
             settingListView : 'settingNavigationView #settingListView',
@@ -92,10 +90,7 @@ Ext.define('Racloop.controller.UiController', {
         }
         else if(button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
-            this.getSearchNavigationView().reset();
-            this.hideLoginLinksFromSearchForm();
-            //var activeItem = this.getSearchNavigationView().getActiveItem();
-            //if(searchForm != activeItem) this.getSearchNavigationView().pop();
+            this.getSearchNavigationView().reset();;
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
         }
         else if(button.getTitle() === Config.tabSettings) {
@@ -120,9 +115,13 @@ Ext.define('Racloop.controller.UiController', {
         //Ext.Msg.alert("Tab Clicked", button.getTitle());
     },
 
-    hideLoginLinksFromSearchForm : function() {
-        this.getHomeLinks().hide();
-        this.getSearchHeading().hide();
+    refreshMyJourney : function() {
+        Ext.getStore('journeyStore').load({
+            callback: function(records, operation, success) {
+                me.showMyJourneys();
+            },
+            scope: this
+        });
     },
 
     showAndLoadAfterDelay: function() {
