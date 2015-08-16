@@ -1219,6 +1219,12 @@ Ext.define('Racloop.controller.JourneysController', {
                     me.onJourneySaved();
                 }else if(button.up('navigationview').config.title === Config.tabHistory) {
                     // some action
+                    Ext.getStore('historyStore').load({
+                        callback: function(records, operation, success) {
+                            Racloop.app.getController('UiController').showHistory();
+                        },
+                        scope: this
+                    });
                 }
                 Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 Ext.Viewport.unmask();
