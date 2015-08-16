@@ -35,8 +35,8 @@ Ext.define('Racloop.form.SearchFormMain', {
             },
             {
             xtype: 'fieldset',
-            title: 'Search, Connect and Go',
-            instructions: "Split Your Travel Cost.",
+            title: 'Search Rides',
+            instructions: "Split Your Travel Cost",
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
@@ -72,12 +72,12 @@ Ext.define('Racloop.form.SearchFormMain', {
                 label: 'Auto/Taxi',
                 options: [
                     {
-                        text: 'Taxi',
-                        value: 'taxi'
-                    },
-                    {
                         text: 'Auto Rickshaw',
                         value: 'auto'
+                    },
+                    {
+                        text: 'Taxi',
+                        value: 'taxi'
                     }
                 ],
                 listeners: {
@@ -127,7 +127,7 @@ Ext.define('Racloop.form.SearchFormMain', {
             }, {
                 xtype: 'hiddenfield',
                 name: 'isTaxi',
-                value: true
+                value: false
             }
 
             ]

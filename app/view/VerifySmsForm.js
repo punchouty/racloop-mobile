@@ -7,7 +7,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
     config: {
         items: [{
             xtype: 'fieldset',
-            title: 'Check SMS',
+            title: 'Verification',
             instructions: "Mobile number used during registration.",
 
             items: [{
@@ -27,7 +27,7 @@ Ext.define('Racloop.view.VerifySmsForm', {
             xtype: 'button',
             itemId: 'verifyMobile',
             id: 'verifySmsFormVerifyMobileButton',
-            text: 'Verify Mobile',
+            text: 'Submit',
             iconCls: 'mobileCls',
             iconMask: true,
             iconAlign: 'left',

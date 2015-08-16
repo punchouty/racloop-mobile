@@ -61,7 +61,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleRegisterationFormValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            Ext.Msg.alert("Invalid Data", errorString);
         } else {
             if(this.isTwoPasswordMatch()) {
                 // Success
@@ -87,7 +87,7 @@ Ext.define('Racloop.controller.AccountController', {
 
                 // Failure
                 var failureCallback = function(response, ops) {
-                    Ext.Msg.alert("Failure", response.message);
+                    Ext.Msg.alert("Network Error", response.message);
                     Ext.Viewport.unmask();
 
                 };
@@ -121,7 +121,7 @@ Ext.define('Racloop.controller.AccountController', {
                 });
             }
             else {
-                Ext.Msg.alert("Oops", "Two passwords don't match");
+                Ext.Msg.alert("Invalid Data", "Two passwords don't match");
             }
         }
     },
@@ -231,12 +231,12 @@ Ext.define('Racloop.controller.AccountController', {
                 isVerificationCodeValid = true;
             }
             else {
-                Ext.Msg.alert("Oops", "Invalid Verification Code.");
+                Ext.Msg.alert("Invalid Data", "Invalid Verification Code.");
                 return;
             }
         }
         else {
-            Ext.Msg.alert("Oops", "Invalid Mobile number.");
+            Ext.Msg.alert("Invalid Data", "Invalid Mobile number.");
             return;
         }
         if(isMobileValid && isVerificationCodeValid) {
@@ -250,11 +250,11 @@ Ext.define('Racloop.controller.AccountController', {
                 }
                 else {
                     Ext.Viewport.unmask();
-                    Ext.Msg.alert("Oops", data.message);
+                    Ext.Msg.alert("Failure", data.message);
                 }
             };
             var failureCallback = function(response, ops) {
-                Ext.Msg.alert("Server Failure", response.message);
+                Ext.Msg.alert("Network Error", response.message);
                 Ext.Viewport.unmask();
             };
             Ext.Ajax.request({
@@ -271,7 +271,7 @@ Ext.define('Racloop.controller.AccountController', {
             });
         }
         else {
-            Ext.Msg.alert("Oops", "Invalid Inputs.");
+            Ext.Msg.alert("Invalid Data", "Invalid mobile or verification code");
         }
     },
 
@@ -292,7 +292,7 @@ Ext.define('Racloop.controller.AccountController', {
                 }
             };
             var failureCallback = function(response, ops) {
-                Ext.Msg.alert("Server Failure", response.message);
+                Ext.Msg.alert("Network Error", response.message);
                 Ext.Viewport.unmask();
             };
             Ext.Ajax.request({
@@ -308,7 +308,7 @@ Ext.define('Racloop.controller.AccountController', {
             });
         }
         else {
-            Ext.Msg.alert("Oops", "Invalid mobile number");
+            Ext.Msg.alert("Invalid Data", "Invalid mobile number");
         }
     },
 
@@ -328,15 +328,15 @@ Ext.define('Racloop.controller.AccountController', {
                 var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
                 emailField.setValue(values.email);
                 Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                Ext.toast({message: data.message, timeout: 5000, animation: true, cls: 'toastClass'});
             } else {
-                Ext.Msg.alert("Email Send Failure", data.message);
+                Ext.Msg.alert("Failure", data.message);
                 Ext.Viewport.unmask();
             }
         };
         // Failure
         var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Email Send Failure", response.message);
+            Ext.Msg.alert("Network Error", response.message);
             Ext.Viewport.unmask();
 
         };
@@ -344,7 +344,7 @@ Ext.define('Racloop.controller.AccountController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleForgotPasswordValidation(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            Ext.Msg.alert("Invalid Data", errorString);
         } else {
             Ext.Viewport.mask({
                 xtype: 'loadmask',

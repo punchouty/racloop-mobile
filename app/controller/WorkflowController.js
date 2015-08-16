@@ -593,15 +593,15 @@ Ext.define('Racloop.controller.WorkflowController', {
     handleBookButtonTap : function(item) {
         var random = Math.floor((Math.random() * 10) + 1);
         var url = "https://www.olacabs.com/";
-        if(random < 4) {
-            url = "https://www.olacabs.com/";
-        }
-        else if(random > 7) {
-            url = "https://www.uber.com/";
-        }
-        else if(random == 3) {
-            url = "http://www.taxiforsure.com/";
-        }
+        //if(random < 4) {
+        //    url = "https://www.olacabs.com/";
+        //}
+        //else if(random > 7) {
+        //    url = "https://www.uber.com/";
+        //}
+        //else if(random == 3) {
+        //    url = "http://www.taxiforsure.com/";
+        //}
 
         window.open(url, '_system', 'location=yes');
     },

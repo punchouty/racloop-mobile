@@ -37,8 +37,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>'
             if(numberOfCopassengers > 0) {
-                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button> ' +
-                '<button  class="racloop-btn racloop-btn-warning chatButton"><span class="chatCls"></span> Chat</button>';
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
             var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning viewMapButton"><span class="toCls"></span> Map</button>  ' +

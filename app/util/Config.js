@@ -30,12 +30,23 @@ Ext.define('Racloop.util.Config', {
         tabNotifications : 'Notifications',
         tabSettings : 'Settings',
         tabSos : 'SOS!',
-        zeroResultsHtml : '<div class="section-header">' +
-                            '<div class="small-text-medium uppercase colored-text">' +
+        zeroResultsHtml : '<div class="section-header-empty">' +
+                            '<div class="small-text-medium-empty uppercase colored-text">' +
                             'No Results Found' +
                             '</div>' +
                             '<div class="colored-line"></div>' +
-                            '<div class="sub-heading">We got your request and We will connect with you soon.</div>' +
+                            '<div class="sub-heading-empty">We got your request and We will connect with you soon.</div>' +
+                            '</div>',
+        zeroResultsHtmlMain : '<div class="section-header-empty">' +
+                            '<div class="small-text-medium-empty uppercase colored-text">' +
+                            'No Results Found' +
+                            '</div>' +
+                            '<div class="colored-line"></div>' +
+                            '<div class="sub-heading-empty">But you can ' +
+                                '<a href="#" id="searchFormSignInLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
+                                'Sign In' +
+                                '</a>' +
+                            ' and save your request so that others can find you.</div>' +
                             '</div>',
         //encryption for storage
         quote : 'believe you can',

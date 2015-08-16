@@ -20,22 +20,8 @@ Ext.define('Racloop.form.SearchFormTab', {
     config: {
         items: [
             {
-                xtype: 'container',
-                html:   '<div class="section-header">' +
-                //'<div class="small-text-medium uppercase colored-text">' +
-                //'Search, Connect and Go' +
-                //'</div>' +
-                '<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
-                    //'<div class="colored-line"></div>' +
-                    '<div class="sub-heading">' +
-                        'Share Taxi and Auto Rides Conveniently.' +
-                    '</div>' +
-                '</div>',
-                itemId: 'searchHeading'
-            },
-            {
             xtype: 'fieldset',
-            title: 'Your Plan',
+            title: 'Tell us your Plan',
             instructions: "Split Your Travel Cost.",
             items: [{
                 name: 'from',
@@ -72,12 +58,12 @@ Ext.define('Racloop.form.SearchFormTab', {
                 label: 'Auto/Taxi',
                 options: [
                     {
-                        text: 'Taxi',
-                        value: 'taxi'
-                    },
-                    {
                         text: 'Auto Rickshaw',
                         value: 'auto'
+                    },
+                    {
+                        text: 'Taxi',
+                        value: 'taxi'
                     }
                 ],
                 listeners: {
@@ -127,7 +113,7 @@ Ext.define('Racloop.form.SearchFormTab', {
             }, {
                 xtype: 'hiddenfield',
                 name: 'isTaxi',
-                value: true
+                value: false
             }
 
             ]
@@ -142,44 +128,7 @@ Ext.define('Racloop.form.SearchFormTab', {
             margin: 10,
             id: 'searchFormTabSearchButton',
             ui: 'action'
-        }, {
-            //    xtype: 'container',
-            //    html: '<div class="section-header">' +
-            //            '<div class="small-text-medium uppercase colored-text">' +
-            //            'Or' +
-            //            '</div>' +
-            //            //'<h2 class="dark-text"><strong>Cab</strong>Share</h2>' +
-            //            //'<div class="colored-line"></div>' +
-            //            //'<div class="sub-heading">' +
-            //            //    'Share Taxi and Auto Rides Conveniently.' +
-            //            //'</div>' +
-            //          '</div>',
-            //    itemId: 'homeLabel'
-            //
-            //},{
-            //    xtype: 'button',
-            //    itemId: 'showLoginButton',
-            //    iconCls: 'lockCls',
-            //    iconMask: true,
-            //    iconAlign: 'left',
-            //    ui: 'action',
-            //    text: 'Sign In',
-            //    margin: 10
-            //}, {
-                xtype: 'container',
-                html:   '<div class="links">' +
-                            '<a href="#" id="searchFormSignInLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
-                            'Sign In' +
-                            '</a> &nbsp;&nbsp;' +
-                            ' <a href="#" id="searchFormRegisterLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
-                            'New User?' +
-                            '</a>' +
-                        '</div>',
-                itemId: 'homeLinks',
-                margin: '20 10 10 10'
-
-            }
-
+        }
         ]
     }
 });

@@ -23,8 +23,8 @@ Ext.define('Racloop.view.LoginForm', {
         //cls: 'form-bg',
         items: [{
             xtype: 'fieldset',
-            title: 'Login',
-            instructions: "Welcome!",
+            title: 'Welcome',
+            //instructions: "Welcome!",
 
             items: [{
                 name: 'email',
@@ -56,7 +56,7 @@ Ext.define('Racloop.view.LoginForm', {
             itemId: 'facebookLoginButton',
             margin: 20,
             padding: 8,
-            text: 'Login with Facebook',
+            text: 'Facebook Login',
             iconCls: 'facebookCls',
             iconMask: true,
             iconAlign: 'left',

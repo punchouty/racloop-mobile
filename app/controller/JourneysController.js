@@ -261,9 +261,9 @@ Ext.define('Racloop.controller.JourneysController', {
 
     initTime : function(searchForm) {
         var now = new Date();
-        var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
+        var reserveTime = 10; //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7; //in days
-        var validStartTime = new Date(now.getTime() + reserveTime * 60000);
+        var validStartTime = new Date(now.getTime() - reserveTime * 60000);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
 
         var validStartTimeString = Ext.Date.format(validStartTime, 'c');//validStartTime.toString('dd MMMM hh:mm tt');
@@ -381,9 +381,9 @@ Ext.define('Racloop.controller.JourneysController', {
             searchForm.down('field[name=dateOfJourneyString]').setValue(journeyDateString);
         }
         var now = new Date();
-        var reserveTime = 25; //in minutes. Increment of 15 min will make ride reserve time 30 min
+        var reserveTime = 10; //in minutes. Increment of 15 min will make ride reserve time 30 min
         var timeLimitInDays = 7; //in days
-        var validStartTime = new Date(now.getTime() + reserveTime * 60000);
+        var validStartTime = new Date(now.getTime() - reserveTime * 60000);
         var validStartTimeString = Ext.Date.format(validStartTime, 'c');
         searchForm.down('field[name=validStartTimeString]').setValue(validStartTimeString);
     },
@@ -406,21 +406,19 @@ Ext.define('Racloop.controller.JourneysController', {
         else {
             searchForm = this.getSearchFormInTab();
         }
-        console.log('searchForm : ' + searchForm)
         this.resetErrorFields(isFirstScreen);
-        //var searchForm = this.getSearchForm();
         var journeyModel = Ext.create('Racloop.model.Journey', {});
         var values = searchForm.getValues(); // Form values
         searchForm.updateRecord(journeyModel);
         var validationObj = journeyModel.validate();
         if (!validationObj.isValid()) {
             var errorString = this.validateSearchForm(isFirstScreen, validationObj);
-            Ext.Msg.alert("Oops, Input Errors", errorString);
+            Ext.Msg.alert("Invalid Data", errorString);
         } else {
             var isTaxi = values.isTaxi;
             var tripDistance = values.tripDistance;
-            if(isTaxi === 'false' && tripDistance > 75) {
-                Ext.Msg.alert("Use Taxi", "We don't allow journeys more that 75 KM by Auto Rickshaw. Please use Taxi as transport mode");
+            if(isTaxi === 'false' && tripDistance > 50) {
+                Ext.Msg.alert("Use Taxi", "Ride more that 50 KM by Auto Rickshaw is not allowed. Please use Taxi instead.");
             }
             else {
                 this.executeSearch(values, isFirstScreen);
@@ -540,6 +538,8 @@ Ext.define('Racloop.controller.JourneysController', {
                                 xtype: "searchResultsEmptyView",
                                 title: "Search Results"
                             });
+                            me.getEmptySearchResultsHtml().setHtml(Config.zeroResultsHtmlMain);
+                            me.getSaveJourneyButtonInEmptyResults().setHidden(true);
                         }
                         else {
                             searchResultsView = me.getSearchNavigationView().push({
@@ -1082,9 +1082,9 @@ Ext.define('Racloop.controller.JourneysController', {
             // });
 
         var msg = Ext.create('Ext.MessageBox').show({
-            title:    'Make Recurring', 
+            title:    'Make It a Daily Request',
             msg:      null,
-            html:     '<p style="color: #fff;">Dont Show this  box again...  <input  type="checkbox" id="disableDialogCheckBox" /></p>',
+            html:     "<p style='color: #fff;'><input  type='checkbox' id='disableDialogCheckBox' /> Don't show again</p>",
             buttons:  Ext.MessageBox.OKCANCEL,
             fn: function(btn) {
                 if( btn == 'ok') {
@@ -1160,7 +1160,7 @@ Ext.define('Racloop.controller.JourneysController', {
                         <div class="card-info">\
                             <div class="card-main">\
                                 <div>\
-                                    <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                                    <span class="card-time"> Time : <span class="timeCls"></span>   '+time+'</span>\
                                 </div>\
                             </div>\
                         </div>\
@@ -1193,7 +1193,7 @@ Ext.define('Racloop.controller.JourneysController', {
             scope: this
         });                
         
-        Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+        //Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
     },
     onSaveRecurringButtonTap: function(button, e, eOpts) {
         var recurringForm = button.up('formpanel'),

@@ -17,12 +17,12 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
             xtype: 'panel',
             items: [{
                 xtype: 'panel',
-                html: '<div class="section-header">' +
-                        '<div class="small-text-medium uppercase colored-text">' +
+                html: '<div class="section-header-empty">' +
+                        '<div class="small-text-medium-empty uppercase colored-text">' +
                         'No Results Found' +
                         '</div>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading">Sorry, :( ... but you can let other people find you.</div>' +
+                        '<div class="sub-heading-empty">Sorry, :( ... but you can let other people find you.</div>' +
                       '</div>',
                 itemId: 'emptySearchHtml'
 

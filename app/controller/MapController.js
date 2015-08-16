@@ -646,27 +646,17 @@ Ext.define('Racloop.controller.MapController', {
     },
     setNearbyLocationsOnMap: function(latlng) {
         var me = this;
-         var coloredMarkers = [
-             "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-             "http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
-             "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
-             "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-             "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-        ];
         var marker = null;
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                 //on success 
                  for(var i=0; i < data.total; i++) { 
-                    var index = index < 5? index : 0;  
                     marker = new google.maps.Marker({
-                        icon: coloredMarkers[index],
-                        title: "Nearby Location"
+                        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                        title: "Active User"
                     });                                                      
                     me.setMarkersOnMap(data.data[i].lat, data.data[i].lon, marker);
-                    index++;
                  }
             } else {
                 Ext.Msg.alert("Failure", data.message);
@@ -683,6 +673,8 @@ Ext.define('Racloop.controller.MapController', {
                 Ext.Viewport.unmask();
 
         };
+
+        var currentTime = Ext.Date.format(new Date(), 'c');
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
@@ -699,7 +691,8 @@ Ext.define('Racloop.controller.MapController', {
             useDefaultXhrHeader: false,
             params: Ext.JSON.encode({
                 latitude: latlng.lat(),
-                longitude: latlng.lng()
+                longitude: latlng.lng(),
+                currentTime : currentTime
             }),
             success: successCallback,
             failure: failureCallback

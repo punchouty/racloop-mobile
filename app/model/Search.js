@@ -75,28 +75,28 @@ Ext.define('Racloop.model.Search', {
         var me = this,
             errors = me.callParent(arguments);
         var now = new Date();
-        var reserveTime = 30; //in minutes
+        var reserveTime = 10; //in minutes
         var timeLimitInDays = 7; //in days
-        var validStartTime = new Date(now.getTime() + reserveTime * 60000);
-        var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
+        var validStartTime = new Date(now.getTime() - reserveTime * 60000); //time 10 minute prior to now is fine
+        //var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
         //console.log(validStartTime);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
         var journeyDate = this.get('dateOfJourneyString');
         var selectedDate = new Date(journeyDate);
-        if (selectedDate < now) {
+        if (selectedDate < validStartTime) {
             console.log("You have selected past date/time");
             errors.add({
                 field: 'journeyDate',
                 message: "You have selected past date/time"
             })
-        } else if (selectedDate < validStartTime) {
-            console.log("You have selected past date/time");
-            errors.add({
-                field: 'journeyDate',
-                message: "You can select time only after 30 minutes from now"
-            })
+        //} else if (selectedDate < validStartTime) {
+        //    console.log("selectedDate < validStartTime");
+        //    errors.add({
+        //        field: 'journeyDate',
+        //        message: "You can select time only after 30 minutes from now"
+        //    })
         } else if (selectedDate > validEndTime) {
-            console.log("You have selected past date/time");
+            console.log("selectedDate > validEndTime");
             errors.add({
                 field: 'journeyDate',
                 message: "You can not select time more than seven days in future"

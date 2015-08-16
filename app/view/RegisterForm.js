@@ -17,7 +17,7 @@ Ext.define('Racloop.view.RegisterForm', {
     config: {
         items: [{
             xtype: 'fieldset',
-            title: 'Sign Up',
+            //title: 'Sign Up',
             instructions : 'You will receive SMS for verification after this step.',
 //            instructions: 'By registering you are agreeing to ' +
 //                '<a href="#" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showTerms(); return false;">Terms</a> and ' +
@@ -90,15 +90,17 @@ Ext.define('Racloop.view.RegisterForm', {
             itemId: 'facebookSignInButton',
             margin: 20,
             padding: 8,
-            text: 'Sign up using Facebook',
+            text: 'Facebook Login',
             iconCls: 'facebookCls',
             iconMask: true,
             iconAlign: 'left',
             ui: 'action'
         },
             {
-                xtype : 'panel',
-                styleHtmlContent: true,
+                xtype : 'container',
+                margin: 20,
+                padding: 20,
+                //styleHtmlContent: true,
                 html: [
                     //"Password should contain upper case, lower case, numeric value and a symbol."
                         'By registering you are agreeing to ' +
