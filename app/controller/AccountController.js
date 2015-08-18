@@ -51,7 +51,7 @@ Ext.define('Racloop.controller.AccountController', {
         var user = Ext.create("Racloop.model.User", {});
         var registerForm = button.up('formpanel'); // Register form
         var values = registerForm.getValues(); // Form values
-
+        var device = device || null;
         //TODO Need to be removed
         Ext.ComponentQuery.query('#registerScreenRepeatPassword')[0].setValue(values.password);
         Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
@@ -99,6 +99,7 @@ Ext.define('Racloop.controller.AccountController', {
                     indicator: true,
                     message: 'Signing up...'
                 });
+
                 if(typeof device === "undefined") {
                     Ext.Ajax.request({
                         url: Config.url.RACLOOP_SIGNUP,
@@ -149,6 +150,28 @@ Ext.define('Racloop.controller.AccountController', {
                     });
 
                 }
+//                Ext.Ajax.request({
+//                    url: Config.url.RACLOOP_SIGNUP,
+//                    headers: {
+//                        'Content-Type': 'application/json'
+//                    },
+//                    params: Ext.JSON.encode({
+//                        email: values.email,
+//                        password: values.password,
+//                        passwordConfirm: values.password,
+//                        fullName: values.name,
+//                        mobile: values.mobile,
+//                        gender: values.gender,
+//                        referalCode:values.referalCode,
+//                        cordova : device? device.cordova : null,
+//                        model : device? device.model : null,
+//                        platform : device? device.platform : null,
+//                        uuid : device? device.uuid : null,
+//                        version : device? device.version : null
+//                    }),
+//                    success: successCallback,
+//                    failure: failureCallback
+//                });
             }
             else {
                 Ext.Msg.alert("Invalid Data", "Two passwords don't match");
