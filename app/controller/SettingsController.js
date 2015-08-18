@@ -25,7 +25,9 @@ Ext.define('Racloop.controller.SettingsController', {
             emergencyContactButton: 'emergencyContactForm #saveEmergencyContactsButton',
 
             preferencesForm: 'preferencesForm',
-            savePreferencesButton: 'preferencesForm #savePreferencesButton'
+            savePreferencesButton: 'preferencesForm #savePreferencesButton',
+            photoLibraryButton: 'editProfileForm #photoLibrary',
+            photoCaptureButton: 'editProfileForm #photoCapture'
         },
 
         control: {
@@ -43,6 +45,12 @@ Ext.define('Racloop.controller.SettingsController', {
             },
             savePreferencesButton : {
                 tap: 'savePreferences'
+            },
+            photoLibraryButton: {
+                tap: 'showPhotoLibrary'
+            },
+            photoCaptureButton: {
+                tap: 'openCamera'
             }
         }
     },
@@ -95,6 +103,7 @@ Ext.define('Racloop.controller.SettingsController', {
             values = form.getValues(), // Form values
             editForm = this.getEditProfileForm();
         editForm.updateRecord(user);
+        console.log(user);
         // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
@@ -505,6 +514,56 @@ Ext.define('Racloop.controller.SettingsController', {
             });
         }
         
-    }
+    },
+    showPhotoLibrary: function(btn){
+         this.getPhoto(Camera.PictureSourceType.PHOTOLIBRARY);
+    },   
+
+    openCamera: function(button,eve){   
+        this.getPhoto(Camera.PictureSourceType.CAMERA);
+    },
+    getPhoto: function(source) {
+        var me = this;
+        var profileForm = me.getEditProfileForm();
+        var currentUser = LoginHelper.getUser(); 
+        var pictureSuccess = function(imageData) {            
+            var jsonFile = {
+                       file : imageData,                   
+                       email: currentUser.email
+                  };
+              profileForm.down("#userImage").setSrc("data:image/jpeg;base64," + imageData);       
+              Ext.Ajax.request({
+                    url: Racloop.util.Config.url.RACLOOP_USER_IMAGE,
+                    withCredentials: true,
+                    useDefaultXhrHeader: false,
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    jsonData : jsonFile,
+                    success: function(response, opts) {
+                        var obj = Ext.decode(response.responseText);
+                        console.dir(obj);    
+                        
+                    },
+                    failure: function(response, opts) {
+                        console.log('server-side failure with status code ' + response.status);
+                    }
+              });
+        };
+
+        var pictureFailure = function(message) {
+            Ext.Msg.alert("Failed" + message);
+        };
+
+        navigator.camera.getPicture(pictureSuccess, pictureFailure, {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: source,
+                allowEdit : true,
+                targetWidth: 100,
+                targetHeight: 100 
+        });
+      }
 
 });

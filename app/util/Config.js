@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'local',
+        env: 'prod',
         app: {
             messageText: 'Test message.'
         },
@@ -177,8 +177,9 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/recurringJourney';
             this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://localhost:8080/app/preference/deleteRecurringJourney';
             this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://localhost:8080/app/journeyMobile/nearByPoints';
+            this.config.url.RACLOOP_USER_IMAGE = 'http://localhost:8080/app/userMobile/setUserImage';
         } else {
-            var ip = "192.168.1.3";//"127.0.0.1";//
+            var ip = "192.168.1.9";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
             this.facebookId = '827652170684004';
 
@@ -220,6 +221,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://' + ip + ':8080/app/preference/recurringJourney';
             this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://' + ip + ':8080/app/preference/deleteRecurringJourney';
             this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://' + ip + ':8080/app/journeyMobile/nearByPoints';
+            this.config.url.RACLOOP_USER_IMAGE = 'http://' + ip + ':8080/app/userMobile/setUserImage';
         }
         return this.config;
     }

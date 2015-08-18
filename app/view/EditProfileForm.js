@@ -12,15 +12,41 @@ Ext.define('Racloop.view.EditProfileForm', {
         'Ext.field.Search',
         'Ext.field.DatePicker',
         'Ext.field.Radio',
-        'Ext.field.Number'
+        'Ext.field.Number',
+        'Ext.Img'
     ],
 
     config: {
-        items: [{
+    items: [{
             xtype: 'fieldset',
             title: 'Edit Profile',
             instructions: "You cannot change your email",
-            items: [{
+            items: [
+                    {                    
+                        xtype: 'image',
+                        itemId: 'userImage',
+                        name: 'photoUrl',                       
+                        src: 'http://www.sencha.com/assets/images/sencha-avatar-64x64.png',
+                        height: 100,
+                        width: 100,
+                        imagCls: 'image',
+                        margin:'5 auto'            
+                    },                       
+                    {
+                        xtype: 'button',
+                        itemId: 'photoLibrary',
+                        text: 'Photo Library',
+                        hidden  : true,
+                        margin: '5 5 5 5',
+                        ui: 'action'
+                    }, {
+                        xtype: 'button',
+                        itemId: 'photoCapture',
+                        text: 'Take Photo',
+                        hidden  : true,
+                        margin: '5 5 5 5',
+                        ui: 'action'              
+             },{
                 name: 'email',
                 xtype: 'emailfield',
                 readOnly: true,
@@ -90,5 +116,23 @@ Ext.define('Racloop.view.EditProfileForm', {
             this.down('field[itemId=editScreenFemale]').check();
             this.down('field[itemId=editScreenMale]').uncheck();
         }
+        this.down("#userImage").setSrc(user.photoUrl);
+        console.log('facebook id :'+user.facebookId);
+        if(!user.facebookId) {
+            this.down('button[itemId=photoLibrary]').setHidden(false);
+            this.down('button[itemId=photoCapture]').setHidden(false);
+        }
     }
+    // ,
+    // getPhoto: function(source) {
+    //     var me = this;
+    //     navigator.camera.getPicture(me.success, me.failure, {
+    //         quality: 50,
+    //         destinationType: navigator.camera.DestinationType.FILE_URI,
+    //         sourceType: source 
+    //     });
+
+    // },
+
+    
 });

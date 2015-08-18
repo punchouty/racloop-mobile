@@ -787,7 +787,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 // });                
                 // Ext.Viewport.unmask();
                 // Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
-                me.promptShowRecurringSearchDialog(data.currentJourney, data.isEligibleForRecurring);
+                me.promptShowRecurringSearchDialog(data.currentJourney, data.data.isEligibleForRecurring);
             } else {
                 Ext.Viewport.unmask();
                 Ext.Msg.alert("Search Failure", data.message);
