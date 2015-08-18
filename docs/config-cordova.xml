@@ -44,12 +44,13 @@
     <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <!-- Comment one of below -->
         <!-- Production
+        -->
         <param name="APP_ID" value="827335057382382" />
         <param name="APP_NAME" value="CabShare" />
-        -->
-        <!-- Local -->
+        <!-- Local
         <param name="APP_ID" value="827652170684004" />
         <param name="APP_NAME" value="CabShareLocal" />
+        -->
     </plugin>
 
     <feature name="http://api.phonegap.com/1.0/network" />
@@ -62,6 +63,19 @@
 
     <icon src="icon.png" />
     <splash src="splash.png" />
+
+    <platform name="android">
+        <icon src="res/android/ldpi.png" density="ldpi" />
+        <icon src="res/android/mdpi.png" density="mdpi" />
+        <icon src="res/android/hdpi.png" density="hdpi" />
+        <icon src="res/android/xhdpi.png" density="xhdpi" />
+    </platform>
+    <platform name="android">
+        <splash src="res/screen/android/hdpi.png" density="land-hdpi"/>
+        <splash src="res/screen/android/ldpi.png" density="land-ldpi"/>
+        <splash src="res/screen/android/mdpi.png" density="land-mdpi"/>
+        <splash src="res/screen/android/xhdpi.png" density="land-xhdpi"/>
+    </platform>
 
     <access origin="*" />
     <allow-intent href="http://*/*" />

@@ -130,5 +130,23 @@ Ext.define('Racloop.form.SearchFormTab', {
             ui: 'action'
         }
         ]
+    },
+
+    initialize: function() {
+        this.callParent(arguments);
+        var user = LoginHelper.getUser();
+        if(user) {
+            this.setValues(user);
+            if (!Common.isEmpty(user.travelModePreference)) {
+                if (user.travelModePreference === 'auto') {
+                    this.down('field[name=isTaxi]').setValue('false');
+                    this.down('field[itemId=autoTaxiSelectField]').setValue('auto');
+                }
+                else {
+                    this.down('field[name=isTaxi]').setValue('true');
+                    this.down('field[itemId=autoTaxiSelectField]').setValue('taxi');
+                }
+            }
+        }
     }
 });

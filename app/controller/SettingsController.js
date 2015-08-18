@@ -3,6 +3,7 @@ Ext.define('Racloop.controller.SettingsController', {
 
     requires: [
         'Racloop.util.Config',
+        'Racloop.util.Common',
         'Racloop.util.LoginHelper',
         'Racloop.view.ChangePasswordForm',
         'Racloop.model.EmergencyContacts',
@@ -89,6 +90,7 @@ Ext.define('Racloop.controller.SettingsController', {
         }
     },
     updateProfile: function(button, e, eOpts) {
+        var settingNavigationView = this.getSettingNavigationView();
         this.resetProfileFields();
         var user = Ext.create("Racloop.model.EditProfile", {});
         var form = button.up('formpanel'), // Login form
@@ -109,6 +111,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 userdata.gender = values.gender;
                 LoginHelper.setUser(userdata);
                 if(data.data) {
+                    settingNavigationView.pop();
                     Ext.Msg.alert("Success", data.message)
                     Ext.Viewport.unmask();
                 }
@@ -271,6 +274,7 @@ Ext.define('Racloop.controller.SettingsController', {
     },
 
     changePassword: function(button, e, eOpts) {
+        var settingNavigationView = this.getSettingNavigationView();
         this.resetErrorFieldsForChangePassword();
         var user = Ext.create("Racloop.model.ChangePassword", {});
         var form = button.up('formpanel'), // Login form
@@ -288,6 +292,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 var userData = LoginHelper.getUser();
                 LoginHelper.removeUser();
                 userData.password = values.newPassword;
+                settingNavigationView.pop();
                 LoginHelper.setUser(userData);
                 Ext.Viewport.unmask();
             } else {
@@ -399,17 +404,19 @@ Ext.define('Racloop.controller.SettingsController', {
         };
 
         var validationObj = emergencyContacts.validate();
-        var errorstring = "";
-        if (!validationObj.isValid()) {
-            var contactOneErrors = validationObj.getByField('contactOne');
-            for (var i = 0; i < contactOneErrors.length; i++) {
-                errorstring += contactOneErrors[i].getMessage() + "<br />";
+        var errorstring = null;
+        if(!Common.isEmpty(values.contactOne)) {
+            if(!(/^[7-9][0-9]{9}$/).test(values.contactOne)) {
+                errorstring = "Invalid Mobile Number"
             }
-            var contactTwoErrors = validationObj.getByField('contactTwo');
-            for (var i = 0; i < contactTwoErrors.length; i++) {
-                errorstring += contactTwoErrors[i].getMessage() + "<br />";
+        }
+        if(!Common.isEmpty(values.contactTwo)) {
+            if(!(/^[7-9][0-9]{9}$/).test(values.contactTwo)) {
+                errorstring = "Invalid Mobile Number"
             }
-            Ext.Msg.alert("Oops", errorstring);
+        }
+        if (errorstring) {
+            Ext.Msg.alert("Validation Error", errorstring);
         }
         else {
             Ext.Viewport.mask({
@@ -435,7 +442,23 @@ Ext.define('Racloop.controller.SettingsController', {
         }
     },
 
+    setPreferenceToSearchScreen : function() {
+        var user = LoginHelper.getUser();
+        console.log( "valuez" + Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].getValue());
+        if(!Common.isEmpty(user.travelModePreference))  {
+            if(user.travelModePreference === 'auto') {
+                Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
+                Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('auto');
+            }
+            else {
+                Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
+                Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('taxi');
+            }
+        }
+    },
+
     savePreferences : function(button, e, eOpts) {
+        var settingNavigationView = this.getSettingNavigationView();
         var savePreferences = Ext.create("Racloop.model.Preferences", {});
         var form = button.up('formpanel'), // Login form
             values = form.getValues(), // Form values
@@ -452,6 +475,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 user.paymentPreference = values.paymentPreference;
                 user.cabServicePreference = values.cabServicePreference;
                 LoginHelper.setUser(user);
+                settingNavigationView.pop();
                 Ext.Msg.alert("Success", data.message);
                 Ext.Viewport.unmask();
             } else {
@@ -466,17 +490,19 @@ Ext.define('Racloop.controller.SettingsController', {
 
         };
         var validationObj = savePreferences.validate();
-        var errorstring = "";
-        if (!validationObj.isValid()) {
-            var contactOneErrors = validationObj.getByField('contactOne');
-            for (var i = 0; i < contactOneErrors.length; i++) {
-                errorstring += contactOneErrors[i].getMessage() + "<br />";
+        var errorstring = null;
+        if(!Common.isEmpty(values.contactOne)) {
+            if(!(/^[7-9][0-9]{9}$/).test(values.contactOne)) {
+                errorstring = "Invalid Mobile Number"
             }
-            var contactTwoErrors = validationObj.getByField('contactTwo');
-            for (var i = 0; i < contactTwoErrors.length; i++) {
-                errorstring += contactTwoErrors[i].getMessage() + "<br />";
+        }
+        if(!Common.isEmpty(values.contactTwo)) {
+            if(!(/^[7-9][0-9]{9}$/).test(values.contactTwo)) {
+                errorstring = "Invalid Mobile Number"
             }
-            Ext.Msg.alert("Oops", errorstring);
+        }
+        if (errorstring) {
+            Ext.Msg.alert("Validation Error", errorstring);
         }
         else {
         

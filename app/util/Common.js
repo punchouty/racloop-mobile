@@ -62,6 +62,10 @@ Ext.define('Racloop.util.Common', {
             navBar.backButtonStack = [];
             //now we can do a normal pop
             navigationView.pop();
+        },
+        isEmpty : function(str) {
+            return (!(typeof str != "undefined" && str))
+            //return (!str || 0 === str.length);
         }
     },
     constructor: function() {

@@ -90,7 +90,8 @@ Ext.define('Racloop.controller.UiController', {
         }
         else if(button.getTitle() === Config.tabSearch) {
             var searchForm = this.getSearchForm();
-            this.getSearchNavigationView().reset();;
+            this.getSearchNavigationView().reset();
+            Racloop.app.getController('SettingsController').setPreferenceToSearchScreen();
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
         }
         else if(button.getTitle() === Config.tabSettings) {

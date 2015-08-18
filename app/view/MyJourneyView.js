@@ -20,12 +20,12 @@ Ext.define('Racloop.view.MyJourneyView', {
                 itemId: 'journeyEmptyView',
                 xtype: 'panel',
                 hidden : true,
-                html: '<div class="section-header">' +
-                '<div class="small-text-medium uppercase colored-text">' +
-                'No Active Journeys Found' +
+                html: '<div class="section-header-empty">' +
+                '<div class="small-text-medium-empty uppercase colored-text">' +
+                'No Active Rides Found' +
                 '</div>' +
                 '<div class="colored-line"></div>' +
-                '<div class="sub-heading">Go to search tab to request a ride.</div>' +
+                '<div class="sub-heading-empty">Go to search tab to request a ride.</div>' +
                 '</div>',
                 flex : 1
             },

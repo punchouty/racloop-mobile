@@ -6,7 +6,8 @@ Ext.define('Racloop.view.Preferences', {
 
     requires: [
         'Ext.form.FieldSet',
-        'Ext.field.Number'
+        'Ext.field.Number',
+        'Racloop.util.Common'
     ],
 
     config: {
@@ -35,21 +36,21 @@ Ext.define('Racloop.view.Preferences', {
                 options: [
                     {
                         text: 'Taxi',
-                        value: 'Taxi'
+                        value: 'taxi'
                     },
                     {
                         text: 'Auto',
-                        value: 'Auto'
+                        value: 'auto'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "Auto") {
+                        if (newValue == "auto") {
                             var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('Auto');
-                        } else if (newValue == "Taxi") {
+                            travelModePreference.setValue('auto');
+                        } else if (newValue == "taxi") {
                             var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('Taxi');
+                            travelModePreference.setValue('taxi');
                         }
                     }
                 }
@@ -62,28 +63,28 @@ Ext.define('Racloop.view.Preferences', {
                 options: [
                     {
                         text: 'Cash',
-                        value: 'Cash'
+                        value: 'cash'
                     },
                     {
                         text: 'PayTM',
-                        value: 'PayTM'
+                        value: 'payTM'
                     },
                     {
                         text: 'Other mobile wallets',
-                        value: 'Other mobile wallets'
+                        value: 'other'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "Cash") {
+                        if (newValue == "cash") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("Cash");
-                        } else if (newValue == "PayTM") {
+                            paymentPreference.setValue("cash");
+                        } else if (newValue == "payTM") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("PayTM");
-                        } else if (newValue == "Other mobile wallets") {
+                            paymentPreference.setValue("payTM");
+                        } else if (newValue == "other") {
                             var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("Other mobile wallets");
+                            paymentPreference.setValue("other");
                         }
                     }
                 }
@@ -96,49 +97,49 @@ Ext.define('Racloop.view.Preferences', {
                 options: [
                     {
                         text: 'Ola',
-                        value: 'Ola'
+                        value: 'ola'
                     },
                     {
                         text: 'Uber',
-                        value: 'Uber'
+                        value: 'uber'
                     },
                     {
                         text: 'Meru Cabs',
-                        value: 'Meru Cabs'
+                        value: 'meru'
                     },
                     {
                         text: 'Mega Cabs',
-                        value: 'Mega Cabs'
+                        value: 'mega'
                     },
                     {
                         text: 'Easy Cabs',
-                        value: 'Easy Cabs'
+                        value: 'easy'
                     },
                     {
-                        text: 'Others',
-                        value: 'Others'
+                        text: 'Other',
+                        value: 'other'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "Uber") {
+                        if (newValue == "uber") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Uber");
-                        } else if (newValue == "Ola") {
+                            cabServicePreference.setValue("uber");
+                        } else if (newValue == "ola") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Ola");
-                        } else if (newValue == "Others") {
+                            cabServicePreference.setValue("ola");
+                        } else if (newValue == "other") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Others");
-                        } else if (newValue == "Meru Cabs") {
+                            cabServicePreference.setValue("other");
+                        } else if (newValue == "meru") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Meru Cabs");
-                        } else if (newValue == "Mega Cabs") {
+                            cabServicePreference.setValue("meru");
+                        } else if (newValue == "mega") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Mega Cabs");
-                        } else if (newValue == "Easy Cabs") {
+                            cabServicePreference.setValue("mega");
+                        } else if (newValue == "easy") {
                             var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("Easy Cabs");
+                            cabServicePreference.setValue("easy");
                         }
                     }
                 }
@@ -173,10 +174,13 @@ Ext.define('Racloop.view.Preferences', {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
         this.setValues(user);
-        this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
-        this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
-        this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
-        this.down('field[itemId=paymentPreferenceSelectField]').setValue(user.paymentPreference);
-        this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
+        if(!Common.isEmpty(user.emergencyContactOne)) this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
+        if(!Common.isEmpty(user.emergencyContactTwo)) this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
+        if(!Common.isEmpty(user.cabServicePreference)) this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
+        else this.down('field[itemId=cabServicePreferenceSelectField]').setValue('other');
+        if(!Common.isEmpty(user.paymentPreference))  this.down('field[itemId=paymentPreferenceSelectField]').setValue(user.paymentPreference);
+        else this.down('field[itemId=paymentPreferenceSelectField]').setValue('cash');
+        if(!Common.isEmpty(user.travelModePreference))  this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
+        else this.down('field[itemId=travelModePreferenceField]').setValue('auto');
     }
 });
