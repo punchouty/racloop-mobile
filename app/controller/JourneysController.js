@@ -764,7 +764,6 @@ Ext.define('Racloop.controller.JourneysController', {
         var activeItem = this.getSearchNavigationView().getActiveItem();
         if(searchForm != activeItem) this.getSearchNavigationView().pop();
         this.getMainTabs().setActiveItem('searchNavigationView');
-        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
         //this.searchJourneys();
 
     },
@@ -865,7 +864,6 @@ Ext.define('Racloop.controller.JourneysController', {
                             xtype : 'searchResultsView'
                         });
                         me.getLoginButtonInSearchResults().setHidden(true);
-                        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
                         if(disableMoreRequests) {
                             Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }
@@ -969,7 +967,6 @@ Ext.define('Racloop.controller.JourneysController', {
                         });
                         //me.getSaveJourneyButtonInSearchResults().setHidden(true);
                         me.getLoginButtonInSearchResults().setHidden(true);
-                        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
                         if(disableMoreRequests) {
                             Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }

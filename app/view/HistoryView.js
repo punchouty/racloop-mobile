@@ -24,12 +24,12 @@ Ext.define('Racloop.view.HistoryView', {
                 itemId: 'historyEmptyView',
                 xtype: 'panel',
                 hidden : true,
-                html: '<div class="section-header">' +
-                '<div class="small-text-medium uppercase colored-text">' +
+                html: '<div class="section-header-empty">' +
+                '<div class="small-text-medium-empty uppercase colored-text">' +
                 'No History Found' +
                 '</div>' +
                 '<div class="colored-line"></div>' +
-                '<div class="sub-heading">No previous data found.</div>' +
+                '<div class="sub-heading-empty">No previous data found.</div>' +
                 '</div>',
                 flex : 1
             },

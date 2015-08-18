@@ -101,7 +101,6 @@ Ext.define('Racloop.controller.WorkflowController', {
                         comp.isDummy = data.isDummy;
                         searchResultsView.down('#saveJourneyButton').setHidden(true);
                         searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
-                        Racloop.app.getController('UiController').hideLoginLinksFromSearchForm();
                         //me.getSaveJourneyButtonInSearchResults().setHidden(true);
                         if(disableMoreRequests) {
                             Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});

@@ -21,8 +21,6 @@ Ext.define('Racloop.view.HistoryViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
-            console.log("HistoryViewItem");
-            console.dir(record);
             var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;

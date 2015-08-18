@@ -19,20 +19,21 @@ Ext.define('Racloop.model.Preferences', {
             name: 'cabServicePreference',
             type: 'string'
         }
-        ],
-        validations: [
-            {
-            type: 'format',
-            field: 'contactOne',
-            matcher: /^[7-9][0-9]{9}$/,
-            message: "Invalid Mobile Number"
-        },
-        {
-            type: 'format',
-            field: 'contactTwo',
-            matcher: /^[7-9][0-9]{9}$/,
-            message: "Invalid Mobile Number"
-        }
         ]
+        //,
+        //validations: [
+        //    {
+        //    type: 'format',
+        //    field: 'contactOne',
+        //    matcher: /^[7-9][0-9]{9}$/,
+        //    message: "Invalid Mobile Number"
+        //},
+        //{
+        //    type: 'format',
+        //    field: 'contactTwo',
+        //    matcher: /^[7-9][0-9]{9}$/,
+        //    message: "Invalid Mobile Number"
+        //}
+        //]
     }
 });

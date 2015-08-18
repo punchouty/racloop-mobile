@@ -60,7 +60,9 @@ Ext.define('Racloop.controller.AccountController', {
 
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
+            console.log("Gender : " + values.gender)
             var errorString = this.handleRegisterationFormValidation(validationObj);
+            console.dir(validationObj);
             Ext.Msg.alert("Invalid Data", errorString);
         } else {
             if(this.isTwoPasswordMatch()) {
@@ -97,28 +99,79 @@ Ext.define('Racloop.controller.AccountController', {
                     indicator: true,
                     message: 'Signing up...'
                 });
-                Ext.Ajax.request({
-                    url: Config.url.RACLOOP_SIGNUP,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        email: values.email,
-                        password: values.password,
-                        passwordConfirm: values.password,
-                        fullName: values.name,
-                        mobile: values.mobile,
-                        gender: values.gender,
-                        referalCode:values.referalCode,
-                        cordova : device? device.cordova : null,
-                        model : device? device.model : null,
-                        platform : device? device.platform : null,
-                        uuid : device? device.uuid : null,
-                        version : device? device.version : null
-                    }),
-                    success: successCallback,
-                    failure: failureCallback
-                });
+
+                if(typeof device === "undefined") {
+                    Ext.Ajax.request({
+                        url: Config.url.RACLOOP_SIGNUP,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        params: Ext.JSON.encode({
+                            email: values.email,
+                            password: values.password,
+                            passwordConfirm: values.password,
+                            fullName: values.name,
+                            mobile: values.mobile,
+                            gender: values.gender,
+                            referalCode:values.referalCode,
+                            cordova : 'no-value',
+                            model : 'no-value',
+                            platform : 'no-value',
+                            uuid : 'no-value',
+                            version : 'no-value'
+                        }),
+                        success: successCallback,
+                        failure: failureCallback
+                    });
+
+                }
+                else {
+                    Ext.Ajax.request({
+                        url: Config.url.RACLOOP_SIGNUP,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        params: Ext.JSON.encode({
+                            email: values.email,
+                            password: values.password,
+                            passwordConfirm: values.password,
+                            fullName: values.name,
+                            mobile: values.mobile,
+                            gender: values.gender,
+                            referalCode:values.referalCode,
+                            cordova : device.cordova,
+                            model : device.model,
+                            platform : device.platform,
+                            uuid : device.uuid,
+                            version : device.version
+                        }),
+                        success: successCallback,
+                        failure: failureCallback
+                    });
+
+                }
+//                Ext.Ajax.request({
+//                    url: Config.url.RACLOOP_SIGNUP,
+//                    headers: {
+//                        'Content-Type': 'application/json'
+//                    },
+//                    params: Ext.JSON.encode({
+//                        email: values.email,
+//                        password: values.password,
+//                        passwordConfirm: values.password,
+//                        fullName: values.name,
+//                        mobile: values.mobile,
+//                        gender: values.gender,
+//                        referalCode:values.referalCode,
+//                        cordova : device? device.cordova : null,
+//                        model : device? device.model : null,
+//                        platform : device? device.platform : null,
+//                        uuid : device? device.uuid : null,
+//                        version : device? device.version : null
+//                    }),
+//                    success: successCallback,
+//                    failure: failureCallback
+//                });
             }
             else {
                 Ext.Msg.alert("Invalid Data", "Two passwords don't match");
@@ -144,6 +197,15 @@ Ext.define('Racloop.controller.AccountController', {
             totalErrors = totalErrors + emailErrors.length;
             var field = Ext.ComponentQuery.query('#registerScreenEmail');
             field[0].addCls('error');
+        }
+
+        var genderErrors = validationObj.getByField('gender');
+        if (genderErrors != null && genderErrors.length > 0) {
+            if(errorCounted < 3) {
+                errorString += genderErrors[0].getMessage() + "<br>";
+                errorCounted = errorCounted + 1;
+            }
+            totalErrors = totalErrors + genderErrors.length;
         }
 
         var passwordErrors = validationObj.getByField('password');
@@ -224,10 +286,12 @@ Ext.define('Racloop.controller.AccountController', {
         var verificationCode = values.verificationCode;
         var isMobileValid = false;
         var isVerificationCodeValid = false;
-        console.log(mobile + " : mobile.length : " + mobile.length);
-        if(mobile != null && mobile.length == 10) {
+        var mobileTxt = mobile + "";
+        console.log(mobile + " : mobileTxt.length : " + mobileTxt.length);
+        if(mobileTxt != "" && mobileTxt.length == 10) {
             isMobileValid = true;
-            if(verificationCode != null && verificationCode.length == 6) {
+            var verificationCodeText = verificationCode + "";
+            if(verificationCodeText != "" && verificationCodeText.length == 6) {
                 isVerificationCodeValid = true;
             }
             else {
@@ -244,9 +308,12 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     Ext.Viewport.unmask();
-                    var sessionController = Racloop.app.getController('SessionsController') ;
-                    sessionController.autoLogin();
-                    
+                    //var sessionController = Racloop.app.getController('SessionsController') ;
+                    //sessionController.autoLogin();
+                    var mainNavigationView = me.getMainNavigationView();
+                    mainNavigationView.reset();
+                    Racloop.app.getController('UiController').showLogin();
+                    Ext.Msg.alert("Verification Complete", "Mobile Verified Successfully");
                 }
                 else {
                     Ext.Viewport.unmask();
@@ -284,7 +351,7 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    Ext.Msg.alert("SMS Sent", "Please check SMS for verification code");
                 }
                 else {
                     Ext.Msg.alert("Failure", data.message);
