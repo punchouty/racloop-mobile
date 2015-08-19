@@ -98,7 +98,8 @@ Ext.define('Racloop.model.Journey', {
             defaultValue: false
         },{
             name: 'isFemale',
-            type: 'boolean'
+            type: 'boolean',
+            defaultValue: false
         }
         ],
         validations: [{
@@ -131,10 +132,10 @@ Ext.define('Racloop.model.Journey', {
         var me = this,
         errors = me.callParent(arguments);
         var now = new Date();
-        var reserveTime = 30; //in minutes
+        // var reserveTime = 30; //in minutes
         var timeLimitInDays = 7; //in days
-        var validStartTime = new Date(now.getTime() + reserveTime * 60000);
-        var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
+        // var validStartTime = new Date(now.getTime() + reserveTime * 60000);
+        // var initialTime = new Date(now.getTime() + (reserveTime + 15) * 60000);
         var validEndTime = new Date(now.getTime() + timeLimitInDays * 24 * 60 * 60000);
         var journeyDateString = this.get('dateOfJourneyString');
         var selectedDate = Ext.DateExtras.parse(journeyDateString, 'd M y h:i A');
@@ -144,12 +145,12 @@ Ext.define('Racloop.model.Journey', {
                 field: 'journeyDate',
                 message: "Invalid Date/Time : You have selected past moment"
             })
-        } else if (selectedDate < validStartTime) {
-            console.log("You have selected past date/time");
-            errors.add({
-                field: 'journeyDate',
-                message: "Invalid Date/Time : You can select time only after 30 minutes from now"
-            })
+        // } else if (selectedDate < validStartTime) {
+        //     console.log("You have selected past date/time");
+        //     errors.add({
+        //         field: 'journeyDate',
+        //         message: "Invalid Date/Time : You can select time only after 30 minutes from now"
+        //     })
         } else if (selectedDate > validEndTime) {
             console.log("You have selected past date/time");
             errors.add({

@@ -48,8 +48,7 @@ Ext.define('Racloop.form.SearchFormTab', {
                 xtype: 'checkboxfield',
                 name : 'isFemale',
                 label: 'Female',
-                value: 'true',
-                checked: true,
+                value: 'false',
                 itemId: 'searchScreenGender',
                 listeners: {
                     check: function(checkbox) {

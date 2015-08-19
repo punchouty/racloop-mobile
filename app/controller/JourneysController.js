@@ -657,7 +657,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 tripDistance: journey.tripDistance,
                 tripTimeInSeconds: journey.tripTimeInSeconds,
                 tripUnit: journey.tripUnit,
-                isFemale: journey.isFemale
+                isFemale: journey.isFemale? 'true' : 'false'
             }),
             success: successCallback,
             failure: failureCallback
