@@ -52,41 +52,42 @@ Ext.define('Racloop.view.EditProfileForm', {
                 readOnly: true,
                 label: 'Email',
                 placeHolder: 'email@example.com',
-                labelWidth: '40%',
+                //labelWidth: '40%',
                 itemId: 'editScreenEmail'
             }, {
-                name: 'fullName',
-                xtype: 'textfield',
-                label: 'Name',
-                labelWidth: '40%',
-                itemId: 'editScreenName'
-            },  {
                 name: 'mobile',
                 xtype: 'numberfield',
+                readOnly: true,
                 label: 'Mobile',
-                labelWidth: '40%',
+                //labelWidth: '40%',
                 itemId: 'editScreenMobile'
             },{
                 name: 'userCode',
                 xtype: 'textfield',
                 label: 'User Code',
                 readOnly: true,
-                labelWidth: '40%',
+                //labelWidth: '40%',
                 itemId: 'editScreenUserCode'
             }, {
+                name: 'fullName',
+                xtype: 'textfield',
+                label: 'Name',
+                //labelWidth: '40%',
+                itemId: 'editScreenName'
+            },  {
                 name: 'gender',
                 xtype: 'radiofield',
                 label: 'Male',
                 value: 'male',
                 //checked: true,
-                labelWidth: '40%',
+                //labelWidth: '40%',
                 itemId: 'editScreenMale'
             }, {
                 name: 'gender',
                 xtype: 'radiofield',
                 label: 'Female',
                 value: 'female',
-                labelWidth: '40%',
+                //labelWidth: '40%',
                 itemId: 'editScreenFemale'
             }
 
@@ -105,9 +106,8 @@ Ext.define('Racloop.view.EditProfileForm', {
     initialize: function() {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
-        console.log("user.isMale : " + user.isMale);
         this.setValues(user);
-        var isMale = this.down('field[name=gender]');
+        //var isMale = this.down('field[name=gender]');
         if(user.isMale) {
             this.down('field[itemId=editScreenFemale]').uncheck();
             this.down('field[itemId=editScreenMale]').check();

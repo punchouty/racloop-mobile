@@ -54,13 +54,11 @@ Ext.define('Racloop.controller.AccountController', {
         var device = device || null;
         //TODO Need to be removed
         Ext.ComponentQuery.query('#registerScreenRepeatPassword')[0].setValue(values.password);
-        Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
+        //Ext.ComponentQuery.query('#registerScreenFemale')[0].setValue(true);
         var mainNavigationView = this.getMainNavigationView(); // Main view
         registerForm.updateRecord(user);
-
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
-            console.log("Gender : " + values.gender)
             var errorString = this.handleRegisterationFormValidation(validationObj);
             console.dir(validationObj);
             Ext.Msg.alert("Invalid Data", errorString);
@@ -100,78 +98,78 @@ Ext.define('Racloop.controller.AccountController', {
                     message: 'Signing up...'
                 });
 
-                if(typeof device === "undefined") {
-                    Ext.Ajax.request({
-                        url: Config.url.RACLOOP_SIGNUP,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        params: Ext.JSON.encode({
-                            email: values.email,
-                            password: values.password,
-                            passwordConfirm: values.password,
-                            fullName: values.name,
-                            mobile: values.mobile,
-                            gender: values.gender,
-                            referalCode:values.referalCode,
-                            cordova : 'no-value',
-                            model : 'no-value',
-                            platform : 'no-value',
-                            uuid : 'no-value',
-                            version : 'no-value'
-                        }),
-                        success: successCallback,
-                        failure: failureCallback
-                    });
-
-                }
-                else {
-                    Ext.Ajax.request({
-                        url: Config.url.RACLOOP_SIGNUP,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        params: Ext.JSON.encode({
-                            email: values.email,
-                            password: values.password,
-                            passwordConfirm: values.password,
-                            fullName: values.name,
-                            mobile: values.mobile,
-                            gender: values.gender,
-                            referalCode:values.referalCode,
-                            cordova : device.cordova,
-                            model : device.model,
-                            platform : device.platform,
-                            uuid : device.uuid,
-                            version : device.version
-                        }),
-                        success: successCallback,
-                        failure: failureCallback
-                    });
-
-                }
-//                Ext.Ajax.request({
-//                    url: Config.url.RACLOOP_SIGNUP,
-//                    headers: {
-//                        'Content-Type': 'application/json'
-//                    },
-//                    params: Ext.JSON.encode({
-//                        email: values.email,
-//                        password: values.password,
-//                        passwordConfirm: values.password,
-//                        fullName: values.name,
-//                        mobile: values.mobile,
-//                        gender: values.gender,
-//                        referalCode:values.referalCode,
-//                        cordova : device? device.cordova : null,
-//                        model : device? device.model : null,
-//                        platform : device? device.platform : null,
-//                        uuid : device? device.uuid : null,
-//                        version : device? device.version : null
-//                    }),
-//                    success: successCallback,
-//                    failure: failureCallback
-//                });
+                //if(typeof device === "undefined") {
+                //    Ext.Ajax.request({
+                //        url: Config.url.RACLOOP_SIGNUP,
+                //        headers: {
+                //            'Content-Type': 'application/json'
+                //        },
+                //        params: Ext.JSON.encode({
+                //            email: values.email,
+                //            password: values.password,
+                //            passwordConfirm: values.password,
+                //            fullName: values.name,
+                //            mobile: values.mobile,
+                //            gender: values.gender,
+                //            referalCode:values.referalCode,
+                //            cordova : 'no-value',
+                //            model : 'no-value',
+                //            platform : 'no-value',
+                //            uuid : 'no-value',
+                //            version : 'no-value'
+                //        }),
+                //        success: successCallback,
+                //        failure: failureCallback
+                //    });
+                //
+                //}
+                //else {
+                //    Ext.Ajax.request({
+                //        url: Config.url.RACLOOP_SIGNUP,
+                //        headers: {
+                //            'Content-Type': 'application/json'
+                //        },
+                //        params: Ext.JSON.encode({
+                //            email: values.email,
+                //            password: values.password,
+                //            passwordConfirm: values.password,
+                //            fullName: values.name,
+                //            mobile: values.mobile,
+                //            gender: values.gender,
+                //            referalCode:values.referalCode,
+                //            cordova : device.cordova,
+                //            model : device.model,
+                //            platform : device.platform,
+                //            uuid : device.uuid,
+                //            version : device.version
+                //        }),
+                //        success: successCallback,
+                //        failure: failureCallback
+                //    });
+                //
+                //}
+                Ext.Ajax.request({
+                    url: Config.url.RACLOOP_SIGNUP,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    params: Ext.JSON.encode({
+                        email: values.email,
+                        password: values.password,
+                        passwordConfirm: values.password,
+                        fullName: values.name,
+                        mobile: values.mobile,
+                        gender: values.gender,
+                        referalCode:values.referalCode,
+                        cordova : device? device.cordova : null,
+                        model : device? device.model : null,
+                        platform : device? device.platform : null,
+                        uuid : device? device.uuid : null,
+                        version : device? device.version : null
+                    }),
+                    success: successCallback,
+                    failure: failureCallback
+                });
             }
             else {
                 Ext.Msg.alert("Invalid Data", "Two passwords don't match");

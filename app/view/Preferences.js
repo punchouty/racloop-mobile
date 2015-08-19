@@ -32,7 +32,7 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'travelModePreferenceField',
                 label: 'Travel Mode',
-                value:'Taxi',
+                value:'auto',
                 options: [
                     {
                         text: 'Taxi',
@@ -59,7 +59,7 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'paymentPreferenceSelectField',
                 label: 'Payment',
-                value:'Cash',
+                value:'cash',
                 options: [
                     {
                         text: 'Cash',
@@ -93,7 +93,7 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'selectfield',
                 itemId: 'cabServicePreferenceSelectField',
                 label: 'Cab Company',
-                value:'Uber',
+                value:'other',
                 options: [
                     {
                         text: 'Ola',
@@ -147,7 +147,7 @@ Ext.define('Racloop.view.Preferences', {
             }, {
                 xtype: 'hiddenfield',
                 name: 'travelModePreference',
-                value: 'taxi'
+                value: 'auto'
             } , {
                 xtype: 'hiddenfield',
                 name: 'paymentPreference',
@@ -155,7 +155,7 @@ Ext.define('Racloop.view.Preferences', {
             }, {
                 xtype: 'hiddenfield',
                 name: 'cabServicePreference',
-                value: 'ola'
+                value: 'other'
             } ]
         }, {
             xtype: 'button',
@@ -174,6 +174,8 @@ Ext.define('Racloop.view.Preferences', {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
         this.setValues(user);
+        console.log("preference view")
+        console.dir(user)
         if(!Common.isEmpty(user.emergencyContactOne)) this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
         if(!Common.isEmpty(user.emergencyContactTwo)) this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
         if(!Common.isEmpty(user.cabServicePreference)) this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);

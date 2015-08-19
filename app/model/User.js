@@ -91,7 +91,7 @@ Ext.define('Racloop.model.User', {
         }, {
             type: 'inclusion',
             field: 'gender',
-            list: ['true', 'false']
+            list: ['male', 'female']
         }]
     }
 });

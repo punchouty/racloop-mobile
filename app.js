@@ -118,7 +118,7 @@ Ext.application({
         console.log('launching application......');
         if(!(Ext.os.is.Android || Ext.os.is.iOS)){
             console.log("this is browser")
-            facebookConnectPlugin.browserInit(Racloop.util.Config.facebookId,'v2.3');
+            facebookConnectPlugin.browserInit(827652170684004,'v2.3');
         }
         this.initSslCertificates();
         document.addEventListener('deviceready', function () {
