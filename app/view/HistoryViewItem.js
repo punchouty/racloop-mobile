@@ -53,11 +53,6 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 <div class="card-main">\
                     <div>\
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
-                        <div>\
-                            <span class="card-control">\
-                                <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>'+recurringButton+'\
-                            </span>\
-                        </div>\
                     </div>\
                     <div>\
                         <span class="card-label card-label-blue">'+drivingText+'</span>\
@@ -73,6 +68,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 <div class="card-footer-row">\
                     <span class="card-location-label">To : </span>\
                     <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("to")+' </span>\
+                </div>\
+                <div>\
+                    <span class="card-control">\
+                        <button  class="racloop-btn racloop-btn-primary searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>'+recurringButton+'\
+                    </span>\
                 </div>\
             </div>\
         </div>';
