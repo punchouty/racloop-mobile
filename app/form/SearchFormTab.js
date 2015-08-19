@@ -45,6 +45,19 @@ Ext.define('Racloop.form.SearchFormTab', {
                 },
                 itemId: 'searchScreenDate'
             }, {
+                xtype: 'radiofield',
+                name: 'gender',
+                value: 'true',
+                label: 'Male',
+                checked: true,
+                itemId: 'registerScreenMale'
+            }, {
+                xtype: 'radiofield',
+                name: 'gender',
+                value: 'false',
+                label: 'Female',
+                itemId: 'registerScreenFemale'
+            }, {
                 name: 'time',
                 xtype: 'timepickerfield',
                 label: 'Time*',
@@ -146,6 +159,14 @@ Ext.define('Racloop.form.SearchFormTab', {
                     this.down('field[name=isTaxi]').setValue('true');
                     this.down('field[itemId=autoTaxiSelectField]').setValue('taxi');
                 }
+            }
+            if(user.isMale) {
+                this.down('field[itemId=registerScreenMale]').hide();
+                this.down('field[itemId=registerScreenFemale]').hide();
+            }
+            else {
+                this.down('field[itemId=registerScreenMale]').show();
+                this.down('field[itemId=registerScreenFemale]').show();
             }
         }
     }

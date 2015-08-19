@@ -62,14 +62,14 @@ Ext.define('Racloop.view.RegisterForm', {
             //}, {
                 xtype: 'radiofield',
                 name: 'gender',
-                value: 'true',
+                value: 'male',
                 label: 'Male',
                 checked: true,
                 itemId: 'registerScreenMale'
             }, {
                 xtype: 'radiofield',
                 name: 'gender',
-                value: 'false',
+                value: 'female',
                 label: 'Female',
                 itemId: 'registerScreenFemale'
             }]
