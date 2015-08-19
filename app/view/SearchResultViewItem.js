@@ -167,7 +167,6 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                 </div>\
                                 <div>\
                                     <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + ' ' + statusMarkup + '</span>\
-                                    ' + cardControl + '\
                                 </div>\
                                 <div>\
                                 </div>\
@@ -182,6 +181,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                 <span class="card-location-label">To :</span>\
                                 <span class="card-location"> &nbsp;<span class="toCls"> </span>' + record.get("to") + '</span>\
                             </div>\
+                            ' + cardControl + '\
                         </div>\
                     </div>';
             me.down('#textCmp').setHtml(html);
