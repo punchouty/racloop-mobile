@@ -29,6 +29,7 @@ Ext.define('Racloop.view.Preferences', {
                 placeHolder: 'Emergency Mobile',
                 itemId: 'emergencyContactTwo'
             },{
+                name: 'travelModePreference',
                 xtype: 'selectfield',
                 itemId: 'travelModePreferenceField',
                 label: 'Travel Mode',
@@ -42,20 +43,9 @@ Ext.define('Racloop.view.Preferences', {
                         text: 'Auto',
                         value: 'auto'
                     }
-                ],
-                listeners: {
-                    change: function(field, newValue) {
-                        if (newValue == "auto") {
-                            var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('auto');
-                        } else if (newValue == "taxi") {
-                            var travelModePreference = field.up().down('field[name=travelModePreference]');
-                            travelModePreference.setValue('taxi');
-                        }
-                    }
-                }
-
+                ]
             }, {
+                name: 'paymentPreference',
                 xtype: 'selectfield',
                 itemId: 'paymentPreferenceSelectField',
                 label: 'Payment',
@@ -73,23 +63,9 @@ Ext.define('Racloop.view.Preferences', {
                         text: 'Other mobile wallets',
                         value: 'other'
                     }
-                ],
-                listeners: {
-                    change: function(field, newValue) {
-                        if (newValue == "cash") {
-                            var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("cash");
-                        } else if (newValue == "payTM") {
-                            var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("payTM");
-                        } else if (newValue == "other") {
-                            var paymentPreference = field.up().down('field[name=paymentPreference]');
-                            paymentPreference.setValue("other");
-                        }
-                    }
-                }
-
+                ]
             },{
+                name: 'cabServicePreference',
                 xtype: 'selectfield',
                 itemId: 'cabServicePreferenceSelectField',
                 label: 'Cab Company',
@@ -119,44 +95,8 @@ Ext.define('Racloop.view.Preferences', {
                         text: 'Other',
                         value: 'other'
                     }
-                ],
-                listeners: {
-                    change: function(field, newValue) {
-                        if (newValue == "uber") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("uber");
-                        } else if (newValue == "ola") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("ola");
-                        } else if (newValue == "other") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("other");
-                        } else if (newValue == "meru") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("meru");
-                        } else if (newValue == "mega") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("mega");
-                        } else if (newValue == "easy") {
-                            var cabServicePreference = field.up().down('field[name=cabServicePreference]');
-                            cabServicePreference.setValue("easy");
-                        }
-                    }
-                }
-
-            }, {
-                xtype: 'hiddenfield',
-                name: 'travelModePreference',
-                value: 'auto'
-            } , {
-                xtype: 'hiddenfield',
-                name: 'paymentPreference',
-                value: 'cash'
-            }, {
-                xtype: 'hiddenfield',
-                name: 'cabServicePreference',
-                value: 'other'
-            } ]
+                ]
+            }]
         }, {
             xtype: 'button',
             itemId: 'savePreferencesButton',

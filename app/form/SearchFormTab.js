@@ -44,20 +44,22 @@ Ext.define('Racloop.form.SearchFormTab', {
                     yearTo: new Date(new Date().getTime() + 7 * 24 * 60 * 60000).getFullYear() // 7 days from now
                 },
                 itemId: 'searchScreenDate'
-            }, {
-                xtype: 'radiofield',
-                name: 'gender',
-                value: 'true',
-                label: 'Male',
-                checked: true,
-                itemId: 'registerScreenMale'
-            }, {
-                xtype: 'radiofield',
-                name: 'gender',
-                value: 'false',
+            },{
+                xtype: 'checkboxfield',
+                name : 'isFemale',
                 label: 'Female',
-                itemId: 'registerScreenFemale'
-            }, {
+                value: 'true',
+                checked: true,
+                itemId: 'searchScreenGender',
+                listeners: {
+                    check: function(checkbox) {
+                        checkbox.setValue('true');
+                    },
+                    uncheck: function(checkbox) {
+                        checkbox.setValue('false');
+                    }
+                  }   
+            },{
                 name: 'time',
                 xtype: 'timepickerfield',
                 label: 'Time*',
@@ -159,15 +161,17 @@ Ext.define('Racloop.form.SearchFormTab', {
                     this.down('field[name=isTaxi]').setValue('true');
                     this.down('field[itemId=autoTaxiSelectField]').setValue('taxi');
                 }
-            }
-            if(user.isMale) {
-                this.down('field[itemId=registerScreenMale]').hide();
-                this.down('field[itemId=registerScreenFemale]').hide();
-            }
-            else {
-                this.down('field[itemId=registerScreenMale]').show();
-                this.down('field[itemId=registerScreenFemale]').show();
-            }
+            }            
+        }
+        this.displayGenderField();
+    },
+    displayGenderField: function(){
+        var user = LoginHelper.getUser();
+        if(user && user.isMale) {
+            this.down('field[itemId=searchScreenGender]').hide();
+        }
+        else {
+            this.down('field[itemId=searchScreenGender]').show();
         }
     }
 });

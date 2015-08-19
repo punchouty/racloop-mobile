@@ -28,7 +28,9 @@ Ext.define('Racloop.controller.SettingsController', {
             preferencesForm: 'preferencesForm',
             savePreferencesButton: 'preferencesForm #savePreferencesButton',
             photoLibraryButton: 'editProfileForm #photoLibrary',
-            photoCaptureButton: 'editProfileForm #photoCapture'
+            photoCaptureButton: 'editProfileForm #photoCapture',
+
+            searchFormTab: 'searchFormTab'
         },
 
         control: {
@@ -103,20 +105,22 @@ Ext.define('Racloop.controller.SettingsController', {
         var user = Ext.create("Racloop.model.EditProfile", {});
         var form = button.up('formpanel'), // Login form
             values = form.getValues(), // Form values
-            editForm = this.getEditProfileForm();
+            editForm = this.getEditProfileForm(),
+            me = this;
         editForm.updateRecord(user);
         // Success
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 var userdata = LoginHelper.getUser();
-                LoginHelper.removeUser();
-                var editedUser = data.data;
-                userdata.fullName = data.data.fullName;
-                userdata.mobile = data.data.mobile;
-                userdata.isMale = data.data.isMale;
-                LoginHelper.setUser(userdata);
-                if(data.data) {
+                LoginHelper.removeUser();                
+                if(data.data) {                   
+                    var editedUser = data.data;                    
+                    userdata.fullName = editedUser.fullName;
+                    userdata.mobile = editedUser.mobile;
+                    userdata.isMale = editedUser.isMale;
+                    LoginHelper.setUser(userdata);
+                    me.getSearchFormTab().displayGenderField();
                     settingNavigationView.pop();
                     Ext.Msg.alert("Success", data.message)
                     Ext.Viewport.unmask();
@@ -515,29 +519,29 @@ Ext.define('Racloop.controller.SettingsController', {
         }
         else {
         
-            //Ext.Viewport.mask({
-            //    xtype: 'loadmask',
-            //    indicator: true,
-            //    message: 'Saving user preferences...'
-            //});
-            //Ext.Ajax.request({
-            //    url: Racloop.util.Config.url.RACLOOP_SAVE_PREFERENCES,
-            //    withCredentials: true,
-            //    useDefaultXhrHeader: false,
-            //    method: 'post',
-            //    headers: {
-            //        'Content-Type': 'application/json'
-            //    },
-            //    params: Ext.JSON.encode({
-            //        contactOne: values.contactOne,
-            //        contactTwo: values.contactTwo,
-            //        travelModePreference: values.travelModePreference,
-            //        paymentPreference: values.paymentPreference,
-            //        cabServicePreference:values.cabServicePreference
-            //    }),
-            //    success: successCallback,
-            //    failure: failureCallback
-            //});
+            Ext.Viewport.mask({
+               xtype: 'loadmask',
+               indicator: true,
+               message: 'Saving user preferences...'
+            });
+            Ext.Ajax.request({
+               url: Racloop.util.Config.url.RACLOOP_SAVE_PREFERENCES,
+               withCredentials: true,
+               useDefaultXhrHeader: false,
+               method: 'post',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               params: Ext.JSON.encode({
+                   contactOne: values.contactOne,
+                   contactTwo: values.contactTwo,
+                   travelModePreference: values.travelModePreference,
+                   paymentPreference: values.paymentPreference,
+                   cabServicePreference:values.cabServicePreference
+               }),
+               success: successCallback,
+               failure: failureCallback
+            });
         }
         
     },

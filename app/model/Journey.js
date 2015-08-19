@@ -96,6 +96,9 @@ Ext.define('Racloop.model.Journey', {
             name: 'isRecurring',
             type: 'boolean',
             defaultValue: false
+        },{
+            name: 'isFemale',
+            type: 'boolean'
         }
         ],
         validations: [{
