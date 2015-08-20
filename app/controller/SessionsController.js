@@ -23,7 +23,8 @@ Ext.define('Racloop.controller.SessionsController', {
             fbLoginButton: 'loginForm #facebookLoginButton',
             saveMobileButton: 'mobileCaptureForm #saveMobileButton',
             searchHeading: 'searchNavigationView #searchFormInTabs #searchHeading',
-            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks'
+            homeLinks: 'searchNavigationView #searchFormInTabs #homeLinks',
+            searchForm: 'searchFormTab'
 
         },
 
@@ -132,6 +133,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                         Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                     }
                                     else {
+                                        me.getSearchForm().populateMainFormData();
                                         mainTabs.setActiveItem('searchNavigationView');
                                         Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                                    mainTabs.setActiveItem('mapPanel');
@@ -257,6 +259,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
                                 else {
+
                                     mainTabs.setActiveItem('searchNavigationView');
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                                mainTabs.setActiveItem('mapPanel');
@@ -275,6 +278,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
                                 else {
+                                    me.getSearchForm().populateMainFormData();
                                     mainTabs.setActiveItem('searchNavigationView');
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                                mainTabs.setActiveItem('mapPanel');

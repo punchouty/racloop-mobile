@@ -162,7 +162,8 @@ Ext.define('Racloop.form.SearchFormTab', {
                 }
             }            
         }
-        this.displayGenderField();
+        this.displayGenderField();  
+        this.populateMainFormData();     
     },
     displayGenderField: function(){
         var user = LoginHelper.getUser();
@@ -171,6 +172,17 @@ Ext.define('Racloop.form.SearchFormTab', {
         }
         else {
             this.down('field[itemId=searchScreenGender]').show();
+        }
+    },
+    populateMainFormData: function() {
+        var mainTabJourney = LoginHelper.getSearchedJourney();
+        if(mainTabJourney) {
+            console.log("Populating Home Search Form Data");
+            this.setValues(mainTabJourney);
+            // above line not updating date nad time field 
+            this.down('field[itemId=searchScreenDate]').setValue(new Date(mainTabJourney.date));
+            this.down('field[itemId=searchScreenTime]').setValue(new Date(mainTabJourney.time));
+            LoginHelper.removeSearchedJourney();
         }
     }
 });

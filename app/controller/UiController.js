@@ -92,7 +92,9 @@ Ext.define('Racloop.controller.UiController', {
             var searchForm = this.getSearchForm();
             this.getSearchNavigationView().reset();
             Racloop.app.getController('SettingsController').setPreferenceToSearchScreen();
+            if(!LoginHelper.getSearchedJourney())
             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+            me.getSearchForm().populateMainFormData();
         }
         else if(button.getTitle() === Config.tabSettings) {
             var settingListView = this.getSettingListView();

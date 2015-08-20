@@ -206,6 +206,7 @@ Ext.define('Ext.ux.picker.Time', {
     setValue: function( value, animated ) {
         if ( Ext.isDate( value ) ) {
             var useMeridiem=Ext.Array.contains( this.getSlotOrder(), 'meridiem' );
+            // http://existdissolve.com/2013/01/sencha-touch-2-ext-ux-field-timepicker/
             value = {
                 // hour  : useMeridiem && value.getHours()==0 ? 12 : value.getHours(),
                 hour : useMeridiem && (value.getHours()==0 ? 12 : (value.getHours()>=13 ? value.getHours() - 12 : value.getHours())) ,

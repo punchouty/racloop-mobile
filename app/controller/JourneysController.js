@@ -422,13 +422,16 @@ Ext.define('Racloop.controller.JourneysController', {
             }
             else {
                 this.executeSearch(values, isFirstScreen);
+                if(isFirstScreen) {
+                    LoginHelper.setSearchedJourney(values);
+                }
             }
         }
     },
 
     executeSearch : function(journey, isFirstScreen) {
         var me = this;
-
+        
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {

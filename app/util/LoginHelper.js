@@ -165,7 +165,28 @@ Ext.define('Racloop.util.LoginHelper', {
         },
         removeDialogOption : function() {
             if (Common.supportsHtml5SessionStorage()) window.localStorage.removeItem('d');
-        }
+        },
+        setSearchedJourney : function(journey) {
+            if (Common.supportsHtml5SessionStorage()) {
+                var journeyString = JSON.stringify(journey);
+                window.localStorage.setItem("s",journeyString);
+            }
+        },
+        getSearchedJourney: function() {
+            if (Common.supportsHtml5SessionStorage()) {
+                if(window.localStorage.getItem("s")) {
+                    var journeyString = window.localStorage.getItem("s");
+                    var journey = JSON.parse(journeyString);
+                    return journey;
+                }
+                else {
+                    return null;
+                }
+            }
+        },
+        removeSearchedJourney: function() {
+            if (Common.supportsHtml5SessionStorage()) window.localStorage.removeItem('s');
+        },
     },
     constructor: function() {
         return this.config;
