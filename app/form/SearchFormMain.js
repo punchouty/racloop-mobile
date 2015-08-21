@@ -168,11 +168,11 @@ Ext.define('Racloop.form.SearchFormMain', {
             //}, {
                 xtype: 'container',
                 html:   '<div class="links">' +
-                            '<a href="#" id="searchFormSignInLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
+                            '<a href="#" id="searchFormSignInLink" class="racloop-btn racloop-btn-default" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
                             'Sign In' +
                             '</a> &nbsp;&nbsp;' +
-                            ' <a href="#" id="searchFormRegisterLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
-                            'New User?' +
+                            ' <a href="#" id="searchFormRegisterLink" class="racloop-btn racloop-btn-default" onclick="Racloop.app.getController(\'UiController\').showRegister(); return false;">' +
+                            'New User' +
                             '</a>' +
                         '</div>',
                 itemId: 'homeLinks',

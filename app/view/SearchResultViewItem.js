@@ -49,11 +49,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             }
             else if(numberOfCopassengers == 1) {
                 name = record.get("name") + ' & 1 more';
-                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
+                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary racloop-btn-xs travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
             }
             else if(numberOfCopassengers == 2) {
                 name = record.get("name") + ' & 2 more'
-                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
+                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary racloop-btn-xs travelBuddiesButton'><span class='travelBuddiesCls'></span>Passengers</button> ";
             }
             else {
                 console.error("Invalid number of coppassengers : " + numberOfCopassengers);
@@ -80,29 +80,29 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Invite</button> ' +
-                            ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-xs confirmButton"><span class="requestRideCls"></span> Invite</button> ' +
+                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-xs detailsButton"><span class="rideDetailsCls"></span> Route</button>';
                         }
                     }
 
                 }
                 else if(myStatus === "Requested") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs cancelButton"><span class="deleteCls"></span> Cancel</button>';
                 }
                 else if(myStatus === "Request Recieved") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs rejectButton"><span class="deleteCls"></span> Reject</button>  '+
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-xs acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger disabled"><span class="requestRideCls"></span> '+ myStatus +'</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-xs disabled"><span class="requestRideCls"></span> '+ myStatus +'</</button>';
                 }
                
                 else if(myStatus === "Accepted") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs cancelButton"><span class="deleteCls"></span> Cancel</button>  '+
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-xs callButton"><span class="mobileCls"></span> Call </button>';
                 }
                 else if(myStatus === "Rejected") {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-xs confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
                 } else {
                     buttonMarkup = '';
                 }
@@ -119,30 +119,30 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmButton"><span class="requestRideCls"></span> Request</button> ' +
-                            ' <button class="racloop-btn racloop-btn-primary detailsButton"><span class="rideDetailsCls"></span> Route</button>';
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-xs confirmButton"><span class="requestRideCls"></span> Request</button> ' +
+                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-xs detailsButton"><span class="rideDetailsCls"></span> Route</button>';
                         }
                     }
                 }
                 else if(myStatus === "Requested") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs cancelButton"><span class="deleteCls"></span> Cancel</button>';
                 }
                 else if(myStatus === "Request Recieved") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success acceptButton"><span class="acceptCls"></span> Accept </button>  ';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs rejectButton"><span class="deleteCls"></span> Reject</button>  '+
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-xs acceptButton"><span class="acceptCls"></span> Accept </button>  ';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger confirmSearchRequestButton disabled"><span class="requestRideCls"></span> '+ myStatus +'</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-xs confirmSearchRequestButton disabled"><span class="requestRideCls"></span> '+ myStatus +'</</button>';
                 }
 
                 else if(myStatus === "Accepted") {
-                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
+                    buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs cancelButton"><span class="deleteCls"></span> Cancel</button>  '+
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-xs callButton"><span class="mobileCls"></span> Call </button>';
                 }
                 else if(myStatus === "Rejected") {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-xs confirmSearchRequestButton"><span class="requestRideCls"></span> Rejected</button>';
                 } else {
-                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary confirmSearchRequestButton disabled"><span class="requestRideCls"></span> '+ myStatus +'</button>';
+                    buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-xs confirmSearchRequestButton disabled"><span class="requestRideCls"></span> '+ myStatus +'</button>';
                 }
             }
             cardControl = labelHtml + '<div><span class="card-control">' + buttonMarkup + '</span></div>';

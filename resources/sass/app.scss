@@ -678,9 +678,16 @@ strong,
 }
 
 .links {
-  text-align: center; margin-top:-10px;
+  text-align: center;
+  margin-top:-10px;
+  font-size: 0.8em;
 }
 
+.simple-text {
+  text-align: center;
+  //margin-top:-10px;
+  color : #fff;
+}
 /* THEME FROM WEB ENDS */
 
 .plan {
@@ -919,437 +926,529 @@ border-bottom: 1px solid #2f3234;
   float: right;
 }
 // bootstrap buttons
-.racloop-btn {
-margin: 6px 3px;
-float: left;
-height: 2em;
-line-height: 2em;
-  display: inline-block;
-  padding: 3px 6px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-.racloop-btn:focus,
-.racloop-btn:active:focus,
-.racloop-btn.active:focus,
-.racloop-btn.focus,
-.racloop-btn:active.focus,
-.racloop-btn.active.focus {
-  outline:0px !important;
-}
-.racloop-btn:hover,
-.racloop-btn:focus,
-.racloop-btn.focus {
-  color: #333;
-  text-decoration: none;
-}
-.racloop-btn:active,
-.racloop-btn.active {
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-}
-.racloop-btn.disabled,
-.racloop-btn[disabled],
-fieldset[disabled] .racloop-btn {
-  pointer-events: none;
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  opacity: .65;
-}
-.racloop-btn-default {
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
-}
-.racloop-btn-default:hover,
-.racloop-btn-default:focus,
-.racloop-btn-default.focus,
-.racloop-btn-default:active,
-.racloop-btn-default.active,
-.open > .dropdown-toggle.racloop-btn-default {
-  color: #333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
-}
-.racloop-btn-default:active,
-.racloop-btn-default.active,
-.open > .dropdown-toggle.racloop-btn-default {
-  background-image: none;
-}
-.racloop-btn-default.disabled,
-.racloop-btn-default[disabled],
-fieldset[disabled] .racloop-btn-default,
-.racloop-btn-default.disabled:hover,
-.racloop-btn-default[disabled]:hover,
-fieldset[disabled] .racloop-btn-default:hover,
-.racloop-btn-default.disabled:focus,
-.racloop-btn-default[disabled]:focus,
-fieldset[disabled] .racloop-btn-default:focus,
-.racloop-btn-default.disabled.focus,
-.racloop-btn-default[disabled].focus,
-fieldset[disabled] .racloop-btn-default.focus,
-.racloop-btn-default.disabled:active,
-.racloop-btn-default[disabled]:active,
-fieldset[disabled] .racloop-btn-default:active,
-.racloop-btn-default.disabled.active,
-.racloop-btn-default[disabled].active,
-fieldset[disabled] .racloop-btn-default.active {
-  background-color: #fff;
-  border-color: #ccc;
-}
-.racloop-btn-default .badge {
-  color: #fff;
-  background-color: #333;
-}
-.racloop-btn-primary {
- background-color :$bg-color-grey-button;color:$toolc-bg-color;box-shadow: $box-shadow;
-}
-.racloop-btn-primary:hover,
-.racloop-btn-primary:focus,
-.racloop-btn-primary.focus,
-.racloop-btn-primary:active,
-.racloop-btn-primary.active,
-.open > .dropdown-toggle.racloop-btn-primary {
-   background-color : $theme-blue-color;color:$white !important;box-shadow: $box-shadow;
-}
-.racloop-btn-primary:active,
-.racloop-btn-primary.active,
-.open > .dropdown-toggle.racloop-btn-primary {
-  background-image: none;
-}
-.racloop-btn-primary.disabled,
-.racloop-btn-primary[disabled],
-fieldset[disabled] .racloop-btn-primary,
-.racloop-btn-primary.disabled:hover,
-.racloop-btn-primary[disabled]:hover,
-fieldset[disabled] .racloop-btn-primary:hover,
-.racloop-btn-primary.disabled:focus,
-.racloop-btn-primary[disabled]:focus,
-fieldset[disabled] .racloop-btn-primary:focus,
-.racloop-btn-primary.disabled.focus,
-.racloop-btn-primary[disabled].focus,
-fieldset[disabled] .racloop-btn-primary.focus,
-.racloop-btn-primary.disabled:active,
-.racloop-btn-primary[disabled]:active,
-fieldset[disabled] .racloop-btn-primary:active,
-.racloop-btn-primary.disabled.active,
-.racloop-btn-primary[disabled].active,
-fieldset[disabled] .racloop-btn-primary.active {
-  background-color: #337ab7;
-  border-color: #2e6da4;
-}
-.racloop-btn-primary .badge {
-  color: #337ab7;
-  background-color: #fff;
-}
-.racloop-btn-success {
-   color: $button-color-df;
-  background-color: $bg-color-grey-button;
-}
-.racloop-btn-success:hover,
-.racloop-btn-success:focus,
-.racloop-btn-success.focus,
-.racloop-btn-success:active,
-.racloop-btn-success.active,
-.open > .dropdown-toggle.racloop-btn-success {
-  color: #fff;
-  background-color: #58C0FF;
-
-}
-.racloop-btn-success:active,
-.racloop-btn-success.active,
-.open > .dropdown-toggle.racloop-btn-success {
-  background-image: none;
-}
-.racloop-btn-success.disabled,
-.racloop-btn-success[disabled],
-fieldset[disabled] .racloop-btn-success,
-.racloop-btn-success.disabled:hover,
-.racloop-btn-success[disabled]:hover,
-fieldset[disabled] .racloop-btn-success:hover,
-.racloop-btn-success.disabled:focus,
-.racloop-btn-success[disabled]:focus,
-fieldset[disabled] .racloop-btn-success:focus,
-.racloop-btn-success.disabled.focus,
-.racloop-btn-success[disabled].focus,
-fieldset[disabled] .racloop-btn-success.focus,
-.racloop-btn-success.disabled:active,
-.racloop-btn-success[disabled]:active,
-fieldset[disabled] .racloop-btn-success:active,
-.racloop-btn-success.disabled.active,
-.racloop-btn-success[disabled].active,
-fieldset[disabled] .racloop-btn-success.active {
-  background-color: #5cb85c;
-  border-color: #4cae4c;
-}
-.racloop-btn-success .badge {
-  color: #5cb85c;
-  background-color: #fff;
-}
-.racloop-btn-info {
-  color: #fff;
-  background-color: #5bc0de;
-  border-color: #46b8da;
-}
-.racloop-btn-info:hover,
-.racloop-btn-info:focus,
-.racloop-btn-info.focus,
-.racloop-btn-info:active,
-.racloop-btn-info.active,
-.open > .dropdown-toggle.racloop-btn-info {
-  color: #fff;
-  background-color: #31b0d5;
-  border-color: #269abc;
-}
-.racloop-btn-info:active,
-.racloop-btn-info.active,
-.open > .dropdown-toggle.racloop-btn-info {
-  background-image: none;
-}
-.racloop-btn-info.disabled,
-.racloop-btn-info[disabled],
-fieldset[disabled] .racloop-btn-info,
-.racloop-btn-info.disabled:hover,
-.racloop-btn-info[disabled]:hover,
-fieldset[disabled] .racloop-btn-info:hover,
-.racloop-btn-info.disabled:focus,
-.racloop-btn-info[disabled]:focus,
-fieldset[disabled] .racloop-btn-info:focus,
-.racloop-btn-info.disabled.focus,
-.racloop-btn-info[disabled].focus,
-fieldset[disabled] .racloop-btn-info.focus,
-.racloop-btn-info.disabled:active,
-.racloop-btn-info[disabled]:active,
-fieldset[disabled] .racloop-btn-info:active,
-.racloop-btn-info.disabled.active,
-.racloop-btn-info[disabled].active,
-fieldset[disabled] .racloop-btn-info.active {
-  background-color: #5bc0de;
-  border-color: #46b8da;
-}
-.racloop-btn-info .badge {
-  color: #5bc0de;
-  background-color: #fff;
-}
-.racloop-btn-warning {
-  color: $button-color-df;
-  background-color: $bg-color-grey-button;
-}
-.racloop-btn-warning:hover,
-.racloop-btn-warning:focus,
-.racloop-btn-warning.focus,
-.racloop-btn-warning:active,
-.racloop-btn-warning.active,
-.open > .dropdown-toggle.racloop-btn-warning {
-  color: #fff;
-  background-color: #ec971f;
-
-}
-.racloop-btn-warning:active,
-.racloop-btn-warning.active,
-.open > .dropdown-toggle.racloop-btn-warning {
-  background-image: none;
-}
-.racloop-btn-warning.disabled,
-.racloop-btn-warning[disabled],
-fieldset[disabled] .racloop-btn-warning,
-.racloop-btn-warning.disabled:hover,
-.racloop-btn-warning[disabled]:hover,
-fieldset[disabled] .racloop-btn-warning:hover,
-.racloop-btn-warning.disabled:focus,
-.racloop-btn-warning[disabled]:focus,
-fieldset[disabled] .racloop-btn-warning:focus,
-.racloop-btn-warning.disabled.focus,
-.racloop-btn-warning[disabled].focus,
-fieldset[disabled] .racloop-btn-warning.focus,
-.racloop-btn-warning.disabled:active,
-.racloop-btn-warning[disabled]:active,
-fieldset[disabled] .racloop-btn-warning:active,
-.racloop-btn-warning.disabled.active,
-.racloop-btn-warning[disabled].active,
-fieldset[disabled] .racloop-btn-warning.active {
-  background-color: #f0ad4e;
-  border-color: #eea236;
-}
-.racloop-btn-warning .badge {
-  color: #f0ad4e;
-  background-color: #fff;
-}
-.racloop-btn-danger {
-  color: $button-color-df;
-  background-color: $bg-color-grey-button;
-}
-.racloop-btn-danger:hover,
-.racloop-btn-danger:focus,
-.racloop-btn-danger.focus,
-.racloop-btn-danger:active,
-.racloop-btn-danger.active,
-.open > .dropdown-toggle.racloop-btn-danger {
-  color: #fff;
-  background-color: #dd4444;
-}
-.racloop-btn-danger:active,
-.racloop-btn-danger.active,
-.open > .dropdown-toggle.racloop-btn-danger {
-  background-image: none;
-}
-.racloop-btn-danger.disabled,
-.racloop-btn-danger[disabled],
-fieldset[disabled] .racloop-btn-danger,
-.racloop-btn-danger.disabled:hover,
-.racloop-btn-danger[disabled]:hover,
-fieldset[disabled] .racloop-btn-danger:hover,
-.racloop-btn-danger.disabled:focus,
-.racloop-btn-danger[disabled]:focus,
-fieldset[disabled] .racloop-btn-danger:focus,
-.racloop-btn-danger.disabled.focus,
-.racloop-btn-danger[disabled].focus,
-fieldset[disabled] .racloop-btn-danger.focus,
-.racloop-btn-danger.disabled:active,
-.racloop-btn-danger[disabled]:active,
-fieldset[disabled] .racloop-btn-danger:active,
-.racloop-btn-danger.disabled.active,
-.racloop-btn-danger[disabled].active,
-fieldset[disabled] .racloop-btn-danger.active {
-  background-color: #d9534f;
-  border-color: #d43f3a;
-}
-.racloop-btn-danger .badge {
-  color: #d9534f;
-  background-color: #fff;
-}
-.racloop-btn-book {
-  color: #fff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
-  background-color: #fdc95a;
-  border-color: #f7b731;
-}
-.racloop-btn-book:hover,
-.racloop-btn-book:focus,
-.racloop-btn-book.focus,
-.racloop-btn-book:active,
-.racloop-btn-book.active,
-.open > .dropdown-toggle.racloop-btn-book {
-  color: #fff;
-  background-color: #fdc95a;
-  border-color: #f7b731;
-}
-.racloop-btn-book:active,
-.racloop-btn-book.active,
-.open > .dropdown-toggle.racloop-btn-book {
-  background-image: none;
-}
-.racloop-btn-book.disabled,
-.racloop-btn-book[disabled],
-fieldset[disabled] .racloop-btn-book,
-.racloop-btn-book.disabled:hover,
-.racloop-btn-book[disabled]:hover,
-fieldset[disabled] .racloop-btn-book:hover,
-.racloop-btn-book.disabled:focus,
-.racloop-btn-book[disabled]:focus,
-fieldset[disabled] .racloop-btn-book:focus,
-.racloop-btn-book.disabled.focus,
-.racloop-btn-book[disabled].focus,
-fieldset[disabled] .racloop-btn-book.focus,
-.racloop-btn-book.disabled:active,
-.racloop-btn-book[disabled]:active,
-fieldset[disabled] .racloop-btn-book:active,
-.racloop-btn-book.disabled.active,
-.racloop-btn-book[disabled].active,
-fieldset[disabled] .racloop-btn-book.active {
-  background-color: #fdc95a;
-  border-color: #f7b731;
-}
-.racloop-btn-book .badge {
-  color: #f7b731;
-  background-color: #fff;
-}
-.racloop-btn-link {
-  font-weight: normal;
-  color: #337ab7;
-  border-radius: 0;
-}
-.racloop-btn-link,
-.racloop-btn-link:active,
-.racloop-btn-link.active,
-.racloop-btn-link[disabled],
-fieldset[disabled] .racloop-btn-link {
-  background-color: transparent;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.racloop-btn-link,
-.racloop-btn-link:hover,
-.racloop-btn-link:focus,
-.racloop-btn-link:active {
-  border-color: transparent;
-}
-.racloop-btn-link:hover,
-.racloop-btn-link:focus {
-  color: #23527c;
-  text-decoration: underline;
-  background-color: transparent;
-}
-.racloop-btn-link[disabled]:hover,
-fieldset[disabled] .racloop-btn-link:hover,
-.racloop-btn-link[disabled]:focus,
-fieldset[disabled] .racloop-btn-link:focus {
-  color: #777;
-  text-decoration: none;
-}
-.racloop-btn-lg,
-.racloop-btn-group-lg > .racloop-btn {
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3333333;
-  border-radius: 6px;
-}
-.racloop-btn-sm,
-.racloop-btn-group-sm > .racloop-btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.racloop-btn-xs,
-.racloop-btn-group-xs > .racloop-btn {
-  padding: 1px 5px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.racloop-btn-block {
-  display: block;
-  width: 100%;
-}
-.racloop-btn-block + .racloop-btn-block {
-  margin-top: 5px;
-}
-input[type="submit"].racloop-btn-block,
-input[type="reset"].racloop-btn-block,
-input[type="button"].racloop-btn-block {
-  width: 100%;
-}
+ a {
+   color: #337ab7;
+   text-decoration: none;
+ }
+ .racloop-btn {
+   display: inline-block;
+   padding: 6px 12px;
+   margin-bottom: 0;
+   font-size: 14px;
+   font-weight: normal;
+   line-height: 1.42857143;
+   text-align: center;
+   white-space: nowrap;
+   vertical-align: middle;
+   -ms-touch-action: manipulation;
+   touch-action: manipulation;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   background-image: none;
+   border: 1px solid transparent;
+   border-radius: 4px;
+ }
+ .racloop-btn:focus,
+ .racloop-btn:active:focus,
+ .racloop-btn.active:focus,
+ .racloop-btn.focus,
+ .racloop-btn:active.focus,
+ .racloop-btn.active.focus {
+   outline: thin dotted;
+   outline: 5px auto -webkit-focus-ring-color;
+   outline-offset: -2px;
+ }
+ .racloop-btn:hover,
+ .racloop-btn:focus,
+ .racloop-btn.focus {
+   color: #333;
+   text-decoration: none;
+ }
+ .racloop-btn:active,
+ .racloop-btn.active {
+   background-image: none;
+   outline: 0;
+   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+   box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+ }
+ .racloop-btn.disabled,
+ .racloop-btn[disabled],
+ fieldset[disabled] .racloop-btn {
+   cursor: not-allowed;
+   filter: alpha(opacity=65);
+   -webkit-box-shadow: none;
+   box-shadow: none;
+   opacity: .65;
+ }
+ a.racloop-btn.disabled,
+ fieldset[disabled] a.racloop-btn {
+   pointer-events: none;
+ }
+ .racloop-btn-default {
+   color: #fff;
+   background-color: #7a93ac;
+   border-color: #171A21;
+ }
+ .racloop-btn-default:focus,
+ .racloop-btn-default.focus {
+   color: #fff;
+   background-color: #7a93ac;
+   border-color: #171A21;
+ }
+ .racloop-btn-default:hover {
+   color: #fff;
+   background-color: #7a93ac;
+   border-color: #171A21;
+ }
+ .racloop-btn-default:active,
+ .racloop-btn-default.active,
+ .open > .dropdown-toggle.racloop-btn-default {
+   color: #fff;
+   background-color: #7a93ac;
+   border-color: #171A21;
+ }
+ .racloop-btn-default:active:hover,
+ .racloop-btn-default.active:hover,
+ .open > .dropdown-toggle.racloop-btn-default:hover,
+ .racloop-btn-default:active:focus,
+ .racloop-btn-default.active:focus,
+ .open > .dropdown-toggle.racloop-btn-default:focus,
+ .racloop-btn-default:active.focus,
+ .racloop-btn-default.active.focus,
+ .open > .dropdown-toggle.racloop-btn-default.focus {
+   color: #fff;
+   background-color: #7a93ac;
+   border-color: #171A21;
+ }
+ .racloop-btn-default:active,
+ .racloop-btn-default.active,
+ .open > .dropdown-toggle.racloop-btn-default {
+   background-image: none;
+ }
+ .racloop-btn-default.disabled,
+ .racloop-btn-default[disabled],
+ fieldset[disabled] .racloop-btn-default,
+ .racloop-btn-default.disabled:hover,
+ .racloop-btn-default[disabled]:hover,
+ fieldset[disabled] .racloop-btn-default:hover,
+ .racloop-btn-default.disabled:focus,
+ .racloop-btn-default[disabled]:focus,
+ fieldset[disabled] .racloop-btn-default:focus,
+ .racloop-btn-default.disabled.focus,
+ .racloop-btn-default[disabled].focus,
+ fieldset[disabled] .racloop-btn-default.focus,
+ .racloop-btn-default.disabled:active,
+ .racloop-btn-default[disabled]:active,
+ fieldset[disabled] .racloop-btn-default:active,
+ .racloop-btn-default.disabled.active,
+ .racloop-btn-default[disabled].active,
+ fieldset[disabled] .racloop-btn-default.active {
+   background-color: #fff;
+   border-color: #ccc;
+ }
+ .racloop-btn-default .badge {
+   color: #fff;
+   background-color: #333;
+ }
+ .racloop-btn-primary {
+   color: #fff;
+   background-color: #337ab7;
+   border-color: #2e6da4;
+ }
+ .racloop-btn-primary:focus,
+ .racloop-btn-primary.focus {
+   color: #fff;
+   background-color: #286090;
+   border-color: #122b40;
+ }
+ .racloop-btn-primary:hover {
+   color: #fff;
+   background-color: #286090;
+   border-color: #204d74;
+ }
+ .racloop-btn-primary:active,
+ .racloop-btn-primary.active,
+ .open > .dropdown-toggle.racloop-btn-primary {
+   color: #fff;
+   background-color: #286090;
+   border-color: #204d74;
+ }
+ .racloop-btn-primary:active:hover,
+ .racloop-btn-primary.active:hover,
+ .open > .dropdown-toggle.racloop-btn-primary:hover,
+ .racloop-btn-primary:active:focus,
+ .racloop-btn-primary.active:focus,
+ .open > .dropdown-toggle.racloop-btn-primary:focus,
+ .racloop-btn-primary:active.focus,
+ .racloop-btn-primary.active.focus,
+ .open > .dropdown-toggle.racloop-btn-primary.focus {
+   color: #fff;
+   background-color: #204d74;
+   border-color: #122b40;
+ }
+ .racloop-btn-primary:active,
+ .racloop-btn-primary.active,
+ .open > .dropdown-toggle.racloop-btn-primary {
+   background-image: none;
+ }
+ .racloop-btn-primary.disabled,
+ .racloop-btn-primary[disabled],
+ fieldset[disabled] .racloop-btn-primary,
+ .racloop-btn-primary.disabled:hover,
+ .racloop-btn-primary[disabled]:hover,
+ fieldset[disabled] .racloop-btn-primary:hover,
+ .racloop-btn-primary.disabled:focus,
+ .racloop-btn-primary[disabled]:focus,
+ fieldset[disabled] .racloop-btn-primary:focus,
+ .racloop-btn-primary.disabled.focus,
+ .racloop-btn-primary[disabled].focus,
+ fieldset[disabled] .racloop-btn-primary.focus,
+ .racloop-btn-primary.disabled:active,
+ .racloop-btn-primary[disabled]:active,
+ fieldset[disabled] .racloop-btn-primary:active,
+ .racloop-btn-primary.disabled.active,
+ .racloop-btn-primary[disabled].active,
+ fieldset[disabled] .racloop-btn-primary.active {
+   background-color: #337ab7;
+   border-color: #2e6da4;
+ }
+ .racloop-btn-primary .badge {
+   color: #337ab7;
+   background-color: #fff;
+ }
+ .racloop-btn-success {
+   color: #fff;
+   background-color: #5cb85c;
+   border-color: #4cae4c;
+ }
+ .racloop-btn-success:focus,
+ .racloop-btn-success.focus {
+   color: #fff;
+   background-color: #449d44;
+   border-color: #255625;
+ }
+ .racloop-btn-success:hover {
+   color: #fff;
+   background-color: #449d44;
+   border-color: #398439;
+ }
+ .racloop-btn-success:active,
+ .racloop-btn-success.active,
+ .open > .dropdown-toggle.racloop-btn-success {
+   color: #fff;
+   background-color: #449d44;
+   border-color: #398439;
+ }
+ .racloop-btn-success:active:hover,
+ .racloop-btn-success.active:hover,
+ .open > .dropdown-toggle.racloop-btn-success:hover,
+ .racloop-btn-success:active:focus,
+ .racloop-btn-success.active:focus,
+ .open > .dropdown-toggle.racloop-btn-success:focus,
+ .racloop-btn-success:active.focus,
+ .racloop-btn-success.active.focus,
+ .open > .dropdown-toggle.racloop-btn-success.focus {
+   color: #fff;
+   background-color: #398439;
+   border-color: #255625;
+ }
+ .racloop-btn-success:active,
+ .racloop-btn-success.active,
+ .open > .dropdown-toggle.racloop-btn-success {
+   background-image: none;
+ }
+ .racloop-btn-success.disabled,
+ .racloop-btn-success[disabled],
+ fieldset[disabled] .racloop-btn-success,
+ .racloop-btn-success.disabled:hover,
+ .racloop-btn-success[disabled]:hover,
+ fieldset[disabled] .racloop-btn-success:hover,
+ .racloop-btn-success.disabled:focus,
+ .racloop-btn-success[disabled]:focus,
+ fieldset[disabled] .racloop-btn-success:focus,
+ .racloop-btn-success.disabled.focus,
+ .racloop-btn-success[disabled].focus,
+ fieldset[disabled] .racloop-btn-success.focus,
+ .racloop-btn-success.disabled:active,
+ .racloop-btn-success[disabled]:active,
+ fieldset[disabled] .racloop-btn-success:active,
+ .racloop-btn-success.disabled.active,
+ .racloop-btn-success[disabled].active,
+ fieldset[disabled] .racloop-btn-success.active {
+   background-color: #5cb85c;
+   border-color: #4cae4c;
+ }
+ .racloop-btn-success .badge {
+   color: #5cb85c;
+   background-color: #fff;
+ }
+ .racloop-btn-info {
+   color: #fff;
+   background-color: #5bc0de;
+   border-color: #46b8da;
+ }
+ .racloop-btn-info:focus,
+ .racloop-btn-info.focus {
+   color: #fff;
+   background-color: #31b0d5;
+   border-color: #1b6d85;
+ }
+ .racloop-btn-info:hover {
+   color: #fff;
+   background-color: #31b0d5;
+   border-color: #269abc;
+ }
+ .racloop-btn-info:active,
+ .racloop-btn-info.active,
+ .open > .dropdown-toggle.racloop-btn-info {
+   color: #fff;
+   background-color: #31b0d5;
+   border-color: #269abc;
+ }
+ .racloop-btn-info:active:hover,
+ .racloop-btn-info.active:hover,
+ .open > .dropdown-toggle.racloop-btn-info:hover,
+ .racloop-btn-info:active:focus,
+ .racloop-btn-info.active:focus,
+ .open > .dropdown-toggle.racloop-btn-info:focus,
+ .racloop-btn-info:active.focus,
+ .racloop-btn-info.active.focus,
+ .open > .dropdown-toggle.racloop-btn-info.focus {
+   color: #fff;
+   background-color: #269abc;
+   border-color: #1b6d85;
+ }
+ .racloop-btn-info:active,
+ .racloop-btn-info.active,
+ .open > .dropdown-toggle.racloop-btn-info {
+   background-image: none;
+ }
+ .racloop-btn-info.disabled,
+ .racloop-btn-info[disabled],
+ fieldset[disabled] .racloop-btn-info,
+ .racloop-btn-info.disabled:hover,
+ .racloop-btn-info[disabled]:hover,
+ fieldset[disabled] .racloop-btn-info:hover,
+ .racloop-btn-info.disabled:focus,
+ .racloop-btn-info[disabled]:focus,
+ fieldset[disabled] .racloop-btn-info:focus,
+ .racloop-btn-info.disabled.focus,
+ .racloop-btn-info[disabled].focus,
+ fieldset[disabled] .racloop-btn-info.focus,
+ .racloop-btn-info.disabled:active,
+ .racloop-btn-info[disabled]:active,
+ fieldset[disabled] .racloop-btn-info:active,
+ .racloop-btn-info.disabled.active,
+ .racloop-btn-info[disabled].active,
+ fieldset[disabled] .racloop-btn-info.active {
+   background-color: #5bc0de;
+   border-color: #46b8da;
+ }
+ .racloop-btn-info .badge {
+   color: #5bc0de;
+   background-color: #fff;
+ }
+ .racloop-btn-warning {
+   color: #fff;
+   background-color: #f0ad4e;
+   border-color: #eea236;
+ }
+ .racloop-btn-warning:focus,
+ .racloop-btn-warning.focus {
+   color: #fff;
+   background-color: #ec971f;
+   border-color: #985f0d;
+ }
+ .racloop-btn-warning:hover {
+   color: #fff;
+   background-color: #ec971f;
+   border-color: #d58512;
+ }
+ .racloop-btn-warning:active,
+ .racloop-btn-warning.active,
+ .open > .dropdown-toggle.racloop-btn-warning {
+   color: #fff;
+   background-color: #ec971f;
+   border-color: #d58512;
+ }
+ .racloop-btn-warning:active:hover,
+ .racloop-btn-warning.active:hover,
+ .open > .dropdown-toggle.racloop-btn-warning:hover,
+ .racloop-btn-warning:active:focus,
+ .racloop-btn-warning.active:focus,
+ .open > .dropdown-toggle.racloop-btn-warning:focus,
+ .racloop-btn-warning:active.focus,
+ .racloop-btn-warning.active.focus,
+ .open > .dropdown-toggle.racloop-btn-warning.focus {
+   color: #fff;
+   background-color: #d58512;
+   border-color: #985f0d;
+ }
+ .racloop-btn-warning:active,
+ .racloop-btn-warning.active,
+ .open > .dropdown-toggle.racloop-btn-warning {
+   background-image: none;
+ }
+ .racloop-btn-warning.disabled,
+ .racloop-btn-warning[disabled],
+ fieldset[disabled] .racloop-btn-warning,
+ .racloop-btn-warning.disabled:hover,
+ .racloop-btn-warning[disabled]:hover,
+ fieldset[disabled] .racloop-btn-warning:hover,
+ .racloop-btn-warning.disabled:focus,
+ .racloop-btn-warning[disabled]:focus,
+ fieldset[disabled] .racloop-btn-warning:focus,
+ .racloop-btn-warning.disabled.focus,
+ .racloop-btn-warning[disabled].focus,
+ fieldset[disabled] .racloop-btn-warning.focus,
+ .racloop-btn-warning.disabled:active,
+ .racloop-btn-warning[disabled]:active,
+ fieldset[disabled] .racloop-btn-warning:active,
+ .racloop-btn-warning.disabled.active,
+ .racloop-btn-warning[disabled].active,
+ fieldset[disabled] .racloop-btn-warning.active {
+   background-color: #f0ad4e;
+   border-color: #eea236;
+ }
+ .racloop-btn-warning .badge {
+   color: #f0ad4e;
+   background-color: #fff;
+ }
+ .racloop-btn-danger {
+   color: #fff;
+   background-color: #d9534f;
+   border-color: #d43f3a;
+ }
+ .racloop-btn-danger:focus,
+ .racloop-btn-danger.focus {
+   color: #fff;
+   background-color: #c9302c;
+   border-color: #761c19;
+ }
+ .racloop-btn-danger:hover {
+   color: #fff;
+   background-color: #c9302c;
+   border-color: #ac2925;
+ }
+ .racloop-btn-danger:active,
+ .racloop-btn-danger.active,
+ .open > .dropdown-toggle.racloop-btn-danger {
+   color: #fff;
+   background-color: #c9302c;
+   border-color: #ac2925;
+ }
+ .racloop-btn-danger:active:hover,
+ .racloop-btn-danger.active:hover,
+ .open > .dropdown-toggle.racloop-btn-danger:hover,
+ .racloop-btn-danger:active:focus,
+ .racloop-btn-danger.active:focus,
+ .open > .dropdown-toggle.racloop-btn-danger:focus,
+ .racloop-btn-danger:active.focus,
+ .racloop-btn-danger.active.focus,
+ .open > .dropdown-toggle.racloop-btn-danger.focus {
+   color: #fff;
+   background-color: #ac2925;
+   border-color: #761c19;
+ }
+ .racloop-btn-danger:active,
+ .racloop-btn-danger.active,
+ .open > .dropdown-toggle.racloop-btn-danger {
+   background-image: none;
+ }
+ .racloop-btn-danger.disabled,
+ .racloop-btn-danger[disabled],
+ fieldset[disabled] .racloop-btn-danger,
+ .racloop-btn-danger.disabled:hover,
+ .racloop-btn-danger[disabled]:hover,
+ fieldset[disabled] .racloop-btn-danger:hover,
+ .racloop-btn-danger.disabled:focus,
+ .racloop-btn-danger[disabled]:focus,
+ fieldset[disabled] .racloop-btn-danger:focus,
+ .racloop-btn-danger.disabled.focus,
+ .racloop-btn-danger[disabled].focus,
+ fieldset[disabled] .racloop-btn-danger.focus,
+ .racloop-btn-danger.disabled:active,
+ .racloop-btn-danger[disabled]:active,
+ fieldset[disabled] .racloop-btn-danger:active,
+ .racloop-btn-danger.disabled.active,
+ .racloop-btn-danger[disabled].active,
+ fieldset[disabled] .racloop-btn-danger.active {
+   background-color: #d9534f;
+   border-color: #d43f3a;
+ }
+ .racloop-btn-danger .badge {
+   color: #d9534f;
+   background-color: #fff;
+ }
+ .racloop-btn-link {
+   font-weight: normal;
+   color: #337ab7;
+   border-radius: 0;
+ }
+ .racloop-btn-link,
+ .racloop-btn-link:active,
+ .racloop-btn-link.active,
+ .racloop-btn-link[disabled],
+ fieldset[disabled] .racloop-btn-link {
+   background-color: transparent;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+ }
+ .racloop-btn-link,
+ .racloop-btn-link:hover,
+ .racloop-btn-link:focus,
+ .racloop-btn-link:active {
+   border-color: transparent;
+ }
+ .racloop-btn-link:hover,
+ .racloop-btn-link:focus {
+   color: #23527c;
+   text-decoration: underline;
+   background-color: transparent;
+ }
+ .racloop-btn-link[disabled]:hover,
+ fieldset[disabled] .racloop-btn-link:hover,
+ .racloop-btn-link[disabled]:focus,
+ fieldset[disabled] .racloop-btn-link:focus {
+   color: #777;
+   text-decoration: none;
+ }
+ .racloop-btn-lg,
+ .racloop-btn-group-lg > .racloop-btn {
+   padding: 10px 16px;
+   font-size: 18px;
+   line-height: 1.3333333;
+   border-radius: 6px;
+ }
+ .racloop-btn-sm,
+ .racloop-btn-group-sm > .racloop-btn {
+   padding: 5px 10px;
+   font-size: 12px;
+   line-height: 1.5;
+   border-radius: 3px;
+ }
+ .racloop-btn-xs,
+ .racloop-btn-group-xs > .racloop-btn {
+   padding: 1px 5px;
+   font-size: 12px;
+   line-height: 1.5;
+   border-radius: 3px;
+ }
+ .racloop-btn-block {
+   display: block;
+   width: 100%;
+ }
+ .racloop-btn-block + .racloop-btn-block {
+   margin-top: 5px;
+ }
+ input[type="submit"].racloop-btn-block,
+ input[type="reset"].racloop-btn-block,
+ input[type="button"].racloop-btn-block {
+   width: 100%;
+ }
 
 $bg-body: #f9f9f9;
 $primary-color: $blue;

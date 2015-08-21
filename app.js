@@ -136,6 +136,7 @@ Ext.application({
         this.cleanup();
         this.fixOverflowChangedIssue();
         if(Ext.fly('appLoadingIndicator')) Ext.fly('appLoadingIndicator').destroy();
+        if(Ext.fly('startup')) Ext.fly('startup').destroy();
     },
 
     initSslCertificates: function() {

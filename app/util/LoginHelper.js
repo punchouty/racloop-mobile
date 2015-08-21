@@ -186,7 +186,7 @@ Ext.define('Racloop.util.LoginHelper', {
         },
         removeSearchedJourney: function() {
             if (Common.supportsHtml5SessionStorage()) window.localStorage.removeItem('s');
-        },
+        }
     },
     constructor: function() {
         return this.config;
