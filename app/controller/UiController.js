@@ -97,9 +97,10 @@ Ext.define('Racloop.controller.UiController', {
             me.getSearchForm().populateMainFormData();
         }
         else if(button.getTitle() === Config.tabSettings) {
-            var settingListView = this.getSettingListView();
-            var activeItem = this.getSettingNavigationView().getActiveItem();
-            if(settingListView != activeItem) this.getSettingNavigationView().pop();
+            this.getSettingNavigationView().reset();
+            //var settingListView = this.getSettingListView();
+            //var activeItem = this.getSettingNavigationView().getActiveItem();
+            //if(settingListView != activeItem) this.getSettingNavigationView().pop();
         }
         else if(button.getTitle() === Config.tabHome) {
             var currentJourney = LoginHelper.getCurrentJourney();

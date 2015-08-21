@@ -35,18 +35,18 @@ Ext.define('Racloop.view.JourneyViewItem', {
             else {
                 drivingText = "Auto Rickshaw";
             }
-            var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary racloop-btn-xs travelBuddiesButton"><span class="travelBuddiesCls"></span> 0 Requests</button>'
+            var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">No Requests</button>'
             if(numberOfCopassengers > 0) {
-                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary racloop-btn-xs travelBuddiesButton"><span class="travelBuddiesCls"></span> Travel Buddies (' + numberOfCopassengers + ')</button>';
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">Travel Buddies (' + numberOfCopassengers + ')</button>';
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
-            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning racloop-btn-xs viewMapButton"><span class="toCls"></span> Map</button>  ' +
-                ' <button class="racloop-btn racloop-btn-primary racloop-btn-xs detailsButton"><span class="rideDetailsCls"></span> Route</button>';
-            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger racloop-btn-xs deleteJourneyButton"><span class="deleteCls"></span> Delete</button>  ' +
-                '<button  class="racloop-btn racloop-btn-success racloop-btn-xs searchAgainButton"><span class="searchCls"></span> Search</button>  ' + travelBuddiesButton;
+            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>  ' +
+                ' <button class="racloop-btn racloop-btn-primary  racloop-btn-sm detailsButton">Route</button>';
+            var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger  racloop-btn-sm deleteJourneyButton">Delete</button>  ' +  travelBuddiesButton +
+                ' <button  class="racloop-btn racloop-btn-primary  racloop-btn-sm searchAgainButton"><span class="searchCls"></span>Search</button> ';
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
-                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning racloop-btn-xs viewMapButton"><span class="toCls"></span> Map</button>';
+                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
                 buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {

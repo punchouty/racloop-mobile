@@ -41,7 +41,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 drivingText = "Auto Rickshaw";
             }
             if(!record.get('isRecurring')) {
-                recurringButton = ' <button  class="racloop-btn racloop-btn-success racloop-btn-xs makeRecurringButton"><span class="rideDetailsCls"></span> Make Recurring</button>'
+                recurringButton = ' <button  class="racloop-btn racloop-btn-success racloop-btn-sm makeRecurringButton">Make Recurring</button>'
             }
 
             var html='<div class="card">\
@@ -55,7 +55,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
                     </div>\
                     <div>\
-                        <span class="card-label card-label-blue">'+drivingText+'</span>\
+                        <span class="card-label card-label-gray">'+drivingText+'</span>\
                     </div>\
                 </div>\
             </div>\
@@ -71,7 +71,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 </div>\
                 <div>\
                     <span class="card-control">\
-                        <button  class="racloop-btn racloop-btn-primary racloop-btn-xs searchAgainHistoryButton"><span class="searchCls"></span> Search Again</button>'+recurringButton+'\
+                        '+recurringButton+' <button  class="racloop-btn racloop-btn-primary racloop-btn-sm searchAgainHistoryButton">Search Again</button>\
                     </span>\
                 </div>\
             </div>\

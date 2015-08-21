@@ -43,7 +43,7 @@ Ext.define('Racloop.util.Config', {
                             '</div>' +
                             '<div class="colored-line"></div>' +
                             '<div class="sub-heading-empty">But you can ' +
-                                '<a href="#" id="searchFormSignInLink" class="small-text-medium colored-text" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
+                                '<a href="#" id="searchFormSignInLink" class="racloop-btn racloop-btn-sm racloop-btn-default" onclick="Racloop.app.getController(\'UiController\').showLogin(); return false;">' +
                                 'Sign In' +
                                 '</a>' +
                             ' and save your request so that others can find you.</div>' +

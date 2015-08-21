@@ -68,7 +68,7 @@ Ext.define('Racloop.view.RecurringViewItem', {
             </div>\
             <div>\
                 <span class="card-control">\
-                    <button  class="racloop-btn racloop-btn-danger deleteRecurringButton"><span class="deleteCls"></span> Delete</button>\
+                    <button  class="racloop-btn racloop-btn-danger racloop-btn-sm deleteRecurringButton">Delete</button>\
                 </span>\
             </div>\
         </div>';

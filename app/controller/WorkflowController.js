@@ -258,7 +258,8 @@ Ext.define('Racloop.controller.WorkflowController', {
         var journeyNavigationView = this.getJourneyNavigationView();
         var searchNavigationView = this.getSearchNavigationView();
         var comp = searchNavigationView.down('#searchResultsDataViewInner');
-        var isDummy = comp.isDummy;
+        var isDummy = false
+        if(!isMyJourney) isDummy = comp.isDummy;
         var record = item.getRecord();
         var journeyId = record.get("id");
         var journeyDetailsPanel = null;
