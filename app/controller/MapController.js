@@ -401,10 +401,14 @@ Ext.define('Racloop.controller.MapController', {
         /* */
     },
 
-    showCurrentJourney : function() { //from sessioncontroller login and auto login methods
+    showCurrentJourney : function(disableCurrentLocation) { //from sessioncontroller login and auto login methods
         console.log("MapController - showCurrentJourney - STARTS");
         var me = this;
         var currentJourney = LoginHelper.getCurrentJourney();
+        var mapPanel = this.getMapPanel();        
+        if(disableCurrentLocation) {
+            mapPanel.down('map').setUseCurrentLocation(false);
+        }
         if(currentJourney) {
             console.log("MapController - showCurrentJourney - currentJourney exists : ");
             me.isWatching = true;

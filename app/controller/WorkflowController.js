@@ -211,7 +211,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         };
         LoginHelper.setCurrentJourney(currentJourney);
         this.getMainTabs().setActiveItem('mapPanel');
-        Racloop.app.getController('MapController').showCurrentJourney();
+        Racloop.app.getController('MapController').showCurrentJourney(true);
     },
 
     handleTravelBuddiesButtonTap : function(item) {
