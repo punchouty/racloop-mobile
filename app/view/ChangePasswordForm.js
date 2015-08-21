@@ -6,7 +6,7 @@ Ext.define('Racloop.view.ChangePasswordForm', {
     config: {
         items: [{
             xtype: 'fieldset',
-            title: 'Change Password',
+            //title: 'Change Password',
             instructions : 'Password should contain minimum 5 characters.',
             items: [{
                 name: 'currentPassword',

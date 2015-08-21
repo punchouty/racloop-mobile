@@ -7,7 +7,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
 
         items: [{
             xtype: 'fieldset',
-            title: 'Registered Email',
+            //title: 'Registered Email',
             instructions: "Password will be sent to your registered mobile via SMS",
 
             items: [{

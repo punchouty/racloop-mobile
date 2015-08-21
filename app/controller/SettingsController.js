@@ -91,6 +91,18 @@ Ext.define('Racloop.controller.SettingsController', {
                 scrollable : true
             });
             this.setPrivacy();
+        } else if(title === Config.settingRecurringSearches) {
+            Ext.getStore('recurringStore').load({
+                callback: function(records, operation, success) {
+                    searchNavigationView.push({
+                        itemId: itemId,
+                        xtype: navView,
+                        title: title,
+                        scrollable : true
+                    });
+                },
+                scope: this
+            });
         } else {
             searchNavigationView.push({
                 itemId: itemId,

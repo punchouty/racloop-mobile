@@ -23,7 +23,7 @@ Ext.define('Racloop.view.LoginForm', {
         //cls: 'form-bg',
         items: [{
             xtype: 'fieldset',
-            title: 'Welcome',
+            //title: 'Welcome',
             //instructions: "Welcome!",
 
             items: [{
@@ -63,11 +63,11 @@ Ext.define('Racloop.view.LoginForm', {
             ui: 'action'
         }, {
             xtype: 'container',
-            html: '<div class="links">' +
-                '<a href="#" id="loginFormForgetPasswordLink" class="racloop-btn racloop-btn-default" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
+            html: '<div class="simple-text">' +
+                '<a href="#" id="loginFormForgetPasswordLink" class="colored-text" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
                 'Forgot Password' +
                 '</a> &nbsp; &nbsp;' +
-                '<a href="#" id="loginFormVerifyMobileLink" class="racloop-btn racloop-btn-default" onclick="Racloop.app.getController(\'UiController\').showVerifyMobile(); return false;">' +
+                '<a href="#" id="loginFormVerifyMobileLink" class="colored-text" onclick="Racloop.app.getController(\'UiController\').showVerifyMobile(); return false;">' +
                 'Verify Mobile' +
                 '</a> ' +
                 '</div>',

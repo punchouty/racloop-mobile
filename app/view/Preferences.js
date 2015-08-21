@@ -13,8 +13,8 @@ Ext.define('Racloop.view.Preferences', {
     config: {
         items: [ {
             xtype: 'fieldset',
-            title: 'Preferences',
-            instructions: "Preferences to customize your experience",
+            //title: 'Preferences',
+            //instructions: "Preferences to customize your experience",
 
             items: [ {
                 name: 'contactOne',

@@ -21,8 +21,8 @@ Ext.define('Racloop.form.SearchFormTab', {
         items: [
             {
             xtype: 'fieldset',
-            title: 'Tell us your Plan',
-            instructions: "Split Your Travel Cost.",
+            //title: 'Tell us your Plan',
+            //instructions: "Split Your Travel Cost.",
             items: [{
                 name: 'from',
                 xtype: 'searchfield',
@@ -45,20 +45,6 @@ Ext.define('Racloop.form.SearchFormTab', {
                 },
                 itemId: 'searchScreenDate'
             },{
-                xtype: 'checkboxfield',
-                name : 'isFemale',
-                label: 'Female',
-                value: 'false',
-                itemId: 'searchScreenGender',
-                listeners: {
-                    check: function(checkbox) {
-                        checkbox.setValue('true');
-                    },
-                    uncheck: function(checkbox) {
-                        checkbox.setValue('false');
-                    }
-                  }   
-            },{
                 name: 'time',
                 xtype: 'timepickerfield',
                 label: 'Time*',
@@ -72,7 +58,7 @@ Ext.define('Racloop.form.SearchFormTab', {
                 label: 'Auto/Taxi',
                 options: [
                     {
-                        text: 'Auto Rickshaw',
+                        text: 'Auto',
                         value: 'auto'
                     },
                     {
@@ -92,6 +78,20 @@ Ext.define('Racloop.form.SearchFormTab', {
                     }
                 }
 
+            },{
+                xtype: 'checkboxfield',
+                name : 'isFemale',
+                label: 'Females Only',
+                value: 'false',
+                itemId: 'searchScreenGender',
+                listeners: {
+                    check: function(checkbox) {
+                        checkbox.setValue('true');
+                    },
+                    uncheck: function(checkbox) {
+                        checkbox.setValue('false');
+                    }
+                }
             }, {
                 xtype: 'hiddenfield',
                 name: 'dateOfJourneyString'

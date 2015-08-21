@@ -30,14 +30,14 @@ Ext.define('Racloop.util.Config', {
         tabNotifications : 'Notifications',
         tabSettings : 'Settings',
         tabSos : 'SOS!',
-        zeroResultsHtml : '<div class="section-header-empty">' +
+        zeroResultsHtml : '<div class="startup-header">' +
                             '<div class="small-text-medium-empty uppercase colored-text">' +
                             'No Results Found' +
                             '</div>' +
                             '<div class="colored-line"></div>' +
-                            '<div class="sub-heading-empty">We got your request and We will connect with you soon.</div>' +
+                            '<div class="sub-heading-empty">We will notify you as soon as we find any matches for your ride.</div>' +
                             '</div>',
-        zeroResultsHtmlMain : '<div class="section-header-empty">' +
+        zeroResultsHtmlMain : '<div class="startup-header">' +
                             '<div class="small-text-medium-empty uppercase colored-text">' +
                             'No Results Found' +
                             '</div>' +

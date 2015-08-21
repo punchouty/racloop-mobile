@@ -72,7 +72,7 @@ Ext.define('Racloop.form.SearchFormMain', {
                 label: 'Auto/Taxi',
                 options: [
                     {
-                        text: 'Auto Rickshaw',
+                        text: 'Auto',
                         value: 'auto'
                     },
                     {

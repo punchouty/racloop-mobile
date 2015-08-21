@@ -19,8 +19,8 @@ Ext.define('Racloop.view.EditProfileForm', {
     config: {
     items: [{
             xtype: 'fieldset',
-            title: 'Edit Profile',
-            instructions: "You cannot change your email",
+            //title: 'Edit Profile',
+            //instructions: "You cannot change your email",
             items: [
                     {                    
                         xtype: 'image',
@@ -47,6 +47,13 @@ Ext.define('Racloop.view.EditProfileForm', {
                         margin: '5 5 5 5',
                         ui: 'action'              
              },{
+                    name: 'fullName',
+                xtype: 'textfield',
+                label: 'Name',
+                //labelWidth: '40%',
+                itemId: 'editScreenName'
+            },
+            {
                 name: 'email',
                 xtype: 'emailfield',
                 readOnly: true,
@@ -68,12 +75,6 @@ Ext.define('Racloop.view.EditProfileForm', {
                 readOnly: true,
                 //labelWidth: '40%',
                 itemId: 'editScreenUserCode'
-            }, {
-                name: 'fullName',
-                xtype: 'textfield',
-                label: 'Name',
-                //labelWidth: '40%',
-                itemId: 'editScreenName'
             },  {
                 name: 'gender',
                 xtype: 'radiofield',
@@ -96,7 +97,7 @@ Ext.define('Racloop.view.EditProfileForm', {
             xtype: 'button',
             itemId: 'updateProfileButton',
             id: 'editProfileFormButton',
-            text: 'Update Profile',
+            text: 'Update Name',
             action: 'edit',
             ui: 'action',
             margin: 20,

@@ -13,7 +13,7 @@
  $form-field-bg-color :#444849;
  $form-field-border-bottom-color :rgba(0,0,0,.36);
  $form-spacing : 0 0.6em;
-$form-field-label-bg-color :#595b5b;
+$form-field-label-bg-color :#444849;
 $input-font-size :0.8em;
 $input-font-height :2.9em;
 $icon-top: 0.5em;
@@ -358,6 +358,14 @@ margin-top: -10px;
   //font-size: 1.5em;
   //padding: 10px;
 }
+
+ .time1Cls:before {
+   font-family: "racloop-icons";
+   content: "\e089";
+   padding: 10px;
+   float: left;
+   margin-top: -10px;
+ }
 // Button Icons
 .lockCls:before {
   font-family: "racloop-icons";
@@ -687,6 +695,12 @@ strong,
   text-align: center;
   //margin-top:-10px;
   color : #fff;
+  font-size: 0.80em;
+}
+
+.simple-text .colored-text {
+  color : #288edf;
+  text-decoration: underline;
 }
 /* THEME FROM WEB ENDS */
 
@@ -989,25 +1003,25 @@ border-bottom: 1px solid #2f3234;
  }
  .racloop-btn-default {
    color: #fff;
-   background-color: #7a93ac;
+   background-color: #288edf;
    border-color: #171A21;
  }
  .racloop-btn-default:focus,
  .racloop-btn-default.focus {
    color: #fff;
-   background-color: #7a93ac;
+   background-color: #288edf;
    border-color: #171A21;
  }
  .racloop-btn-default:hover {
    color: #fff;
-   background-color: #7a93ac;
+   background-color: #288edf;
    border-color: #171A21;
  }
  .racloop-btn-default:active,
  .racloop-btn-default.active,
  .open > .dropdown-toggle.racloop-btn-default {
    color: #fff;
-   background-color: #7a93ac;
+   background-color: #288edf;
    border-color: #171A21;
  }
  .racloop-btn-default:active:hover,
@@ -1020,7 +1034,7 @@ border-bottom: 1px solid #2f3234;
  .racloop-btn-default.active.focus,
  .open > .dropdown-toggle.racloop-btn-default.focus {
    color: #fff;
-   background-color: #7a93ac;
+   background-color: #288edf;
    border-color: #171A21;
  }
  .racloop-btn-default:active,

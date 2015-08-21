@@ -17,12 +17,12 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
             xtype: 'panel',
             items: [{
                 xtype: 'panel',
-                html: '<div class="section-header-empty">' +
+                html: '<div class="startup-header">' +
                         '<div class="small-text-medium-empty uppercase colored-text">' +
                         'No Results Found' +
                         '</div>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading-empty">Sorry, :( ... but you can let other people find you.</div>' +
+                        '<div class="sub-heading-empty">Please save your ride and we will notify you as soon as we find any matches.</div>' +
                       '</div>',
                 itemId: 'emptySearchHtml'
 
@@ -32,7 +32,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                 iconCls: 'acceptCls',
                 iconMask: true,
                 ui: 'confirm',
-                text: 'Let People Find Me',
+                text: 'Save My Ride',
                 margin: 10
             }]
         }]

@@ -26,8 +26,8 @@ Ext.define('Racloop.view.RecurringSearchScreen', {
             },            
             {
             xtype: 'fieldset',
-            title: 'Make search recurring',
-            instructions: "Make your search recurring",
+            //title: 'Make search recurring',
+            //instructions: "Make your search recurring",
             items: [{
                 xtype: 'checkboxfield',
                 name : 'monday',

@@ -48,20 +48,11 @@ Ext.define('Racloop.view.RecurringViewItem', {
             }
             
             var html='<div class="card">\
-            <div class="card-info">\
-                <div class="card-main">\
-                    <div>\
-                        <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
-                        <div>\
-                            <span class="card-control">\
-                                <button  class="racloop-btn racloop-btn-danger deleteRecurringButton"><span class="deleteCls"></span> Delete</button>\
-                            </span>\
-                        </div>\
-                    </div>\
-                </div>\
-            </div>\
-\
             <div class="card-footer">\
+                <div class="card-footer-row">\
+                    <span class="card-location-label">Time : </span>\
+                    <span class="card-location"> &nbsp; <span class="timeCls"></span>  '+time+'</span>\
+                </div>\
                 <div class="card-footer-row">\
                     <span class="card-location-label">From : </span>\
                     <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+record.get("from")+'</span>\
@@ -71,8 +62,14 @@ Ext.define('Racloop.view.RecurringViewItem', {
                     <span class="card-location"> &nbsp;<span class="toCls"> </span>'+record.get("to")+' </span>\
                 </div>\
                 <div class="card-footer-row">\
-                    <span class="card-location"> Recurring days : &nbsp;'+days.join(", ")+' </span>\
+                    <span class="card-location-label">Days : </span>\
+                    <span class="card-location"> &nbsp;<span class="calendarCls"> </span>'+days.join(", ")+'</span>\
                 </div>\
+            </div>\
+            <div>\
+                <span class="card-control">\
+                    <button  class="racloop-btn racloop-btn-danger deleteRecurringButton"><span class="deleteCls"></span> Delete</button>\
+                </span>\
             </div>\
         </div>';
         me.down('#textCmp').setHtml(html);

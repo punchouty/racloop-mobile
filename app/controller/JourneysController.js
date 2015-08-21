@@ -1083,12 +1083,12 @@ Ext.define('Racloop.controller.JourneysController', {
             // });
 
         var msg = Ext.create('Ext.MessageBox').show({
-            title:    'Make It a Daily Request',
-            msg:      null,
-            html:     "<p style='color: #fff;'><input  type='checkbox' id='disableDialogCheckBox' /> Don't show again</p>",
-            buttons:  Ext.MessageBox.OKCANCEL,
+            title:    'Is This a Recurring Ride?',
+            msg:      "asas",
+            html:     "<p style='color: #fff; font-size: 0.8em'><input  type='checkbox' id='disableDialogCheckBox' /> Don't show again</p>",
+            buttons:  Ext.MessageBox.YESNO,
             fn: function(btn) {
-                if( btn == 'ok') {
+                if( btn == 'yes') {
                     me.displayRecurringScreen(journey);
                 } else {
                     me.onJourneySaved();
@@ -1158,16 +1158,12 @@ Ext.define('Racloop.controller.JourneysController', {
         var time = Ext.Date.format(journey.get('dateOfJourney'), 'g:i A');        
         var journeyHtml = '\
                     <div class="card">\
-                        <div class="card-info">\
-                            <div class="card-main">\
-                                <div>\
-                                    <span class="card-time"> Time : <span class="timeCls"></span>   '+time+'</span>\
-                                </div>\
-                            </div>\
-                        </div>\
-            \
                         <div class="card-footer">\
                             <div class="card-footer-row">\
+                                <span class="card-location-label">Time : </span>\
+                                <span class="card-location"> &nbsp;<span class="timeCls"></span>   '+time+'</span>\
+                            </div>\
+                           <div class="card-footer-row">\
                                 <span class="card-location-label">From : </span>\
                                 <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+journey.get("from")+'</span>\
                             </div>\
