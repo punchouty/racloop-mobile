@@ -634,19 +634,7 @@ Ext.define('Racloop.controller.JourneysController', {
 
         };
 
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Searching...'
-        });
-        Ext.Ajax.request({
-            url: Config.url.RACLOOP_SEARCH,
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            params: Ext.JSON.encode({
+        var journeyData = {
                 dateOfJourneyString: journey.dateOfJourneyString,
                 validStartTimeString: journey.validStartTimeString,
                 from: journey.from,
@@ -659,9 +647,25 @@ Ext.define('Racloop.controller.JourneysController', {
                 isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
                 tripTimeInSeconds: journey.tripTimeInSeconds,
-                tripUnit: journey.tripUnit,
-                isFemale: journey.isFemale? 'true' : 'false'
-            }),
+                tripUnit: journey.tripUnit
+            };
+
+        if(!isFirstScreen)
+            journeyData.isFemale = journey.isFemale || 'false';
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Searching...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_SEARCH,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode(journeyData),
             success: successCallback,
             failure: failureCallback
         });

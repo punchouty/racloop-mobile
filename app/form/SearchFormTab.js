@@ -84,6 +84,7 @@ Ext.define('Racloop.form.SearchFormTab', {
                 label: 'Females Only',
                 value: 'false',
                 itemId: 'searchScreenGender',
+                hidden: true,
                 listeners: {
                     check: function(checkbox) {
                         checkbox.setValue('true');
@@ -167,12 +168,14 @@ Ext.define('Racloop.form.SearchFormTab', {
     },
     displayGenderField: function(){
         var user = LoginHelper.getUser();
-        if(user && user.isMale) {
-            this.down('field[itemId=searchScreenGender]').hide();
-        }
-        else {
-            this.down('field[itemId=searchScreenGender]').show();
-        }
+        if(user) {
+            if(user.isMale) {
+                this.down('field[itemId=searchScreenGender]').hide();
+            }
+            else {
+                this.down('field[itemId=searchScreenGender]').show();
+            }
+        } 
     },
     populateMainFormData: function() {
         var mainTabJourney = LoginHelper.getSearchedJourney();
