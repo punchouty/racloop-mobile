@@ -21,26 +21,7 @@ Ext.define('Racloop.view.RecurringView', {
 
     config : {
         layout: 'vbox',
-        items: [
-            {
-                itemId: 'enableRecurring',
-                xtype:  'fieldset',
-                items: [{
-                        xtype: 'checkboxfield',
-                        name : 'enableDialog',
-                        label: 'Enable Recurring Search',
-                        labelWidth : "60%",
-                        listeners: {
-                        check: function() {
-                            LoginHelper.setDialogOption(true);
-                        },
-                        uncheck: function() {
-                            LoginHelper.setDialogOption(false);
-                        }
-                      }             
-                    }]
-            },
-            {
+        items: [{
                 itemId: 'recurringEmptyView',
                 xtype: 'panel',
                 hidden : true,
@@ -66,10 +47,6 @@ Ext.define('Racloop.view.RecurringView', {
             }
         ]
 
-    },
-    initialize: function() {
-        this.callParent(arguments);
-        this.down('field[name=enableDialog]').setChecked(LoginHelper.getDialogOption()? 1 : 0);
-    }
+    }    
 
 });

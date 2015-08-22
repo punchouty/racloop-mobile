@@ -18,6 +18,12 @@ Ext.define('Racloop.model.Preferences', {
         },{
             name: 'cabServicePreference',
             type: 'string'
+        },{
+            name: 'enableDialogPreference',
+            type: 'boolean'
+        },{
+            name: 'womenOnlySearchPreference',
+            type: 'boolean'
         }
         ]
         //,

@@ -467,6 +467,7 @@ Ext.define('Racloop.controller.SettingsController', {
     setPreferenceToSearchScreen : function() {
         var user = LoginHelper.getUser();
         console.log( "valuez" + Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].getValue());
+        console.log(user.womenOnlySearchPreference);
         if(!Common.isEmpty(user.travelModePreference))  {
             if(user.travelModePreference === 'auto') {
                 Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
@@ -476,6 +477,12 @@ Ext.define('Racloop.controller.SettingsController', {
                 Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
                 Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('taxi');
             }
+        }
+        if(!Common.isEmpty(user.womenOnlySearchPreference))  {   
+                Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(user.womenOnlySearchPreference);
+        }
+        else {
+                Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(0);
         }
     },
 
@@ -499,6 +506,8 @@ Ext.define('Racloop.controller.SettingsController', {
                 user.travelModePreference = values.travelModePreference;
                 user.paymentPreference = values.paymentPreference;
                 user.cabServicePreference = values.cabServicePreference;
+                user.enableDialogPreference = values.enableDialogPreference;
+                user.womenOnlySearchPreference = values.womenOnlySearchPreference;
                 LoginHelper.setUser(user);
                 settingNavigationView.pop();
                 Ext.Msg.alert("Success", data.message);

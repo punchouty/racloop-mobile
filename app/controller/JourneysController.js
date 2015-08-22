@@ -1039,8 +1039,9 @@ Ext.define('Racloop.controller.JourneysController', {
     }, 
     promptShowRecurringSearchDialog: function(journey, showDialog) {
         var me = this;
-        console.log(LoginHelper.getDialogOption() && showDialog);
-        if(LoginHelper.getDialogOption() && showDialog){
+        var user = LoginHelper.getUser();
+        console.log(user.enableDialogPreference && showDialog);
+        if(user.enableDialogPreference && showDialog){
          // Ext.Msg.show({
          //      title   : 'Make it Recurring',
          //      msg     : null,
@@ -1099,10 +1100,11 @@ Ext.define('Racloop.controller.JourneysController', {
                 }               
 
                 if (document.getElementById('disableDialogCheckBox').checked){
-                    LoginHelper.setDialogOption(false);
+                    user.enableDialogPreference = 0;
                 } else {
-                    LoginHelper.setDialogOption(true);
+                    user.enableDialogPreference = 1;
                 }
+                LoginHelper.setUser(user);
             }
         });
         } else {

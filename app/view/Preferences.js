@@ -1,13 +1,14 @@
 
 Ext.define('Racloop.view.Preferences', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.preferences',
+    alias: 'widget.preferencesForm',
     xtype: 'preferencesForm',
 
     requires: [
         'Ext.form.FieldSet',
         'Ext.field.Number',
-        'Racloop.util.Common'
+        'Racloop.util.Common',
+        'Ext.field.Toggle'
     ],
 
     config: {
@@ -96,7 +97,30 @@ Ext.define('Racloop.view.Preferences', {
                         value: 'other'
                     }
                 ]
-            }]
+            }, {
+                xtype: 'togglefield',
+                name : 'enableDialogPreference',
+                label: 'Enable Recurring Search',
+                itemId: 'enableDialogPreferenceField',
+                listeners: {
+                    change: function(field, newValue, oldValue) {                      
+                         console.log('Enable Recurring Search has changed:', (newValue) ? 'ON' : 'OFF');
+                    }              
+              }             
+            }, {
+                xtype: 'togglefield',
+                name : 'womenOnlySearchPreference',
+                label: 'Women Only Search',
+                itemId: 'womenOnlyPreferenceField',
+                hidden: true,
+                listeners: {
+                    change: function(field, newValue, oldValue) {
+                        console.log('Women Only Search has changed:', (newValue) ? 'ON' : 'OFF');
+                    }              
+              }             
+            }
+
+            ]
         }, {
             xtype: 'button',
             itemId: 'savePreferencesButton',
@@ -124,5 +148,20 @@ Ext.define('Racloop.view.Preferences', {
         else this.down('field[itemId=paymentPreferenceSelectField]').setValue('cash');
         if(!Common.isEmpty(user.travelModePreference))  this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
         else this.down('field[itemId=travelModePreferenceField]').setValue('auto');
-    }
+        if(!Common.isEmpty(user.enableDialogPreference))  this.down('field[itemId=enableDialogPreferenceField]').setValue(user.enableDialogPreference);
+        else this.down('field[itemId=enableDialogPreferenceField]').setValue(0);
+        if(!Common.isEmpty(user.womenOnlySearchPreference))  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.womenOnlySearchPreference);
+        else this.down('field[itemId=womenOnlyPreferenceField]').setValue(0);
+        this.displayWomenOnlySearchField(user);
+    },
+    displayWomenOnlySearchField: function(user){
+        if(user) {
+            if(user.isMale) {
+                this.down('field[itemId=womenOnlyPreferenceField]').hide();
+            }
+            else {
+                this.down('field[itemId=womenOnlyPreferenceField]').show();
+            }
+        } 
+    },
 });
