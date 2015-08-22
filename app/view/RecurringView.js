@@ -27,10 +27,10 @@ Ext.define('Racloop.view.RecurringView', {
                 xtype:  'fieldset',
                 items: [{
                         xtype: 'checkboxfield',
-                        name : 'disableDialog',
-                        label: 'Disable Recurring Search',
+                        name : 'enableDialog',
+                        label: 'Enable Recurring Search',
                         labelWidth : "50%",
-                        checked: Boolean(LoginHelper.getDialogOption()),
+                        checked: Boolean(LoginHelper.getDialogOption() || false),
                         listeners: {
                         check: function() {
                             LoginHelper.setDialogOption(true);

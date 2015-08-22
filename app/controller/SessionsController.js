@@ -66,6 +66,7 @@ Ext.define('Racloop.controller.SessionsController', {
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
                      LoginHelper.setUser(data.data);
+                     LoginHelper.setDialogOption(false);
                     console.dir(data.data);
                      LoginHelper.setEmail(user.email);                                             
                      var currentJourney = data.currentJourney;                  
@@ -213,6 +214,7 @@ Ext.define('Racloop.controller.SessionsController', {
             if (data.success) {
                   LoginHelper.setUser(data.data);
                   LoginHelper.setEmail(values.email);
+                  LoginHelper.setDialogOption(false);
                 console.dir(data.data);
                   var currentJourney = data.currentJourney;
                  if (data.feedbackPending){
