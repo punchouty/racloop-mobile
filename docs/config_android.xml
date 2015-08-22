@@ -15,11 +15,9 @@
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="true" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
-    <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="10" />
     <preference name="android-installLocation" value="auto" />
@@ -28,16 +26,22 @@
 
 
     <icon src="icon.png" />
-    <!-- Spash Screen preferences specific to Android https://github.com/apache/cordova-plugin-splashscreen -->
+     Spash Screen preferences specific to Android https://github.com/apache/cordova-plugin-splashscreen
     <preference name="SplashScreen" value="res/screen/android/spash-xhdpi.png" />
     <preference name="SplashScreenDelay" value="5000" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="auto-hide-splash-screen" value="true" />
     <platform name="android">
         <splash src="res/screen/android/splash-hdpi.png" density="port-hdpi"/>
         <splash src="res/screen/android/splash-ldpi.png" density="port-ldpi"/>
         <splash src="res/screen/android/splash-mdpi.png" density="port-mdpi"/>
         <splash src="res/screen/android/splash-xhdpi.png" density="port-xhdpi"/>
+        <splash src="res/screen/android/splash-hdpi.png" density="land-hdpi"/>
+        <splash src="res/screen/android/splash-ldpi.png" density="land-ldpi"/>
+        <splash src="res/screen/android/splash-mdpi.png" density="land-mdpi"/>
+        <splash src="res/screen/android/splash-xhdpi.png" density="land-xhdpi"/>
     </platform>
 
     <plugin name="cordova-plugin-whitelist" version="1" />
@@ -49,11 +53,12 @@
     <plugin name="cordova-plugin-sim" />
     <plugin name="org.apache.cordova.dialogs" /> -->
     <plugin name="org.apache.cordova.geolocation" />
-    <plugin name="org.apache.cordova.inappbrowser" />
+    <!--<plugin name="org.apache.cordova.inappbrowser" />-->
     <plugin name="org.apache.cordova.network-information" />
-    <plugin name="org.apache.cordova.splashscreen" />
-    <plugin name="org.apache.cordova.vibration" />
+    <!--<plugin name="org.apache.cordova.splashscreen" />-->
+    <!--<plugin name="org.apache.cordova.vibration" />-->
     <plugin name="org.apache.cordova.statusbar" />
+    <plugin name="org.apache.cordova.camera" />
     <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <!-- Comment one of below -->
         <!-- Production
@@ -73,7 +78,9 @@
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
-
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

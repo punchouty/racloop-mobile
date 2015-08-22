@@ -55,7 +55,7 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             if(myStatus === "Requested") {
                 buttonMarkup = '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel </button>';
             }
-            else if(myStatus === "Request Recieved") {
+            else if(myStatus === "Request Received") {
                 buttonMarkup = '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm rejectButton">Reject </button>  '+
                 '<button  class="racloop-btn racloop-btn-success racloop-btn-sm acceptButton">Accept </button>  ';
             }
