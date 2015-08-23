@@ -117,8 +117,9 @@ Ext.define('Racloop.view.EditProfileForm', {
             this.down('field[itemId=editScreenFemale]').check();
             this.down('field[itemId=editScreenMale]').uncheck();
         }
+        console.log("user.photoUrl : " + user.photoUrl)
         this.down("#userImage").setSrc(user.photoUrl);
-        console.log('facebook id :'+user.facebookId);
+        //console.log('facebook id :'+user.facebookId);
         if(!user.facebookId) {
             this.down('button[itemId=photoLibrary]').setHidden(false);
             this.down('button[itemId=photoCapture]').setHidden(false);

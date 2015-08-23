@@ -573,8 +573,14 @@ Ext.define('Racloop.controller.SettingsController', {
                        file : imageData,                   
                        email: currentUser.email
                   };
-              profileForm.down("#userImage").setSrc("data:image/jpeg;base64," + imageData);       
-              Ext.Ajax.request({
+              profileForm.down("#userImage").setSrc("data:image/jpg;base64," + imageData);
+                Ext.Viewport.mask({
+                    xtype: 'loadmask',
+                    indicator: true,
+                    message: 'Uploading...'
+                });
+
+            Ext.Ajax.request({
                     url: Racloop.util.Config.url.RACLOOP_USER_IMAGE,
                     withCredentials: true,
                     useDefaultXhrHeader: false,
@@ -584,27 +590,39 @@ Ext.define('Racloop.controller.SettingsController', {
                     },
                     jsonData : jsonFile,
                     success: function(response, opts) {
-                        var obj = Ext.decode(response.responseText);
-                        console.dir(obj);    
-                        
+                        var data = Ext.decode(response.responseText);
+                        if(data.success) {
+                            LoginHelper.setUser(data.data);
+                            me.getSettingNavigationView().pop();
+                            Ext.Viewport.unmask();
+                            Ext.Msg.alert("Success", "Picture uploaded successfully");
+                        }
+                        else {
+                            Ext.Msg.alert("Failure", data.message);
+                        }
                     },
                     failure: function(response, opts) {
+                        Ext.Viewport.unmask();
+                        Ext.Msg.alert("Failure", response.status);
                         console.log('server-side failure with status code ' + response.status);
                     }
               });
         };
 
         var pictureFailure = function(message) {
-            Ext.Msg.alert("Failed" + message);
+            Ext.Msg.alert("Operation Cancelled", message);
         };
 
         navigator.camera.getPicture(pictureSuccess, pictureFailure, {
-                quality: 75,
                 destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: source,
+                encodingType : Camera.EncodingType.JPEG,
                 allowEdit : true,
-                targetWidth: 100,
-                targetHeight: 100 
+                sourceType: source,
+                allowEdit : false,
+                targetWidth: 256,
+                targetHeight: 256,
+                saveToPhotoAlbum: false,
+                cameraDirection: Camera.Direction.FRONT
         });
       }
 
