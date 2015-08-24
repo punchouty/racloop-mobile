@@ -8,7 +8,8 @@ Ext.define('Racloop.controller.SessionsController', {
         'Racloop.view.SettingNavigationView',
         'Racloop.util.LoginHelper',
         'Racloop.util.Common',
-        'Racloop.util.Config'
+        'Racloop.util.Config',
+        'Ext.ux.touch.Rating'
     ],
 
     config: {
