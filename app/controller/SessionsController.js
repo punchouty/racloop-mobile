@@ -280,6 +280,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                 else {
                                     me.getSearchForm().populateMainFormData();
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    if(!LoginHelper.getSearchedJourney())
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -290,6 +291,7 @@ Ext.define('Racloop.controller.SessionsController', {
                         else {
                             console.log('login success emergency contact : false');
                             mainTabs.setActiveItem('searchNavigationView');
+                            if(!LoginHelper.getSearchedJourney())
                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                        mainTabs.setActiveItem('mapPanel');
     //                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();

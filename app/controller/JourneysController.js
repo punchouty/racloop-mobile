@@ -149,7 +149,14 @@ Ext.define('Racloop.controller.JourneysController', {
                 handler: function() {
                     actionSheetFrom.hide();
                 }
-            }]
+            }],
+            listeners: {
+                'show': function( sheet, eOpts ){
+                    Ext.Function.defer(function(){
+                        sheet.down('field[name=from]').focus();
+                    }, 200);                    
+                }
+            }
         });
         //this.actionSheetFrom = actionSheetFrom;
 
@@ -177,7 +184,15 @@ Ext.define('Racloop.controller.JourneysController', {
                 handler: function() {
                     actionSheetTo.hide();
                 }
-            }]
+            }],
+            listeners: {
+                'show': function( sheet, eOpts ){
+                    Ext.Function.defer(function(){
+                        sheet.down('field[name=to]').focus();
+                    }, 200);  
+
+                }
+            }
 
         });
         //this.actionSheetTo = actionSheetTo;
@@ -189,7 +204,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 searchForm.down('field[name=from]').setValue("").blur();
                 searchForm.down('field[name=fromLatitude]').setValue("");
                 searchForm.down('field[name=fromLongitude]').setValue("");
-                actionSheetFrom.down('field[name=from]').setValue("").focus();
+                actionSheetFrom.down('field[name=from]').setValue("");
                 //actionSheetFrom.down("#actionScreenFrom").focus();
                 actionSheetFrom.show();
             }
@@ -201,7 +216,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 searchForm.down('field[name=to]').setValue("").blur();
                 searchForm.down('field[name=toLatitude]').setValue("");
                 searchForm.down('field[name=toLongitude]').setValue("");
-                actionSheetTo.down('field[name=to]').setValue("").focus();
+                actionSheetTo.down('field[name=to]').setValue("");
                 //actionSheetTo.down("#actionScreenTo").focus();
                 actionSheetTo.show();
             }
@@ -1152,37 +1167,39 @@ Ext.define('Racloop.controller.JourneysController', {
        
     },
     onMakeRecurringScreenTap: function(item) {
-        var me =this,   
+        var me =this;   
         // recurringSearchForm = Ext.ComponentQuery.query('recurringSearchForm')[0];
-        recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
-            itemId: "recurringSearchForm",
-            title: "Recurring Search"
-        });
-        var journey = item.getRecord();
-        console.log(journey);
-        var time = Ext.Date.format(journey.get('dateOfJourney'), 'g:i A');        
-        var journeyHtml = '\
-                    <div class="card">\
-                        <div class="card-footer">\
-                            <div class="card-footer-row">\
-                                <span class="card-location-label">Time : </span>\
-                                <span class="card-location"> &nbsp;<span class="timeCls"></span>   '+time+'</span>\
+        if (item.up('navigationview').getActiveItem().xtype != "recurringSearchScreen") {
+            var recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
+                itemId: "recurringSearchForm",
+                title: "Recurring Search"
+            });
+            var journey = item.getRecord();
+            console.log(journey);
+            var time = Ext.Date.format(journey.get('dateOfJourney'), 'g:i A');        
+            var journeyHtml = '\
+                        <div class="card">\
+                            <div class="card-footer">\
+                                <div class="card-footer-row">\
+                                    <span class="card-location-label">Time : </span>\
+                                    <span class="card-location"> &nbsp;<span class="timeCls"></span>   '+time+'</span>\
+                                </div>\
+                               <div class="card-footer-row">\
+                                    <span class="card-location-label">From : </span>\
+                                    <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+journey.get("from")+'</span>\
+                                </div>\
+                                <div class="card-footer-row">\
+                                    <span class="card-location-label">To : </span>\
+                                    <span class="card-location"> &nbsp;<span class="toCls"> </span>'+journey.get("to")+' </span>\
+                                </div>\
                             </div>\
-                           <div class="card-footer-row">\
-                                <span class="card-location-label">From : </span>\
-                                <span class="card-location"> &nbsp;<span class="fromCls"> </span>'+journey.get("from")+'</span>\
-                            </div>\
-                            <div class="card-footer-row">\
-                                <span class="card-location-label">To : </span>\
-                                <span class="card-location"> &nbsp;<span class="toCls"> </span>'+journey.get("to")+' </span>\
-                            </div>\
-                        </div>\
-                    </div>';
+                        </div>';
 
-          recurringSearchScreen.down("#recurringInfoContainer").setHtml(journeyHtml);
-          recurringSearchScreen.down("hiddenfield[name='journeyId']").setValue(journey.get("id"));
-        
-           item.up('navigationview').push(recurringSearchScreen);           
+              recurringSearchScreen.down("#recurringInfoContainer").setHtml(journeyHtml);
+              recurringSearchScreen.down("hiddenfield[name='journeyId']").setValue(journey.get("id"));
+            
+               item.up('navigationview').push(recurringSearchScreen);        
+           }   
        
     },
     onJourneySaved: function(){

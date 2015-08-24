@@ -75,6 +75,13 @@ Ext.define('Racloop.view.LoginForm', {
             flex: 2
 
         }]
+    },
+    initialize: function() {
+        this.callParent(arguments);
+        var user = LoginHelper.getUser();
+        if(user) {
+            this.setValues(user);
+        }
     }
 
 });

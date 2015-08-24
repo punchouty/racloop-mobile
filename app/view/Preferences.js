@@ -1,7 +1,7 @@
 
 Ext.define('Racloop.view.Preferences', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.preferencesForm',
+    alias: 'widget.preferences',
     xtype: 'preferencesForm',
 
     requires: [
@@ -163,5 +163,5 @@ Ext.define('Racloop.view.Preferences', {
                 this.down('field[itemId=womenOnlyPreferenceField]').show();
             }
         } 
-    },
+    }
 });

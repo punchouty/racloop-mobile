@@ -35,7 +35,7 @@ Ext.define('Racloop.controller.SettingsController', {
 
         control: {
             'settingNavigationView #settingListView': {
-                itemtap: 'onSettinglistItemTap'
+                itemsingletap: 'onSettinglistItemTap'
             },
             updateProfileButton: {
                 tap: 'updateProfile'
