@@ -79,19 +79,15 @@ Ext.define('Racloop.form.SearchFormTab', {
                 }
 
             },{
-                xtype: 'checkboxfield',
+                xtype: 'togglefield',
                 name : 'isFemale',
                 label: 'Females Only',
-                value: 'false',
                 itemId: 'searchScreenGender',
                 hidden: true,
                 listeners: {
-                    check: function(checkbox) {
-                        checkbox.setValue('true');
-                    },
-                    uncheck: function(checkbox) {
-                        checkbox.setValue('false');
-                    }
+                     change: function(field, newValue, oldValue) {
+                        console.log('isFemale has changed:', (newValue) ? 'ON' : 'OFF');
+                    }                     
                 }
             }, {
                 xtype: 'hiddenfield',

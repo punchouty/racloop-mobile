@@ -141,6 +141,15 @@ Ext.define('Racloop.view.SearchNavigationView', {
                 id: 'searchNavigationViewBack'
             }
         }
-    }
+    },
+     push: function (view) {
+      if(typeof this.getActiveItem() == 'undefined' || this.getActiveItem().xtype != view.xtype) {
+         this.callParent(arguments);
+        }
+      else {
+         console.warn("Prevented pushing a potentially duplicate view of xtype: " + view.xtype);
+         view.destroy();
+      }
+   }
 
 });

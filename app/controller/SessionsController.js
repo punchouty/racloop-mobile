@@ -8,7 +8,8 @@ Ext.define('Racloop.controller.SessionsController', {
         'Racloop.view.SettingNavigationView',
         'Racloop.util.LoginHelper',
         'Racloop.util.Common',
-        'Racloop.util.Config'
+        'Racloop.util.Config',
+        'Ext.ux.touch.Rating'
     ],
 
     config: {
@@ -65,8 +66,7 @@ Ext.define('Racloop.controller.SessionsController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
-                     LoginHelper.setUser(data.data);
-                     LoginHelper.setDialogOption(false);
+                     LoginHelper.setUser(data.data);                     
                     console.dir(data.data);
                      LoginHelper.setEmail(user.email);                                             
                      var currentJourney = data.currentJourney;                  
@@ -213,8 +213,7 @@ Ext.define('Racloop.controller.SessionsController', {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                   LoginHelper.setUser(data.data);
-                  LoginHelper.setEmail(values.email);
-                  LoginHelper.setDialogOption(false);
+                  LoginHelper.setEmail(values.email);                 
                 console.dir(data.data);
                   var currentJourney = data.currentJourney;
                  if (data.feedbackPending){
@@ -282,6 +281,7 @@ Ext.define('Racloop.controller.SessionsController', {
                                 else {
                                     me.getSearchForm().populateMainFormData();
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    if(!LoginHelper.getSearchedJourney())
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
@@ -292,6 +292,7 @@ Ext.define('Racloop.controller.SessionsController', {
                         else {
                             console.log('login success emergency contact : false');
                             mainTabs.setActiveItem('searchNavigationView');
+                            if(!LoginHelper.getSearchedJourney())
                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
     //                        mainTabs.setActiveItem('mapPanel');
     //                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();

@@ -247,11 +247,15 @@ Ext.define('Racloop.controller.WorkflowController', {
     },
 
     handleDetailsInMyJourneyButtonTap : function(item) {
-        this.detailsButtonTap(item, true);
+        if (typeof item.up('navigationview') == 'undefined' || item.up('navigationview').getActiveItem().xtype != "journeyDetailsPanel") {
+            this.detailsButtonTap(item, true);
+        }
     },
 
     handleDetailsInSearchButtonTap : function(item) {
-        this.detailsButtonTap(item, false);
+        if (typeof item.up('navigationview') == 'undefined' || item.up('navigationview').getActiveItem().xtype != "journeyDetailsPanel") {
+            this.detailsButtonTap(item, false);
+        }
     },
 
     detailsButtonTap : function(item, isMyJourney) {
@@ -266,27 +270,17 @@ Ext.define('Racloop.controller.WorkflowController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                if(isMyJourney) {
-                    journeyDetailsPanel = journeyNavigationView.push({
-                        itemId: 'journeyDetailsPanel',
-                        xtype: "journeyDetailsPanel",
-                        title: "Suggested Route",
-                        scrollable : true
-                    });
-                }
-                else {
-                    journeyDetailsPanel = searchNavigationView.down('#journeyDetailsPanel');
-                    if(journeyDetailsPanel == null) {
-                        journeyDetailsPanel = searchNavigationView.push({
+                   journeyDetailsPanel = Ext.create('Racloop.view.JourneyDetailsPanel',{
                             itemId: 'journeyDetailsPanel',
                             xtype: "journeyDetailsPanel",
                             title: "Suggested Route",
                             scrollable : true
-                        });
-                    }
-                    else {
-                        searchNavigationView.setActiveItem(journeyDetailsPanel);
-                    }
+                    });
+                if(isMyJourney) {                   
+                    journeyNavigationView.push(journeyDetailsPanel);
+                }
+                else {             
+                        searchNavigationView.push(journeyDetailsPanel);                  
                 }
                 var JourneyDetailsText = journeyDetailsPanel.down('#JourneyDetailsText');
                 JourneyDetailsText.setHtml(data.message);

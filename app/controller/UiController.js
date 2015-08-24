@@ -43,7 +43,9 @@ Ext.define('Racloop.controller.UiController', {
     },
 
     launch: function(app) {
-
+        if (Ext.os.is('Android')) {
+          document.addEventListener("backbutton", this.backKeyDown, false);
+        }
     },
 
     enable : function() {
@@ -278,5 +280,14 @@ Ext.define('Racloop.controller.UiController', {
             scrollable : true
         });
         Racloop.app.getController('SettingsController').setPrivacy();
+    },
+
+    backKeyDown : function() {       
+     // Ext.Viewport.getActiveItem().pop() return the class it popped, if undefined quit app.
+        Ext.Msg.confirm("Exit", "Are You Sure?",  function ( answer ) { 
+                if ( answer == 'yes') { 
+                    navigator.app.exitApp();
+                } 
+            });        
     }
 });
