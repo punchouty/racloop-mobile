@@ -856,6 +856,9 @@ border-bottom: 1px solid #2f3234;
 .card-label-blue {
     background-color: $theme-blue-color;
 }
+.card-label-pink {
+ background-color: #FD00EF;
+}
 .card-control {
     float: right;
     display: block;
@@ -1631,4 +1634,12 @@ th, td {
   color: #c6c8c8;
 }
 
+.x-toggle-on {
+ background-color: #288edf;
+ background-image: -webkit-linear-gradient(top, #288edf,#008ed6 10%,#58c0ff 65%,#58c0ff);
+}
+.x-toggle {
+  border: 1px solid #314CB6;
+  width: 3.4em;
+}
 

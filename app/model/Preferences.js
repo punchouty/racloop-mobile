@@ -19,10 +19,10 @@ Ext.define('Racloop.model.Preferences', {
             name: 'cabServicePreference',
             type: 'string'
         },{
-            name: 'enableDialogPreference',
+            name: 'enableRecurringSearch',
             type: 'boolean'
         },{
-            name: 'womenOnlySearchPreference',
+            name: 'femaleOnlySearch',
             type: 'boolean'
         }
         ]

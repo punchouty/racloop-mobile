@@ -234,6 +234,26 @@ Ext.define('Racloop.controller.UiController', {
 
     },
 
+    popAndShowRegister: function() { //called from href link directly
+
+        //var registerForm = Ext.create('widget.registerform'),	// Registration form
+        var mainNavigationView = this.getMainNavigationView(); // Main view
+        var task = Ext.create('Ext.util.DelayedTask', function(){
+            mainNavigationView.pop();
+            var taskInner = Ext.create('Ext.util.DelayedTask', function(){
+                // Navigate to register
+                mainNavigationView.push({
+                    itemId: 'registerForm',
+                    xtype: "registerForm",
+                    title: "Register"
+                });
+            });
+            taskInner.delay(400);
+        });
+        task.delay(100);
+
+    },
+
     showForgotPassword: function() { //called from href link directly
         // var ForgotPasswordForm = Ext.create('Racloop.view.ForgotPasswordForm'),    // Login form
         var mainNavigationView = this.getMainNavigationView(); // Main view

@@ -32,16 +32,17 @@ Ext.define('Racloop.view.SettingNavigationView', {
                 id: 'settingNavigationViewBack'
             }
         }
-    },
-    push: function (view) {
-        // ref http://stackoverflow.com/questions/11522736/sencha-touch-clicking-a-button-rapidly-will-push-a-view-twice
-      if(typeof this.getActiveItem() == 'undefined' || this.getActiveItem().xtype != view.xtype) {
-         this.callParent(arguments);
-        }
-      else {
-         console.warn("Prevented pushing a potentially duplicate view of xtype: " + view.xtype);
-         view.destroy();
-      }
-   }
+    }
+   // ,
+   // push: function (view) {
+   //     // ref http://stackoverflow.com/questions/11522736/sencha-touch-clicking-a-button-rapidly-will-push-a-view-twice
+   //   if(typeof this.getActiveItem() == 'undefined' || this.getActiveItem().xtype != view.xtype) {
+   //      this.callParent(arguments);
+   //     }
+   //   else {
+   //      console.warn("Prevented pushing a potentially duplicate view of xtype: " + view.xtype);
+   //      view.destroy();
+   //   }
+   //}
 
 });

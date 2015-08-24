@@ -64,6 +64,9 @@ Ext.define('Racloop.view.LoginForm', {
         }, {
             xtype: 'container',
             html: '<div class="simple-text">' +
+                '<a href="#" id="loginFormNewUserLink" class="colored-text" onclick="Racloop.app.getController(\'UiController\').popAndShowRegister(); return false;">' +
+                'New User' +
+                '</a> &nbsp; &nbsp;' +
                 '<a href="#" id="loginFormForgetPasswordLink" class="colored-text" onclick="Racloop.app.getController(\'UiController\').showForgotPassword(); return false;">' +
                 'Forgot Password' +
                 '</a> &nbsp; &nbsp;' +

@@ -29,17 +29,19 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var myStatus = record.get("statusAsParent");
             var myPairId = record.get("myPairId");
             var numberOfCopassengers = record.get("numberOfCopassengers");
+            var femaleOnlySearch = record.get("femaleOnlySearch");
             if(record.get("isTaxi")) {
                 drivingText = "Taxi";
             }
             else {
-                drivingText = "Auto Rickshaw";
+                drivingText = "Auto";
             }
             var travelBuddiesButton = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">No Requests</button>'
             if(numberOfCopassengers > 0) {
                 travelBuddiesButton = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">Travel Buddies (' + numberOfCopassengers + ')</button>';
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
+            if(femaleOnlySearch) statusMarkup = statusMarkup + '  <span class="card-label card-label-pink">Pink Ride</span>';
             var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>  ' +
                 ' <button class="racloop-btn racloop-btn-primary  racloop-btn-sm detailsButton">Route</button>';
             var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger  racloop-btn-sm deleteJourneyButton">Delete</button>  ' +  travelBuddiesButton +

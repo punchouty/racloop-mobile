@@ -20,18 +20,21 @@ Ext.define('Racloop.view.Preferences', {
             items: [ {
                 name: 'contactOne',
                 xtype: 'numberfield',
+                labelWidth: '50%',
                 label: 'Contact 1',
                 placeHolder: 'Emergency Mobile',
                 itemId: 'emergencyContactOne'
             }, {
                 name: 'contactTwo',
                 xtype: 'numberfield',
+                labelWidth: '50%',
                 label: 'Contact 2',
                 placeHolder: 'Emergency Mobile',
                 itemId: 'emergencyContactTwo'
             },{
                 name: 'travelModePreference',
                 xtype: 'selectfield',
+                labelWidth: '50%',
                 itemId: 'travelModePreferenceField',
                 label: 'Travel Mode',
                 value:'auto',
@@ -48,6 +51,7 @@ Ext.define('Racloop.view.Preferences', {
             }, {
                 name: 'paymentPreference',
                 xtype: 'selectfield',
+                labelWidth: '50%',
                 itemId: 'paymentPreferenceSelectField',
                 label: 'Payment',
                 value:'cash',
@@ -68,6 +72,7 @@ Ext.define('Racloop.view.Preferences', {
             },{
                 name: 'cabServicePreference',
                 xtype: 'selectfield',
+                labelWidth: '50%',
                 itemId: 'cabServicePreferenceSelectField',
                 label: 'Cab Company',
                 value:'other',
@@ -99,8 +104,9 @@ Ext.define('Racloop.view.Preferences', {
                 ]
             }, {
                 xtype: 'togglefield',
-                name : 'enableDialogPreference',
-                label: 'Enable Recurring Search',
+                name : 'enableRecurringSearch',
+                labelWidth: '50%',
+                label: 'Show Dialogs',
                 itemId: 'enableDialogPreferenceField',
                 listeners: {
                     change: function(field, newValue, oldValue) {                      
@@ -109,8 +115,9 @@ Ext.define('Racloop.view.Preferences', {
               }             
             }, {
                 xtype: 'togglefield',
-                name : 'womenOnlySearchPreference',
+                name : 'femaleOnlySearch',
                 label: 'Women Only Search',
+                labelWidth: '50%',
                 itemId: 'womenOnlyPreferenceField',
                 hidden: true,
                 listeners: {
@@ -138,8 +145,6 @@ Ext.define('Racloop.view.Preferences', {
         this.callParent(arguments);
         var user = LoginHelper.getUser();
         this.setValues(user);
-        console.log("preference view")
-        console.dir(user)
         if(!Common.isEmpty(user.emergencyContactOne)) this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
         if(!Common.isEmpty(user.emergencyContactTwo)) this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
         if(!Common.isEmpty(user.cabServicePreference)) this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
@@ -148,11 +153,19 @@ Ext.define('Racloop.view.Preferences', {
         else this.down('field[itemId=paymentPreferenceSelectField]').setValue('cash');
         if(!Common.isEmpty(user.travelModePreference))  this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
         else this.down('field[itemId=travelModePreferenceField]').setValue('auto');
-        if(!Common.isEmpty(user.enableDialogPreference))  this.down('field[itemId=enableDialogPreferenceField]').setValue(user.enableDialogPreference);
+        if(!Common.isEmpty(user.enableRecurringSearch))  this.down('field[itemId=enableDialogPreferenceField]').setValue(user.enableRecurringSearch);
         else this.down('field[itemId=enableDialogPreferenceField]').setValue(0);
-        if(!Common.isEmpty(user.womenOnlySearchPreference))  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.womenOnlySearchPreference);
-        else this.down('field[itemId=womenOnlyPreferenceField]').setValue(0);
-        this.displayWomenOnlySearchField(user);
+        if(user.isMale) {
+            this.down('field[itemId=womenOnlyPreferenceField]').hide();
+        }
+        else {
+            this.down('field[itemId=womenOnlyPreferenceField]').show();
+            if(user.femaleOnlySearch)  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.femaleOnlySearch);
+        }
+
+        //if(!Common.isEmpty(user.femaleOnlySearch))  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.femaleOnlySearch);
+        //else this.down('field[itemId=womenOnlyPreferenceField]').setValue(0);
+        //this.displayWomenOnlySearchField(user);
     },
     displayWomenOnlySearchField: function(user){
         if(user) {

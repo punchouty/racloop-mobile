@@ -66,7 +66,8 @@ Ext.define('Racloop.controller.SessionsController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     console.log("SessionController - autoLogin - successfully login");
-                     LoginHelper.setUser(data.data);                     
+                    LoginHelper.setUser(data.data);
+                    Racloop.app.getController('SettingsController').setPreferenceToSearchScreen();
                     console.dir(data.data);
                      LoginHelper.setEmail(user.email);                                             
                      var currentJourney = data.currentJourney;                  
@@ -212,11 +213,11 @@ Ext.define('Racloop.controller.SessionsController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                  LoginHelper.setUser(data.data);
-                  LoginHelper.setEmail(values.email);                 
-                console.dir(data.data);
-                  var currentJourney = data.currentJourney;
-                 if (data.feedbackPending){
+                LoginHelper.setUser(data.data);
+                LoginHelper.setEmail(values.email);
+                Racloop.app.getController('SettingsController').setPreferenceToSearchScreen();
+                var currentJourney = data.currentJourney;
+                if (data.feedbackPending){
                         var feedbackJournies = data.currentJourney.relatedJourneys;
                         console.log(data);
                           var ratingView = me.getRatingView();

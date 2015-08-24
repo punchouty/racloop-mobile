@@ -100,6 +100,10 @@ Ext.define('Racloop.model.Journey', {
             name: 'isFemale',
             type: 'boolean',
             defaultValue: false
+        },{
+            name: 'femaleOnlySearch',
+            type: 'boolean',
+            defaultValue: false
         }
         ],
         validations: [{

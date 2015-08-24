@@ -464,10 +464,9 @@ Ext.define('Racloop.controller.SettingsController', {
         }
     },
 
+    // ALSO CALLED FROM SESSION CONTROLLER AFTER SUCCESSFUL LOGIN
     setPreferenceToSearchScreen : function() {
         var user = LoginHelper.getUser();
-        console.log( "valuez" + Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].getValue());
-        console.log(user.womenOnlySearchPreference);
         if(!Common.isEmpty(user.travelModePreference))  {
             if(user.travelModePreference === 'auto') {
                 Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
@@ -478,11 +477,18 @@ Ext.define('Racloop.controller.SettingsController', {
                 Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('taxi');
             }
         }
-        if(!Common.isEmpty(user.womenOnlySearchPreference))  {   
-                Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(user.womenOnlySearchPreference);
+        if(user.isMale) {
+            Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].hide();
         }
         else {
-                Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(0);
+            Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].show();
+            Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(user.femaleOnlySearch);
+            //if(!Common.isEmpty(user.femaleOnlySearch))  {
+            //    Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(user.femaleOnlySearch);
+            //}
+            //else {
+            //    Ext.ComponentQuery.query('searchFormTab field[itemId=searchScreenGender]')[0].setValue(0);
+            //}
         }
     },
 
@@ -493,10 +499,6 @@ Ext.define('Racloop.controller.SettingsController', {
             values = form.getValues(), // Form values
             preferencesForm = this.getPreferencesForm();
         preferencesForm.updateRecord(savePreferences);
-        console.log("savePreferences : values")
-        console.dir(values)
-        console.log("savePreferences : savePreferences")
-        console.dir(savePreferences)
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
@@ -506,8 +508,8 @@ Ext.define('Racloop.controller.SettingsController', {
                 user.travelModePreference = values.travelModePreference;
                 user.paymentPreference = values.paymentPreference;
                 user.cabServicePreference = values.cabServicePreference;
-                user.enableDialogPreference = values.enableDialogPreference;
-                user.womenOnlySearchPreference = values.womenOnlySearchPreference;
+                user.enableRecurringSearch = values.enableRecurringSearch;
+                user.femaleOnlySearch = values.femaleOnlySearch;
                 LoginHelper.setUser(user);
                 settingNavigationView.pop();
                 Ext.Msg.alert("Success", data.message);
@@ -558,7 +560,9 @@ Ext.define('Racloop.controller.SettingsController', {
                    contactTwo: values.contactTwo,
                    travelModePreference: values.travelModePreference,
                    paymentPreference: values.paymentPreference,
-                   cabServicePreference:values.cabServicePreference
+                   cabServicePreference: values.cabServicePreference,
+                   enableRecurringSearch: values.enableRecurringSearch,
+                   femaleOnlySearch:values.femaleOnlySearch
                }),
                success: successCallback,
                failure: failureCallback

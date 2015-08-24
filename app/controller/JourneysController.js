@@ -446,7 +446,8 @@ Ext.define('Racloop.controller.JourneysController', {
 
     executeSearch : function(journey, isFirstScreen) {
         var me = this;
-        
+        console.log("journey : ")
+        console.log(journey);
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
@@ -596,6 +597,7 @@ Ext.define('Racloop.controller.JourneysController', {
                         //if(disableMoreRequests) {
                         //    Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         //}
+                        /*
                         var task = Ext.create('Ext.util.DelayedTask', function(){
                             var searchResultsView = null
                             if(isFirstScreen) {
@@ -633,6 +635,41 @@ Ext.define('Racloop.controller.JourneysController', {
                             }
                         });
                         task.delay(300);
+                        */
+                        var searchResultsView = null
+                        if(isFirstScreen) {
+                            searchResultsView = me.getMainNavigationView().push({
+                                xtype: "searchResultsView",
+                                title: "Search Results"
+                            });
+                        }
+                        else {
+                            searchResultsView = me.getSearchNavigationView().push({
+                                xtype: "searchResultsView",
+                                title: "Search Results"
+                            });
+                        }
+                        var comp = searchResultsView.getComponent('searchResultsDataViewInner');
+                        comp.isDummy = data.isDummy;
+                        console.log("executeSearch : data.data.hideSaveButton : " + data.data.hideSaveButton);
+                        if(data.data.hideSaveButton || isFirstScreen) {
+                            //me.getSaveJourneyButtonInSearchResults().setHidden(true);
+                            searchResultsView.down('#saveJourneyButton').setHidden(true);
+                        }
+                        else {
+                            //me.getSaveJourneyButtonInSearchResults().setHidden(false);
+                            searchResultsView.down('#saveJourneyButton').setHidden(false);
+                        }
+                        console.log("isFirstScreen : " + isFirstScreen + " searchResultsView.down('#loginButtonInSearchResults') : " + searchResultsView.down('#loginButtonInSearchResults'))
+                        if(isFirstScreen) {
+                            searchResultsView.down('#loginButtonInSearchResults').setHidden(false);
+                        }
+                        else {
+                            searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
+                        }
+                        if(disableMoreRequests) {
+                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        }
                     }
                 }
                 Ext.Viewport.unmask();
@@ -649,6 +686,14 @@ Ext.define('Racloop.controller.JourneysController', {
 
         };
 
+        var femaleOnlySearch = false;
+        if(!isFirstScreen) {
+            var user = LoginHelper.getUser();
+            if(!user.isMale) {
+                if(journey.femaleOnlySearch) femaleOnlySearch = true;
+            }
+        }
+
         var journeyData = {
                 dateOfJourneyString: journey.dateOfJourneyString,
                 validStartTimeString: journey.validStartTimeString,
@@ -662,11 +707,12 @@ Ext.define('Racloop.controller.JourneysController', {
                 isTaxi: journey.isTaxi,
                 tripDistance: journey.tripDistance,
                 tripTimeInSeconds: journey.tripTimeInSeconds,
-                tripUnit: journey.tripUnit
+                tripUnit: journey.tripUnit,
+                femaleOnlySearch : femaleOnlySearch
             };
 
-        if(!isFirstScreen)
-            journeyData.isFemale = journey.isFemale || 'false';
+        //if(!isFirstScreen)
+        //    journeyData.isFemale = journey.isFemale || 'false';
 
         Ext.Viewport.mask({
             xtype: 'loadmask',

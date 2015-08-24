@@ -64,6 +64,10 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             else {
                 statusMarkup = '<span class="card-label card-label-gray">New</span>';
             }
+            if(record.get("femaleOnlySearch")) {
+                statusMarkup = '<span class="card-label card-label-pink">Pink Ride</span>';
+            }
+            console.log('record.get("femaleOnlySearch") : ' +  record.get("femaleOnlySearch"))
             //var buttonMarkup = '<button  class="racloop-btn racloop-btn-danger rejectButton"><span class="deleteCls"></span> Reject </button>  ' +
             //    '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
             //    '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
@@ -109,7 +113,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             }
             else {
                 legend = "A";
-                legendText = "Auto Rickshaw";
+                legendText = "Auto";
                 if(myStatus == null) {
                     if (disableRequest) {
                         buttonMarkup = "";
@@ -166,7 +170,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                     <h3>' + name + '</h3>\
                                 </div>\
                                 <div>\
-                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>\
+                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>  ' + statusMarkup + '\
                                 </div>\
                                 <div>\
                                 </div>\
