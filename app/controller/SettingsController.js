@@ -437,6 +437,9 @@ Ext.define('Racloop.controller.SettingsController', {
                 errorstring = "Invalid Mobile Number"
             }
         }
+        if(Common.isEmpty(values.contactOne) && Common.isEmpty(values.contactTwo)) {
+                errorstring = "Enter Atleast One Number"
+        }
         if (errorstring) {
             Ext.Msg.alert("Validation Error", errorstring);
         }

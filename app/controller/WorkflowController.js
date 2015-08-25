@@ -124,7 +124,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Searching...'
         });
 
         Ext.Ajax.request({

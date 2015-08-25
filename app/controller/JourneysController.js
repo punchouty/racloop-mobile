@@ -154,6 +154,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 'show': function( sheet, eOpts ){
                     Ext.Function.defer(function(){
                         sheet.down('field[name=from]').focus();
+                        cordova.plugins.Keyboard.show();
                     }, 200);                    
                 }
             }
@@ -189,6 +190,7 @@ Ext.define('Racloop.controller.JourneysController', {
                 'show': function( sheet, eOpts ){
                     Ext.Function.defer(function(){
                         sheet.down('field[name=to]').focus();
+                        cordova.plugins.Keyboard.show();
                     }, 200);  
 
                 }
@@ -447,7 +449,6 @@ Ext.define('Racloop.controller.JourneysController', {
     executeSearch : function(journey, isFirstScreen) {
         var me = this;
         console.log("journey : ")
-        console.log(journey);
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {

@@ -260,10 +260,11 @@ Ext.define('Racloop.controller.SessionsController', {
                                     });
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
-                                else {
-
+                                else {                                    
                                     mainTabs.setActiveItem('searchNavigationView');
+                                    if(!LoginHelper.getSearchedJourney())
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
+                                    me.getSearchForm().populateMainFormData();
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                                 }
@@ -280,10 +281,10 @@ Ext.define('Racloop.controller.SessionsController', {
                                     Ext.Msg.alert("Emergency Contacts", "Please provide your emergency contacts");
                                 }
                                 else {
-                                    me.getSearchForm().populateMainFormData();
                                     mainTabs.setActiveItem('searchNavigationView');
                                     if(!LoginHelper.getSearchedJourney())
                                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
+                                    me.getSearchForm().populateMainFormData();                                
     //                                mainTabs.setActiveItem('mapPanel');
     //                                Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                                 }
@@ -295,6 +296,7 @@ Ext.define('Racloop.controller.SessionsController', {
                             mainTabs.setActiveItem('searchNavigationView');
                             if(!LoginHelper.getSearchedJourney())
                             Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation(false);
+                            me.getSearchForm().populateMainFormData();
     //                        mainTabs.setActiveItem('mapPanel');
     //                        Racloop.app.getController('MapController').updateCurrentLocationOnMap();
                         }
