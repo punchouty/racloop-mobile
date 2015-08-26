@@ -337,8 +337,8 @@ Ext.define('Racloop.controller.AccountController', {
     resendSms: function(button, e, eOpts) {
         var verifyMobileForm = button.up('formpanel'); // Verify Mobile form
         var values = verifyMobileForm.getValues(); // Form values
-        var mobile = values.mobile;
-        if(mobile != null && mobile.length === 10) {
+        var mobile = values.mobile;    
+        if(mobile != null && mobile.toString().length === 10) {
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
@@ -356,11 +356,12 @@ Ext.define('Racloop.controller.AccountController', {
             };
             Ext.Ajax.request({
                 url: Config.url.RACLOOP_RESENDSMS,
+                method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: Ext.JSON.encode({
-                    mobile: mobile
+                    mobile: mobile.toString()
                 }),
                 success: successCallback,
                 failure: failureCallback
