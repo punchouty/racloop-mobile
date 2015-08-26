@@ -40,7 +40,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                 rejectButtonTap: 'handleRejectButtonTap',
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
-                callButtonTap: 'handleCallButtonTap'
+                callButtonTap: 'handleCallButtonTap',
+                inviteAgainButtonTap: 'handleInviteAgainButtonTap'
             }
         }
     },
@@ -102,9 +103,9 @@ Ext.define('Racloop.controller.WorkflowController', {
                         searchResultsView.down('#saveJourneyButton').setHidden(true);
                         searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
                         //me.getSaveJourneyButtonInSearchResults().setHidden(true);
-                        if(disableMoreRequests) {
+                        /*if(disableMoreRequests) {
                             Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
-                        }
+                        }*/
                     }
                 }
                 else {
@@ -228,7 +229,7 @@ Ext.define('Racloop.controller.WorkflowController', {
             callback: function(records, operation, success) {
                 if(records.length > 0) {
                     journeyNavigationView.push({
-                        title: 'Travel Buddies',
+                        title: 'My Requests',
                         xtype : "dataview",
                         defaultType: 'relatedRequestViewItem',
                         useComponents: true,
@@ -239,7 +240,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                     });
                 }
                 else {
-                    Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+                    Ext.Msg.alert("No data Available", "No requests against this journey");
                 }
             },
             scope: this
@@ -394,6 +395,62 @@ Ext.define('Racloop.controller.WorkflowController', {
             params: Ext.JSON.encode({
                 matchedJourneyId: journeyId,
                 isDummy: isDummy
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+
+    handleInviteAgainButtonTap: function(item) {
+        var me = this;
+        var record = item.getRecord();
+        var recordData = record.get("matchedJourney");
+        var journeyId = record.get("id");//recordData.id;
+        var pairId = record.get("myPairId");//recordData.id;
+        var searchNavView = this.getSearchNavigationView();
+        var searchList = Ext.ComponentQuery.query('searchNavigationView  #searchResultsDataViewInner')[0];
+        var isDummy = searchList.isDummy;
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                Ext.getStore('journeyStore').load({
+                    callback: function(records, operation, success) {
+                        me.getMainTabs().setActiveItem('journeyNavigationView');
+                        Racloop.app.getController('UiController').showMyJourneys();
+                    },
+                    scope: me
+                });
+                Ext.Viewport.unmask();
+                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+            } else {
+                Ext.Msg.alert(data.message);
+                Ext.Viewport.unmask();
+            }
+        };
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Msg.alert(response.message);
+            Ext.Viewport.unmask();
+
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Sending Request...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_REQUEST_AGAIN,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            params: Ext.JSON.encode({
+                otherJourneyId: journeyId,
+                isDummy: isDummy,
+                pairId:pairId
+                
             }),
             success: successCallback,
             failure: failureCallback

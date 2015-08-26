@@ -104,6 +104,15 @@ Ext.define('Racloop.model.Journey', {
             name: 'femaleOnlySearch',
             type: 'boolean',
             defaultValue: false
+        },{
+            name: 'journeyPairIds',
+            type: 'auto'
+        },{
+            name: 'incomingJourneyPairIds',
+            type: 'auto'
+        },{
+            name: 'outgoingJourneyPairIds',
+            type: 'auto'
         }
         ],
         validations: [{
