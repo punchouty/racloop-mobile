@@ -106,11 +106,11 @@ Ext.define('Racloop.view.Preferences', {
                 xtype: 'togglefield',
                 name : 'enableRecurringSearch',
                 labelWidth: '50%',
-                label: 'Show Dialogs',
+                label: 'Show Recurring Dialog',
                 itemId: 'enableDialogPreferenceField',
                 listeners: {
                     change: function(field, newValue, oldValue) {                      
-                         console.log('Enable Recurring Search has changed:', (newValue) ? 'ON' : 'OFF');
+                         //console.log('Enable Recurring Search has changed:', (newValue) ? 'ON' : 'OFF');
                     }              
               }             
             }, {
@@ -122,7 +122,7 @@ Ext.define('Racloop.view.Preferences', {
                 hidden: true,
                 listeners: {
                     change: function(field, newValue, oldValue) {
-                        console.log('Women Only Search has changed:', (newValue) ? 'ON' : 'OFF');
+                        //console.log('Women Only Search has changed:', (newValue) ? 'ON' : 'OFF');
                     }              
               }             
             }

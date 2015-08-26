@@ -21,8 +21,6 @@ Ext.define('Racloop.view.RecurringViewItem', {
         // Provide an implementation to update this container's child items
         var me = this;            
         if (record != null) {
-            console.log("recurringViewItem");
-            console.dir(record);
             var numberOfCopassengers = 0;
             var matchedJourneyCount = 0;
             var requestedJourneyCount = 0;
@@ -34,14 +32,18 @@ Ext.define('Racloop.view.RecurringViewItem', {
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
            
             var recurringDays = record.get("journeyRecurrence");
+            recurringDays.sort();
+            console.log("recurringDays : " + recurringDays.sort());
             var days = []; 
-            var weekday=new Array(7);
+            var weekday=new Array(8);
+            weekday[0]="None";
             weekday[1]="Monday";
             weekday[2]="Tuesday";
             weekday[3]="Wednesday";
             weekday[4]="Thursday";
             weekday[5]="Friday";
             weekday[6]="Saturday";
+            weekday[7]="Sunday";
            
             for(var key in record.get("journeyRecurrence")){
                 days.push(weekday[recurringDays[key]]);

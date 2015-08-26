@@ -60,18 +60,35 @@ Ext.define('Racloop.view.RegisterForm', {
             //    placeHolder: 'Referal Code',
             //    itemId: 'registerScreenReferalCode'
             //}, {
-                xtype: 'radiofield',
+            //    xtype: 'radiofield',
+            //    name: 'gender',
+            //    value: 'male',
+            //    label: 'Male',
+            //    checked: true,
+            //    itemId: 'registerScreenMale'
+            //}, {
+            //    xtype: 'radiofield',
+            //    name: 'gender',
+            //    value: 'female',
+            //    label: 'Female',
+            //    itemId: 'registerScreenFemale'
+            //},{
                 name: 'gender',
-                value: 'male',
-                label: 'Male',
-                checked: true,
-                itemId: 'registerScreenMale'
-            }, {
-                xtype: 'radiofield',
-                name: 'gender',
-                value: 'female',
-                label: 'Female',
-                itemId: 'registerScreenFemale'
+                xtype: 'selectfield',
+                //labelWidth: '50%',
+                itemId: 'registerScreenGender',
+                label: 'Gender',
+                value : 'male',
+                options: [
+                   {
+                        text: 'Male',
+                        value: 'male'
+                    },
+                    {
+                        text: 'Female',
+                        value: 'female'
+                    }
+                ]
             }]
         }, {
             xtype: 'button',

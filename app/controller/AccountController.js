@@ -159,13 +159,7 @@ Ext.define('Racloop.controller.AccountController', {
                         passwordConfirm: values.password,
                         fullName: values.name,
                         mobile: values.mobile,
-                        gender: values.gender,
-                        referalCode:values.referalCode,
-                        cordova : device? device.cordova : null,
-                        model : device? device.model : null,
-                        platform : device? device.platform : null,
-                        uuid : device? device.uuid : null,
-                        version : device? device.version : null
+                        gender: values.gender
                     }),
                     success: successCallback,
                     failure: failureCallback
@@ -197,14 +191,14 @@ Ext.define('Racloop.controller.AccountController', {
             field[0].addCls('error');
         }
 
-        var genderErrors = validationObj.getByField('gender');
-        if (genderErrors != null && genderErrors.length > 0) {
-            if(errorCounted < 3) {
-                errorString += genderErrors[0].getMessage() + "<br>";
-                errorCounted = errorCounted + 1;
-            }
-            totalErrors = totalErrors + genderErrors.length;
-        }
+        //var genderErrors = validationObj.getByField('gender');
+        //if (genderErrors != null && genderErrors.length > 0) {
+        //    if(errorCounted < 3) {
+        //        errorString += genderErrors[0].getMessage() + "<br>";
+        //        errorCounted = errorCounted + 1;
+        //    }
+        //    totalErrors = totalErrors + genderErrors.length;
+        //}
 
         var passwordErrors = validationObj.getByField('password');
         if (passwordErrors != null && passwordErrors.length > 0) {

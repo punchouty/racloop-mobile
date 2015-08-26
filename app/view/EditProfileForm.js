@@ -75,29 +75,47 @@ Ext.define('Racloop.view.EditProfileForm', {
                 readOnly: true,
                 //labelWidth: '40%',
                 itemId: 'editScreenUserCode'
-            },  {
-                name: 'gender',
-                xtype: 'radiofield',
-                label: 'Male',
-                value: 'male',
-                //checked: true,
-                //labelWidth: '40%',
-                itemId: 'editScreenMale'
             }, {
-                name: 'gender',
-                xtype: 'radiofield',
-                label: 'Female',
-                value: 'female',
-                //labelWidth: '40%',
-                itemId: 'editScreenFemale'
-            }
+                   name: 'gender',
+                    xtype: 'selectfield',
+                    //labelWidth: '50%',
+                    itemId: 'editScreenGender',
+                    label: 'Gender',
+                    value : 'male',
+                    options: [
+                        {
+                            text: 'Male',
+                            value: 'male'
+                        },
+                        {
+                            text: 'Female',
+                            value: 'female'
+                        }
+                    ]
+                }
+            //    ,  {
+            //    name: 'gender',
+            //    xtype: 'radiofield',
+            //    label: 'Male',
+            //    value: 'male',
+            //    //checked: true,
+            //    //labelWidth: '40%',
+            //    itemId: 'editScreenMale'
+            //}, {
+            //    name: 'gender',
+            //    xtype: 'radiofield',
+            //    label: 'Female',
+            //    value: 'female',
+            //    //labelWidth: '40%',
+            //    itemId: 'editScreenFemale'
+            //}
 
             ]
         }, {
             xtype: 'button',
             itemId: 'updateProfileButton',
             id: 'editProfileFormButton',
-            text: 'Update Name',
+            text: 'Update',
             action: 'edit',
             ui: 'action',
             margin: 20,
@@ -110,12 +128,10 @@ Ext.define('Racloop.view.EditProfileForm', {
         this.setValues(user);
         //var isMale = this.down('field[name=gender]');
         if(user.isMale) {
-            this.down('field[itemId=editScreenFemale]').uncheck();
-            this.down('field[itemId=editScreenMale]').check();
+            this.down('field[itemId=editScreenGender]').setValue("male");
         }
         else {
-            this.down('field[itemId=editScreenFemale]').check();
-            this.down('field[itemId=editScreenMale]').uncheck();
+            this.down('field[itemId=editScreenGender]').setValue("female");
         }
         console.log("user.photoUrl : " + user.photoUrl)
         this.down("#userImage").setSrc(user.photoUrl);

@@ -37,6 +37,16 @@ Ext.define('Racloop.util.LoginHelper', {
         removeUser: function() {
             if (Common.supportsHtml5Storage()) localStorage.removeItem('u');
         },
+        setInstallStatus : function(status) {
+            if (Common.supportsHtml5Storage()) {
+                window.localStorage.setItem("install", status);
+            }
+        },
+        getInstallStatus : function() {
+            if (Common.supportsHtml5Storage()) {
+                return window.localStorage.getItem("install");
+            }
+        },
         setEmail : function(email) {
             if (Common.supportsHtml5Storage()) {
                 window.localStorage.setItem("e", email);
@@ -80,7 +90,7 @@ Ext.define('Racloop.util.LoginHelper', {
         },
         initLoginCounter: function() {
             if (Common.supportsHtml5Storage()) {
-                window.localStorage.setItem("c", "3");
+                window.localStorage.setItem("c", "0");
             }
         },
         resetLoginCounter: function() {

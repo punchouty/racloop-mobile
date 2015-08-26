@@ -318,121 +318,28 @@ Ext.define('Racloop.controller.SessionsController', {
             Ext.Msg.alert("Network Error", response.code);
         };
 
-        var referrer = "UNINITIALIZE";
-        function ok (value) {
-            referrer = value
-            var validationObj = user.validate();
-            if (!validationObj.isValid()) {
-                var errorString = this.handleLoginFormValidation(validationObj);
-                Ext.Msg.alert("Oops", errorString);
-            } else {
-                Ext.Viewport.mask({
-                    xtype: 'loadmask',
-                    indicator: true,
-                    message: 'Logging in...'
-                });
-                Ext.Ajax.request({
-                    url: Config.url.RACLOOP_LOGIN,
-                    method: 'post',
-                    withCredentials: true,
-                    useDefaultXhrHeader: false,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        email: values.email,
-                        password: values.password,
-                        rememberMe: true,
-                        currentDateString : currentDateString,
-                        cordova : device.cordova,
-                        model : device.model,
-                        platform : device.platform,
-                        uuid : device.uuid,
-                        version : device.version,
-                        referrer : referrer
-                    }),
-                    success: successCallback,
-                    failure: failureCallback
-                });
-            }
-        }
-        function fail (error) {
-            referrer = "ERROR"
-            var validationObj = user.validate();
-            if (!validationObj.isValid()) {
-                var errorString = this.handleLoginFormValidation(validationObj);
-                Ext.Msg.alert("Oops", errorString);
-            } else {
-                Ext.Viewport.mask({
-                    xtype: 'loadmask',
-                    indicator: true,
-                    message: 'Logging in...'
-                });
-                Ext.Ajax.request({
-                    url: Config.url.RACLOOP_LOGIN,
-                    method: 'post',
-                    withCredentials: true,
-                    useDefaultXhrHeader: false,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        email: values.email,
-                        password: values.password,
-                        rememberMe: true,
-                        currentDateString : currentDateString,
-                        cordova : device.cordova,
-                        model : device.model,
-                        platform : device.platform,
-                        uuid : device.uuid,
-                        version : device.version,
-                        referrer : referrer
-                    }),
-                    success: successCallback,
-                    failure: failureCallback
-                });
-            }
-        }
-        if(typeof plugins === "undefined") {
-            var validationObj = user.validate();
-            if (!validationObj.isValid()) {
-                var errorString = this.handleLoginFormValidation(validationObj);
-                Ext.Msg.alert("Oops", errorString);
-            } else {
-                Ext.Viewport.mask({
-                    xtype: 'loadmask',
-                    indicator: true,
-                    message: 'Logging in...'
-                });
-                Ext.Ajax.request({
-                    url: Config.url.RACLOOP_LOGIN,
-                    method: 'post',
-                    withCredentials: true,
-                    useDefaultXhrHeader: false,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        email: values.email,
-                        password: values.password,
-                        rememberMe: true,
-                        currentDateString : currentDateString,
-                        cordova : 'no-value',
-                        model : 'no-value',
-                        platform : 'no-value',
-                        uuid : 'no-value',
-                        version : 'no-value',
-                        referrer : referrer
-                    }),
-                    success: successCallback,
-                    failure: failureCallback
-                });
-            }
-        }
-        else {
-            var prefs = plugins.appPreferences;
-            prefs.fetch (ok, fail, 'referrer');
-        }
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_LOGIN,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                email: values.email,
+                password: values.password,
+                rememberMe: true,
+                currentDateString : currentDateString
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
 
     },
 

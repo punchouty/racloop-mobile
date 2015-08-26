@@ -204,7 +204,7 @@ Ext.define('Racloop.controller.UiController', {
                     emailField.setValue(LoginHelper.getEmail());
                 }
             });
-            task.delay(400);
+            task.delay(100);
         }
         else {
             mainNavigationView.push({
@@ -248,7 +248,7 @@ Ext.define('Racloop.controller.UiController', {
                     title: "Register"
                 });
             });
-            taskInner.delay(400);
+            taskInner.delay(100);
         });
         task.delay(100);
 

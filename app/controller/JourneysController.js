@@ -1102,73 +1102,30 @@ Ext.define('Racloop.controller.JourneysController', {
     promptShowRecurringSearchDialog: function(journey, showDialog) {
         var me = this;
         var user = LoginHelper.getUser();
-        console.log(user.enableDialogPreference && showDialog);
-        if(user.enableDialogPreference && showDialog){
-         // Ext.Msg.show({
-         //      title   : 'Make it Recurring',
-         //      msg     : null,
-         //      items: [
-         //         {
-         //            xtype: 'panel',                    
-         //            items: [
-         //              {
-         //                xtype: 'checkboxfield',
-         //                name : 'enableDialog',
-         //                label: 'Dont Show this Dialog',
-         //                value: true,
-         //                checked: Boolean(LoginHelper.getDialogOption()),
-         //                labelWidth: "80%",
-         //                style: "height: 50px;",
-         //                listeners: {
-         //                check: function() {
-         //                     LoginHelper.removeDialogOption();
-         //                },
-         //                uncheck: function() {
-         //                    LoginHelper.setDialogOption(Boolean(this.getValue()));
-         //                } 
-         //              }
-         //            }]
-         //        }],
-         //      width: '50%',
-         //      buttons : [{
-         //        itemId : 'yes',
-         //        text   : 'YES',
-         //        ui     : 'action'
-         //      },{
-         //        itemId : 'no',
-         //        text   : 'NO'
-         //      }],
-         //      prompt  : { maxlength : 180, autocapitalize : false },
-         //      fn      : function(text,btn) {
-         //        // do some stuff
-         //        if(text === 'yes') {
-         //            me.displayRecurringScreen(button);
-         //        } else {
-         //            me.handleSaveJourneyTap();
-         //        }
-         //      }
-            // });
+        console.log(user.enableRecurringSearch );
+        console.log(showDialog);
+        console.log(user.enableRecurringSearch && showDialog);
+        if(user.enableRecurringSearch && showDialog){
+            var msg = Ext.create('Ext.MessageBox').show({
+                title:    'Is This a Recurring Ride?',
+                msg:      "asas",
+                html:     "<p style='color: #fff; font-size: 0.8em'><input  type='checkbox' id='disableDialogCheckBox' /> Don't show again</p>",
+                buttons:  Ext.MessageBox.YESNO,
+                fn: function(btn) {
+                    if( btn == 'yes') {
+                        me.displayRecurringScreen(journey);
+                    } else {
+                        me.onJourneySaved();
+                    }
 
-        var msg = Ext.create('Ext.MessageBox').show({
-            title:    'Is This a Recurring Ride?',
-            msg:      "asas",
-            html:     "<p style='color: #fff; font-size: 0.8em'><input  type='checkbox' id='disableDialogCheckBox' /> Don't show again</p>",
-            buttons:  Ext.MessageBox.YESNO,
-            fn: function(btn) {
-                if( btn == 'yes') {
-                    me.displayRecurringScreen(journey);
-                } else {
-                    me.onJourneySaved();
-                }               
-
-                if (document.getElementById('disableDialogCheckBox').checked){
-                    user.enableDialogPreference = 0;
-                } else {
-                    user.enableDialogPreference = 1;
+                    if (document.getElementById('disableDialogCheckBox').checked){
+                        user.enableRecurringSearch = 0;
+                    } else {
+                        user.enableRecurringSearch = 1;
+                    }
+                    LoginHelper.setUser(user);
                 }
-                LoginHelper.setUser(user);
-            }
-        });
+            });
         } else {
             me.onJourneySaved();
         }
@@ -1350,9 +1307,12 @@ Ext.define('Racloop.controller.JourneysController', {
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
-                 //on success 
-                  recurringStore.remove(record);    
-                  Ext.Viewport.unmask();
+                 recurringStore.remove(record);
+                var recordCount = recurringStore.getAllCount();
+                if(recordCount == 0) {
+                    Ext.ComponentQuery.query('settingNavigationView  #recurringEmptyView')[0].show();
+                }
+                 Ext.Viewport.unmask();
                  Ext.toast({message: "Successfully Deleted Recurring Journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});      
             } else {
                 Ext.Msg.alert("Failure", data.message);

@@ -94,12 +94,17 @@ Ext.define('Racloop.controller.SettingsController', {
         } else if(title === Config.settingRecurringSearches) {
             Ext.getStore('recurringStore').load({
                 callback: function(records, operation, success) {
-                    searchNavigationView.push({
+                    var recordCount = Ext.getStore('recurringStore').getAllCount();
+                    var recurringView = searchNavigationView.push({
                         itemId: itemId,
                         xtype: navView,
                         title: title,
                         scrollable : true
                     });
+                    if(recordCount > 0)  {
+                        var emptyView = recurringView.down("#recurringEmptyView");
+                        emptyView.hide();
+                    }
                 },
                 scope: this
             });
@@ -398,6 +403,7 @@ Ext.define('Racloop.controller.SettingsController', {
     },
 
     saveEmergencyContacts : function(button, e, eOpts) {
+        var settingNavigationView = this.getSettingNavigationView();
         var emergencyContacts = Ext.create("Racloop.model.EmergencyContacts", {});
         var form = button.up('formpanel'), // Login form
             values = form.getValues(), // Form values
@@ -424,7 +430,7 @@ Ext.define('Racloop.controller.SettingsController', {
             Ext.Viewport.unmask();
 
         };
-
+        var empty = false;
         var validationObj = emergencyContacts.validate();
         var errorstring = null;
         if(!Common.isEmpty(values.contactOne)) {
@@ -438,10 +444,12 @@ Ext.define('Racloop.controller.SettingsController', {
             }
         }
         if(Common.isEmpty(values.contactOne) && Common.isEmpty(values.contactTwo)) {
-                errorstring = "Enter Atleast One Number"
+                errorstring = "Enter Atleast One Number";
+                empty = true;
         }
         if (errorstring) {
-            Ext.Msg.alert("Validation Error", errorstring);
+            if(empty) settingNavigationView.pop();
+            else Ext.Msg.alert("Input Error", errorstring);
         }
         else {
             Ext.Viewport.mask({
@@ -634,7 +642,6 @@ Ext.define('Racloop.controller.SettingsController', {
                 encodingType : Camera.EncodingType.JPEG,
                 allowEdit : true,
                 sourceType: source,
-                allowEdit : false,
                 targetWidth: 256,
                 targetHeight: 256,
                 saveToPhotoAlbum: false,
