@@ -1102,8 +1102,8 @@ Ext.define('Racloop.controller.JourneysController', {
     promptShowRecurringSearchDialog: function(journey, showDialog) {
         var me = this;
         var user = LoginHelper.getUser();
-        console.log(user.enableDialogPreference && showDialog);
-        if(user.enableDialogPreference && showDialog){
+        console.log(user.enableRecurringSearch && showDialog);
+        if(user.enableRecurringSearch && showDialog){
          // Ext.Msg.show({
          //      title   : 'Make it Recurring',
          //      msg     : null,
@@ -1162,9 +1162,9 @@ Ext.define('Racloop.controller.JourneysController', {
                 }               
 
                 if (document.getElementById('disableDialogCheckBox').checked){
-                    user.enableDialogPreference = 0;
+                    user.enableRecurringSearch = 0;
                 } else {
-                    user.enableDialogPreference = 1;
+                    user.enableRecurringSearch = 1;
                 }
                 LoginHelper.setUser(user);
             }

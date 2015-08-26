@@ -476,7 +476,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('auto');
             }
             else {
-                Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('false');
+                Ext.ComponentQuery.query('searchFormTab field[name=isTaxi]')[0].setValue('true');
                 Ext.ComponentQuery.query('searchFormTab field[itemId=autoTaxiSelectField]')[0].setValue('taxi');
             }
         }
