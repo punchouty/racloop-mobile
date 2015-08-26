@@ -21,17 +21,18 @@ Ext.define('Racloop.view.RecurringView', {
 
     config : {
         layout: 'vbox',
+        xtype: 'panel',
         items: [{
                 itemId: 'recurringEmptyView',
                 xtype: 'panel',
-                hidden : true,
-                html: '<div class="section-header">' +
-                '<div class="small-text-medium uppercase colored-text">' +
-                'No Recurring Searches Found' +
-                '</div>' +
-                '<div class="colored-line"></div>' +
-                '<div class="sub-heading">No previous data found.</div>' +
-                '</div>',
+                //hidden : true,
+                html: '<div class="startup-header">' +
+                            '<div class="small-text-medium uppercase colored-text">' +
+                                'No Recurring Searches Found' +
+                            '</div>' +
+                            '<div class="colored-line"></div>' +
+                            '<div class="sub-heading">You can create a recurring search from the History tab.</div>' +
+                    '</div>',
                 flex : 1
             },
             {
@@ -43,7 +44,7 @@ Ext.define('Racloop.view.RecurringView', {
                     direction: 'vertical'
                 },
                 store: "recurringStore",
-                flex : 1
+                flex : 4
             }
         ]
 

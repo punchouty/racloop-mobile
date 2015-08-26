@@ -116,35 +116,31 @@ Ext.application({
 
     launch: function() {
         console.log('launching application......');
+        var me = this;
         if(!(Ext.os.is.Android || Ext.os.is.iOS)){
             console.log("this is browser")
             facebookConnectPlugin.browserInit(827652170684004,'v2.3');
         }
-        this.initSslCertificates();
         document.addEventListener('deviceready', function () {
             StatusBar.hide();
             if (Ext.os.is.iOS && Ext.os.version.major >= 7) {
-            //    document.body.style.marginTop = "20px";
-            //    Ext.Viewport.setHeight(Ext.Viewport.getWindowHeight() - 20);
+
+            }
+            if(typeof plugins === "undefined") {
+                console.log("Not a device but a browser")
+            }
+            else {
+                window.plugins.sim.getSimInfo(me.simInfoSuccess, me.simInfoFailure);
             }
         });
         if (!Ext.device.Connection.isOnline()) {
             Ext.Viewport.add(Ext.create('Racloop.view.OfflineView'));
         }
         // Destroy the #appLoadingIndicator element
-        this.initSslCertificates();
         this.cleanup();
         this.fixOverflowChangedIssue();
         if(Ext.fly('appLoadingIndicator')) Ext.fly('appLoadingIndicator').destroy();
         if(Ext.fly('startup')) Ext.fly('startup').destroy();
-    },
-
-    initSslCertificates: function() {
-        //cordovaHTTP.enableSSLPinning(true, function() {
-        //    console.log('success!');
-        //}, function() {
-        //    console.log('error :(');
-        //});
     },
 
     onUpdated: function() {
@@ -202,6 +198,70 @@ Ext.application({
                     return new Ext.util.paintmonitor.CssAnimation(config);
                 }
             });
+        }
+    },
+
+    simInfoSuccess : function() {
+        if(LoginHelper.getInstallStatus()) {
+            var status = LoginHelper.getInstallStatus()
+        }
+        else {
+            LoginHelper.getInstallStatus("incomplete")
+        }
+        var carrierName = window.plugins.sim.carrierName;
+        var countryCode = window.plugins.sim.countryCode;
+        var mcc = window.plugins.sim.mcc;
+        var mnc = window.plugins.sim.mnc;
+        var phoneNumber = window.plugins.sim.phoneNumber;
+        var callState = window.plugins.sim.callState;
+        var dataActivity = window.plugins.sim.dataActivity;
+        var networkType = window.plugins.sim.networkType;
+        var phoneType = window.plugins.sim.phoneType;
+        var simState = window.plugins.sim.simState;
+        var cordova = device.cordova;
+        var model = device.model;
+        var platform = device.platform;
+        var uuid = device.uuid;
+        var version = device.version;
+
+    },
+
+    simInfoFailure : function() {
+
+    },
+
+    sendDeviceInfo : function() {
+        if(typeof plugins === "undefined") {
+            console.log("Should not be sending device info")
+        }
+        else {
+            var referrer = "UNINITIALIZE";
+            function ok (value) {
+                referrer = value
+                Ext.Ajax.request({
+                    url: Config.url.RACLOOP_DEVICE_INFO,
+                    method: 'post',
+                    withCredentials: true,
+                    useDefaultXhrHeader: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    params: Ext.JSON.encode({
+                        cordova : device.cordova,
+                        model : device.model,
+                        platform : device.platform,
+                        uuid : device.uuid,
+                        version : device.version,
+                        referrer : referrer
+                    })
+                });
+            }
+            function fail (error) {
+                referrer = "ERROR"
+
+            }
+            var prefs = plugins.appPreferences;
+            prefs.fetch (ok, fail, 'referrer');
         }
     }
 });

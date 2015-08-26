@@ -81,7 +81,7 @@ Ext.define('Racloop.form.SearchFormTab', {
             },{
                 xtype: 'togglefield',
                 name : 'femaleOnlySearch',
-                label: 'Females Only',
+                label: 'Women Only',
                 itemId: 'searchScreenGender',
                 hidden: true,
                 listeners: {

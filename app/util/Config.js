@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'prod',
+        env: 'local',
         app: {
             messageText: 'Test message.'
         },
@@ -134,6 +134,9 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://www.cabshare.in/preference/deleteRecurringJourney';
             this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://www.cabshare.in/journeyMobile/nearByPoints';
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://www.cabshare.in/workflowMobile/requestAgain';
+            this.config.url.RACLOOP_USER_IMAGE = 'http://www.cabshare.in/userMobile/setUserImage';
+            this.config.url.RACLOOP_DEVICE_INFO = 'http://www.cabshare.in/userMobile/installReferer';
+
             
 
         } else if (this.config.env == 'dev') {
@@ -180,6 +183,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://localhost:8080/app/journeyMobile/nearByPoints';
             this.config.url.RACLOOP_USER_IMAGE = 'http://localhost:8080/app/userMobile/setUserImage';
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://localhost:8080/app/workflowMobile/requestAgain';
+            this.config.url.RACLOOP_DEVICE_INFO = 'http://localhost:8080/app/userMobile/installReferer';
+
         } else {
             var ip = "192.168.1.2";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
@@ -225,6 +230,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://' + ip + ':8080/app/journeyMobile/nearByPoints';
             this.config.url.RACLOOP_USER_IMAGE = 'http://' + ip + ':8080/app/userMobile/setUserImage';
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://' + ip + ':8080/app/workflowMobile/requestAgain';
+            this.config.url.RACLOOP_DEVICE_INFO = 'http://' + ip + ':8080/app/userMobile/installReferer';
+
         }
         return this.config;
     }
