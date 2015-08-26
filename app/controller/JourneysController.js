@@ -1309,27 +1309,31 @@ Ext.define('Racloop.controller.JourneysController', {
                 Ext.Viewport.unmask();
 
         };
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            indicator: true,
-            message: 'Saving...'
-        });
-
-          Ext.Ajax.request({
-            url: Config.url.RACLOOP_MAKE_RECURRING,
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-            params: Ext.JSON.encode({
-                journeyId: values.journeyId,
-                recurring: recurring
-            }),
-            success: successCallback,
-            failure: failureCallback
-        });
+        if(recurring.length > 0){  
+            Ext.Viewport.mask({
+                xtype: 'loadmask',
+                indicator: true,
+                message: 'Saving...'
+            });
+         
+              Ext.Ajax.request({
+                url: Config.url.RACLOOP_MAKE_RECURRING,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                params: Ext.JSON.encode({
+                    journeyId: values.journeyId,
+                    recurring: recurring
+                }),
+                success: successCallback,
+                failure: failureCallback
+            });
+      } else {
+            Ext.Msg.alert("Failure","Select Atleast One Day");
+      }
     },
     onCancelRecurringButtonTap: function(button, e, eOpts) {
         console.log("cancelRecurringButton");
