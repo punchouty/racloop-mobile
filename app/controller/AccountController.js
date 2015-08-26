@@ -300,11 +300,11 @@ Ext.define('Racloop.controller.AccountController', {
                 var data = Ext.decode(response.responseText);
                 if (data.success) {
                     Ext.Viewport.unmask();
-                    //var sessionController = Racloop.app.getController('SessionsController') ;
-                    //sessionController.autoLogin();
-                    var mainNavigationView = me.getMainNavigationView();
-                    mainNavigationView.reset();
-                    Racloop.app.getController('UiController').showLogin();
+                    var sessionController = Racloop.app.getController('SessionsController') ;
+                    sessionController.loginFromVerify();
+                    //var mainNavigationView = me.getMainNavigationView();
+                    //mainNavigationView.reset();
+                    //Racloop.app.getController('UiController').showLogin();
                     Ext.Msg.alert("Verification Complete", "Mobile Verified Successfully");
                 }
                 else {

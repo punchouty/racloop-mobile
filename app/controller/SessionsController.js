@@ -343,6 +343,52 @@ Ext.define('Racloop.controller.SessionsController', {
 
     },
 
+    loginFromVerify : function() {
+        var user = LoginHelper.getUser();
+        var currentDateString = Ext.Date.format(new Date(),'c');
+
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            if (data.success) {
+                LoginHelper.setUser(data.data);
+                LoginHelper.setEmail(data.data.email);
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                mainTabs.show();
+                mainTabs.setActiveItem('searchNavigationView');
+                Ext.Viewport.unmask();
+            }
+        }
+        // Failure
+        var failureCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Network Error", response.code);
+        };
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Logging in...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_LOGIN,
+            method: 'post',
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                email: user.email,
+                password: user.password,
+                rememberMe: true,
+                currentDateString : currentDateString
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+
     onFBLogInButtonTap: function(){ 
         var me = this;
         //loginView = me.getSettingNavigationView();

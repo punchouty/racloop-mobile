@@ -1006,7 +1006,7 @@ Ext.define('Racloop.controller.JourneysController', {
         var femaleOnlySearch = false;
         var user = LoginHelper.getUser();
         if(!user.isMale) {
-            if(journey.femaleOnlySearch) femaleOnlySearch = true;
+            if(newJourney.femaleOnlySearch) femaleOnlySearch = true;
         }
         Ext.Viewport.mask({
             xtype: 'loadmask',

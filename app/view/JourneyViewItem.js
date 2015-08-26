@@ -59,7 +59,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger  racloop-btn-sm deleteJourneyButton">Delete</button>  ' +  travelBuddiesButton ;
                 
             if(myStatus === "Cancelled") {
-                statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span>';
+                statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span> ' + statusMarkup;
                 buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
                 buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
