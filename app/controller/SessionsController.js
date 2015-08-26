@@ -918,9 +918,13 @@ Ext.define('Racloop.controller.SessionsController', {
         var mainNavigationView = this.getMainNavigationView(); // Main view
         registerForm.updateRecord(user);
 
-        //var validationObj = user.validate();
-        if (false) {
-            var errorString = this.handleRegisterationFormValidation(validationObj);
+        var validationObj = user.validate();
+        var mobileErrors = validationObj.getByField('mobile');
+        if (mobileErrors != null && mobileErrors.length > 0) {
+            var errorString = mobileErrors[0].getMessage() + "<br>";
+            var field = Ext.ComponentQuery.query('mobileCaptureForm #mobileNumber');
+            field[0].addCls('error');
+            // var errorString = this.handleFBRegisterationFormValidation(validationObj);
             Ext.Msg.alert("Oops", errorString);
         } else {
             // Success
@@ -974,8 +978,6 @@ Ext.define('Racloop.controller.SessionsController', {
                 success: successCallback,
                 failure: failureCallback
             });
-            
-            
-        }
+        }            
     }
 });
