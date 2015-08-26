@@ -44,20 +44,14 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var statusMarkup = null;
             var numberOfCopassengers = record.get("numberOfCopassengers");
             var name = null;
-            if(numberOfCopassengers == 0) {
-                name = record.get("name");
-            }
-            else if(numberOfCopassengers == 1) {
-                name = record.get("name") + ' & 1 more';
-                buttonMarkup = "<button  class='racloop-btn racloop-btn-primary racloop-btn-sm travelBuddiesButton'>Passengers</button> ";
-            }
-            else if(numberOfCopassengers == 2) {
-                name = record.get("name") + ' & 2 more'
+            if(numberOfCopassengers>0 &&  myStatus === "") {
+                name = record.get("name") + ' & ' + numberOfCopassengers +' more';
                 buttonMarkup = "<button  class='racloop-btn racloop-btn-primary racloop-btn-sm travelBuddiesButton'>Passengers</button> ";
             }
             else {
-                console.error("Invalid number of coppassengers : " + numberOfCopassengers);
+                name = record.get("name");
             }
+            
             if(myStatus != null) {
                 statusMarkup = '<span class="card-label card-label-gray">' + myStatus + '</span>';
             }
@@ -84,7 +78,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Invite</button> ' +
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
                             ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
                         }
                     }
@@ -93,17 +87,26 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>';
                 }
-                else if(myStatus === "Request Recieved") {
+                else if(myStatus === "Request Received") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm rejectButton">Reject</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm acceptButton">Accept </button>  ';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
                     buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-sm disabled">'+ myStatus +'</</button>';
                 }
-               
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                }
+                else if(myStatus === "Available") {
+                    if(disableRequest) {
+                        buttonMarkup = "";
+                    }
+                    else {
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm inviteAgainButton">Connect Again</button> ' +
+                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                    }
+                    
                 }
                 else if(myStatus === "Rejected") {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton">Rejected</button>';
@@ -123,7 +126,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Request</button> ' +
+                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
                             ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
                         }
                     }
@@ -131,7 +134,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>';
                 }
-                else if(myStatus === "Request Recieved") {
+                else if(myStatus === "Request Received") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm rejectButton">Reject</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm acceptButton">Accept </button>  ';
                 }
@@ -142,6 +145,16 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                }
+                else if(myStatus === "Available") {
+                    if(disableRequest) {
+                        buttonMarkup = "";
+                    }
+                    else {
+                        buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm inviteAgainButton">Connect Again</button> ' +
+                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                    }
+                    
                 }
                 else if(myStatus === "Rejected") {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton">Rejected</button>';
@@ -228,6 +241,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             tap        : 'callButtonTapFired',
             delegate   : 'button.callButton'
         });
+        this.element.on({
+            scope      : this,
+            tap        : 'inviteAgainButtonTapFired',
+            delegate   : 'button.inviteAgainButton'
+        });
 
         this.callParent(arguments);
 
@@ -252,5 +270,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     },
     callButtonTapFired: function(e) {
         this.fireEvent('callButtonTap', this);
+    },
+    inviteAgainButtonTapFired: function(e) {
+        this.fireEvent('inviteAgainButtonTap', this);
     }
 });
