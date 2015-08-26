@@ -21,17 +21,16 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="10" />
     <preference name="android-installLocation" value="auto" />
-    <preference name="StatusBarOverlaysWebView" value="true" />
+    <!--<preference name="StatusBarOverlaysWebView" value="false" />-->
     <preference name="BackupWebStorage" value="none" />
 
 
     <icon src="icon.png" />
-     Spash Screen preferences specific to Android https://github.com/apache/cordova-plugin-splashscreen
+     <!--Spash Screen preferences specific to Android https://github.com/apache/cordova-plugin-splashscreen-->
     <preference name="SplashScreen" value="res/screen/android/spash-xhdpi.png" />
     <preference name="SplashScreenDelay" value="5000" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="AutoHideSplashScreen" value="true" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
     <preference name="auto-hide-splash-screen" value="true" />
     <platform name="android">
         <splash src="res/screen/android/splash-hdpi.png" density="port-hdpi"/>
@@ -43,22 +42,24 @@
         <splash src="res/screen/android/splash-mdpi.png" density="land-mdpi"/>
         <splash src="res/screen/android/splash-xhdpi.png" density="land-xhdpi"/>
     </platform>
+    <preference name="ios-statusbarstyle" value="black-opaque" />
 
     <plugin name="cordova-plugin-whitelist" version="1" />
     <!-- <plugin name="org.apache.cordova.console" /> -->
-    <plugin name="org.apache.cordova.device" />
+    <plugin name="cordova-plugin-device" />
     <plugin name="android-referrer-plugin" />
     <plugin name="cordova-plugin-app-preferences" />
-    <!--  <plugin name="AppPreferences" />
     <plugin name="cordova-plugin-sim" />
+    <!--  <plugin name="AppPreferences" />
     <plugin name="org.apache.cordova.dialogs" /> -->
-    <plugin name="org.apache.cordova.geolocation" />
+    <plugin name="cordova-plugin-geolocation" />
     <!--<plugin name="org.apache.cordova.inappbrowser" />-->
-    <plugin name="org.apache.cordova.network-information" />
+    <plugin name="cordova-plugin-network-information" />
     <!--<plugin name="org.apache.cordova.splashscreen" />-->
     <!--<plugin name="org.apache.cordova.vibration" />-->
-    <plugin name="org.apache.cordova.statusbar" />
-    <plugin name="org.apache.cordova.camera" />
+    <plugin name="cordova-plugin-statusbar" />
+    <plugin name="cordova-plugin-camera" />
+    <plugin name="ionic-plugins-keyboard" />
     <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <!-- Comment one of below -->
         <!-- Production
@@ -80,6 +81,9 @@
     </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Keyboard">
+        <param name="ios-package" value="IonicKeyboard" onload="true" />
     </feature>
     <access origin="*" />
     <allow-intent href="http://*/*" />

@@ -117,12 +117,15 @@ Ext.application({
     launch: function() {
         console.log('launching application......');
         var me = this;
-        if(!(Ext.os.is.Android || Ext.os.is.iOS)){
-            console.log("this is browser")
-            facebookConnectPlugin.browserInit(827652170684004,'v2.3');
-        }
         document.addEventListener('deviceready', function () {
-            StatusBar.hide();
+            //StatusBar.hide();
+            if(!(Ext.os.is.Android || Ext.os.is.iOS)){
+                console.log("this is browser")
+                facebookConnectPlugin.browserInit(827652170684004,'v2.3');
+            }
+            if(Ext.os.is.Android) {
+                StatusBar.backgroundColorByHexString("#333");
+            }
             if (Ext.os.is.iOS && Ext.os.version.major >= 7) {
 
             }
@@ -202,12 +205,24 @@ Ext.application({
     },
 
     simInfoSuccess : function() {
-        if(LoginHelper.getInstallStatus()) {
-            var status = LoginHelper.getInstallStatus()
+        var status = LoginHelper.getInstallStatus();
+        if(status) {
+            if(status === 'incomplete') {
+
+            }
         }
         else {
-            LoginHelper.getInstallStatus("incomplete")
+            LoginHelper.setInstallStatus("incomplete")
         }
+
+    },
+
+    simInfoFailure : function() {
+        Ext.Msg.alert("Failure","SIM Error");
+    },
+
+    sendDeviceInfo : function() {
+        var referrer = "UNINITIALIZE";
         var carrierName = window.plugins.sim.carrierName;
         var countryCode = window.plugins.sim.countryCode;
         var mcc = window.plugins.sim.mcc;
@@ -224,44 +239,77 @@ Ext.application({
         var uuid = device.uuid;
         var version = device.version;
 
-    },
-
-    simInfoFailure : function() {
-
-    },
-
-    sendDeviceInfo : function() {
-        if(typeof plugins === "undefined") {
-            console.log("Should not be sending device info")
+        function ok (value) {
+            referrer = value
+            Ext.Ajax.request({
+                url: Config.url.RACLOOP_DEVICE_INFO,
+                method: 'post',
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: Ext.JSON.encode({
+                    referrer : referrer,
+                    carrierName : carrierName,
+                    countryCode : countryCode,
+                    mcc : mcc,
+                    mnc : mnc,
+                    phoneNumber : phoneNumber,
+                    callState : callState,
+                    dataActivity : dataActivity,
+                    networkType : networkType,
+                    phoneType : phoneType,
+                    simState : simState,
+                    cordova : cordova,
+                    model : model,
+                    platform : platform,
+                    uuid : uuid,
+                    version : version
+                }),
+                success: function(){
+                    LoginHelper.setInstallStatus("complete")
+                },
+                failure: function(){}
+            });
         }
-        else {
-            var referrer = "UNINITIALIZE";
-            function ok (value) {
-                referrer = value
-                Ext.Ajax.request({
-                    url: Config.url.RACLOOP_DEVICE_INFO,
-                    method: 'post',
-                    withCredentials: true,
-                    useDefaultXhrHeader: false,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: Ext.JSON.encode({
-                        cordova : device.cordova,
-                        model : device.model,
-                        platform : device.platform,
-                        uuid : device.uuid,
-                        version : device.version,
-                        referrer : referrer
-                    })
-                });
-            }
-            function fail (error) {
-                referrer = "ERROR"
 
-            }
-            var prefs = plugins.appPreferences;
-            prefs.fetch (ok, fail, 'referrer');
+        function fail (error) {
+            referrer = "NONE"
+            Ext.Ajax.request({
+                url: Config.url.RACLOOP_DEVICE_INFO,
+                method: 'post',
+                withCredentials: true,
+                useDefaultXhrHeader: false,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: Ext.JSON.encode({
+                    referrer : referrer,
+                    carrierName : carrierName,
+                    countryCode : countryCode,
+                    mcc : mcc,
+                    mnc : mnc,
+                    phoneNumber : phoneNumber,
+                    callState : callState,
+                    dataActivity : dataActivity,
+                    networkType : networkType,
+                    phoneType : phoneType,
+                    simState : simState,
+                    cordova : cordova,
+                    model : model,
+                    platform : platform,
+                    uuid : uuid,
+                    version : version
+                }),
+                success: function(){
+                    LoginHelper.setInstallStatus("complete")
+                },
+                failure: function(){}
+            });
+
         }
+        var prefs = plugins.appPreferences;
+        prefs.fetch (ok, fail, 'referrer');
     }
 });

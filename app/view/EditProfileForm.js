@@ -72,6 +72,7 @@ Ext.define('Racloop.view.EditProfileForm', {
                 name: 'userCode',
                 xtype: 'textfield',
                 label: 'User Code',
+                hidden : true,
                 readOnly: true,
                 //labelWidth: '40%',
                 itemId: 'editScreenUserCode'

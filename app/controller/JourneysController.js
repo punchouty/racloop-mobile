@@ -154,7 +154,12 @@ Ext.define('Racloop.controller.JourneysController', {
                 'show': function( sheet, eOpts ){
                     Ext.Function.defer(function(){
                         sheet.down('field[name=from]').focus();
-                        cordova.plugins.Keyboard.show();
+                        if(typeof cordova === "undefined") {
+                            //do nothing
+                        }
+                        else {
+                            cordova.plugins.Keyboard.show();
+                        }
                     }, 200);                    
                 }
             }
@@ -190,7 +195,12 @@ Ext.define('Racloop.controller.JourneysController', {
                 'show': function( sheet, eOpts ){
                     Ext.Function.defer(function(){
                         sheet.down('field[name=to]').focus();
-                        cordova.plugins.Keyboard.show();
+                        if(typeof cordova === "undefined") {
+                            //do nothing
+                        }
+                        else {
+                            cordova.plugins.Keyboard.show();
+                        }
                     }, 200);  
 
                 }
@@ -259,6 +269,12 @@ Ext.define('Racloop.controller.JourneysController', {
             longTo = searchForm.down('field[name=toLongitude]').getValue();
             me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
             actionSheetFrom.hide();
+            if(typeof cordova === "undefined") {
+                //do nothing
+            }
+            else {
+                cordova.plugins.Keyboard.close();
+            }
         });
 
         google.maps.event.addListener(autocompleteTo, 'place_changed', function () {
@@ -273,6 +289,12 @@ Ext.define('Racloop.controller.JourneysController', {
             longFrom = searchForm.down('field[name=fromLongitude]').getValue();
             me.calculateDistance(searchForm, latFrom, longFrom, latTo, longTo);
             actionSheetTo.hide();
+            if(typeof cordova === "undefined") {
+                //do nothing
+            }
+            else {
+                cordova.plugins.Keyboard.close();
+            }
         });
     },
 
@@ -449,6 +471,7 @@ Ext.define('Racloop.controller.JourneysController', {
     executeSearch : function(journey, isFirstScreen) {
         var me = this;
         console.log("journey : ")
+        console.log(journey)
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
             if (data.success) {
@@ -462,11 +485,21 @@ Ext.define('Racloop.controller.JourneysController', {
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
                     var newTime = Ext.Date.format(newDate, 'g:i A');
+                    var newFemaleOnlySearch = "";
 
                     var existingDate = new Date(existingJourney.dateOfJourney);
                     var existingDay = Ext.Date.format(existingDate, 'd');
                     var existingMonth = Ext.Date.format(existingDate, 'F');
                     var existingTime = Ext.Date.format(existingDate, 'g:i A');
+                    var exisitingFemaleOnlySearch = "";
+                    if(!newJourney.isMale) {
+                        if(newJourney.femaleOnlySearch) {
+                            newFemaleOnlySearch = ' <span class="card-label card-label-pink">Pink Ride</span>';
+                        }
+                        if(existingJourney.femaleOnlySearch) {
+                            exisitingFemaleOnlySearch = ' <span class="card-label card-label-pink">Pink Ride</span>';
+                        }
+                    }
 
                     var journeyHtml='<div class="card">\
                                         <div class="sub-heading">Requested Journey</div>\
@@ -481,7 +514,7 @@ Ext.define('Racloop.controller.JourneysController', {
                                             </div>\
                                                 <div>\
                                                     <span class="card-time">'+newTime+'</span>\
-                                                    <span class="card-label card-label-blue">'+newIsDriver+'</span>\
+                                                    <span class="card-label card-label-blue">'+newIsDriver+'</span>' + newFemaleOnlySearch + '\
                                                    \
                                                 </div>\
                                                 <div>\
@@ -513,7 +546,7 @@ Ext.define('Racloop.controller.JourneysController', {
                                             </div>\
                                             <div>\
                                                 <span class="card-time">'+existingTime+'</span>\
-                                                <span class="card-label card-label-blue">'+existingIsDriver+'</span>\
+                                                <span class="card-label card-label-blue">'+existingIsDriver+'</span>' + exisitingFemaleOnlySearch + '\
                                             </div>\
                                             <div>\
                                             </div>\
@@ -970,6 +1003,11 @@ Ext.define('Racloop.controller.JourneysController', {
             Ext.Viewport.unmask();
             Ext.Msg.alert("Network Failure", response.message);
         };
+        var femaleOnlySearch = false;
+        var user = LoginHelper.getUser();
+        if(!user.isMale) {
+            if(journey.femaleOnlySearch) femaleOnlySearch = true;
+        }
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
@@ -997,7 +1035,8 @@ Ext.define('Racloop.controller.JourneysController', {
                 tripTimeInSeconds: newJourney.tripTimeInSeconds,
                 tripUnit: newJourney.tripUnit,
                 searchWithNewJourney: 'newJourney',
-                existingJourneyId: existingJourneyId
+                existingJourneyId: existingJourneyId,
+                femaleOnlySearch : femaleOnlySearch
             }),
             success: successCallback,
             failure: failureCallback
