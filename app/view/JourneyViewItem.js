@@ -48,7 +48,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 }
                 else {
                     
-                    travelBuddiesButton = ' <button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">My Requests</button>';
+                    travelBuddiesButton = ' <button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">My Requests (' + record.get("journeyPairIds").length +')</button>';
                 }
             }
             else {
