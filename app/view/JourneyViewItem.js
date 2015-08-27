@@ -30,6 +30,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var myPairId = record.get("myPairId");
             var numberOfCopassengers = record.get("numberOfCopassengers");
             var femaleOnlySearch = record.get("femaleOnlySearch");
+            var clockIcon = '';
+            if(record.get('parentRecurringJourneyId')) {
+                clockIcon = '<span class="timeCls">';
+            }
+
             if(record.get("isTaxi")) {
                 drivingText = "Taxi";
             }
@@ -76,7 +81,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                     </div>\
                     <div class="card-main">\
                         <div>\
-                            <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                            <span class="card-time"> ' + clockIcon + '</span>  '+time+'</span>\
                             <span class="card-pull-right">\
                                 ' + buttonMarkupTop + '\
                             </span>\

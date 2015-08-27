@@ -113,6 +113,9 @@ Ext.define('Racloop.model.Journey', {
         },{
             name: 'outgoingJourneyPairIds',
             type: 'auto'
+        },{
+            name: 'parentRecurringJourneyId',
+            type: 'string'
         }
         ],
         validations: [{
