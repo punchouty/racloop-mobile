@@ -48,12 +48,14 @@ Ext.define('Racloop.view.RecurringViewItem', {
             for(var key in record.get("journeyRecurrence")){
                 days.push(weekday[recurringDays[key]]);
             }
-            
+            var femaleOnlySearch = record.get("femaleOnlySearch");
+            var status = '<span class="timeCls"></span>  '+time+'';
+            if(femaleOnlySearch) status = status + '  <span class="card-label card-label-pink">Pink Ride</span>'
             var html='<div class="card">\
             <div class="card-footer">\
                 <div class="card-footer-row">\
                     <span class="card-location-label">Time : </span>\
-                    <span class="card-location"> &nbsp; <span class="timeCls"></span>  '+time+'</span>\
+                    <span class="card-location"> &nbsp; '+status+'</span>\
                 </div>\
                 <div class="card-footer-row">\
                     <span class="card-location-label">From : </span>\

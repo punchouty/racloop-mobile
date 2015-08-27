@@ -31,6 +31,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
             var day = Ext.Date.format(dateOfJourney, 'd');
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
+            var femaleOnlySearch = record.get("femaleOnlySearch");
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
@@ -40,6 +41,8 @@ Ext.define('Racloop.view.HistoryViewItem', {
             else {
                 drivingText = "Auto Rickshaw";
             }
+            var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
+            if(femaleOnlySearch) statusMarkup = statusMarkup + '  <span class="card-label card-label-pink">Pink Ride</span>';
             if(!record.get('isRecurring')) {
                 recurringButton = ' <button  class="racloop-btn racloop-btn-success racloop-btn-sm makeRecurringButton">Make Recurring</button>'
             }
@@ -55,7 +58,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                         <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
                     </div>\
                     <div>\
-                        <span class="card-label card-label-gray">'+drivingText+'</span>\
+                        '+statusMarkup+'\
                     </div>\
                 </div>\
             </div>\
