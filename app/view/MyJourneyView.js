@@ -25,7 +25,7 @@ Ext.define('Racloop.view.MyJourneyView', {
                 'No Active Rides Found' +
                 '</div>' +
                 '<div class="colored-line"></div>' +
-                '<div class="sub-heading-empty">Go to search tab to request a ride.</div>' +
+                '<div class="sub-heading-empty">Go to Search tab to request a ride.</div>' +
                 '</div>',
                 flex : 1
             },

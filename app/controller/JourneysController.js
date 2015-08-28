@@ -457,7 +457,7 @@ Ext.define('Racloop.controller.JourneysController', {
             var isTaxi = values.isTaxi;
             var tripDistance = values.tripDistance;
             if(isTaxi === 'false' && tripDistance > 50) {
-                Ext.Msg.alert("Use Taxi", "Ride more that 50 KM by Auto Rickshaw is not allowed. Please use Taxi instead.");
+                Ext.Msg.alert("Use Taxi", "Ride more than 50 KM by Auto Rickshaw is not allowed. Please use Taxi instead.");
             }
             else {
                 this.executeSearch(values, isFirstScreen);
@@ -524,11 +524,11 @@ Ext.define('Racloop.controller.JourneysController', {
                                         <div class="card-footer">\
                                             <div class="card-footer-row">\
                                                 <span class="card-location-label">From :</span>\
-                                                <span class="card-location">'+newJourney.from+'</span>\
+                                                <span class="card-location"> &nbsp;<span class="fromCls"> </span> '+newJourney.from+'</span>\
                                             </div>\
                                             <div class="card-footer-row">\
                                                 <span class="card-location-label">To :</span>\
-                                                <span class="card-location"> '+newJourney.to+'</span>\
+                                                <span class="card-location"> &nbsp;<span class="toCls"> </span> '+newJourney.to+'</span>\
                                             </div>\
                                         </div>\
                                     </div>\
