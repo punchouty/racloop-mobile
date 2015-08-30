@@ -60,7 +60,7 @@ Ext.define('Racloop.controller.SessionsController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Logging in...'
+                message: 'Signing In'
             });
             var successCallback = function(response, ops) {
                 var data = Ext.decode(response.responseText);
@@ -321,7 +321,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Signing In'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_LOGIN,
@@ -368,7 +368,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Signing In'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_LOGIN,
@@ -471,7 +471,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging out...'
+            message: 'Sigining Out'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_LOGOUT,
@@ -620,7 +620,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Saving...'
+            message: 'Saving'
         });
 
           Ext.Ajax.request({
@@ -701,7 +701,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Connecting'
+            message: 'Cancelling'
         });
 
         Ext.Ajax.request({
@@ -813,7 +813,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Connecting'
         }); 
 
           Ext.Ajax.request({
@@ -874,7 +874,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Signing In'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_LOGIN_AS_FACEBOOK,
@@ -946,7 +946,7 @@ Ext.define('Racloop.controller.SessionsController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Signing up...'
+                message: 'Signing Up'
             });
             Ext.Ajax.request({
                 url: Config.url.RACLOOP_SIGNUP,

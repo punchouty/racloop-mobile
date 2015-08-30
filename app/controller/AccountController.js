@@ -95,7 +95,7 @@ Ext.define('Racloop.controller.AccountController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Signing up...'
+                    message: 'Signing up'
                 });
 
                 //if(typeof device === "undefined") {
@@ -409,7 +409,7 @@ Ext.define('Racloop.controller.AccountController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Please Wait...'
+                message: 'Connecting'
             });
             Ext.Ajax.request({
                 url: Config.url.RACLOOP_FORGOTPASSWORD,

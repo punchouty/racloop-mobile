@@ -170,7 +170,7 @@ Ext.define('Racloop.controller.SettingsController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'EditProfile...'
+                message: 'Saving'
             });
             Ext.Ajax.request({
                 url: Racloop.util.Config.url.RACLOOP_EDIT,
@@ -249,7 +249,7 @@ Ext.define('Racloop.controller.SettingsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Terms...'
+            message: 'Loading'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_TERMS,
@@ -285,7 +285,7 @@ Ext.define('Racloop.controller.SettingsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Privacy Statement...'
+            message: 'Loading'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_PRIVACY,
@@ -342,7 +342,7 @@ Ext.define('Racloop.controller.SettingsController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Password Change...'
+                message: 'Saving'
             });
             Ext.Ajax.request({
                 url: Racloop.util.Config.url.RACLOOP_CHANGEPASSWORD,
@@ -455,7 +455,7 @@ Ext.define('Racloop.controller.SettingsController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Saving Emergency Contacts...'
+                message: 'Saving'
             });
             Ext.Ajax.request({
                 url: Racloop.util.Config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS,
@@ -556,7 +556,7 @@ Ext.define('Racloop.controller.SettingsController', {
             Ext.Viewport.mask({
                xtype: 'loadmask',
                indicator: true,
-               message: 'Saving user preferences...'
+               message: 'Saving'
             });
             Ext.Ajax.request({
                url: Racloop.util.Config.url.RACLOOP_SAVE_PREFERENCES,
@@ -601,7 +601,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Uploading...'
+                    message: 'Uploading'
                 });
 
             Ext.Ajax.request({

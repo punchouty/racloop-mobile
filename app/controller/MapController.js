@@ -75,7 +75,7 @@ Ext.define('Racloop.controller.MapController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Loading Maps...'
+                    message: 'Loading Maps'
                 });
                 console.log("Google Maps are not loaded : creating dynamic links for google maps");
                 me.setMapLoadingInProgress(true);
@@ -246,7 +246,7 @@ Ext.define('Racloop.controller.MapController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Location..'
+            message: 'Fetching Location'
         });
         Ext.device.Geolocation.getCurrentPosition({
             allowHighAccuracy : true,
@@ -299,7 +299,7 @@ Ext.define('Racloop.controller.MapController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Location..'
+            message: 'Fetching Location'
         });
         /*
         var geolocationSuccess = function(position) {
@@ -682,7 +682,7 @@ Ext.define('Racloop.controller.MapController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Please Wait...'
+            message: 'Fetching'
         });
 
           Ext.Ajax.request({

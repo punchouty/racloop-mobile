@@ -125,7 +125,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Searching...'
+            message: 'Searching'
         });
 
         Ext.Ajax.request({
@@ -178,7 +178,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Deleting...'
+            message: 'Deleting'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_DELETE_JOURNEY,
@@ -299,7 +299,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Getting Details...'
+            message: 'Loading'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_JOURNEY_DETAILS + "?" + Ext.urlEncode({
@@ -383,7 +383,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Sending Request...'
+            message: 'Connecting'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_REQUEST,
@@ -437,7 +437,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Sending Request...'
+            message: 'Connecting'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_REQUEST_AGAIN,
@@ -495,7 +495,7 @@ Ext.define('Racloop.controller.WorkflowController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Sending Request...'
+            message: 'Accepting'
         });
        
         Ext.Ajax.request({
@@ -554,7 +554,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Cancelling Request...'
+                    message: 'Rejecting'
                 });
                 Ext.Ajax.request({
                     url: Config.url.RACLOOP_REJECTREQUEST,
@@ -613,7 +613,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Cancelling Request...'
+                    message: 'Cancelling'
                 });
                 Ext.Ajax.request({
                     url: Config.url.RACLOOP_CANCELREQUEST,

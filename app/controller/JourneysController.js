@@ -751,7 +751,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Searching...'
+            message: 'Searching'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_SEARCH,
@@ -906,7 +906,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Saving...'
+            message: 'Saving'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_SAVE_JOURNEY,
@@ -1011,7 +1011,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Searching...'
+            message: 'Searching'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_REPLACE_AND_SEARCH,
@@ -1117,7 +1117,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Searching...'
+            message: 'Searching'
         });
         Ext.Ajax.request({
             url: Config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH,
@@ -1307,7 +1307,7 @@ Ext.define('Racloop.controller.JourneysController', {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
                 indicator: true,
-                message: 'Saving...'
+                message: 'Saving'
             });
          
               Ext.Ajax.request({
@@ -1373,7 +1373,7 @@ Ext.define('Racloop.controller.JourneysController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Deleting...'
+            message: 'Deleting'
         });
 
           Ext.Ajax.request({
