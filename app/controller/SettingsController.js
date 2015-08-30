@@ -337,7 +337,7 @@ Ext.define('Racloop.controller.SettingsController', {
         var validationObj = user.validate();
         if (!validationObj.isValid()) {
             var errorString = this.handleValidationForChangePassword(validationObj);
-            Ext.Msg.alert("Oops", errorString);
+            Ext.Msg.alert("Invalid Data", errorString);
         } else {
             Ext.Viewport.mask({
                 xtype: 'loadmask',
