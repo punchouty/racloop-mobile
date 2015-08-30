@@ -531,7 +531,7 @@ Ext.define('Racloop.controller.SessionsController', {
                     items: [
                     {
                         xtype: 'rating',
-                        label : 'punctuality',
+                        label : 'Punctuality',
                         name: 'punctuality'+index,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
@@ -637,36 +637,52 @@ Ext.define('Racloop.controller.SessionsController', {
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
+            var ratingView =me.getRatingView();
+            Ext.Viewport.remove(ratingView, true);
             if (data.success) {
                 var currentJourney = data.currentJourney;
                 if(currentJourney) {
+                    //Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                    Ext.Viewport.setActiveItem(mainTabs);
+                    mainTabs.setActiveItem('mapPanel');
                     LoginHelper.setCurrentJourney(currentJourney);
                     Racloop.app.getController('MapController').showCurrentJourney();
-                    //Racloop.app.getController('MapController').watchCurrentLocation();
                     Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                    Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
                     LoginHelper.removeCurrentJourney();
+                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                    Ext.Viewport.setActiveItem(mainTabs);
                     mainTabs.setActiveItem('searchNavigationView');
                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                 }
-
-            } else {
-                Ext.Msg.alert("Failure", data.message);
                 Ext.Viewport.unmask();
+            } else {
+                LoginHelper.removeCurrentJourney();
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                mainTabs.setActiveItem('searchNavigationView');
+                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Failure", data.message);
             }
         };
         var failureCallback = function(response, ops) {
-            Ext.Msg.alert("Failure", response.message);
+            LoginHelper.removeCurrentJourney();
+            var ratingView =me.getRatingView();
+            Ext.Viewport.remove(ratingView, true);
+            var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+            Ext.Viewport.setActiveItem(mainTabs);
+            mainTabs.setActiveItem('searchNavigationView');
+            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
             Ext.Viewport.unmask();
-
+            Ext.Msg.alert("Failure", response.message);
         };
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Logging in...'
+            message: 'Connecting'
         });
 
         Ext.Ajax.request({

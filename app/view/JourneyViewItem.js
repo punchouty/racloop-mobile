@@ -65,7 +65,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span> ' + statusMarkup;
-                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
+                buttonMarkupTop = '' //'<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
                 buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {
