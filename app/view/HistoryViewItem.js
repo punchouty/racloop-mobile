@@ -32,6 +32,10 @@ Ext.define('Racloop.view.HistoryViewItem', {
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
             var femaleOnlySearch = record.get("femaleOnlySearch");
+            var clockIcon = '';
+            if(record.get('parentRecurringJourneyId')) {
+                clockIcon = '<span class="timeCls">';
+            }
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
@@ -55,7 +59,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 </div>\
                 <div class="card-main">\
                     <div>\
-                        <span class="card-time"> <span class="timeCls"></span>  '+time+'</span>\
+                        <span class="card-time">'+ clockIcon + '</span>  '+time+'</span>\
                     </div>\
                     <div>\
                         '+statusMarkup+'\

@@ -44,7 +44,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var statusMarkup = null;
             var numberOfCopassengers = record.get("numberOfCopassengers");
             var name = null;
-            if(numberOfCopassengers>0 &&  myStatus === "") {
+            if(numberOfCopassengers>0 &&  (myStatus === "" || myStatus == null)) {
                 name = record.get("name") + ' & ' + numberOfCopassengers +' more';
                 buttonMarkup = "<button  class='racloop-btn racloop-btn-primary racloop-btn-sm travelBuddiesButton'>Passengers</button> ";
             }
@@ -78,8 +78,14 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
-                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                            if(numberOfCopassengers>0) {
+                                buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButtonDisabled" disabled="disabled">Connect</button> ';
+                                
+                            }
+                            else {
+                                buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
+                                ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                            }
                         }
                     }
 
@@ -126,8 +132,14 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             buttonMarkup = "";
                         }
                         else {
-                            buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
-                            ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                            if(numberOfCopassengers>0) {
+                                buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButtonDisabled" disabled="disabled">Connect</button> ';
+                                
+                            }
+                            else {
+                                buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmButton">Connect</button> ' +
+                                ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                            }
                         }
                     }
                 }
