@@ -1286,7 +1286,8 @@ Ext.define('Racloop.controller.JourneysController', {
                         scope: this
                     });
                 }
-                Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                Ext.Msg.alert("Success", "Successfully saved your request");
+                //Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 Ext.Viewport.unmask();
             } else {
                 Ext.Msg.alert("Failure", data.message);
@@ -1354,7 +1355,8 @@ Ext.define('Racloop.controller.JourneysController', {
                     Ext.ComponentQuery.query('settingNavigationView  #recurringEmptyView')[0].show();
                 }
                  Ext.Viewport.unmask();
-                 Ext.toast({message: "Successfully Deleted Recurring Journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});      
+                Ext.Msg.alert("Success", "Successfully Deleted Recurring Journey");
+                //Ext.toast({message: "Successfully Deleted Recurring Journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert("Failure", data.message);
                 // on failure

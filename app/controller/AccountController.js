@@ -78,7 +78,8 @@ Ext.define('Racloop.controller.AccountController', {
                         });
                         Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
                         Ext.Viewport.unmask();
-                        Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        Ext.Msg.alert("Success", data.message);
+                        //Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                     } else {
                         Ext.Msg.alert("Failure", data.message);
                         Ext.Viewport.unmask();
@@ -388,7 +389,8 @@ Ext.define('Racloop.controller.AccountController', {
                 var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
                 emailField.setValue(values.email);
                 Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: 5000, animation: true, cls: 'toastClass'});
+                Ext.Msg.alert("Success", data.message);
+                //Ext.toast({message: data.message, timeout: 5000, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert("Failure", data.message);
                 Ext.Viewport.unmask();

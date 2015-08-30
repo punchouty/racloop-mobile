@@ -158,7 +158,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     callback: function(records, operation, success) {
                         Racloop.app.getController('UiController').showMyJourneys();
                         Ext.Viewport.unmask();
-                        Ext.toast({message: "Successfully deleted your journey", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        Ext.Msg.alert("Success", "Successfully deleted your journey");
+                        //Ext.toast({message: "Successfully deleted your journey", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                     },
                     scope: this
                 });
@@ -367,7 +368,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     scope: me
                 });
                 Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                Ext.Msg.alert("Success", data.message);
+                //Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert(data.message);
                 Ext.Viewport.unmask();
@@ -421,7 +423,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     scope: me
                 });
                 Ext.Viewport.unmask();
-                Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                Ext.Msg.alert("Success", data.message);
+                //Ext.toast({message: data.message, timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert(data.message);
                 Ext.Viewport.unmask();
@@ -474,7 +477,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
-                        Ext.toast({message: "Request is Accepted", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        Ext.Msg.alert("Success", "Request is Accepted");
+                        //Ext.toast({message: "Request is Accepted", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                     },
                     scope: this
                 });
@@ -531,7 +535,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
-                        Ext.toast({message: "Request is Rejected", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        Ext.Msg.alert("Success", "Request is Rejected");
+                        //Ext.toast({message: "Request is Rejected", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                     },
                     scope: this
                 });
@@ -591,7 +596,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                     },
                     callback: function(records, operation, success) {
                         dataGrid.refresh();
-                        Ext.toast({message: "Request Cancelled", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
+                        Ext.Msg.alert("Success", "Request Cancelled");
+                        //Ext.toast({message: "Request Cancelled", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                     },
                     scope: this
                 });

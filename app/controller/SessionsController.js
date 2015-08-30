@@ -929,7 +929,8 @@ Ext.define('Racloop.controller.SessionsController', {
                     });
                     Ext.ComponentQuery.query('#mobileForVerification')[0].setValue(values.mobile);
                     Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                    Ext.Msg.alert("Success", data.message);
+                    //Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 } else {
                     Ext.Msg.alert("Failure", data.message);
                     Ext.Viewport.unmask();
