@@ -526,20 +526,23 @@ Ext.define('Racloop.controller.SessionsController', {
                 journeyField.setValue(currentJourney.id);
 
                 var newItem = {   
-                    xtype: 'fieldset',                                   
+                    xtype: 'fieldset',
+                    instructions: "How likely you will recommend others to share ride with this cabshare user",
                     title: feedbackJourney.name,
                     items: [
                     {
                         xtype: 'rating',
                         label : 'Punctuality',
                         name: 'punctuality'+index,
+                        hidden : true,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
                         itemCls : 'x-rating-star',
                         itemHoverCls : 'x-rating-star-hover'
                     },{
                         xtype: 'rating',
-                        label : 'Overall',
+                        label : 'Ride Experience',
+                        labelWidth: '40%',
                         name: 'overall'+index,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
@@ -571,31 +574,47 @@ Ext.define('Racloop.controller.SessionsController', {
 
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
+            var ratingView = me.getRatingView();
+            Ext.Viewport.remove(ratingView, true);
             if (data.success) {
                 var currentJourney = data.currentJourney;
                 if(currentJourney) {
+                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                    Ext.Viewport.setActiveItem(mainTabs);
+                    mainTabs.setActiveItem('mapPanel');
                     LoginHelper.setCurrentJourney(currentJourney);
                     Racloop.app.getController('MapController').showCurrentJourney();
-                    //Racloop.app.getController('MapController').watchCurrentLocation();
                     Racloop.app.getController('MapController').updateCurrentLocationOnMap();
-                    Ext.Viewport.unmask();
-                    Ext.toast({message: data.message, timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                 }
                 else {
                     LoginHelper.removeCurrentJourney();
+                    var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                    Ext.Viewport.setActiveItem(mainTabs);
                     mainTabs.setActiveItem('searchNavigationView');
                     Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
                 }
-
-            } else {
-                Ext.Msg.alert("Failure", data.message);
                 Ext.Viewport.unmask();
+            } else {
+                LoginHelper.removeCurrentJourney();
+                var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+                Ext.Viewport.setActiveItem(mainTabs);
+                mainTabs.setActiveItem('searchNavigationView');
+                Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Failure", data.message);
             }
           };
 
         var failureCallback = function(response, ops) {
-                Ext.Msg.alert("Failure", response.message);
-                Ext.Viewport.unmask();
+            LoginHelper.removeCurrentJourney();
+            var ratingView =me.getRatingView();
+            Ext.Viewport.remove(ratingView, true);
+            var mainTabs = Ext.ComponentQuery.query('mainTabs')[0];
+            Ext.Viewport.setActiveItem(mainTabs);
+            mainTabs.setActiveItem('searchNavigationView');
+            Racloop.app.getController('MapController').updateFromFieldWithCurrentLocation();
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Failure", response.message);
 
         };
         Ext.Viewport.mask({
