@@ -217,34 +217,36 @@ Ext.define('Racloop.controller.WorkflowController', {
 
     handleTravelBuddiesButtonTap : function(item) {
         var journeyNavigationView = this.getJourneyNavigationView();
-        var record = item.getRecord();
-        var journeyId = record.get("id");
-        var numberOfCopassengers = record.get("numberOfCopassengers");
-        console.log(journeyId + " : " + numberOfCopassengers);
+        if (journeyNavigationView.getActiveItem().xtype != "dataview") {
+            var record = item.getRecord();
+            var journeyId = record.get("id");
+            var numberOfCopassengers = record.get("numberOfCopassengers");
+            console.log(journeyId + " : " + numberOfCopassengers);
 
-        Ext.getStore('childJourneyStore').load({
-            params:{
-                journeyId :journeyId
-            },
-            callback: function(records, operation, success) {
-                if(records.length > 0) {
-                    journeyNavigationView.push({
-                        title: 'My Requests',
-                        xtype : "dataview",
-                        defaultType: 'relatedRequestViewItem',
-                        useComponents: true,
-                        scrollable: {
-                            direction: 'vertical'
-                        },
-                        store: "childJourneyStore"
-                    });
-                }
-                else {
-                    Ext.Msg.alert("No data Available", "No requests against this journey");
-                }
-            },
-            scope: this
-        });
+            Ext.getStore('childJourneyStore').load({
+                params:{
+                    journeyId :journeyId
+                },
+                callback: function(records, operation, success) {
+                    if(records.length > 0) {
+                        journeyNavigationView.push({
+                            title: 'My Requests',
+                            xtype : "dataview",
+                            defaultType: 'relatedRequestViewItem',
+                            useComponents: true,
+                            scrollable: {
+                                direction: 'vertical'
+                            },
+                            store: "childJourneyStore"
+                        });
+                    }
+                    else {
+                        Ext.Msg.alert("No data Available", "No requests against this journey");
+                    }
+                },
+                scope: this
+            });
+        }
     },
 
     handleDetailsInMyJourneyButtonTap : function(item) {
