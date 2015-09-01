@@ -65,7 +65,7 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 
             if(myStatus === "Cancelled") {
                 statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span> ' + statusMarkup;
-                buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
+                buttonMarkupTop = '' //'<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>';
                 buttonMarkupBottom = '';//'<button  class="racloop-btn racloop-btn-info searchAgainButton"><span class="searchCls"></span> Search</button>';
             }
             else {
@@ -115,27 +115,27 @@ Ext.define('Racloop.view.JourneyViewItem', {
     initialize: function () {
         this.element.on({
             scope      : this,
-            tap        : 'searchAgainButtonTapFired',
+            singletap  : 'searchAgainButtonTapFired',
             delegate   : 'button.searchAgainButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'viewJourneyOnMapButtonTapFired',
+            singletap  : 'viewJourneyOnMapButtonTapFired',
             delegate   : 'button.viewMapButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'deleteJourneyButtonTapFired',
+            singletap        : 'deleteJourneyButtonTapFired',
             delegate   : 'button.deleteJourneyButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'travelBuddiesButtonTapFired',
+            singletap  : 'travelBuddiesButtonTapFired',
             delegate   : 'button.travelBuddiesButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'detailsButtonTapFired',
+            singletap  : 'detailsButtonTapFired',
             delegate   : 'button.detailsButton'
         });
         this.callParent(arguments);
