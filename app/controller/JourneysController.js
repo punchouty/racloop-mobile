@@ -1174,7 +1174,7 @@ Ext.define('Racloop.controller.JourneysController', {
         // recurringSearchForm = Ext.ComponentQuery.query('recurringSearchForm')[0];
            recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
             itemId: "recurringSearchForm",
-            title: "Recurring Search"
+            title: "Recurring Rides"
         });
        
         var time = Ext.Date.format(new Date(journey.dateOfJourney), 'g:i A');        
@@ -1213,7 +1213,7 @@ Ext.define('Racloop.controller.JourneysController', {
         if (item.up('navigationview').getActiveItem().xtype != "recurringSearchScreen") {
             var recurringSearchScreen = Ext.create('Racloop.view.RecurringSearchScreen',{
                 itemId: "recurringSearchForm",
-                title: "Recurring Search"
+                title: "Recurring Rides"
             });
             var journey = item.getRecord();
             console.log(journey);
