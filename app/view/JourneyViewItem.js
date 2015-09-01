@@ -115,27 +115,27 @@ Ext.define('Racloop.view.JourneyViewItem', {
     initialize: function () {
         this.element.on({
             scope      : this,
-            tap        : 'searchAgainButtonTapFired',
+            singletap  : 'searchAgainButtonTapFired',
             delegate   : 'button.searchAgainButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'viewJourneyOnMapButtonTapFired',
+            singletap  : 'viewJourneyOnMapButtonTapFired',
             delegate   : 'button.viewMapButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'deleteJourneyButtonTapFired',
+            singletap        : 'deleteJourneyButtonTapFired',
             delegate   : 'button.deleteJourneyButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'travelBuddiesButtonTapFired',
+            singletap  : 'travelBuddiesButtonTapFired',
             delegate   : 'button.travelBuddiesButton'
         });
         this.element.on({
             scope      : this,
-            tap        : 'detailsButtonTapFired',
+            singletap  : 'detailsButtonTapFired',
             delegate   : 'button.detailsButton'
         });
         this.callParent(arguments);

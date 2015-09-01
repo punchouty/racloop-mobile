@@ -28,10 +28,10 @@ Ext.define('Racloop.view.RecurringView', {
                 //hidden : true,
                 html: '<div class="startup-header">' +
                             '<div class="small-text-medium uppercase colored-text">' +
-                                'No Recurring Searches Found' +
+                                'No Recurring rides found' +
                             '</div>' +
                             '<div class="colored-line"></div>' +
-                            '<div class="sub-heading">You can create a recurring search from the History tab.</div>' +
+                            '<div class="sub-heading">You can create a recurring ride from the History tab.</div>' +
                     '</div>',
                 flex : 1
             },

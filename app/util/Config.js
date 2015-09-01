@@ -17,7 +17,7 @@ Ext.define('Racloop.util.Config', {
         settingNameProfile : 'Profile',
         settingNameChangePassword : 'Change Password',
         settingPreferences : 'Preferences',
-        settingRecurringSearches: 'Recurring Searches',
+        settingRecurringSearches: 'Recurring Rides',
         settingNameEmergencyContacts : 'Emergency Contacts',
         settingNameDataPrivacy : 'Data Privacy',
         settingNameTerms : 'Terms and Conditions',
