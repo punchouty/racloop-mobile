@@ -492,9 +492,10 @@ Ext.define('Racloop.controller.SessionsController', {
     setRatingView: function(ratingView, feedbackJourney, currentJourney, index){
           var ratingViewPanel = ratingView.down("#ratingViewPanel");
           var userReviews = ratingView.down("#userReviews");
-          var day = Ext.Date.format(new Date(), 'd');
-          var month = Ext.Date.format(new Date(), 'F');
-          var time = Ext.Date.format(new Date(), 'g:i A');
+          var day = Ext.Date.format(currentJourney.dateOfJourney, 'd');
+          var month = Ext.Date.format(currentJourney.dateOfJourney, 'F');
+          var time = Ext.Date.format(currentJourney.dateOfJourney, 'g:i A');
+
 
             var html='\
                 <div class="card">\
@@ -531,7 +532,7 @@ Ext.define('Racloop.controller.SessionsController', {
                     items: [
                     {
                         xtype: 'rating',
-                        label : 'punctuality',
+                        label : 'Punctuality',
                         name: 'punctuality'+index,
                         itemsCount : 5,
                         value: 2, //zero-based!                     
