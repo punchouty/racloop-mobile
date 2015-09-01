@@ -426,15 +426,19 @@ Ext.define('Racloop.controller.SessionsController', {
             var data = Ext.decode(response.responseText);
             if (data.success) {
                 console.log("Logged out successfully");
-                LoginHelper.removeUser();
-                LoginHelper.removeEmail();
-                LoginHelper.removeCurrentJourney();
                 //Emptying all stores
                 Ext.getStore('journeyStore').removeAll();
                 Ext.getStore('historyStore').removeAll();
                 Ext.getStore('SearchStore').removeAll();
                 Ext.getStore('childJourneyStore').removeAll();
                 Ext.getStore('passengersStore').removeAll();
+                LoginHelper.removeUser();
+                LoginHelper.removeEmail();
+                LoginHelper.removeCurrentJourney();
+                LoginHelper.removeInstallStatus();
+                LoginHelper.removeLoginCounter();
+                LoginHelper.removeRoutes();
+                LoginHelper.removeSearchedJourney();
                 Ext.Viewport.unmask();
                 var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
                 Ext.Viewport.setActiveItem(mainNavigationView);

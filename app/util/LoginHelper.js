@@ -47,6 +47,11 @@ Ext.define('Racloop.util.LoginHelper', {
                 return window.localStorage.getItem("install");
             }
         },
+        removeInstallStatus : function() {
+            if (Common.supportsHtml5Storage()) {
+                return window.localStorage.removeItem("install");
+            }
+        },
         setEmail : function(email) {
             if (Common.supportsHtml5Storage()) {
                 window.localStorage.setItem("e", email);

@@ -133,7 +133,16 @@ Ext.application({
                 console.log("Not a device but a browser")
             }
             else {
-                window.plugins.sim.getSimInfo(me.simInfoSuccess, me.simInfoFailure);
+                var status = LoginHelper.getInstallStatus();
+                if(status) {
+                    if(status === 'incomplete') {
+                        me.sendInstallInfo();
+                    }
+                }
+                else {
+                    LoginHelper.setInstallStatus("incomplete");
+                    me.sendInstallInfo();
+                }
             }
         });
         if (!Ext.device.Connection.isOnline()) {
@@ -204,43 +213,64 @@ Ext.application({
         }
     },
 
+    sendInstallInfo : function() {
+        var me = this;
+        window.plugins.sim.getSimInfo(me.simInfoSuccess, me.simInfoFailure);
+    },
+
     simInfoSuccess : function() {
-        var status = LoginHelper.getInstallStatus();
-        if(status) {
-            if(status === 'incomplete') {
+        var me = this;
+        var uuid = cordova.plugins.uid.UUID;
+        var imei = cordova.plugins.uid.IMEI;
+        var imsi = cordova.plugins.uid.IMSI;
+        var iccid = cordova.plugins.uid.ICCID;
+        var mac = cordova.plugins.uid.MAC;
 
-            }
-        }
-        else {
-            LoginHelper.setInstallStatus("incomplete")
-        }
-
-    },
-
-    simInfoFailure : function() {
-        Ext.Msg.alert("Failure","SIM Error");
-    },
-
-    sendDeviceInfo : function() {
-        var referrer = "UNINITIALIZE";
         var carrierName = window.plugins.sim.carrierName;
         var countryCode = window.plugins.sim.countryCode;
         var mcc = window.plugins.sim.mcc;
         var mnc = window.plugins.sim.mnc;
+
         var phoneNumber = window.plugins.sim.phoneNumber;
         var callState = window.plugins.sim.callState;
         var dataActivity = window.plugins.sim.dataActivity;
         var networkType = window.plugins.sim.networkType;
         var phoneType = window.plugins.sim.phoneType;
         var simState = window.plugins.sim.simState;
-        var cordova = device.cordova;
+
         var model = device.model;
         var platform = device.platform;
-        var uuid = device.uuid;
-        var version = device.version;
+        //var cordova = device.cordova;
+        var osVersion = device.version;
 
+        var deviceProperties = {
+            uuid : uuid,
+            imei : imei,
+            imsi : imsi,
+            iccid : iccid,
+            mac : mac,
+            carrierName : carrierName,
+            countryCode : countryCode,
+            mcc : mcc,
+            mnc : mnc,
+            phoneNumber : phoneNumber,
+            callState : callState,
+            dataActivity : dataActivity,
+            networkType : networkType,
+            phoneType : phoneType,
+            simState : simState,
+            model : model,
+            platform : platform,
+            //cordova : cordova,
+            osVersion : osVersion
+        }
         function ok (value) {
-            referrer = value
+            if(value) {
+                deviceProperties.referrer = value;
+            }
+            else {
+                deviceProperties.referrer = "None";
+            }
             Ext.Ajax.request({
                 url: Config.url.RACLOOP_DEVICE_INFO,
                 method: 'post',
@@ -249,33 +279,18 @@ Ext.application({
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: Ext.JSON.encode({
-                    referrer : referrer,
-                    carrierName : carrierName,
-                    countryCode : countryCode,
-                    mcc : mcc,
-                    mnc : mnc,
-                    phoneNumber : phoneNumber,
-                    callState : callState,
-                    dataActivity : dataActivity,
-                    networkType : networkType,
-                    phoneType : phoneType,
-                    simState : simState,
-                    cordova : cordova,
-                    model : model,
-                    platform : platform,
-                    uuid : uuid,
-                    version : version
-                }),
+                params: Ext.JSON.encode(deviceProperties),
                 success: function(){
                     LoginHelper.setInstallStatus("complete")
                 },
-                failure: function(){}
+                failure: function(){
+                    console.log("Network Error")
+                }
             });
         }
 
         function fail (error) {
-            referrer = "NONE"
+            deviceProperties.referrer = "None_Error";
             Ext.Ajax.request({
                 url: Config.url.RACLOOP_DEVICE_INFO,
                 method: 'post',
@@ -284,32 +299,20 @@ Ext.application({
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: Ext.JSON.encode({
-                    referrer : referrer,
-                    carrierName : carrierName,
-                    countryCode : countryCode,
-                    mcc : mcc,
-                    mnc : mnc,
-                    phoneNumber : phoneNumber,
-                    callState : callState,
-                    dataActivity : dataActivity,
-                    networkType : networkType,
-                    phoneType : phoneType,
-                    simState : simState,
-                    cordova : cordova,
-                    model : model,
-                    platform : platform,
-                    uuid : uuid,
-                    version : version
-                }),
+                params: Ext.JSON.encode(deviceProperties),
                 success: function(){
                     LoginHelper.setInstallStatus("complete")
                 },
-                failure: function(){}
+                failure: function(){
+                    console.log("Network Error")
+                }
             });
-
         }
-        var prefs = plugins.appPreferences;
+        var prefs = window.plugins.appPreferences;
         prefs.fetch (ok, fail, 'referrer');
+    },
+
+    simInfoFailure : function() {
+        //Ext.Msg.alert("Failure","SIM Error");
     }
 });

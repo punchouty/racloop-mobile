@@ -60,6 +60,7 @@
     <plugin name="cordova-plugin-statusbar" />
     <plugin name="cordova-plugin-camera" />
     <plugin name="ionic-plugins-keyboard" />
+    <plugin name="org.hygieiasoft.cordova.uid" />
     <plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <!-- Comment one of below -->
         <!-- Production
