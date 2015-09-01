@@ -158,7 +158,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                     callback: function(records, operation, success) {
                         Racloop.app.getController('UiController').showMyJourneys();
                         Ext.Viewport.unmask();
-                        Ext.Msg.alert("Success", "Successfully deleted your journey");
+                        Ext.Msg.alert("Success", "Successfully deleted your ride");
                         //Ext.toast({message: "Successfully deleted your journey", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                     },
                     scope: this
@@ -241,7 +241,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                     });
                 }
                 else {
-                    Ext.Msg.alert("No data Available", "No requests against this journey");
+                    Ext.Msg.alert("No data Available", "No requests against this ride");
                 }
             },
             scope: this
@@ -342,7 +342,7 @@ Ext.define('Racloop.controller.WorkflowController', {
                     });
                 }
                 else {
-                    Ext.Msg.alert("No data Available", "No incoming requests against this journey");
+                    Ext.Msg.alert("No data Available", "No incoming requests against this ride");
                 }
             },
             scope: this

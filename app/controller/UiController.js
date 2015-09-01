@@ -248,9 +248,9 @@ Ext.define('Racloop.controller.UiController', {
                     title: "Register"
                 });
             });
-            taskInner.delay(100);
+            taskInner.delay(10);
         });
-        task.delay(100);
+        task.delay(10);
 
     },
 

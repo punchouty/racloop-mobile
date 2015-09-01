@@ -96,59 +96,8 @@ Ext.define('Racloop.controller.AccountController', {
                 Ext.Viewport.mask({
                     xtype: 'loadmask',
                     indicator: true,
-                    message: 'Signing up'
+                    message: 'Signing Up'
                 });
-
-                //if(typeof device === "undefined") {
-                //    Ext.Ajax.request({
-                //        url: Config.url.RACLOOP_SIGNUP,
-                //        headers: {
-                //            'Content-Type': 'application/json'
-                //        },
-                //        params: Ext.JSON.encode({
-                //            email: values.email,
-                //            password: values.password,
-                //            passwordConfirm: values.password,
-                //            fullName: values.name,
-                //            mobile: values.mobile,
-                //            gender: values.gender,
-                //            referalCode:values.referalCode,
-                //            cordova : 'no-value',
-                //            model : 'no-value',
-                //            platform : 'no-value',
-                //            uuid : 'no-value',
-                //            version : 'no-value'
-                //        }),
-                //        success: successCallback,
-                //        failure: failureCallback
-                //    });
-                //
-                //}
-                //else {
-                //    Ext.Ajax.request({
-                //        url: Config.url.RACLOOP_SIGNUP,
-                //        headers: {
-                //            'Content-Type': 'application/json'
-                //        },
-                //        params: Ext.JSON.encode({
-                //            email: values.email,
-                //            password: values.password,
-                //            passwordConfirm: values.password,
-                //            fullName: values.name,
-                //            mobile: values.mobile,
-                //            gender: values.gender,
-                //            referalCode:values.referalCode,
-                //            cordova : device.cordova,
-                //            model : device.model,
-                //            platform : device.platform,
-                //            uuid : device.uuid,
-                //            version : device.version
-                //        }),
-                //        success: successCallback,
-                //        failure: failureCallback
-                //    });
-                //
-                //}
                 Ext.Ajax.request({
                     url: Config.url.RACLOOP_SIGNUP,
                     headers: {
@@ -281,6 +230,7 @@ Ext.define('Racloop.controller.AccountController', {
         var isVerificationCodeValid = false;
         var mobileTxt = mobile + "";
         console.log(mobile + " : mobileTxt.length : " + mobileTxt.length);
+        var uuid = cordova.plugins.uid.UUID;
         if(mobileTxt != "" && mobileTxt.length == 10) {
             isMobileValid = true;
             var verificationCodeText = verificationCode + "";
@@ -324,7 +274,8 @@ Ext.define('Racloop.controller.AccountController', {
                 },
                 params: Ext.JSON.encode({
                     mobile: mobile,
-                    verificationCode: verificationCode
+                    verificationCode: verificationCode,
+                    uuid : uuid
                 }),
                 success: successCallback,
                 failure: failureCallback
@@ -389,7 +340,7 @@ Ext.define('Racloop.controller.AccountController', {
                 var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
                 emailField.setValue(values.email);
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("Success", data.message);
+                Ext.Msg.alert("SMS Sent", data.message);
                 //Ext.toast({message: data.message, timeout: 5000, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert("Failure", data.message);

@@ -68,12 +68,10 @@ Ext.define('Racloop.controller.SessionsController', {
                     console.log("SessionController - autoLogin - successfully login");
                     LoginHelper.setUser(data.data);
                     Racloop.app.getController('SettingsController').setPreferenceToSearchScreen();
-                    console.dir(data.data);
-                     LoginHelper.setEmail(user.email);                                             
+                     LoginHelper.setEmail(user.email);
                      var currentJourney = data.currentJourney;                  
                     if (data.feedbackPending){
                         var feedbackJournies = data.currentJourney.relatedJourneys;
-                        console.log(data);
                          var ratingView =me.getRatingView();
                             if(!ratingView) {                            
                                 ratingView = Ext.create('Racloop.view.JourneyRatingView');
@@ -490,11 +488,12 @@ Ext.define('Racloop.controller.SessionsController', {
 
     },
     setRatingView: function(ratingView, feedbackJourney, currentJourney, index){
+        var dateOfJourney = Ext.Date.parse(feedbackJourney.dateOfJourney, "c");
           var ratingViewPanel = ratingView.down("#ratingViewPanel");
           var userReviews = ratingView.down("#userReviews");
-          var day = Ext.Date.format(new Date(), 'd');
-          var month = Ext.Date.format(new Date(), 'F');
-          var time = Ext.Date.format(new Date(), 'g:i A');
+          var day = Ext.Date.format(dateOfJourney, 'd');
+          var month = Ext.Date.format(dateOfJourney, 'F');
+          var time = Ext.Date.format(dateOfJourney, 'g:i A');
 
             var html='\
                 <div class="card">\
@@ -527,7 +526,7 @@ Ext.define('Racloop.controller.SessionsController', {
 
                 var newItem = {   
                     xtype: 'fieldset',
-                    instructions: "How likely you will recommend others to share ride with this cabshare user",
+                    instructions: "How likely you will recommend others to share ride with this CabShare user",
                     title: feedbackJourney.name,
                     items: [
                     {

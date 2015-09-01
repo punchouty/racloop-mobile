@@ -270,7 +270,7 @@ Ext.define('Racloop.controller.MapController', {
             failure: function() {
                 console.log('Error : processCurrentLocation : ');
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+                //Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
         var task = Ext.create('Ext.util.DelayedTask', this.processCurrentLocation, this);
@@ -346,7 +346,7 @@ Ext.define('Racloop.controller.MapController', {
             failure: function() {
                 console.log('Error : updateCurrentLocationOnMap Ext.device.Geolocation.getCurrentPosition');
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
+                //Ext.Msg.alert("GPS Issue", "Please switch on GPS of the device");
             }
         });
         /* */

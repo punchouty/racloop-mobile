@@ -502,7 +502,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     }
 
                     var journeyHtml='<div class="card">\
-                                        <div class="sub-heading">Requested Journey</div>\
+                                        <div class="sub-heading">Requested Ride</div>\
                                         <div class="card-info">\
                                             <div class="card-date">\
                                                 <div class="card-day">'+newDay+'</div>\
@@ -534,7 +534,7 @@ Ext.define('Racloop.controller.JourneysController', {
                                     </div>\
                                         \
                                     <div class="card">\
-                                    <div class="sub-heading">Similar Existing Journey</div>\
+                                    <div class="sub-heading">Similar Existing Ride</div>\
                                     <div class="card-info">\
                                         <div class="card-date">\
                                             <div class="card-day">'+existingDay+'</div>\
@@ -702,7 +702,7 @@ Ext.define('Racloop.controller.JourneysController', {
                             searchResultsView.down('#loginButtonInSearchResults').setHidden(true);
                         }
                         if(disableMoreRequests) {
-                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                            Ext.toast({message: "You cannot send more than two invites for same ride", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }
                     }
                 }
@@ -968,7 +968,7 @@ Ext.define('Racloop.controller.JourneysController', {
                         });
                         me.getLoginButtonInSearchResults().setHidden(true);
                         if(disableMoreRequests) {
-                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                            Ext.toast({message: "You cannot send more than two invites for same ride", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }
                     }
                 });
@@ -1077,7 +1077,7 @@ Ext.define('Racloop.controller.JourneysController', {
                         //me.getSaveJourneyButtonInSearchResults().setHidden(true);
                         me.getLoginButtonInSearchResults().setHidden(true);
                         if(disableMoreRequests) {
-                            Ext.toast({message: "You cannot send more than two invites for same journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
+                            Ext.toast({message: "You cannot send more than two invites for same ride", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
                         }
                     }
                 });
@@ -1355,7 +1355,7 @@ Ext.define('Racloop.controller.JourneysController', {
                     Ext.ComponentQuery.query('settingNavigationView  #recurringEmptyView')[0].show();
                 }
                  Ext.Viewport.unmask();
-                Ext.Msg.alert("Success", "Successfully Deleted Recurring Journey");
+                Ext.Msg.alert("Success", "Successfully Deleted Recurring Ride");
                 //Ext.toast({message: "Successfully Deleted Recurring Journey", timeout: Racloop.util.Config.toastTimeout, animation: true, cls: 'toastClass'});
             } else {
                 Ext.Msg.alert("Failure", data.message);
