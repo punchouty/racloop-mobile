@@ -50,7 +50,13 @@ Ext.define('Racloop.view.RecurringViewItem', {
             }
             var femaleOnlySearch = record.get("femaleOnlySearch");
             var status = '<span class="timeCls"></span>  '+time+'';
-            if(femaleOnlySearch) status = status + '  <span class="card-label card-label-pink">Pink Ride</span>'
+            if(femaleOnlySearch) status = status + '&nbsp;<span class="card-label card-label-pink">Pink Ride</span>'
+            if(record.get("isTaxi")) {
+                status = status + '&nbsp;<span class="card-label card-label-gray"> Taxi </span>'
+            }
+            else {
+                status = status + '&nbsp;<span class="card-label card-label-gray"> Auto </span>'
+            }    
             var html='<div class="card">\
             <div class="card-footer">\
                 <div class="card-footer-row">\
