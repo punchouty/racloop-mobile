@@ -473,7 +473,7 @@ Ext.define('Racloop.controller.SessionsController', {
         Ext.Viewport.mask({
             xtype: 'loadmask',
             indicator: true,
-            message: 'Sigining Out'
+            message: 'Signing Out'
         });
         Ext.Ajax.request({
             url: Racloop.util.Config.url.RACLOOP_LOGOUT,
