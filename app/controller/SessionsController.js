@@ -17,6 +17,10 @@ Ext.define('Racloop.controller.SessionsController', {
             mainTabs: 'mainTabs',
             mainNavigationView: 'mainNavigationView',
             settingNavigationView : 'settingNavigationView',
+            searchNavigationView : 'searchNavigationView',
+            journeyNavigationView: 'journeyNavigationView',
+            historyNavigationView : 'historyNavigationView',
+
             loginButton: 'loginForm #loginButton',
             ratingView: 'ratingView',
             saveFeedBackButton: 'ratingView #saveFeedBack',
@@ -421,6 +425,7 @@ Ext.define('Racloop.controller.SessionsController', {
     },
 
     logout: function() { //called from Setting Controller
+        var me = this;
         var mainTabs = this.getMainTabs();
         var successCallback = function(response, ops) {
             var data = Ext.decode(response.responseText);
@@ -439,6 +444,10 @@ Ext.define('Racloop.controller.SessionsController', {
                 LoginHelper.removeLoginCounter();
                 LoginHelper.removeRoutes();
                 LoginHelper.removeSearchedJourney();
+                me.getJourneyNavigationView().reset();
+                me.getSearchNavigationView().reset();
+                me.getSettingNavigationView().reset();
+                me.getHistoryNavigationView().reset();
                 Ext.Viewport.unmask();
                 var mainNavigationView = Ext.ComponentQuery.query('mainNavigationView')[0];
                 Ext.Viewport.setActiveItem(mainNavigationView);

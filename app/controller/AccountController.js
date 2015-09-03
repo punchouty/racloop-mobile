@@ -70,7 +70,9 @@ Ext.define('Racloop.controller.AccountController', {
                     if (data.success) {
                         LoginHelper.setEmail(values.email);
                         LoginHelper.setUser(data.data);
-//                        mainNavigationView.pop();
+                        mainNavigationView.getLayout().setAnimation(false);
+                        mainNavigationView.pop();
+                        mainNavigationView.getLayout().setAnimation(true);
                         mainNavigationView.push({
                             itemId: 'verifySmsForm',
                             xtype: "verifySmsForm",
@@ -230,7 +232,14 @@ Ext.define('Racloop.controller.AccountController', {
         var isVerificationCodeValid = false;
         var mobileTxt = mobile + "";
         console.log(mobile + " : mobileTxt.length : " + mobileTxt.length);
-        var uuid = cordova.plugins.uid.UUID;
+        var uuid = "browser"
+        if(typeof plugins === "undefined") {
+            console.log("Not a device but a browser")
+        }
+        else {
+            uuid = cordova.plugins.uid.UUID;
+
+        }
         if(mobileTxt != "" && mobileTxt.length == 10) {
             isMobileValid = true;
             var verificationCodeText = verificationCode + "";
@@ -253,8 +262,8 @@ Ext.define('Racloop.controller.AccountController', {
                     Ext.Viewport.unmask();
                     var sessionController = Racloop.app.getController('SessionsController') ;
                     sessionController.loginFromVerify();
-                    //var mainNavigationView = me.getMainNavigationView();
-                    //mainNavigationView.reset();
+                    var mainNavigationView = me.getMainNavigationView();
+                    mainNavigationView.reset();
                     //Racloop.app.getController('UiController').showLogin();
                     Ext.Msg.alert("Verification Complete", "Mobile Verified Successfully");
                 }

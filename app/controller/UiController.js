@@ -191,20 +191,32 @@ Ext.define('Racloop.controller.UiController', {
         console.log("mainNavigationView.getItems().length : " + mainNavigationView.getItems().length)
         // Navigate to login
         if(mainNavigationView.getItems().length == 3) {
+            mainNavigationView.getLayout().setAnimation(false);
             mainNavigationView.pop();
-            var task = Ext.create('Ext.util.DelayedTask', function(){
-                mainNavigationView.push({
-                    itemId: 'loginForm',
-                    xtype: "loginForm",
-                    title: "Sign In"
-                });
-                console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
-                if(!LoginHelper.getEmail()) {
-                    var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
-                    emailField.setValue(LoginHelper.getEmail());
-                }
+            mainNavigationView.getLayout().setAnimation(true);
+            mainNavigationView.push({
+                itemId: 'loginForm',
+                xtype: "loginForm",
+                title: "Sign In"
             });
-            task.delay(100);
+            console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+            if(!LoginHelper.getEmail()) {
+                var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+                emailField.setValue(LoginHelper.getEmail());
+            }
+            //var task = Ext.create('Ext.util.DelayedTask', function(){
+            //    mainNavigationView.push({
+            //        itemId: 'loginForm',
+            //        xtype: "loginForm",
+            //        title: "Sign In"
+            //    });
+            //    console.log("LoginHelper.getEmail() : " + LoginHelper.getEmail());
+            //    if(!LoginHelper.getEmail()) {
+            //        var emailField = Ext.ComponentQuery.query('#loginScreenEmail')[0];
+            //        emailField.setValue(LoginHelper.getEmail());
+            //    }
+            //});
+            //task.delay(100);
         }
         else {
             mainNavigationView.push({
@@ -238,19 +250,27 @@ Ext.define('Racloop.controller.UiController', {
 
         //var registerForm = Ext.create('widget.registerform'),	// Registration form
         var mainNavigationView = this.getMainNavigationView(); // Main view
-        var task = Ext.create('Ext.util.DelayedTask', function(){
-            mainNavigationView.pop();
-            var taskInner = Ext.create('Ext.util.DelayedTask', function(){
-                // Navigate to register
-                mainNavigationView.push({
-                    itemId: 'registerForm',
-                    xtype: "registerForm",
-                    title: "Register"
-                });
-            });
-            taskInner.delay(10);
+        mainNavigationView.getLayout().setAnimation(false);
+        mainNavigationView.pop();
+        mainNavigationView.getLayout().setAnimation(true);
+        mainNavigationView.push({
+            itemId: 'registerForm',
+            xtype: "registerForm",
+            title: "Register"
         });
-        task.delay(10);
+        //var task = Ext.create('Ext.util.DelayedTask', function(){
+        //    mainNavigationView.pop();
+        //    var taskInner = Ext.create('Ext.util.DelayedTask', function(){
+        //        // Navigate to register
+        //        mainNavigationView.push({
+        //            itemId: 'registerForm',
+        //            xtype: "registerForm",
+        //            title: "Register"
+        //        });
+        //    });
+        //    taskInner.delay(10);
+        //});
+        //task.delay(10);
 
     },
 
