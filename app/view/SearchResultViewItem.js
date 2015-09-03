@@ -106,7 +106,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 }
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>'+
+                    ' <button  class="racloop-btn racloop-btn-warning racloop-btn-sm bookButton">Cab Help </button>';
                     statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Available") {
@@ -168,7 +169,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
 
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
-                    '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                    '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>'+
+                    ' <button  class="racloop-btn racloop-btn-warning racloop-btn-sm bookButton">Radio Cab</button>';
                     statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Available") {
@@ -277,6 +279,11 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             tap        : 'inviteAgainButtonTapFired',
             delegate   : 'button.inviteAgainButton'
         });
+        this.element.on({
+            scope      : this,
+            tap        : 'bookButtonTapFired',
+            delegate   : 'button.bookButton'
+        });
 
         this.callParent(arguments);
 
@@ -304,5 +311,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     },
     inviteAgainButtonTapFired: function(e) {
         this.fireEvent('inviteAgainButtonTap', this);
+    },
+    bookButtonTapFired: function(e) {
+        this.fireEvent('bookButtonTap', this);
     }
 });

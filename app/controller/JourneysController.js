@@ -1286,7 +1286,7 @@ Ext.define('Racloop.controller.JourneysController', {
                         scope: this
                     });
                 }
-                Ext.Msg.alert("Success", "Successfully saved your request");
+                Ext.Msg.alert("Success", "Successfully saved your ride");
                 //Ext.toast({message: "Successfully saved your request", timeout: Config.toastTimeout, animation: true, cls: 'toastClass'});
                 Ext.Viewport.unmask();
             } else {

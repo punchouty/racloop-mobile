@@ -66,7 +66,7 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
             else if(myStatus === "Accepted") {
                 buttonMarkup = '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel </button>  '+
                 '<button  class="racloop-btn racloop-btn-primary racloop-btn-sm callButton">Call </button> '+
-                '<button  class="racloop-btn racloop-btn-warning racloop-btn-sm bookButton">Cab Help </button>';
+                '<button  class="racloop-btn racloop-btn-warning racloop-btn-sm bookButton">Radio Cab</button>';
             }
             else if(myStatus === "Rejected") {
                 statusMarkup = '<span class="card-label card-label-gray">' + drivingText +'</span> ' + ' <span class="card-label card-label-gray">' + myStatus +'</span>';
@@ -122,7 +122,7 @@ Ext.define('Racloop.view.RelatedRequestViewItem', {
     },
     initialize: function () {
         this.element.on({
-            scope      : this,           
+            scope      : this,
             tap        : 'rejectButtonTapFired',
             delegate   : 'button.rejectButton'
         });

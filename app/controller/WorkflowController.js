@@ -41,7 +41,8 @@ Ext.define('Racloop.controller.WorkflowController', {
                 acceptButtonTap: 'handleAcceptButtonTap',
                 cancelButtonTap : 'handleCancelButtonTap',
                 callButtonTap: 'handleCallButtonTap',
-                inviteAgainButtonTap: 'handleInviteAgainButtonTap'
+                inviteAgainButtonTap: 'handleInviteAgainButtonTap',
+                bookButtonTap: 'handleBookButtonTap'
             }
         }
     },
@@ -650,17 +651,20 @@ Ext.define('Racloop.controller.WorkflowController', {
     },
 
     handleBookButtonTap : function(item) {
-        var random = Math.floor((Math.random() * 10) + 1);
-        var url = "https://www.olacabs.com/";
-        //if(random < 4) {
-        //    url = "https://www.olacabs.com/";
-        //}
-        //else if(random > 7) {
-        //    url = "https://www.uber.com/";
-        //}
-        //else if(random == 3) {
-        //    url = "http://www.taxiforsure.com/";
-        //}
+        var random = Math.floor((Math.random() * 12) + 1);
+        var url = "market://details?id=com.winit.merucab";
+        if(random <= 3) {
+            url = "market://details?id=com.ubercab";
+        }
+        else if(random <= 6) {
+            url = "market://details?id=com.olacabs.customer";
+        }
+        else if(random <= 9) {
+            url = "market://details?id=com.megacabs";
+        }
+        else {
+            url = "market://details?id=com.winit.merucab";
+        }
 
         window.open(url, '_system', 'location=yes');
     },
