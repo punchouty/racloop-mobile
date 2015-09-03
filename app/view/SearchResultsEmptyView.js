@@ -32,7 +32,7 @@ Ext.define('Racloop.view.SearchResultsEmptyView', {
                 iconCls: 'acceptCls',
                 iconMask: true,
                 ui: 'confirm',
-                text: 'Save My Ride',
+                text: 'Save Ride',
                 margin: 10
             }]
         }]
