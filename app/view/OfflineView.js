@@ -22,12 +22,12 @@ Ext.define('Racloop.view.OfflineView', {
                 },
                 {
                 xtype: 'container',
-                html: '<div class="section-header">' +
-                        '<div class="small-text-medium uppercase colored-text">' +
+                html: '<div class="startup-header">' +
+                        '<div class="small-text-medium-empty uppercase colored-text">' +
                         'Connectivity Issues' +
                         '</div>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading">Your device is not connected to internet. Please check you data connection.</div>' +
+                        '<div class="sub-heading-empty">Your device is not connected to internet. Please check you data connection.</div>' +
                       '</div>'
 
             }]

@@ -44,22 +44,22 @@ Ext.define('Racloop.view.JourneyViewItem', {
             var travelBuddiesButton = '';
             if(record.get("journeyPairIds") && record.get("journeyPairIds").length>0) {
                 if(numberOfCopassengers > 0) {
-                    travelBuddiesButton = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">Travel Buddies (' + numberOfCopassengers + ')</button>';
+                    travelBuddiesButton = '<button  class="racloop-btn racloop-btn-primary  racloop-btn-sm travelBuddiesButton">Travel Buddies (' + numberOfCopassengers + ')</button>';
                 }
                 else {
                     
-                    travelBuddiesButton = ' <button  class="racloop-btn racloop-btn-success  racloop-btn-sm travelBuddiesButton">My Requests (' + record.get("journeyPairIds").length +')</button>';
+                    travelBuddiesButton = ' <button  class="racloop-btn racloop-btn-primary  racloop-btn-sm travelBuddiesButton">My Requests (' + record.get("journeyPairIds").length +')</button>';
                 }
             }
             else {
-                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-info  racloop-btn-sm travelBuddiesButton">No Requests</button>'
+                travelBuddiesButton = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm travelBuddiesButton">No Requests</button>'
             }
             
             
             
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
             if(femaleOnlySearch) statusMarkup = statusMarkup + '  <span class="card-label card-label-pink">Pink Ride</span>';
-            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-warning  racloop-btn-sm viewMapButton">Map</button>  ' +
+            var buttonMarkupTop = '<button  class="racloop-btn racloop-btn-success  racloop-btn-sm viewMapButton">Map</button>  ' +
                 ' <button  class="racloop-btn racloop-btn-primary  racloop-btn-sm searchAgainButton"><span class="searchCls"></span>Search</button> ';
             var buttonMarkupBottom = '<button  class="racloop-btn racloop-btn-danger  racloop-btn-sm deleteJourneyButton">Delete</button>  ' +  travelBuddiesButton ;
                 

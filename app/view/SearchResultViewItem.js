@@ -41,7 +41,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             var labelHtml = "";
             var imgSrc = '';
             var cardControl = '';
-            var statusMarkup = null;
+            var statusMarkup = '';
             var numberOfCopassengers = record.get("numberOfCopassengers");
             var name = null;
             if(numberOfCopassengers>0 &&  (myStatus === "" || myStatus == null)) {
@@ -52,12 +52,12 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 name = record.get("name");
             }
             
-            if(myStatus != null) {
-                statusMarkup = '<span class="card-label card-label-gray">' + myStatus + '</span>';
-            }
-            else {
-                statusMarkup = '<span class="card-label card-label-gray">New</span>';
-            }
+            //if(myStatus != null) {
+            //    statusMarkup = '<span class="card-label card-label-gray">' + myStatus + '</span>';
+            //}
+            //else {
+            //    statusMarkup = '<span class="card-label card-label-gray">New</span>';
+            //}
             if(record.get("femaleOnlySearch")) {
                 statusMarkup = '<span class="card-label card-label-pink">Pink Ride</span>';
             }
@@ -88,34 +88,42 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             }
                         }
                     }
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">New</span>';
 
                 }
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Request Received") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm rejectButton">Reject</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm acceptButton">Accept </button>  ';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-sm disabled">'+ myStatus +'</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-sm disabled">Cancelled</</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Available") {
                     if(disableRequest) {
                         buttonMarkup = "";
+                        statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                     }
                     else {
                         buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm inviteAgainButton">Connect Again</button> ' +
                             ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
+                        statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                     }
                     
                 }
                 else if(myStatus === "Rejected") {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton">Rejected</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 } else {
                     buttonMarkup = '';
                 }
@@ -142,34 +150,42 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                             }
                         }
                     }
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">New</span>';
                 }
                 else if(myStatus === "Requested") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Request Received") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm rejectButton">Reject</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm acceptButton">Accept </button>  ';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus.lastIndexOf("Cancelled", 0)===0) {
-                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-sm confirmSearchRequestButton disabled">'+ myStatus +'</</button>';
+                    buttonMarkup = '<button class="racloop-btn racloop-btn-danger racloop-btn-sm confirmSearchRequestButton disabled">Cancelled</</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 }
 
                 else if(myStatus === "Accepted") {
                     buttonMarkup = buttonMarkup + '<button  class="racloop-btn racloop-btn-danger racloop-btn-sm cancelButton">Cancel</button>  '+
                     '<button  class="racloop-btn racloop-btn-success racloop-btn-sm callButton">Call </button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                 }
                 else if(myStatus === "Available") {
                     if(disableRequest) {
                         buttonMarkup = "";
+                        statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                     }
                     else {
                         buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm inviteAgainButton">Connect Again</button> ' +
                             ' <button class="racloop-btn racloop-btn-primary racloop-btn-sm detailsButton">Route</button>';
                     }
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-blue">' + myStatus +'</span>';
                     
                 }
                 else if(myStatus === "Rejected") {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton">Rejected</button>';
+                    statusMarkup = statusMarkup + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 } else {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton disabled">'+ myStatus +'</button>';
                 }
@@ -195,7 +211,10 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                     <h3>' + name + '</h3>\
                                 </div>\
                                 <div>\
-                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>  ' + statusMarkup + '\
+                                    <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>  \
+                                </div>\
+                                <div>\
+                                    <span class="card-time"> ' + statusMarkup + '\
                                 </div>\
                                 <div>\
                                 </div>\
