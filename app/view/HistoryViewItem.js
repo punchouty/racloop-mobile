@@ -32,6 +32,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
             var month = Ext.Date.format(dateOfJourney, 'F');
             var time = Ext.Date.format(dateOfJourney, 'g:i A');
             var femaleOnlySearch = record.get("femaleOnlySearch");
+            var myStatus = record.get("statusAsParent");
             var clockIcon = '';
             if(record.get('parentRecurringJourneyId')) {
                 clockIcon = '<span class="timeCls">';
@@ -49,6 +50,10 @@ Ext.define('Racloop.view.HistoryViewItem', {
             if(femaleOnlySearch) statusMarkup = statusMarkup + '  <span class="card-label card-label-pink">Pink Ride</span>';
             if(!record.get('isRecurring')) {
                 recurringButton = ' <button  class="racloop-btn racloop-btn-success racloop-btn-sm makeRecurringButton">Make Recurring</button>'
+            }
+            if(myStatus === "Cancelled") {
+                statusMarkup = '<span class="card-label card-label-red">' + myStatus + '</span> ' + statusMarkup;
+                recurringButton = '';
             }
 
             var html='<div class="card">\
