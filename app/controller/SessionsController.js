@@ -564,6 +564,7 @@ Ext.define('Racloop.controller.SessionsController', {
                         xtype: 'textareafield',
                         label: 'Comments',
                         name: 'comment'+index,
+                        maxLength: 200,
                         maxRows: 4                        
                     },{
                         xtype: "hiddenfield",

@@ -133,16 +133,7 @@ Ext.application({
                 console.log("Not a device but a browser")
             }
             else {
-                var status = LoginHelper.getInstallStatus();
-                if(status) {
-                    if(status === 'incomplete') {
-                        me.sendInstallInfo();
-                    }
-                }
-                else {
-                    LoginHelper.setInstallStatus("incomplete");
-                    me.sendInstallInfo();
-                }
+                me.sendInstallInfo();
             }
         });
         if (!Ext.device.Connection.isOnline()) {
@@ -242,7 +233,6 @@ Ext.application({
         var platform = device.platform;
         //var cordova = device.cordova;
         var osVersion = device.version;
-
         var deviceProperties = {
             uuid : uuid,
             imei : imei,

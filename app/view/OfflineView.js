@@ -27,7 +27,7 @@ Ext.define('Racloop.view.OfflineView', {
                         'Connectivity Issues' +
                         '</div>' +
                         '<div class="colored-line"></div>' +
-                        '<div class="sub-heading-empty">Your device is not connected to internet. Please check you data connection.</div>' +
+                        '<div class="sub-heading-empty">Your device is not connected to internet. Please check your data connection.</div>' +
                       '</div>'
 
             }]

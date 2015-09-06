@@ -647,7 +647,32 @@ Ext.define('Racloop.controller.WorkflowController', {
         var record = item.getRecord();
         var mobile = record.get("mobile");
         console.log(mobile);
-        window.location = 'tel:'+mobile;
+        var successCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            window.location = 'tel:'+mobile;
+        };
+        var failureCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            window.location = 'tel:'+mobile;
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Preparing'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_CALL_USER,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                mobile: mobile
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
     },
 
     handleBookButtonTap : function(item) {
@@ -665,8 +690,32 @@ Ext.define('Racloop.controller.WorkflowController', {
         else {
             url = "market://details?id=com.winit.merucab";
         }
+        var successCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            window.open(url, '_system', 'location=yes');
+        };
+        var failureCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Preparing'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_RADIO_TAXI,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                aggregator: url
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
 
-        window.open(url, '_system', 'location=yes');
     },
 
     handleChatButtonTap : function(item) {

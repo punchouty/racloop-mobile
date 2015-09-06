@@ -20,7 +20,7 @@ Ext.define('Racloop.view.EditProfileForm', {
     items: [{
             xtype: 'fieldset',
             //title: 'Edit Profile',
-            //instructions: "You cannot change your email",
+            instructions: "To change email, mobile or gender - please contact us at admin@cabshare.in",
             items: [
                     {                    
                         xtype: 'image',
@@ -82,6 +82,7 @@ Ext.define('Racloop.view.EditProfileForm', {
                     //labelWidth: '50%',
                     itemId: 'editScreenGender',
                     label: 'Gender',
+                    disabled : 'true',
                     value : 'male',
                     options: [
                         {
@@ -116,7 +117,7 @@ Ext.define('Racloop.view.EditProfileForm', {
             xtype: 'button',
             itemId: 'updateProfileButton',
             id: 'editProfileFormButton',
-            text: 'Update',
+            text: 'Update Name',
             action: 'edit',
             ui: 'action',
             margin: 20,

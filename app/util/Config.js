@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'local',
+        env: 'prod',
         app: {
             messageText: 'Test message.'
         },
@@ -136,8 +136,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://www.cabshare.in/workflowMobile/requestAgain';
             this.config.url.RACLOOP_USER_IMAGE = 'http://www.cabshare.in/userMobile/setUserImage';
             this.config.url.RACLOOP_DEVICE_INFO = 'http://www.cabshare.in/userMobile/installReferer';
-
-            
+            this.config.url.RACLOOP_RADIO_TAXI = 'http://www.cabshare.in/userMobile/radioTaxi';
+            this.config.url.RACLOOP_CALL_USER = 'http://www.cabshare.in/userMobile/callUser';
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
@@ -184,9 +184,11 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_USER_IMAGE = 'http://localhost:8080/app/userMobile/setUserImage';
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://localhost:8080/app/workflowMobile/requestAgain';
             this.config.url.RACLOOP_DEVICE_INFO = 'http://localhost:8080/app/userMobile/installReferer';
+            this.config.url.RACLOOP_RADIO_TAXI = 'http://localhost:8080/app/userMobile/radioTaxi';
+            this.config.url.RACLOOP_CALL_USER = 'http://localhost:8080/app/userMobile/callUser';
 
         } else {
-            var ip = "192.168.1.2";//"127.0.0.1";//
+            var ip = "192.168.1.109";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
             this.facebookId = '827652170684004';
 
@@ -231,6 +233,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_USER_IMAGE = 'http://' + ip + ':8080/app/userMobile/setUserImage';
             this.config.url.RACLOOP_REQUEST_AGAIN = 'http://' + ip + ':8080/app/workflowMobile/requestAgain';
             this.config.url.RACLOOP_DEVICE_INFO = 'http://' + ip + ':8080/app/userMobile/installReferer';
+            this.config.url.RACLOOP_RADIO_TAXI = 'http://' + ip + ':8080/app/userMobile/radioTaxi';
+            this.config.url.RACLOOP_CALL_USER = 'http://' + ip + ':8080/app/userMobile/callUser';
 
         }
         return this.config;
