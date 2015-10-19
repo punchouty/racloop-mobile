@@ -84,6 +84,7 @@ Ext.define('Racloop.view.HistoryViewItem', {
                 <div>\
                     <span class="card-control">\
                         '+recurringButton+' <button  class="racloop-btn racloop-btn-primary racloop-btn-sm searchAgainHistoryButton">Search Again</button>\
+                     <button class="racloop-btn racloop-btn-primary racloop-btn-sm feedbackButton"> Feedback</button>\
                     </span>\
                 </div>\
             </div>\
@@ -106,6 +107,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
             tap        : 'makeRecurringButtonTapFired',
             delegate   : 'button.makeRecurringButton'
         });
+        this.element.on({
+            scope      : this,
+            tap        : 'feedbackButtonTapFired',
+            delegate   : 'button.feedbackButton'
+        });
         this.callParent(arguments);
 
     },
@@ -114,5 +120,8 @@ Ext.define('Racloop.view.HistoryViewItem', {
     },
     makeRecurringButtonTapFired: function(e) {
         this.fireEvent('makeRecurringButtonTap',this);
+    },
+    feedbackButtonTapFired: function(e) {
+        this.fireEvent('feedbackButtonTap', this);
     }
 });

@@ -4,7 +4,7 @@ Ext.define('Racloop.util.Config', {
     alternateClassName: ['Config'],
 
     config: {
-        env: 'prod',
+        env: 'dev',
         app: {
             messageText: 'Test message.'
         },
@@ -21,6 +21,7 @@ Ext.define('Racloop.util.Config', {
         settingNameEmergencyContacts : 'Emergency Contacts',
         settingNameDataPrivacy : 'Data Privacy',
         settingNameTerms : 'Terms and Conditions',
+        settingHelp : 'Help',
         settingNameLogout : 'Logout',
         //Tabs
         tabHome : 'Home',
@@ -138,6 +139,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_DEVICE_INFO = 'http://www.cabshare.in/userMobile/installReferer';
             this.config.url.RACLOOP_RADIO_TAXI = 'http://www.cabshare.in/userMobile/radioTaxi';
             this.config.url.RACLOOP_CALL_USER = 'http://www.cabshare.in/userMobile/callUser';
+            this.config.url.RACLOOP_USER_FEEDBACK = 'http://www.cabshare.in/userMobile/saveUserFeedback';
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
@@ -186,6 +188,8 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_DEVICE_INFO = 'http://localhost:8080/app/userMobile/installReferer';
             this.config.url.RACLOOP_RADIO_TAXI = 'http://localhost:8080/app/userMobile/radioTaxi';
             this.config.url.RACLOOP_CALL_USER = 'http://localhost:8080/app/userMobile/callUser';
+            this.config.url.RACLOOP_USER_FEEDBACK = 'http://localhost:8080/app/userMobile/saveUserFeedback';
+            this.config.url.RACLOOP_USER_COMMENTS = 'comment.json';
 
         } else {
             var ip = "192.168.1.109";//"127.0.0.1";//
@@ -235,6 +239,7 @@ Ext.define('Racloop.util.Config', {
             this.config.url.RACLOOP_DEVICE_INFO = 'http://' + ip + ':8080/app/userMobile/installReferer';
             this.config.url.RACLOOP_RADIO_TAXI = 'http://' + ip + ':8080/app/userMobile/radioTaxi';
             this.config.url.RACLOOP_CALL_USER = 'http://' + ip + ':8080/app/userMobile/callUser';
+            this.config.url.RACLOOP_USER_FEEDBACK = 'http://' + ip + ':8080/app/userMobile/saveUserFeedback';
 
         }
         return this.config;

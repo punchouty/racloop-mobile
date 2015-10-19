@@ -14,8 +14,10 @@ Ext.define('Racloop.controller.WorkflowController', {
             mainTabs: 'mainTabs',
             searchNavigationView : 'searchNavigationView',
             saveJourneyButtonInSearchResults : 'searchResultsView #saveJourneyButton',
-            journeyNavigationView: 'journeyNavigationView'
-
+            journeyNavigationView: 'journeyNavigationView',
+            feedbackView: 'feedbackView',
+            saveUserFeedback: 'feedbackView #saveUserFeedBack',
+            cancelUserFeedBack: 'feedbackView #cancelUserFeedBack'
         },
         control: {
             'journeyViewItem': {
@@ -42,7 +44,16 @@ Ext.define('Racloop.controller.WorkflowController', {
                 cancelButtonTap : 'handleCancelButtonTap',
                 callButtonTap: 'handleCallButtonTap',
                 inviteAgainButtonTap: 'handleInviteAgainButtonTap',
-                bookButtonTap: 'handleBookButtonTap'
+                bookButtonTap: 'handleBookButtonTap'                
+            },
+            saveUserFeedback : {
+                tap: 'onSaveUserFeedBackTap',
+            },    
+            cancelUserFeedBack: {
+                tap: 'onCancelUserFeedBackTap' 
+            },
+            'historyViewItem': {
+                feedbackButtonTap: 'handlefeedbackButtonTap'    
             }
         }
     },
@@ -720,5 +731,82 @@ Ext.define('Racloop.controller.WorkflowController', {
 
     handleChatButtonTap : function(item) {
         Ext.Msg.alert("Chat", "still not implemented");
+    },
+
+    handlefeedbackButtonTap: function(item) {
+        var me =this;
+        var record = item.getRecord();
+        var name = record.get('name');
+        var userReviews = 3.5; //record.get("review")
+        var userId = 1;  //record.get("userId")
+        if (record.get("photoUrl") != null) {
+                imgSrc = record.get("photoUrl");
+            }
+            else {
+                imgSrc = "http://www.gravatar.com/avatar/00000000000000000000000000000000?v=2&s=128&d=mm";
+            }
+        var feedBackView = me.getFeedbackView() || Ext.create('Racloop.view.UserFeedbackView');
+        html = '<div class="card">\
+                        <div class="card-info">\
+                            <div class="image">\
+                                <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>\
+                            '+Common.getRating(userReviews)+'</div>\
+                            <div class="card-main">\
+                                <div class="card-name">\
+                                    <h3>' + name + '</h3>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>';
+                feedBackView.down('#feedbackViewPanel').setHtml(html);
+                var userIdField = feedBackView.down("hiddenfield[name='userId']");
+                userIdField.setValue(userId);
+       
+        var searchNavigationView = item.up('navigationview') || me.getSearchNavigationView()
+        searchNavigationView.push(feedBackView);
+    },
+    onSaveUserFeedBackTap: function(button, e, eOpts) {
+        var searchNavigationView = this.getSearchNavigationView();
+        var feedbackForm = button.up('feedbackView'); // review form
+        var values = feedbackForm.getValues(); 
+        console.dir(values);
+        var successCallback = function(response, ops) {
+            var data = Ext.decode(response.responseText);
+            Ext.Viewport.unmask();       
+            if (data.success) {     
+                 searchNavigationView.pop();  
+            } else {
+                Ext.Msg.alert("Failure", data.message);
+            }
+
+        };
+        var failureCallback = function(response, ops) {
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Failure", response.message);
+        };
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            indicator: true,
+            message: 'Sending...'
+        });
+        Ext.Ajax.request({
+            url: Config.url.RACLOOP_USER_FEEDBACK,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: Ext.JSON.encode({
+                ratings: values.userRating,
+                comment: values.comment,
+                userId: values.userId
+            }),
+            success: successCallback,
+            failure: failureCallback
+        });
+    },
+    onCancelUserFeedBackTap: function(button, e, eOpts) {
+        var searchNavigationView = this.getSearchNavigationView();
+        searchNavigationView.pop();   
     }
 });

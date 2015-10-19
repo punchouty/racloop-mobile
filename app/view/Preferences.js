@@ -8,7 +8,8 @@ Ext.define('Racloop.view.Preferences', {
         'Ext.form.FieldSet',
         'Ext.field.Number',
         'Racloop.util.Common',
-        'Ext.field.Toggle'
+        'Ext.field.Toggle',
+        'Racloop.util.LoginHelper',
     ],
 
     config: {
@@ -125,8 +126,18 @@ Ext.define('Racloop.view.Preferences', {
                         //console.log('Women Only Search has changed:', (newValue) ? 'ON' : 'OFF');
                     }              
               }             
+            }, {
+                xtype: 'togglefield',
+                name : 'showHelpPreference',
+                label: 'Show Help',
+                labelWidth: '50%',
+                itemId: 'showHelpPreferenceField',                
+                 listeners: {
+                    change: function(field, newValue, oldValue) {
+                        // console.log('Help Preference has changed:', (newValue) ? 'ON' : 'OFF');
+                    }              
+              }         
             }
-
             ]
         }, {
             xtype: 'button',
@@ -155,6 +166,8 @@ Ext.define('Racloop.view.Preferences', {
         else this.down('field[itemId=travelModePreferenceField]').setValue('auto');
         if(!Common.isEmpty(user.enableRecurringSearch))  this.down('field[itemId=enableDialogPreferenceField]').setValue(user.enableRecurringSearch);
         else this.down('field[itemId=enableDialogPreferenceField]').setValue(0);
+        if(user.showHelpPreference !== undefined)  this.down('field[itemId=showHelpPreferenceField]').setValue(user.showHelpPreference);
+        else this.down('field[itemId=showHelpPreferenceField]').setValue(true);
         if(user.isMale) {
             this.down('field[itemId=womenOnlyPreferenceField]').hide();
         }
@@ -162,7 +175,6 @@ Ext.define('Racloop.view.Preferences', {
             this.down('field[itemId=womenOnlyPreferenceField]').show();
             if(user.femaleOnlySearch)  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.femaleOnlySearch);
         }
-
         //if(!Common.isEmpty(user.femaleOnlySearch))  this.down('field[itemId=womenOnlyPreferenceField]').setValue(user.femaleOnlySearch);
         //else this.down('field[itemId=womenOnlyPreferenceField]').setValue(0);
         //this.displayWomenOnlySearchField(user);

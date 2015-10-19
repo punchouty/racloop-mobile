@@ -66,6 +66,43 @@ Ext.define('Racloop.util.Common', {
         isEmpty : function(str) {
             return (!(typeof str != "undefined" && str))
             //return (!str || 0 === str.length);
+        },
+        getRating: function (rating, max, hideRatingValue) {
+          if (rating !== undefined) {
+            var str = '<div class="ratings">';
+            rating = parseFloat(rating);
+            max = max || 5;
+         
+            // We divide the rating into a part upto maximum value
+         
+            for (var i = 1; i <= max; i++) {
+              // For each 1 rating, add a full star
+              if (i <= rating) {
+                str += '<div class="star full-star"></div>';
+              }
+         
+              if (i > rating) {
+                // If the part rating is a decimal between 0 & 1, add half star
+                if (rating % 1 !== 0 && (i - rating) < 1) {
+                  str += '<div class="star half-star"></div>';
+                } 
+                // For all part rating value 0, add no star
+                else {
+                  str += '<div class="star no-star"></div>';
+                }
+              }
+            }
+         
+            // if (!hideRatingValue) {
+            //   str += '<div class="value">' + rating + '</div>';
+            // }
+         
+            str += '</div>';
+         
+            return str;
+          }
+         
+          return '';
         }
     },
     constructor: function() {

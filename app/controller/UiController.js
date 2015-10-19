@@ -29,7 +29,9 @@ Ext.define('Racloop.controller.UiController', {
             settingNavigationView : 'settingNavigationView',
             settingListView : 'settingNavigationView #settingListView',
 
-            tabs: 'mainTabs > tabbar > tab'
+            tabs: 'mainTabs > tabbar > tab',
+
+            commentsList: 'commentsList'
         },
 
         control: {
@@ -329,5 +331,12 @@ Ext.define('Racloop.controller.UiController', {
                     navigator.app.exitApp();
                 } 
             });        
+    },
+    popAndShowComments: function() {
+        var searchNavigationView = this.getSearchNavigationView();
+        var commentsList = this.getCommentsList() || Ext.create('Racloop.view.CommentsList',{
+            title: "User Reviews"
+        });
+        searchNavigationView.push(commentsList);
     }
 });

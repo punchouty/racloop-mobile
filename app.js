@@ -36,7 +36,8 @@ Ext.application({
         'LoginCredential',
         'Journey',
         'UserReview',
-        'RecurringSearch'
+        'RecurringSearch',
+        'Comment'
     ],
 
     views: [
@@ -74,7 +75,10 @@ Ext.application({
         'MobileCaptureForm',
         'RecurringSearchScreen',
         'RecurringView',
-        'RecurringViewItem'
+        'RecurringViewItem',
+        'UserFeedbackView',
+        'CommentsList',
+        'HelpPage'
     ],
 
     controllers: [
@@ -93,7 +97,8 @@ Ext.application({
         'Passengers',
         'Searches',
         'History',
-        'Recurring'
+        'Recurring',
+        'Comments'
     ],
 
     icon: {

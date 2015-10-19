@@ -2,7 +2,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
     extend: 'Ext.dataview.component.DataItem',
     alias: 'widget.searchResultViewItem',
     xtype: 'searchResultViewItem',
-
+    requires: [        
+        'Racloop.util.Common'              
+    ],
     config: {
         padding: 10,
         layout: {
@@ -51,7 +53,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             else {
                 name = record.get("name");
             }
-            
+            var userReviews = 3.5; //record.get("review")
             //if(myStatus != null) {
             //    statusMarkup = '<span class="card-label card-label-gray">' + myStatus + '</span>';
             //}
@@ -190,8 +192,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                     statusMarkup = statusMarkup + ' <span class="card-label card-label-red">' + myStatus +'</span>';
                 } else {
                     buttonMarkup = buttonMarkup + '<button class="racloop-btn racloop-btn-primary racloop-btn-sm confirmSearchRequestButton disabled">'+ myStatus +'</button>';
-                }
+                }                
             }
+            
             cardControl = labelHtml + '<div><span class="card-control">' + buttonMarkup + '</span></div>';
             if (record.get("photoUrl") != null) {
                 imgSrc = record.get("photoUrl");
@@ -203,7 +206,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                         <div class="card-info">\
                             <div class="image">\
                                 <img src="' + imgSrc + '" alt="profile image" style="width:60px;"> </img>\
-                            </div>\
+                            '+Common.getRating(userReviews)+'<p><a href="#" style="font-size:1em;" onclick="Racloop.app.getController(\'UiController\').popAndShowComments(); return false;">Reviews</a></p></div>\
                             <div class="card-date">\
                                 <div class="card-day">' + legend + '</div>\
                                 <div class="card-month">' + legendText + '</div>\
@@ -214,9 +217,7 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                                 </div>\
                                 <div>\
                                     <span class="card-time"> <span class="calendarCls"></span>  ' + dateString + '</span>  \
-                                </div>\
-                                <div>\
-                                    <span class="card-time"> ' + statusMarkup + '\
+                                    <span class="card-label-blue"> ' + statusMarkup + '</span>\
                                 </div>\
                                 <div>\
                                 </div>\
@@ -284,7 +285,6 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             tap        : 'bookButtonTapFired',
             delegate   : 'button.bookButton'
         });
-
         this.callParent(arguments);
 
     },

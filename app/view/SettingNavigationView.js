@@ -24,6 +24,7 @@ Ext.define('Racloop.view.SettingNavigationView', {
                 { title: Config.settingNameChangePassword, navView: 'changePasswordForm',iconCls: 'passwordCls settingNavigationViewChangePasswordForm', itemId: 'changePasswordForm'},
                 { title: Config.settingNameDataPrivacy ,navView: 'privacyPanel',iconCls: 'privacyCls settingNavigationViewPrivacyPanel', itemId: 'privacyPanel'},
                 { title: Config.settingNameTerms ,navView: 'termsPanel',iconCls: 'termsCls settingNavigationViewTermsPanel', itemId: 'termsPanel'},
+                { title: Config.settingHelp ,navView: 'helpPageView',iconCls: 'termsCls', itemId: 'helpPanel'},
                 { title: Config.settingNameLogout, iconCls: 'logoutCls settingNavigationViewLogout'}
             ]
         }],        

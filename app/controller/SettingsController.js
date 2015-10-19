@@ -521,6 +521,7 @@ Ext.define('Racloop.controller.SettingsController', {
                 user.cabServicePreference = values.cabServicePreference;
                 user.enableRecurringSearch = values.enableRecurringSearch;
                 user.femaleOnlySearch = values.femaleOnlySearch;
+                user.showHelpPreference = values.showHelpPreference;
                 LoginHelper.setUser(user);
                 settingNavigationView.pop();
                 Ext.Msg.alert("Success", data.message);

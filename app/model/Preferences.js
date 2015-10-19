@@ -24,6 +24,9 @@ Ext.define('Racloop.model.Preferences', {
         },{
             name: 'femaleOnlySearch',
             type: 'boolean'
+        }, {
+            name: 'hideHelp',
+            type: 'boolean'
         }
         ]
         //,
