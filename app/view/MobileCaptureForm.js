@@ -49,7 +49,7 @@ Ext.define('Racloop.view.MobileCaptureForm', {
             itemId: 'saveMobileButton',
             action: 'action',
             text: 'Save',
-            ui: 'action',
+       //     ui: 'action',
             margin: 20,
             padding: 8
         }

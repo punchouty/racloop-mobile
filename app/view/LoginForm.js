@@ -48,8 +48,8 @@ Ext.define('Racloop.view.LoginForm', {
             text: 'Login',
             iconCls: 'lockCls',
             iconMask: true,
-            iconAlign: 'left',
-            ui: 'action'
+            iconAlign: 'left'
+         //   ui: 'action'
         },  {
             xtype: 'button',
             hidden : false,
@@ -59,8 +59,8 @@ Ext.define('Racloop.view.LoginForm', {
             text: 'Facebook Login',
             iconCls: 'facebookCls',
             iconMask: true,
-            iconAlign: 'left',
-            ui: 'action'
+            iconAlign: 'left'
+       //     ui: 'action'
         }, {
             xtype: 'container',
             html: '<div class="simple-text">' +

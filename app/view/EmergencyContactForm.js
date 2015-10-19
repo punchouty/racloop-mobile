@@ -33,7 +33,7 @@ Ext.define('Racloop.view.EmergencyContactForm', {
             id: 'emergencyContactSaveButton',
             action: 'action',
             text: 'Save',
-            ui: 'action',
+           // ui: 'action',
             margin: 20,
             padding: 8
         }

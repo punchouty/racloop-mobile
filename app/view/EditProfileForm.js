@@ -37,15 +37,15 @@ Ext.define('Racloop.view.EditProfileForm', {
                         itemId: 'photoLibrary',
                         text: 'Photo Library',
                         hidden  : true,
-                        margin: '5 5 5 5',
-                        ui: 'action'
+                        margin: '5 5 5 5'
+                     //   ui: 'action'
                     }, {
                         xtype: 'button',
                         itemId: 'photoCapture',
                         text: 'Take Photo',
                         hidden  : true,
-                        margin: '5 5 5 5',
-                        ui: 'action'              
+                        margin: '5 5 5 5'
+                     //   ui: 'action'              
              },{
                     name: 'fullName',
                 xtype: 'textfield',
@@ -119,7 +119,7 @@ Ext.define('Racloop.view.EditProfileForm', {
             id: 'editProfileFormButton',
             text: 'Update Name',
             action: 'edit',
-            ui: 'action',
+          //  ui: 'action',
             margin: 20,
             padding: 8
         }]

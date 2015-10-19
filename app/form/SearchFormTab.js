@@ -136,9 +136,9 @@ Ext.define('Racloop.form.SearchFormTab', {
             action: 'search',
             iconCls: 'searchCls',
             iconMask: true,
-            margin: 10,
+            margin: 10
             //id: 'searchFormSearchButton',
-            ui: 'action'
+         //   ui: 'action'
         }
         ]
     },

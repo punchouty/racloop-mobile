@@ -140,8 +140,8 @@ Ext.define('Racloop.form.SearchFormMain', {
             iconCls: 'searchCls',
             iconMask: true,
             margin: 10,
-            id: 'searchFormMainSearchButton',
-            ui: 'action'
+            id: 'searchFormMainSearchButton'
+         //   ui: 'action'
         }, {
             //    xtype: 'container',
             //    html: '<div class="section-header">' +

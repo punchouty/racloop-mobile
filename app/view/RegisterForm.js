@@ -101,7 +101,7 @@ Ext.define('Racloop.view.RegisterForm', {
             iconAlign: 'left',
             margin: 20,
             padding: 8,
-            ui: 'action',
+      //      ui: 'action',
             text: 'Sign Up'
         } ,{
             xtype: 'button',
@@ -111,8 +111,8 @@ Ext.define('Racloop.view.RegisterForm', {
             text: 'Facebook Login',
             iconCls: 'facebookCls',
             iconMask: true,
-            iconAlign: 'left',
-            ui: 'action'
+            iconAlign: 'left'
+         //   ui: 'action'
         },
             {
                 xtype : 'container',

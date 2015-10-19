@@ -50,8 +50,8 @@ Ext.define('Racloop.view.UserFeedbackView', {
                 itemId: 'saveUserFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Save',
-                ui: 'action'
+                text: 'Save'
+            //    ui: 'action'
             },{
                 xtype: 'button',
                 itemId: 'cancelUserFeedBack',

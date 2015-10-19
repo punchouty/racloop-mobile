@@ -44,8 +44,8 @@ Ext.define('Racloop.view.JourneyRatingView', {
                 itemId: 'saveFeedBack',
                 margin: 20,
                 padding: 8,
-                text: 'Save',
-                ui: 'action'
+                text: 'Save'
+              //  ui: 'action'
             },{
                 xtype: 'button',
                 itemId: 'cancelFeedBack',

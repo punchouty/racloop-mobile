@@ -35,7 +35,7 @@ Ext.define('Racloop.view.ChangePasswordForm', {
             itemId: 'changePasswordButton',
             action: 'change',
             text: 'Change Password',
-            ui: 'action',
+           // ui: 'action',
             margin: 20,
             padding: 8
         }

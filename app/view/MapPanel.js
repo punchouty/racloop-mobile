@@ -23,7 +23,7 @@ Ext.define('Racloop.view.MapPanel', {
                     {
                         xtype: 'button',
                         itemId : 'sosButton',
-                        ui: 'action',
+                     //   ui: 'action',
                         text: 'SOS!',
                         iconCls: 'bell',
                         iconMask: true

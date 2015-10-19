@@ -84,8 +84,8 @@ Ext.define('Racloop.view.RecurringSearchScreen', {
             action: 'save',
             iconCls: 'searchCls',
             iconMask: true,
-            margin: 10,
-            ui: 'action'
+            margin: 10
+       //     ui: 'action'
         },
         {
             xtype: 'button',

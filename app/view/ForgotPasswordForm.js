@@ -27,7 +27,7 @@ Ext.define('Racloop.view.ForgotPasswordForm', {
             iconCls: 'emailCls',
             iconMask: true,
             iconAlign: 'left',
-            ui: 'action',
+          //  ui: 'action',
             margin: 20,
             padding: 8
         }]
