@@ -27,11 +27,11 @@ Ext.define('Racloop.view.RelatedRequestViewReadOnlyItem', {
             var myStatus = record.get("myStatus");
             var myPairId = record.get("myPairId");
             userName = record.get("name");
-            if (record.get("isTaxi")){
-                drivingText="Taxi";
+            if (record.get("isDriver")){
+                drivingText="Provider";
             }
             else {
-                drivingText="Auto Rickshaw";
+                drivingText="Seeker";
             }
             var date = new Date(record.get("dateOfJourney"));
             var day = Ext.Date.format(date, 'd');

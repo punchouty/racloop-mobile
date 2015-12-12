@@ -40,11 +40,11 @@ Ext.define('Racloop.view.HistoryViewItem', {
             if(record.get("numberOfCopassengers")) {
                 numberOfCopassengers = record.get("numberOfCopassengers");
             }
-            if(record.get("isTaxi")) {
-                drivingText = "Taxi";
+            if(record.get("isDriver")) {
+                drivingText = "Provider";
             }
             else {
-                drivingText = "Auto Rickshaw";
+                drivingText = "Seeker";
             }
             var statusMarkup = '<span class="card-label card-label-gray">' + drivingText + '</span>';
             if(femaleOnlySearch) statusMarkup = statusMarkup + '  <span class="card-label card-label-pink">Pink Ride</span>';

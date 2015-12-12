@@ -16,7 +16,7 @@ Ext.define('Racloop.view.MainNavigationView', {
         items: [{
             xtype: 'searchFormMain',
             itemId: 'searchFormMain',
-            title: 'CabShare'
+            title: 'OddlyEven'
         }],
 //        items: [{
 //            title: 'Welcome',

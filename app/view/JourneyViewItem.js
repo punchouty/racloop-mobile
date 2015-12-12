@@ -35,11 +35,11 @@ Ext.define('Racloop.view.JourneyViewItem', {
                 clockIcon = '<span class="timeCls">';
             }
 
-            if(record.get("isTaxi")) {
-                drivingText = "Taxi";
+            if(record.get("isDriver")) {
+                drivingText = "Provider";
             }
             else {
-                drivingText = "Auto";
+                drivingText = "Seeker";
             }
             var travelBuddiesButton = '';
             if(record.get("journeyPairIds") && record.get("journeyPairIds").length>0) {

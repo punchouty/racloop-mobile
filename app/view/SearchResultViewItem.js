@@ -66,9 +66,9 @@ Ext.define('Racloop.view.SearchResultViewItem', {
             //    '<button  class="racloop-btn racloop-btn-danger cancelButton"><span class="deleteCls"></span> Cancel </button>  '+
             //    '<button  class="racloop-btn racloop-btn-info acceptButton"><span class="acceptCls"></span> Accept </button>  '+
             //    '<button  class="racloop-btn racloop-btn-success callButton"><span class="mobileCls"></span> Call </button>';
-            if (record.get("isTaxi")) {
-                legend = "T";
-                legendText = "Taxi";
+            if (record.get("isDriver")) {
+                legend = "C";
+                legendText = "Car Provider";
                 if(myStatus == null) {
                     if(disableRequest) {
                         buttonMarkup = "";
@@ -130,8 +130,8 @@ Ext.define('Racloop.view.SearchResultViewItem', {
                 }
             }
             else {
-                legend = "A";
-                legendText = "Auto";
+                legend = "S";
+                legendText = "Seeker";
                 if(myStatus == null) {
                     if (disableRequest) {
                         buttonMarkup = "";

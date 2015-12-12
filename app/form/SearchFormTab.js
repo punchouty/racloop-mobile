@@ -55,25 +55,25 @@ Ext.define('Racloop.form.SearchFormTab', {
             }, {
                 xtype: 'selectfield',
                 itemId: 'autoTaxiSelectField',
-                label: 'Auto/Taxi',
+                label: 'Seeker/Provider',
                 options: [
                     {
-                        text: 'Auto',
-                        value: 'auto'
+                        text: 'Seeker',
+                        value: 'Seeker'
                     },
                     {
-                        text: 'Taxi',
-                        value: 'taxi'
+                        text: 'Provider',
+                        value: 'Provider'
                     }
                 ],
                 listeners: {
                     change: function(field, newValue) {
-                        if (newValue == "auto") {
-                            var isTaxi = field.up().down('field[name=isTaxi]');
-                            isTaxi.setValue(false);
-                        } else if (newValue == "taxi") {
-                            var isTaxi = field.up().down('field[name=isTaxi]');
-                            isTaxi.setValue(true);
+                        if (newValue == "Seeker") {
+                            var isDriver = field.up().down('field[name=isDriver]');
+                            isDriver.setValue(false);
+                        } else if (newValue == "Provider") {
+                            var isDriver = field.up().down('field[name=isDriver]');
+                            isDriver.setValue(true);
                         }
                     }
                 }
@@ -120,7 +120,7 @@ Ext.define('Racloop.form.SearchFormTab', {
             }, {
                 xtype: 'hiddenfield',
                 name: 'isDriver',
-                value: true
+                value: false
             }, {
                 xtype: 'hiddenfield',
                 name: 'isTaxi',

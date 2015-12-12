@@ -479,8 +479,8 @@ Ext.define('Racloop.controller.JourneysController', {
                     var newJourney = data.data.currentJourney;
                     var existingJourney = data.data.existingJourney;
 
-                    var newIsDriver = newJourney.isTaxi ? "Taxi": "Auto Rickshaw";
-                    var existingIsDriver = existingJourney.isTaxi? "Taxi": "Auto Rickshaw";
+                    var newIsDriver = newJourney.isDriver ? "Provider": "Seeker";
+                    var existingIsDriver = existingJourney.isDriver? "Provider": "Seeker";
                     var newDate = new Date(newJourney.dateOfJourney);
                     var newDay = Ext.Date.format(newDate, 'd');
                     var newMonth = Ext.Date.format(newDate, 'F');
