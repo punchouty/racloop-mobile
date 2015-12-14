@@ -31,7 +31,7 @@ Ext.define('Racloop.view.Preferences', {
                 label: 'Contact 2',
                 placeHolder: 'Emergency Mobile',
                 itemId: 'emergencyContactTwo'
-            },{
+            },/*{
                 name: 'travelModePreference',
                 xtype: 'selectfield',
                 labelWidth: '50%',
@@ -102,7 +102,7 @@ Ext.define('Racloop.view.Preferences', {
                         value: 'other'
                     }
                 ]
-            }, {
+            }, */{
                 xtype: 'togglefield',
                 name : 'enableRecurringSearch',
                 labelWidth: '50%',
@@ -147,12 +147,12 @@ Ext.define('Racloop.view.Preferences', {
         this.setValues(user);
         if(!Common.isEmpty(user.emergencyContactOne)) this.down('field[itemId=emergencyContactOne]').setValue(user.emergencyContactOne);
         if(!Common.isEmpty(user.emergencyContactTwo)) this.down('field[itemId=emergencyContactTwo]').setValue(user.emergencyContactTwo);
-        if(!Common.isEmpty(user.cabServicePreference)) this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
+        /*if(!Common.isEmpty(user.cabServicePreference)) this.down('field[itemId=cabServicePreferenceSelectField]').setValue(user.cabServicePreference);
         else this.down('field[itemId=cabServicePreferenceSelectField]').setValue('other');
         if(!Common.isEmpty(user.paymentPreference))  this.down('field[itemId=paymentPreferenceSelectField]').setValue(user.paymentPreference);
         else this.down('field[itemId=paymentPreferenceSelectField]').setValue('cash');
         if(!Common.isEmpty(user.travelModePreference))  this.down('field[itemId=travelModePreferenceField]').setValue(user.travelModePreference);
-        else this.down('field[itemId=travelModePreferenceField]').setValue('auto');
+        else this.down('field[itemId=travelModePreferenceField]').setValue('auto');*/
         if(!Common.isEmpty(user.enableRecurringSearch))  this.down('field[itemId=enableDialogPreferenceField]').setValue(user.enableRecurringSearch);
         else this.down('field[itemId=enableDialogPreferenceField]').setValue(0);
         if(user.isMale) {
