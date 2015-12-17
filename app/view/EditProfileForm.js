@@ -20,7 +20,7 @@ Ext.define('Racloop.view.EditProfileForm', {
     items: [{
             xtype: 'fieldset',
             //title: 'Edit Profile',
-            instructions: "To change email, mobile or gender - please contact us at admin@cabshare.in",
+            instructions: "To change email, mobile or gender - please contact us at info@oddlyeven.in",
             items: [
                     {                    
                         xtype: 'image',

@@ -539,7 +539,7 @@ Ext.define('Racloop.controller.SessionsController', {
 
                 var newItem = {   
                     xtype: 'fieldset',
-                    instructions: "How likely you will recommend others to share ride with this CabShare user?",
+                    instructions: "How likely you will recommend others to share ride with this OddlyEven user?",
                     title: feedbackJourney.name,
                     items: [
                     {
