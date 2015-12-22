@@ -44,6 +44,7 @@ dlurpunch61229:android rpunch$ keytool -exportcert -alias android -keystore andr
 Enter keystore password:  -- Well!ngt0n
 0pzTTAKED+Km7958KjZbB2vZMA8=
 
+###### STEPS TO BUILD START ###########
 
 cd /Users/rpunch/Documents/oddlyeven/racloop-mobile
 rm -rf phonegap
@@ -97,6 +98,8 @@ jarsigner -verify -verbose -certs android-release-unsigned.apk
 /Users/rpunch/Library/Android/sdk/build-tools/21.1.1/zipalign -v 4 android-release-unsigned.apk oddlyeven.apk
 cp /Users/rpunch/Documents/oddlyeven/android/oddlyeven.apk /Users/rpunch/Documents/oddlyeven/racloop-mobile/
 cd /Users/rpunch/Documents/oddlyeven/racloop-mobile/
+
+###### STEPS TO BUILD ENDS ###########
 
 https://play.google.com/apps/publish/?dev_acc=18415485429431023742
 
