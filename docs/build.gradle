@@ -23,6 +23,7 @@ apply plugin: 'android'
 
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
     }
 
@@ -48,6 +49,7 @@ buildscript {
 // Allow plugins to declare Maven dependencies via build-extras.gradle.
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 task wrapper(type: Wrapper) {
@@ -227,7 +229,7 @@ android {
                 // These must be set or Gradle will complain (even if they are overridden).
                 keyAlias = "android"
                 keyPassword = "Well!ngt0n" // And these must be set to non-empty in order to have the signing step added to the task graph.
-                storeFile = "/Users/rpunch/Documents/cabshare/app-security/android/android_cabshare.keystore"
+                storeFile = "/Users/rpunch/Documents/oddlyeven/android/android_oddlyeven.keystore"
                 storePassword = "Well!ngt0n"
             }
         }
@@ -248,8 +250,8 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: ":CordovaLib", configuration: "debug")
     releaseCompile project(path: ":CordovaLib", configuration: "release")
-    debugCompile project(path: ":com.phonegap.plugins.facebookconnect:mobile-FacebookLib", configuration: "debug")
-    releaseCompile project(path: ":com.phonegap.plugins.facebookconnect:mobile-FacebookLib", configuration: "release")
+    debugCompile project(path: ":phonegap-facebook-plugin:racloop-FacebookLib", configuration: "debug")
+    releaseCompile project(path: ":phonegap-facebook-plugin:racloop-FacebookLib", configuration: "release")
     // SUB-PROJECT DEPENDENCIES END
 }
 

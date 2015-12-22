@@ -205,7 +205,7 @@ else {
         // Browser wrapper API ONLY
         browserInit: function (appId, version) {
             if (!version) {
-                version = "v2.0";
+                version = "v2.5";
             }
             FB.init({
                 appId      : appId,

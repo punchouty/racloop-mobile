@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.racloop.mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>CabShare</name>
+<widget id="com.racloop" version="0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>OddlyEven</name>
     <description>
-        Platform to Share Cab and Auto.
+        Platform to Share Cars, Cabs and Auto.
     </description>
-    <author email="admin@cabshare.in" href="https://www.cabshare.in">
-        CabShare Team
+    <author email="info@oddlyeven.in" href="http://www.oddlyeven.in">
+        OddlyEven Team
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
@@ -17,7 +17,7 @@
     <preference name="stay-in-webview" value="true" />
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
-    <preference name="show-splash-screen-spinner" value="true" />
+    <!--<preference name="show-splash-screen-spinner" value="true" />-->
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="10" />
     <preference name="android-installLocation" value="auto" />
@@ -27,21 +27,21 @@
 
     <icon src="icon.png" />
      <!--Spash Screen preferences specific to Android https://github.com/apache/cordova-plugin-splashscreen-->
-    <preference name="SplashScreen" value="res/screen/android/spash-xhdpi.png" />
-    <preference name="SplashScreenDelay" value="5000" />
-    <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="AutoHideSplashScreen" value="true" />
-    <preference name="auto-hide-splash-screen" value="true" />
-    <platform name="android">
-        <splash src="res/screen/android/splash-hdpi.png" density="port-hdpi"/>
-        <splash src="res/screen/android/splash-ldpi.png" density="port-ldpi"/>
-        <splash src="res/screen/android/splash-mdpi.png" density="port-mdpi"/>
-        <splash src="res/screen/android/splash-xhdpi.png" density="port-xhdpi"/>
-        <splash src="res/screen/android/splash-hdpi.png" density="land-hdpi"/>
-        <splash src="res/screen/android/splash-ldpi.png" density="land-ldpi"/>
-        <splash src="res/screen/android/splash-mdpi.png" density="land-mdpi"/>
-        <splash src="res/screen/android/splash-xhdpi.png" density="land-xhdpi"/>
-    </platform>
+    <!--<preference name="SplashScreen" value="res/screen/android/spash-xhdpi.png" />-->
+    <!--<preference name="SplashScreenDelay" value="5000" />-->
+    <!--<preference name="SplashMaintainAspectRatio" value="true" />-->
+    <!--<preference name="AutoHideSplashScreen" value="true" />-->
+    <!--<preference name="auto-hide-splash-screen" value="true" />-->
+    <!--<platform name="android">-->
+        <!--<splash src="res/screen/android/splash-hdpi.png" density="port-hdpi"/>-->
+        <!--<splash src="res/screen/android/splash-ldpi.png" density="port-ldpi"/>-->
+        <!--<splash src="res/screen/android/splash-mdpi.png" density="port-mdpi"/>-->
+        <!--<splash src="res/screen/android/splash-xhdpi.png" density="port-xhdpi"/>-->
+        <!--<splash src="res/screen/android/splash-hdpi.png" density="land-hdpi"/>-->
+        <!--<splash src="res/screen/android/splash-ldpi.png" density="land-ldpi"/>-->
+        <!--<splash src="res/screen/android/splash-mdpi.png" density="land-mdpi"/>-->
+        <!--<splash src="res/screen/android/splash-xhdpi.png" density="land-xhdpi"/>-->
+    <!--</platform>-->
     <preference name="ios-statusbarstyle" value="black-opaque" />
 
     <plugin name="cordova-plugin-whitelist" version="1" />
@@ -65,8 +65,8 @@
         <!-- Comment one of below -->
         <!-- Production
         -->
-        <param name="APP_ID" value="827335057382382" />
-        <param name="APP_NAME" value="CabShare" />
+        <param name="APP_ID" value="1049343688459536" />
+        <param name="APP_NAME" value="OddlyEven" />
         <!-- Local
         <param name="APP_ID" value="827652170684004" />
         <param name="APP_NAME" value="CabShareLocal" />

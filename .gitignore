@@ -19,4 +19,6 @@ resources/sass/.sass-cache/
 .idea
 node_modules/
 
+oddlyeven.apk
+clean/
 racloop.keystore

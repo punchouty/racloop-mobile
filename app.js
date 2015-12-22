@@ -121,7 +121,7 @@ Ext.application({
             //StatusBar.hide();
             if(!(Ext.os.is.Android || Ext.os.is.iOS)){
                 console.log("this is browser")
-                facebookConnectPlugin.browserInit(827652170684004,'v2.3');
+                facebookConnectPlugin.browserInit(1049343688459536,'v2.5');
             }
             if(Ext.os.is.Android) {
                 StatusBar.backgroundColorByHexString("#333");

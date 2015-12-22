@@ -1,0 +1,151 @@
+Steps :
+http://docs.build.phonegap.com/en_US/signing_signing-android.md.html
+http://stackoverflow.com/questions/28049896/release-key-alias-and-release-key-path-values-for-generating-key-hash
+http://developer.android.com/tools/publishing/app-signing.html
+
+For Publishing : https://play.google.com/apps/publish/signup/
+For Facebook : https://developers.facebook.com/apps/1049343688459536/dashboard/
+
+dlurpunch61229:android rpunch$ pwd
+/Users/rpunch/Documents/oddlyeven/android
+dlurpunch61229:android rpunch$ ls -all
+total 0
+drwxr-xr-x  2 rpunch  461641192   68 Dec 21 11:01 .
+drwxr-xr-x  4 rpunch  461641192  136 Dec 21 10:16 ..
+dlurpunch61229:android rpunch$ keytool -genkey -v -keystore android_oddlyeven.keystore -alias android -keyalg RSA -keysize 2048 -validity 10000
+Enter keystore password: -- Well!ngt0n
+Re-enter new password:
+What is your first and last name?
+  [Unknown]:  Rajan Punchouty
+What is the name of your organizational unit?
+  [Unknown]:  OddlyEven
+What is the name of your organization?
+  [Unknown]:  Racloop
+What is the name of your City or Locality?
+  [Unknown]:  Gurgaon
+What is the name of your State or Province?
+  [Unknown]:  Haryana
+What is the two-letter country code for this unit?
+  [Unknown]:  IN
+Is CN=Rajan Punchouty, OU=OddlyEven, O=Racloop, L=Gurgaon, ST=Haryana, C=IN correct?
+  [no]:  yes
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 10,000 days
+	for: CN=Rajan Punchouty, OU=OddlyEven, O=Racloop, L=Gurgaon, ST=Haryana, C=IN
+Enter key password for <android>
+	(RETURN if same as keystore password):
+[Storing android_oddlyeven.keystore]
+dlurpunch61229:android rpunch$ ls -all
+total 8
+drwxr-xr-x  3 rpunch  461641192   102 Dec 21 11:05 .
+drwxr-xr-x  4 rpunch  461641192   136 Dec 21 10:16 ..
+-rw-r--r--  1 rpunch  461641192  2254 Dec 21 11:05 android_oddlyeven.keystore
+dlurpunch61229:android rpunch$ keytool -exportcert -alias android -keystore android_oddlyeven.keystore | openssl sha1 -binary | openssl base64
+Enter keystore password:  -- Well!ngt0n
+0pzTTAKED+Km7958KjZbB2vZMA8=
+
+
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile
+rm -rf phonegap
+rm -rf cordova
+rm -rf build/*
+rm app.json
+cp docs/app.json app.json
+sencha cordova init com.racloop OddlyEven
+rm app.json
+cp docs/app_cordova.json app.json
+cd cordova
+cordova plugin add cordova-plugin-whitelist
+cordova plugin add cordova-plugin-console
+cordova plugin add cordova-plugin-device
+cordova plugin add cordova-plugin-sim
+cordova plugin add https://github.com/8zrealestate/android-referrer-plugin
+cordova plugin add cordova-plugin-app-preferences
+cordova plugin add cordova-plugin-dialogs
+cordova plugin add cordova-plugin-geolocation
+cordova plugin add cordova-plugin-inappbrowser
+cordova plugin add cordova-plugin-network-information
+cordova plugin add cordova-plugin-splashscreen
+cordova plugin add cordova-plugin-vibration
+cordova plugin add cordova-plugin-statusbar
+cordova plugin add cordova-plugin-camera
+cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
+cordova plugin add org.hygieiasoft.cordova.uid
+cordova plugin add https://github.com/Wizcorp/phonegap-facebook-plugin --variable APP_ID=1049343688459536 --variable APP_NAME=OddlyEven
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile
+mkdir cordova/res
+mkdir cordova/res/screen
+mkdir cordova/res/screen/android
+cp docs/res/*.png cordova/
+cp docs/res/screen/android/*.png cordova/res/screen/android/
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile
+rm cordova/config.xml
+cp docs/config_android.xml cordova/config.xml
+sencha app build native
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile
+rm /Users/rpunch/Documents/oddlyeven/racloop-mobile/cordova/platforms/android/build.gradle
+cp docs/build.gradle /Users/rpunch/Documents/oddlyeven/racloop-mobile/cordova/platforms/android/
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile/cordova/platforms/android
+./gradlew assembleRelease
+cd /Users/rpunch/Documents/oddlyeven/android
+rm /Users/rpunch/Documents/oddlyeven/android/*.apk
+rm /Users/rpunch/Documents/oddlyeven/racloop-mobile/*.apk
+cp /Users/rpunch/Documents/oddlyeven/racloop-mobile/cordova/platforms/android/build/outputs/apk/android-release-unsigned.apk .
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore android_oddlyeven.keystore android-release-unsigned.apk android
+Well!ngt0n
+jarsigner -verify -verbose -certs android-release-unsigned.apk
+/Users/rpunch/Library/Android/sdk/build-tools/21.1.1/zipalign -v 4 android-release-unsigned.apk oddlyeven.apk
+cp /Users/rpunch/Documents/oddlyeven/android/oddlyeven.apk /Users/rpunch/Documents/oddlyeven/racloop-mobile/
+cd /Users/rpunch/Documents/oddlyeven/racloop-mobile/
+
+https://play.google.com/apps/publish/?dev_acc=18415485429431023742
+
+# For facebook
+keytool -exportcert -alias android -keystore android_cabshare.keystore | openssl sha1 -binary | openssl base64
+
+adb devices
+adb install -r /Users/rpunch/Documents/play/racloop-mobile/cordova/platforms/android/build/outputs/apk/android-debug.apk
+adb shell am broadcast -a com.android.vending.INSTALL_REFERRER --es "referrer" "textinreferrer"
+
+
+https://261215224910.signin.aws.amazon.com/console
+https://play.google.com/store/apps/details?id=com.racloop.mobile&referrer=racloop
+
+rm -rf phonegap
+rm -rf cordova
+rm -rf build/*
+rm app.json
+cp docs/app.json app.json
+sencha cordova init com.racloop.mobile CabShare
+rm app.json
+cp docs/app_cordova.json app.json
+cp -R docs/plugins/* cordova/plugins/
+cp docs/icon.png cordova/
+cp docs/splash.png cordova/
+rm cordova/config.xml
+cp docs/config-cordova.xml cordova/config.xml
+sencha app build native testing
+
+rm -rf cordova/platforms/*
+sencha app build native testing
+
+adb shell
+am broadcast -a com.android.vending.INSTALL_REFERRER -n com.racloop.mobile/com.eightz.mobile.cordova.plugin.android.referrer.Receiver --es "referrer" "textinreferrer"
+
+adb shell am broadcast -a com.android.vending.INSTALL_REFERRER --es "referrer" "textinreferrer"
+
+
+
+adb devices
+adb install -r /Users/rpunch/Documents/play/racloop-mobile/cordova/platforms/android/build/outputs/apk/android-debug.apk
+adb shell am broadcast -a com.android.vending.INSTALL_REFERRER --es "referrer" "textinreferrer"
+
+#adb shell
+#adb shell am broadcast -a com.android.vending.INSTALL_REFERRER --es "referrer" "textinreferrer"
+#am broadcast -a com.android.vending.INSTALL_REFERRER -n com.racloop.mobile/com.eightz.mobile.cordova.plugin.android.referrer.Receiver --es "referrer" "textinreferrer"
+
+6cf28e12958666e8
+
+
+
+

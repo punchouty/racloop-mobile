@@ -94,54 +94,54 @@ Ext.define('Racloop.util.Config', {
     constructor: function() {
         if (this.config.env == 'prod') {
             this.config.locationUpdateFrequency = 60000;
-            this.facebookId = '827335057382382';
-            this.config.url.RACLOOP_LOGIN = 'http://www.cabshare.in/userMobile/login';
-            this.config.url.RACLOOP_LOGOUT = 'http://www.cabshare.in/userMobile/logout';
-            this.config.url.RACLOOP_SIGNUP = 'http://www.cabshare.in/userMobile/signup';
-            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.cabshare.in/userMobile/verifyMobile';
-            this.config.url.RACLOOP_RESENDSMS = 'http://www.cabshare.in/userMobile/resendSms';
-            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.cabshare.in/userMobile/changePassword';
-            this.config.url.RACLOOP_EDIT = 'http://www.cabshare.in/userMobile/editProfile';
-            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://www.cabshare.in/userMobile/savePreferences';
-            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.cabshare.in/userMobile/forgotPassword';
-            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.cabshare.in/userMobile/saveEmergencyContacts';
-            this.config.url.RACLOOP_SOS='http://www.cabshare.in/userMobile/sos';
-            this.config.url.RACLOOP_TERMS='http://www.cabshare.in/userMobile/terms';
-            this.config.url.RACLOOP_PRIVACY='http://www.cabshare.in/userMobile/privacy';
-            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.cabshare.in/userMobile/getCurrentJourney';
-            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.cabshare.in/userMobile/sendUserRating';
-            this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://www.cabshare.in/userMobile/cancelUserRating';
+            this.facebookId = '1049343688459536';
+            this.config.url.RACLOOP_LOGIN = 'http://www.oddlyeven.in/userMobile/login';
+            this.config.url.RACLOOP_LOGOUT = 'http://www.oddlyeven.in/userMobile/logout';
+            this.config.url.RACLOOP_SIGNUP = 'http://www.oddlyeven.in/userMobile/signup';
+            this.config.url.RACLOOP_VERIFYMOBILE = 'http://www.oddlyeven.in/userMobile/verifyMobile';
+            this.config.url.RACLOOP_RESENDSMS = 'http://www.oddlyeven.in/userMobile/resendSms';
+            this.config.url.RACLOOP_CHANGEPASSWORD = 'http://www.oddlyeven.in/userMobile/changePassword';
+            this.config.url.RACLOOP_EDIT = 'http://www.oddlyeven.in/userMobile/editProfile';
+            this.config.url.RACLOOP_SAVE_PREFERENCES = 'http://www.oddlyeven.in/userMobile/savePreferences';
+            this.config.url.RACLOOP_FORGOTPASSWORD = 'http://www.oddlyeven.in/userMobile/forgotPassword';
+            this.config.url.RACLOOP_SAVE_EMERGENCY_CONTACTS='http://www.oddlyeven.in/userMobile/saveEmergencyContacts';
+            this.config.url.RACLOOP_SOS='http://www.oddlyeven.in/userMobile/sos';
+            this.config.url.RACLOOP_TERMS='http://www.oddlyeven.in/userMobile/terms';
+            this.config.url.RACLOOP_PRIVACY='http://www.oddlyeven.in/userMobile/privacy';
+            this.config.url.RACLOOP_GET_CURRENT_JOURNEY = 'http://www.oddlyeven.in/userMobile/getCurrentJourney';
+            this.config.url.RACLOOP_SEND_USER_RATING = 'http://www.oddlyeven.in/userMobile/sendUserRating';
+            this.config.url.RACLOOP_CANCEL_USER_RATING = 'http://www.oddlyeven.in/userMobile/cancelUserRating';
 
-            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://www.cabshare.in/journeyMobile/journeyDetails';
-            this.config.url.RACLOOP_JOURNEYS = 'http://www.cabshare.in/journeyMobile/myJourneys';
-            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.cabshare.in/journeyMobile/childJourneys';
-            this.config.url.RACLOOP_PASSENGERS = 'http://www.cabshare.in/journeyMobile/passengers';
-            this.config.url.RACLOOP_HISTORY = 'http://www.cabshare.in/journeyMobile/myHistory';
-            this.config.url.RACLOOP_SEARCH = 'http://www.cabshare.in/journeyMobile/search';
-            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.cabshare.in/journeyMobile/searchAgain';
-            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.cabshare.in/journeyMobile/keepOriginalAndSearch';
-            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.cabshare.in/journeyMobile/replaceAndSearch';
+            this.config.url.RACLOOP_JOURNEY_DETAILS = 'http://www.oddlyeven.in/journeyMobile/journeyDetails';
+            this.config.url.RACLOOP_JOURNEYS = 'http://www.oddlyeven.in/journeyMobile/myJourneys';
+            this.config.url.RACLOOP_CHILD_JOURNEYS = 'http://www.oddlyeven.in/journeyMobile/childJourneys';
+            this.config.url.RACLOOP_PASSENGERS = 'http://www.oddlyeven.in/journeyMobile/passengers';
+            this.config.url.RACLOOP_HISTORY = 'http://www.oddlyeven.in/journeyMobile/myHistory';
+            this.config.url.RACLOOP_SEARCH = 'http://www.oddlyeven.in/journeyMobile/search';
+            this.config.url.RACLOOP_SEARCH_AGAIN = 'http://www.oddlyeven.in/journeyMobile/searchAgain';
+            this.config.url.RACLOOP_KEEP_ORIGINAL_AND_SEARCH = 'http://www.oddlyeven.in/journeyMobile/keepOriginalAndSearch';
+            this.config.url.RACLOOP_REPLACE_AND_SEARCH = 'http://www.oddlyeven.in/journeyMobile/replaceAndSearch';
 
-            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.cabshare.in/workflowMobile/saveJourney';
-            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.cabshare.in/workflowMobile/deleteJourney';
-            this.config.url.RACLOOP_REQUEST = 'http://www.cabshare.in/workflowMobile/sendRequest';
-            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.cabshare.in/workflowMobile/acceptRequest';
-            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.cabshare.in/workflowMobile/rejectRequest';
-            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.cabshare.in/workflowMobile/cancelRequest';
-            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://www.cabshare.in/userMobile/loginFromFacebook';
-            this.config.url.RACLOOP_MAKE_RECURRING = 'http://www.cabshare.in/preference/makeRecurring';
-            this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://www.cabshare.in/preference/recurringJourney';
-            this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://www.cabshare.in/preference/deleteRecurringJourney';
-            this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://www.cabshare.in/journeyMobile/nearByPoints';
-            this.config.url.RACLOOP_REQUEST_AGAIN = 'http://www.cabshare.in/workflowMobile/requestAgain';
-            this.config.url.RACLOOP_USER_IMAGE = 'http://www.cabshare.in/userMobile/setUserImage';
-            this.config.url.RACLOOP_DEVICE_INFO = 'http://www.cabshare.in/userMobile/installReferer';
-            this.config.url.RACLOOP_RADIO_TAXI = 'http://www.cabshare.in/userMobile/radioTaxi';
-            this.config.url.RACLOOP_CALL_USER = 'http://www.cabshare.in/userMobile/callUser';
+            this.config.url.RACLOOP_SAVE_JOURNEY = 'http://www.oddlyeven.in/workflowMobile/saveJourney';
+            this.config.url.RACLOOP_DELETE_JOURNEY = 'http://www.oddlyeven.in/workflowMobile/deleteJourney';
+            this.config.url.RACLOOP_REQUEST = 'http://www.oddlyeven.in/workflowMobile/sendRequest';
+            this.config.url.RACLOOP_ACCEPTREQUEST = 'http://www.oddlyeven.in/workflowMobile/acceptRequest';
+            this.config.url.RACLOOP_REJECTREQUEST = 'http://www.oddlyeven.in/workflowMobile/rejectRequest';
+            this.config.url.RACLOOP_CANCELREQUEST = 'http://www.oddlyeven.in/workflowMobile/cancelRequest';
+            this.config.url.RACLOOP_LOGIN_AS_FACEBOOK = 'http://www.oddlyeven.in/userMobile/loginFromFacebook';
+            this.config.url.RACLOOP_MAKE_RECURRING = 'http://www.oddlyeven.in/preference/makeRecurring';
+            this.config.url.RACLOOP_RECURRING_JOURNEY = 'http://www.oddlyeven.in/preference/recurringJourney';
+            this.config.url.RACLOOP_DELETE_RECURRING_JOURNEY = 'http://www.oddlyeven.in/preference/deleteRecurringJourney';
+            this.config.url.RACLOOP_NEARBY_LOCATIONS = 'http://www.oddlyeven.in/journeyMobile/nearByPoints';
+            this.config.url.RACLOOP_REQUEST_AGAIN = 'http://www.oddlyeven.in/workflowMobile/requestAgain';
+            this.config.url.RACLOOP_USER_IMAGE = 'http://www.oddlyeven.in/userMobile/setUserImage';
+            this.config.url.RACLOOP_DEVICE_INFO = 'http://www.oddlyeven.in/userMobile/installReferer';
+            this.config.url.RACLOOP_RADIO_TAXI = 'http://www.oddlyeven.in/userMobile/radioTaxi';
+            this.config.url.RACLOOP_CALL_USER = 'http://www.oddlyeven.in/userMobile/callUser';
 
         } else if (this.config.env == 'dev') {
             this.config.locationUpdateFrequency = 20000;
-            this.facebookId = '493971007435835';
+            this.facebookId = '1049343688459536';
 
             this.config.url.RACLOOP_LOGIN = 'http://localhost:8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://localhost:8080/app/userMobile/logout';
@@ -190,7 +190,7 @@ Ext.define('Racloop.util.Config', {
         } else {
             var ip = "192.168.1.109";//"127.0.0.1";//
             this.config.locationUpdateFrequency = 20000;
-            this.facebookId = '827652170684004';
+            this.facebookId = '1049343688459536';
 
             this.config.url.RACLOOP_LOGIN = 'http://' + ip + ':8080/app/userMobile/login';
             this.config.url.RACLOOP_LOGOUT = 'http://' + ip + ':8080/app/userMobile/logout';

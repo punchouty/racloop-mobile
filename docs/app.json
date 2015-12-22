@@ -3,7 +3,7 @@
     /**
      * The application's namespace, used by Sencha Command to generate classes
      */
-    "name": "CabShare",
+    "name": "OddlyEVen",
 
     /**
      * The file path to this application's front HTML document, relative to this app.json file
@@ -135,5 +135,5 @@
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "3730b5a1-b217-4c2c-b04c-d3326c03fa29"
+    "id": "3730b5a1-b217-4c2c-b04c-d3326c03fa28"
 }
