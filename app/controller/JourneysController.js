@@ -456,15 +456,15 @@ Ext.define('Racloop.controller.JourneysController', {
         } else {
             var isTaxi = values.isTaxi;
             var tripDistance = values.tripDistance;
-            if(isTaxi === 'false' && tripDistance > 50) {
+            /*if(isTaxi === 'false' && tripDistance > 50) {
                 Ext.Msg.alert("Use Taxi", "Ride more than 50 KM by Auto Rickshaw is not allowed. Please use Taxi instead.");
             }
-            else {
+            else {*/
                 this.executeSearch(values, isFirstScreen);
                 if(isFirstScreen) {
                     LoginHelper.setSearchedJourney(values);
                 }
-            }
+            //}
         }
     },
 
